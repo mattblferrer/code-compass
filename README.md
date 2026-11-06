@@ -16,7 +16,7 @@ pip install -r requirements.txt
 flask --app codecompass run
 ```
 
-Then open http://127.0.0.1:5000. Data is saved to `instance/codecompass.sqlite`. Set the `CODECOMPASS_DATABASE` environment variable to use a different file, for example one per tester.
+Then open http://127.0.0.1:5000. To reach the app from a phone on the same trusted Wi-Fi network, add `--host 0.0.0.0` and open the laptop's IP address on port 5000. Data is saved to `instance/codecompass.sqlite`. Set the `CODECOMPASS_DATABASE` environment variable to use a different file, for example one per tester.
 
 ## Test
 
