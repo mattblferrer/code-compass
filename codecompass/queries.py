@@ -72,10 +72,10 @@ def get_attempt(conn, attempt_id):
 def update_attempt(conn, attempt_id, values):
     with conn:
         conn.execute(
-            """UPDATE attempts SET problem_id = ?, date = ?, outcome = ?, time_seconds = ?, notes = ?
-               WHERE id = ?""",
+            """UPDATE attempts SET problem_id = ?, date = ?, outcome = ?, time_seconds = ?, notes = ?,
+                   review_of_problem_id = ? WHERE id = ?""",
             (values["problem_id"], values["date"], values["outcome"], values["time_seconds"],
-             values["notes"], attempt_id),
+             values["notes"], values.get("review_of_problem_id"), attempt_id),
         )
 
 

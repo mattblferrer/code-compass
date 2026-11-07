@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ pattern['name'] }} - CodeCompass{% endblock %}
+{% block content %}
+  <h1>{{ pattern['name'] }}</h1>
+  <p>{{ pattern['description'] }}</p>
+  <p>
+    {% if score is not none %}
+      Score: <strong>{{ "%.2f"|format(score) }}</strong>
+    {% else %}
+      <strong>Not enough data</strong>: a score needs at least {{ min_attempts }} attempts.
+    {% endif %}
+    · {{ pattern['category']|capitalize }} pattern, {{ pattern['tier'] }} tier
+  </p>
+
+  <h2>Attempts behind this score</h2>
+  {% if rows %}
+    <table>
+      <thead><tr><th>Date</th><th>Problem</th><th>Difficulty</th><th>Outcome</th></tr></thead>
+      <tbody>
+        {% for r in rows %}
+          <tr>
+            <td>{{ r['date'] }}</td>
+            <td><a href="{{ url_for('main.problem', problem_id=r['problem']['id']) }}">{{ r['problem']['title'] }}</a></td>
+            <td>{{ r['difficulty']|capitalize }}</td>
+            <td>{{ r['outcome']|outcome }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No attempts in this pattern yet.</p>
+  {% endif %}
+{% endblock %}

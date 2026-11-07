@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_hint.html" import hint_block %}
 {% block title %}{{ problem['title'] }} - CodeCompass{% endblock %}
 {% block content %}
   <h1>{{ problem['title'] }}</h1>
@@ -6,7 +7,13 @@
     {{ problem['difficulty']|capitalize }} · {{ problem['source'] }}
     {% if problem['link'] %} · <a href="{{ problem['link'] }}" target="_blank" rel="noopener">Open problem</a>{% endif %}
   </p>
-  <p>Patterns: {{ patterns|join(", ") }}</p>
+  {% if hint_eligible and not hint and not attempts %}
+    <p>Patterns are hidden until you reveal the beginner hint.</p>
+  {% else %}
+    <p>Patterns: {{ patterns|join(", ") }}</p>
+  {% endif %}
+  {{ hint_block(problem, hint_eligible, hint, url_for('main.problem', problem_id=problem['id'])) }}
+  {% if due %}<p>Next review due: {{ due }}</p>{% endif %}
   <p><a role="button" href="{{ url_for('main.log_attempt', problem=problem['id']) }}">Log an attempt</a></p>
 
   <h2>Attempts</h2>

@@ -1,8 +1,10 @@
 from datetime import date
 
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from flask import Blueprint, Response, abort, flash, redirect, render_template, request, url_for
 
 from . import queries
+from .core.reviews import ics
+from .state import Snapshot
 from .core import constants as c
 from .core.validation import (
     OUTCOME_DEFINITIONS,
@@ -68,7 +70,67 @@ def attempt_form(template, form, errors, labels, **extra):
 
 @bp.route("/")
 def dashboard():
-    return render_template("dashboard.html")
+    snap = Snapshot(get_db(), today())
+    return render_template(
+        "dashboard.html",
+        due_count=len(snap.due_now),
+        streak=snap.streak(),
+        recommendations=snap.recommendations(),
+        patterns=snap.pattern_rows(),
+        interview=snap.interview,
+        level=snap.level(),
+    )
+
+
+@bp.route("/patterns/<name>")
+def pattern(name):
+    snap = Snapshot(get_db(), today())
+    info = snap.pattern_info.get(name) or abort(404)
+    return render_template(
+        "pattern.html",
+        pattern=info,
+        score=snap.scores.get(name, {}).get("score"),
+        rows=snap.by_pattern[name],
+        min_attempts=c.MIN_ATTEMPTS,
+    )
+
+
+@bp.post("/problems/<int:problem_id>/hint")
+def reveal_hint(problem_id):
+    conn = get_db()
+    queries.get_problem(conn, problem_id) or abort(404)
+    if not queries.unused_hint(conn, problem_id):
+        with conn:
+            conn.execute("INSERT INTO hint_reveals (problem_id, date) VALUES (?, ?)", (problem_id, today()))
+    target = request.form.get("next", "")
+    if not target.startswith("/") or target.startswith("//"):
+        target = url_for("main.dashboard")
+    return redirect(target)
+
+
+@bp.post("/problems/<int:problem_id>/not-now")
+def not_now(problem_id):
+    conn = get_db()
+    queries.get_problem(conn, problem_id) or abort(404)
+    review_of = request.form.get("review_of", type=int)
+    with conn:
+        conn.execute("INSERT INTO not_now (problem_id, date) VALUES (?, ?)", (problem_id, today()))
+        if review_of:
+            conn.execute(
+                """UPDATE sibling_suggestions SET status = 'dismissed', date = ?
+                   WHERE due_problem_id = ? AND sibling_problem_id = ? AND status = 'active'""",
+                (today(), review_of, problem_id),
+            )
+    flash("Hidden from recommendations for 7 days.")
+    return redirect(url_for("main.dashboard"))
+
+
+@bp.route("/reviews.ics")
+def reviews_calendar():
+    snap = Snapshot(get_db(), today())
+    body = ics(snap.calendar_events(), today())
+    return Response(body, mimetype="text/calendar",
+                    headers={"Content-Disposition": "attachment; filename=codecompass-reviews.ics"})
 
 
 @bp.route("/log", methods=["GET", "POST"])
@@ -88,6 +150,7 @@ def log_attempt():
     values, errors = validate_attempt(form, today(), problem_id, hint)
     if errors:
         return attempt_form("log.html", form, errors, labels)
+    values["review_of_problem_id"] = Snapshot(conn, today()).review_of(problem_id, values["date"])
     queries.add_attempt(conn, values)
     flash("Attempt saved.")
     return redirect(url_for("main.problem", problem_id=problem_id))
@@ -114,6 +177,9 @@ def edit_attempt(attempt_id):
     values, errors = validate_attempt(form, today(), problem_id)
     if errors:
         return attempt_form("log.html", form, errors, labels, attempt=attempt)
+    # A sibling attempt moved to another problem no longer completes that review.
+    same = problem_id == attempt["problem_id"]
+    values["review_of_problem_id"] = attempt["review_of_problem_id"] if same else None
     queries.update_attempt(conn, attempt_id, values)
     flash("Attempt updated.")
     return redirect(url_for("main.problem", problem_id=problem_id))
@@ -137,11 +203,15 @@ def history():
 def problem(problem_id):
     conn = get_db()
     row = queries.get_problem(conn, problem_id) or abort(404)
+    snap = Snapshot(conn, today())
     return render_template(
         "problem.html",
         problem=row,
         patterns=queries.problem_patterns(conn, problem_id),
         attempts=queries.attempts_for_problem(conn, problem_id),
+        due=snap.due.get(problem_id),
+        hint_eligible=snap.hint_eligible(problem_id),
+        hint=snap.hint(problem_id),
     )
 
 

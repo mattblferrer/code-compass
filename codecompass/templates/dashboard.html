@@ -1,6 +1,67 @@
 {% extends "base.html" %}
+{% from "_hint.html" import hint_block %}
 {% block title %}Dashboard - CodeCompass{% endblock %}
 {% block content %}
+  {% if due_count %}
+    <p class="banner" role="status">
+      <strong>{{ due_count }} {{ "review is" if due_count == 1 else "reviews are" }} due.</strong>
+      <a href="{{ url_for('main.reviews_calendar') }}">Export review dates (.ics)</a>
+    </p>
+  {% endif %}
+
   <h1>Dashboard</h1>
-  <p>Pattern scores, due reviews, and recommendations will appear here.</p>
+  <div class="stats">
+    <article><small>Review streak</small><p class="stat">{{ streak }} {{ "day" if streak == 1 else "days" }}</p></article>
+    <article><small>Reviews due</small><p class="stat">{{ due_count }}</p></article>
+    <article><small>Current level</small><p class="stat">{{ level|capitalize }}</p></article>
+  </div>
+  {% if interview %}
+    <p>Focusing on your interview with {{ interview['companies']|join(", ") }} on {{ interview['date'] }}.</p>
+  {% endif %}
+
+  <h2>Practice next</h2>
+  {% if recommendations %}
+    <ol class="recommendations">
+      {% for r in recommendations %}
+        {% set p = r['problem'] %}
+        <li>
+          <a href="{{ url_for('main.problem', problem_id=p['id']) }}"><strong>{{ p['title'] }}</strong></a>
+          <small>{{ p['difficulty']|capitalize }}</small>
+          <p class="reason">{{ r['reason'] }}</p>
+          <div class="actions">
+            <a role="button" class="small" href="{{ url_for('main.log_attempt', problem=p['id']) }}">Log attempt</a>
+            {% if p['link'] %}<a role="button" class="small secondary outline" href="{{ p['link'] }}" target="_blank" rel="noopener">Open</a>{% endif %}
+            {% if r['kind'] == 'new' or r['is_sibling'] %}
+              <form method="post" action="{{ url_for('main.not_now', problem_id=p['id']) }}" class="inline">
+                {% if r['is_sibling'] %}<input type="hidden" name="review_of" value="{{ r['original']['id'] }}">{% endif %}
+                <button type="submit" class="small secondary outline">Not now</button>
+              </form>
+            {% endif %}
+            {{ hint_block(p, r['hint_eligible'], r['hint'], url_for('main.dashboard')) }}
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+  {% else %}
+    <p>No recommendations yet. The catalog may be empty, or every candidate is hidden.</p>
+  {% endif %}
+
+  <h2>Patterns</h2>
+  <table class="patterns">
+    <thead><tr><th>Pattern</th><th>Score</th><th>Attempts</th></tr></thead>
+    <tbody>
+      {% for p in patterns %}
+        <tr>
+          <td>
+            <a href="{{ url_for('main.pattern', name=p['name']) }}">{{ p['name'] }}</a>
+            {% if p['target'] %}<small class="tag">Target</small>{% endif %}
+            {% if p['mastered'] %}<small class="tag">Marked mastered</small>{% endif %}
+            {% if p['category'] == 'advanced' %}<small class="tag">Advanced</small>{% endif %}
+          </td>
+          <td>{{ "%.0f"|format(p['score']) if p['score'] is not none else "Not enough data" }}</td>
+          <td>{{ p['attempts'] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

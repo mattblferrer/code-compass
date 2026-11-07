@@ -32,3 +32,86 @@ label.outcome small {
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   gap: 0 1rem;
 }
+
+.banner {
+  padding: 0.75rem 1rem;
+  border-radius: var(--pico-border-radius);
+  background: var(--pico-primary-background);
+  color: var(--pico-primary-inverse);
+}
+
+.banner a {
+  color: inherit;
+  margin-left: 0.5rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1rem;
+}
+
+.stats article {
+  margin: 0;
+  padding: 0.75rem 1rem;
+}
+
+.stat {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.recommendations li {
+  margin-bottom: 1.25rem;
+}
+
+.reason {
+  margin: 0.25rem 0;
+  color: var(--pico-muted-color);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.actions > *,
+.actions form,
+.actions button,
+.actions [role="button"] {
+  width: auto;
+  margin: 0;
+}
+
+.small {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.875rem;
+}
+
+form.inline {
+  display: inline;
+  margin: 0;
+}
+
+.tag {
+  margin-left: 0.4rem;
+  padding: 0 0.35rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius);
+  color: var(--pico-muted-color);
+}
+
+.hint {
+  padding: 0.5rem 0.75rem;
+  border-left: 4px solid var(--pico-secondary);
+  background: var(--pico-card-background-color);
+  margin: 0.5rem 0;
+  flex-basis: 100%;
+}
+
+table.patterns {
+  font-size: 0.95rem;
+}
