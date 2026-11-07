@@ -6,9 +6,9 @@
 {% block content %}
   <h1>{{ "Edit attempt" if attempt else "Log an attempt" }}</h1>
   {% if errors %}
-    <p class="field-error" role="alert">Fix the fields marked below.</p>
+    <p class="field-error" role="alert">Fix the fields marked below, then save again.</p>
   {% endif %}
-  <form method="post" novalidate>
+  <form method="post" class="sheet" novalidate>
     <label>
       Problem
       <input name="problem" list="problem-list" value="{{ form.get('problem', '') }}" autocomplete="off"
@@ -17,10 +17,10 @@
         {% for label in labels %}<option value="{{ label }}"></option>{% endfor %}
       </datalist>
       {{ error("problem") }}
+      {% if not attempt %}
+        <small>Not listed? <a href="{{ url_for('main.new_problem') }}">Add a custom problem</a>.</small>
+      {% endif %}
     </label>
-    {% if not attempt %}
-      <p><small>Not listed? <a href="{{ url_for('main.new_problem') }}">Add a custom problem</a>.</small></p>
-    {% endif %}
 
     <label>
       Date
@@ -30,12 +30,14 @@
     </label>
 
     <fieldset>
-      <legend>Outcome</legend>
+      <legend>How did it go?</legend>
       {% for outcome in outcomes %}
-        <label class="outcome">
+        <label class="choice">
           <input type="radio" name="outcome" value="{{ outcome }}" {% if form.get('outcome') == outcome %}checked{% endif %}>
-          <strong>{{ outcome_labels[outcome] }}</strong>
-          <small>{{ outcome_definitions[outcome] }}</small>
+          <span>
+            {{ outcome_labels[outcome] }}
+            <small>{{ outcome_definitions[outcome] }}</small>
+          </span>
         </label>
       {% endfor %}
       {{ error("outcome") }}
@@ -48,9 +50,9 @@
       {{ error("time") }}
     </label>
     <input type="hidden" name="time_seconds" id="time-seconds" value="{{ form.get('time_seconds', '') }}">
-    <div class="timer" role="group">
-      <button type="button" class="secondary" id="timer-toggle">Start timer</button>
-      <span id="timer-display" aria-live="polite">0:00</span>
+    <div class="timer">
+      <button type="button" class="quiet" id="timer-toggle">Start timer</button>
+      <output id="timer-display" aria-live="polite">0:00</output>
     </div>
 
     <label>
@@ -63,7 +65,7 @@
 
   {% if attempt %}
     <form method="post" action="{{ url_for('main.delete_attempt', attempt_id=attempt['id']) }}">
-      <button type="submit" class="secondary outline">Delete this attempt</button>
+      <p><button type="submit" class="text">Delete this attempt</button></p>
     </form>
   {% endif %}
 {% endblock %}

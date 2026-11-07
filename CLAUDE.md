@@ -11,7 +11,7 @@ Activate the virtual environment first with `.venv\Scripts\activate`.
 
 ## Stack
 
-Python, Flask, server-rendered Jinja templates, SQLite through the standard `sqlite3` module, Pico.css, and small amounts of vanilla JavaScript, tested with pytest. Do not add a front-end framework, build step, or ORM. Ask before adding a dependency.
+Python, Flask, server-rendered Jinja templates, SQLite through the standard `sqlite3` module, a hand-written stylesheet (`codecompass/static/css/app.css`) using system fonts, and small amounts of vanilla JavaScript, tested with pytest. Do not add a front-end or CSS framework, build step, or ORM. Ask before adding a dependency.
 
 ## Code rules
 

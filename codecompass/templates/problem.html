@@ -3,36 +3,43 @@
 {% block title %}{{ problem['title'] }} - CodeCompass{% endblock %}
 {% block content %}
   <h1>{{ problem['title'] }}</h1>
-  <p>
-    {{ problem['difficulty']|capitalize }} · {{ problem['source'] }}
-    {% if problem['link'] %} · <a href="{{ problem['link'] }}" target="_blank" rel="noopener">Open problem</a>{% endif %}
+  <p class="meta">
+    <span>{{ problem['difficulty']|capitalize }}</span>
+    <span>{{ problem['source'] }}</span>
+    {% if due %}<span>Next review due {{ due }}</span>{% endif %}
   </p>
   {% if hint_eligible and not hint and not attempts %}
-    <p>Patterns are hidden until you reveal the beginner hint.</p>
+    <p>Patterns stay hidden until you show the hint or log an attempt.</p>
   {% else %}
     <p>Patterns: {{ patterns|join(", ") }}</p>
   {% endif %}
   {{ hint_block(problem, hint_eligible, hint, url_for('main.problem', problem_id=problem['id'])) }}
-  {% if due %}<p>Next review due: {{ due }}</p>{% endif %}
-  <p><a role="button" href="{{ url_for('main.log_attempt', problem=problem['id']) }}">Log an attempt</a></p>
+  <p class="actions">
+    <a class="button" href="{{ url_for('main.log_attempt', problem=problem['id']) }}">Log attempt</a>
+    {% if problem['link'] and problem['link'].startswith('http') and problem['source'] != 'Demo' %}
+      <a class="button quiet" href="{{ problem['link'] }}" target="_blank" rel="noopener">Open problem</a>
+    {% endif %}
+  </p>
 
   <h2>Attempts</h2>
   {% if attempts %}
-    <table>
-      <thead><tr><th>Date</th><th>Outcome</th><th>Minutes</th><th>Notes</th><th></th></tr></thead>
-      <tbody>
-        {% for a in attempts %}
-          <tr>
-            <td>{{ a['date'] }}</td>
-            <td>{{ a['outcome']|outcome }}</td>
-            <td>{{ a['time_seconds']|minutes }}</td>
-            <td>{{ a['notes'] or "" }}</td>
-            <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Outcome</th><th>Minutes</th><th>Notes</th><th><span class="visually-hidden">Edit</span></th></tr></thead>
+        <tbody>
+          {% for a in attempts %}
+            <tr>
+              <td>{{ a['date'] }}</td>
+              <td>{{ a['outcome']|outcome }}</td>
+              <td>{{ a['time_seconds']|minutes }}</td>
+              <td>{{ a['notes'] or "" }}</td>
+              <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   {% else %}
-    <p>No attempts yet.</p>
+    <p class="empty">No attempts yet. Log one after you try it.</p>
   {% endif %}
 {% endblock %}

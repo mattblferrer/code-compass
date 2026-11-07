@@ -4,24 +4,24 @@
   {% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}
 {% endmacro %}
 {% macro pattern_box(p) %}
-  <label><input type="checkbox" name="patterns" value="{{ p['name'] }}" {% if p['name'] in chosen %}checked{% endif %}> {{ p['name'] }}</label>
+  <label><input type="checkbox" name="patterns" value="{{ p['name'] }}" {% if p['name'] in chosen %}checked{% endif %}>{{ p['name'] }}</label>
 {% endmacro %}
 {% block content %}
   <h1>Add a custom problem</h1>
-  <form method="post" novalidate>
+  <form method="post" class="sheet" novalidate>
     <label>
       Title
-      <input name="title" value="{{ form.get('title', '') }}" {% if errors.get('title') %}aria-invalid="true"{% endif %}>
+      <input name="title" value="{{ form.get('title', '') }}" {% if errors.get('title') %}aria-invalid="true" aria-describedby="title-error"{% endif %}>
       {{ error("title") }}
     </label>
     <label>
       Link (optional)
-      <input name="link" type="url" value="{{ form.get('link', '') }}" {% if errors.get('link') %}aria-invalid="true"{% endif %}>
+      <input name="link" type="url" value="{{ form.get('link', '') }}" {% if errors.get('link') %}aria-invalid="true" aria-describedby="link-error"{% endif %}>
       {{ error("link") }}
     </label>
     <label>
       Difficulty
-      <select name="difficulty" {% if errors.get('difficulty') %}aria-invalid="true"{% endif %}>
+      <select name="difficulty" {% if errors.get('difficulty') %}aria-invalid="true" aria-describedby="difficulty-error"{% endif %}>
         <option value="">Choose one</option>
         {% for level in levels %}
           <option value="{{ level }}" {% if form.get('difficulty') == level %}selected{% endif %}>{{ level|capitalize }}</option>

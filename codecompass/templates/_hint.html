@@ -2,16 +2,16 @@
 {% macro hint_block(problem, eligible, hint, next_url) %}
   {% if hint %}
     <div class="hint">
-      <strong>Hint:</strong>
+      <strong>Hint</strong>
       <ul>
         {% for p in hint %}<li><strong>{{ p['name'] }}</strong>: {{ p['description'] }}</li>{% endfor %}
       </ul>
-      <small>Because you saw the hint, your next attempt on this problem can't be saved as "solved alone."</small>
+      <small>You've seen the hint, so your next attempt on this problem can't be saved as "solved alone."</small>
     </div>
   {% elif eligible %}
     <form method="post" action="{{ url_for('main.reveal_hint', problem_id=problem['id']) }}" class="inline">
       <input type="hidden" name="next" value="{{ next_url }}">
-      <button type="submit" class="secondary outline small">Show beginner hint</button>
+      <button type="submit" class="text">Show beginner hint</button>
     </form>
   {% endif %}
 {% endmacro %}

@@ -44,7 +44,7 @@ def query(app, sql, *args):
 def test_new_user_dashboard(client):
     html = page(client)
     assert "reviews are due" not in html and "review is due" not in html
-    assert html.count("Not enough data") == 28  # Every core pattern, and no advanced ones.
+    assert html.count("0 of 3 attempts") == 28  # Every core pattern, and no advanced ones.
     assert "FFT and NTT" not in html
     assert "New pattern for you; hint available" in html
 
@@ -55,7 +55,7 @@ def test_scores_match_the_rule(client, app):
     html = page(client)
     attempts = [{"date": ago(d), "difficulty": "easy", "outcome": c.SOLVED_ALONE} for d in (20, 10, 2)]
     expected = pattern_score(attempts, "normal", date.today().isoformat())
-    assert f"{expected:.0f}</td>" in html
+    assert f'<span class="score">{expected:.0f}</span>' in html
     detail = page(client, "/patterns/Stack")
     assert f"{expected:.2f}" in detail
     assert detail.count(ago(20)) == 1 and detail.count(ago(2)) == 1
@@ -81,9 +81,9 @@ def test_sibling_attempt_completes_the_review(client, app):
                             "review_of_problem_id": pid(app, "Valid Parentheses")}
     html = page(client)
     assert "review is due" not in html
-    assert "1 day" in html  # Review streak.
+    assert "<strong>1</strong> day in a row" in html  # Review streak.
     original = page(client, f"/problems/{pid(app, 'Valid Parentheses')}")
-    assert f"Next review due: {(date.today() + timedelta(days=28)).isoformat()}" in original
+    assert f"Next review due {(date.today() + timedelta(days=28)).isoformat()}" in original
     assert "Next review due" not in page(client, f"/problems/{pid(app, 'Daily Temperatures')}")
 
 

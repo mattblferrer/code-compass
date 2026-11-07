@@ -3,21 +3,23 @@
 {% block content %}
   <h1>History</h1>
   {% if attempts %}
-    <table>
-      <thead><tr><th>Date</th><th>Problem</th><th>Outcome</th><th>Minutes</th><th></th></tr></thead>
-      <tbody>
-        {% for a in attempts %}
-          <tr>
-            <td>{{ a['date'] }}</td>
-            <td><a href="{{ url_for('main.problem', problem_id=a['problem_id']) }}">{{ a['title'] }}</a></td>
-            <td>{{ a['outcome']|outcome }}</td>
-            <td>{{ a['time_seconds']|minutes }}</td>
-            <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Problem</th><th>Outcome</th><th>Minutes</th><th><span class="visually-hidden">Edit</span></th></tr></thead>
+        <tbody>
+          {% for a in attempts %}
+            <tr>
+              <td>{{ a['date'] }}</td>
+              <td><a href="{{ url_for('main.problem', problem_id=a['problem_id']) }}">{{ a['title'] }}</a></td>
+              <td>{{ a['outcome']|outcome }}</td>
+              <td>{{ a['time_seconds']|minutes }}</td>
+              <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   {% else %}
-    <p>No attempts yet. <a href="{{ url_for('main.log_attempt') }}">Log your first one</a>.</p>
+    <p class="empty">No attempts yet. <a href="{{ url_for('main.log_attempt') }}">Log your first one</a>.</p>
   {% endif %}
 {% endblock %}

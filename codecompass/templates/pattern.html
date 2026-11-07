@@ -3,31 +3,34 @@
 {% block content %}
   <h1>{{ pattern['name'] }}</h1>
   <p>{{ pattern['description'] }}</p>
-  <p>
+  <p class="meta">
     {% if score is not none %}
-      Score: <strong>{{ "%.2f"|format(score) }}</strong>
+      <span>Score {{ "%.2f"|format(score) }}</span>
     {% else %}
-      <strong>Not enough data</strong>: a score needs at least {{ min_attempts }} attempts.
+      <span>Not enough data: a score needs at least {{ min_attempts }} attempts</span>
     {% endif %}
-    · {{ pattern['category']|capitalize }} pattern, {{ pattern['tier'] }} tier
+    <span>{{ pattern['category']|capitalize }} pattern</span>
+    <span>{{ pattern['tier']|capitalize }} tier</span>
   </p>
 
   <h2>Attempts behind this score</h2>
   {% if rows %}
-    <table>
-      <thead><tr><th>Date</th><th>Problem</th><th>Difficulty</th><th>Outcome</th></tr></thead>
-      <tbody>
-        {% for r in rows %}
-          <tr>
-            <td>{{ r['date'] }}</td>
-            <td><a href="{{ url_for('main.problem', problem_id=r['problem']['id']) }}">{{ r['problem']['title'] }}</a></td>
-            <td>{{ r['difficulty']|capitalize }}</td>
-            <td>{{ r['outcome']|outcome }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Problem</th><th>Difficulty</th><th>Outcome</th></tr></thead>
+        <tbody>
+          {% for r in rows %}
+            <tr>
+              <td>{{ r['date'] }}</td>
+              <td><a href="{{ url_for('main.problem', problem_id=r['problem']['id']) }}">{{ r['problem']['title'] }}</a></td>
+              <td>{{ r['difficulty']|capitalize }}</td>
+              <td>{{ r['outcome']|outcome }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   {% else %}
-    <p>No attempts in this pattern yet.</p>
+    <p class="empty">No attempts in this pattern yet.</p>
   {% endif %}
 {% endblock %}

@@ -13,11 +13,11 @@ def test_dashboard_loads(client):
     assert b"Dashboard" in response.data
 
 
-def test_pico_is_served_locally(client):
-    assert b'href="/static/css/pico.min.css"' in client.get("/").data
-    response = client.get("/static/css/pico.min.css")
+def test_stylesheet_is_served_locally(client):
+    assert b'href="/static/css/app.css"' in client.get("/").data
+    response = client.get("/static/css/app.css")
     assert response.status_code == 200
-    assert b"Pico CSS" in response.data
+    assert b"engineering-notebook" in response.data
     response.close()
 
 
