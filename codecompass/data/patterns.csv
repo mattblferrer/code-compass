@@ -1,54 +1,54 @@
-name,category,tier,description
-Arrays and Hashing,core,normal,Use a hash map or set to count items or look them up in constant time.
-Prefix Sums,core,narrow,Precompute running totals so range totals can be answered quickly.
-Two Pointers,core,normal,"Move two indices through a sequence, often from both ends, to avoid checking every pair."
-Sliding Window,core,normal,Keep a contiguous range and grow or shrink it as you scan.
-Stack,core,normal,"Use last-in, first-out order to track nested or unfinished items."
-Monotonic Stack and Queue,core,normal,"Keep items in sorted order to find the next greater or smaller value, or a window's extreme."
-Linked List,core,normal,"Rewire nodes in place, often with a dummy head or fast and slow pointers."
-Binary Search,core,normal,Halve a sorted range or a yes-or-no answer space on each step.
-Sorting,core,normal,Put items in a useful order first so the rest of the problem becomes simpler.
-Intervals,core,normal,"Sort ranges by an endpoint, then merge them or check for overlaps."
-Heap,core,normal,Use a priority queue to get the current smallest or largest item repeatedly.
-Tree Traversal,core,normal,"Visit nodes depth-first or level by level, combining results from children."
-Binary Search Trees,core,narrow,Use the ordering of left and right subtrees to guide the search.
-Trie,core,narrow,Store strings in a prefix tree to share common prefixes.
-Backtracking and Brute Force,core,normal,"Try the possible choices, undoing each one and cutting off dead ends."
-Graph Traversal,core,broad,Explore connected nodes with BFS or DFS while tracking what has been visited.
-Topological Sort,core,narrow,Order the nodes of a directed graph so dependencies come first.
-Union-Find,core,narrow,Merge groups and check whether two items are in the same group.
-Shortest Paths,core,normal,Find minimum-cost routes through a weighted graph.
-Minimum Spanning Tree,core,narrow,Connect all nodes at the lowest total edge cost.
-1-D Dynamic Programming,core,broad,Build an answer from smaller answers along a single index.
-2-D Dynamic Programming,core,broad,"Build an answer from smaller answers over two indices, such as a grid or two strings."
-Greedy,core,broad,"Make the locally best choice at each step, after checking that doing so is safe."
-Bit Manipulation,core,normal,Use binary operations on the bits of a number.
-Math,core,normal,Find a formula or numeric property that replaces simulating the process.
-Strings,core,normal,"Process characters directly, for example by parsing or comparing."
-Simulation and Implementation,core,normal,"Carry out the described process carefully, step by step."
-Data Structure Design,core,normal,Combine structures to support the required operations efficiently.
-Number Theory,advanced,normal,"Use divisibility, primes, greatest common divisors, or modular arithmetic."
-Chinese Remainder Theorem,advanced,narrow,Combine conditions on remainders for coprime or related moduli.
-Combinatorics,advanced,normal,Count arrangements with formulas rather than listing them.
-Probability and Expected Value,advanced,normal,"Calculate chances or averages, often using linearity of expectation."
-Game Theory,advanced,normal,Reason about winning and losing positions under optimal play.
-Geometry,advanced,normal,"Work with points, lines, and shapes, often using cross products."
-Matrices and Matrix Exponentiation,advanced,normal,"Express a repeated transition as a matrix, then raise it to a power."
-FFT and NTT,advanced,normal,Multiply polynomials or compute convolutions faster than quadratic time.
-Constructive Algorithms,advanced,broad,Build any valid answer directly from a pattern you can prove works.
-Divide and Conquer,advanced,normal,"Split the input, solve each part, and combine the results."
-Meet in the Middle,advanced,narrow,Split the search space in half and combine the two lists of results.
-Ternary Search,advanced,narrow,Narrow in on the peak or valley of a function with a single turning point.
-Segment Tree and Fenwick Tree,advanced,normal,Answer range queries and handle updates in logarithmic time.
-Tree DP,advanced,normal,Compute a value for each subtree from the values of its children.
-Bitmask DP,advanced,normal,"Use a set of chosen items, stored as bits, as the dynamic programming state."
-Lowest Common Ancestor and Tree Queries,advanced,normal,Answer questions about paths between tree nodes after preprocessing.
-String Hashing,advanced,narrow,Compare substrings quickly using rolling or polynomial hashes.
-String Matching,advanced,normal,"Find occurrences of a pattern using prefix information, as in KMP or the Z-function."
-Suffix Structures,advanced,normal,Use suffix arrays or automata to answer questions about substrings.
-Strongly Connected Components and Bridges,advanced,normal,Find a graph's tightly linked groups or its critical connections.
-Max Flow and Min Cut,advanced,normal,Model limits as edge capacities and find the most that can pass through.
-Bipartite Matching,advanced,narrow,Pair items from two groups so as many as possible are matched.
-2-SAT,advanced,narrow,Express either-or constraints as a graph on true and false choices.
-Interactive Problems,advanced,normal,Ask the judge questions and narrow down the answer within a query limit.
-Expression Parsing,advanced,normal,Evaluate or process nested expressions according to their structure.
+name,category,tier,family,description
+Arrays and Hashing,core,normal,Arrays and strings,Use a hash map or set to count items or look them up in constant time.
+Prefix Sums,core,narrow,Arrays and strings,Precompute running totals so range totals can be answered quickly.
+Two Pointers,core,normal,Arrays and strings,"Move two indices through a sequence, often from both ends, to avoid checking every pair."
+Sliding Window,core,normal,Arrays and strings,Keep a contiguous range and grow or shrink it as you scan.
+Stack,core,normal,"Stacks, lists, and heaps","Use last-in, first-out order to track nested or unfinished items."
+Monotonic Stack and Queue,core,normal,"Stacks, lists, and heaps","Keep items in sorted order to find the next greater or smaller value, or a window's extreme."
+Linked List,core,normal,"Stacks, lists, and heaps","Rewire nodes in place, often with a dummy head or fast and slow pointers."
+Binary Search,core,normal,Searching and ordering,Halve a sorted range or a yes-or-no answer space on each step.
+Sorting,core,normal,Searching and ordering,Put items in a useful order first so the rest of the problem becomes simpler.
+Intervals,core,normal,Searching and ordering,"Sort ranges by an endpoint, then merge them or check for overlaps."
+Heap,core,normal,"Stacks, lists, and heaps",Use a priority queue to get the current smallest or largest item repeatedly.
+Tree Traversal,core,normal,Trees,"Visit nodes depth-first or level by level, combining results from children."
+Binary Search Trees,core,narrow,Trees,Use the ordering of left and right subtrees to guide the search.
+Trie,core,narrow,Trees,Store strings in a prefix tree to share common prefixes.
+Backtracking and Brute Force,core,normal,Recursion and DP,"Try the possible choices, undoing each one and cutting off dead ends."
+Graph Traversal,core,broad,Graphs,Explore connected nodes with BFS or DFS while tracking what has been visited.
+Topological Sort,core,narrow,Graphs,Order the nodes of a directed graph so dependencies come first.
+Union-Find,core,narrow,Graphs,Merge groups and check whether two items are in the same group.
+Shortest Paths,core,normal,Graphs,Find minimum-cost routes through a weighted graph.
+Minimum Spanning Tree,core,narrow,Graphs,Connect all nodes at the lowest total edge cost.
+1-D Dynamic Programming,core,broad,Recursion and DP,Build an answer from smaller answers along a single index.
+2-D Dynamic Programming,core,broad,Recursion and DP,"Build an answer from smaller answers over two indices, such as a grid or two strings."
+Greedy,core,broad,Searching and ordering,"Make the locally best choice at each step, after checking that doing so is safe."
+Bit Manipulation,core,normal,Math and bits,Use binary operations on the bits of a number.
+Math,core,normal,Math and bits,Find a formula or numeric property that replaces simulating the process.
+Strings,core,normal,Arrays and strings,"Process characters directly, for example by parsing or comparing."
+Simulation and Implementation,core,normal,Implementation and design,"Carry out the described process carefully, step by step."
+Data Structure Design,core,normal,Implementation and design,Combine structures to support the required operations efficiently.
+Number Theory,advanced,normal,Math and bits,"Use divisibility, primes, greatest common divisors, or modular arithmetic."
+Chinese Remainder Theorem,advanced,narrow,Math and bits,Combine conditions on remainders for coprime or related moduli.
+Combinatorics,advanced,normal,Math and bits,Count arrangements with formulas rather than listing them.
+Probability and Expected Value,advanced,normal,Math and bits,"Calculate chances or averages, often using linearity of expectation."
+Game Theory,advanced,normal,Math and bits,Reason about winning and losing positions under optimal play.
+Geometry,advanced,normal,Math and bits,"Work with points, lines, and shapes, often using cross products."
+Matrices and Matrix Exponentiation,advanced,normal,Math and bits,"Express a repeated transition as a matrix, then raise it to a power."
+FFT and NTT,advanced,normal,Math and bits,Multiply polynomials or compute convolutions faster than quadratic time.
+Constructive Algorithms,advanced,broad,Implementation and design,Build any valid answer directly from a pattern you can prove works.
+Divide and Conquer,advanced,normal,Searching and ordering,"Split the input, solve each part, and combine the results."
+Meet in the Middle,advanced,narrow,Searching and ordering,Split the search space in half and combine the two lists of results.
+Ternary Search,advanced,narrow,Searching and ordering,Narrow in on the peak or valley of a function with a single turning point.
+Segment Tree and Fenwick Tree,advanced,normal,Trees,Answer range queries and handle updates in logarithmic time.
+Tree DP,advanced,normal,Recursion and DP,Compute a value for each subtree from the values of its children.
+Bitmask DP,advanced,normal,Recursion and DP,"Use a set of chosen items, stored as bits, as the dynamic programming state."
+Lowest Common Ancestor and Tree Queries,advanced,normal,Trees,Answer questions about paths between tree nodes after preprocessing.
+String Hashing,advanced,narrow,Arrays and strings,Compare substrings quickly using rolling or polynomial hashes.
+String Matching,advanced,normal,Arrays and strings,"Find occurrences of a pattern using prefix information, as in KMP or the Z-function."
+Suffix Structures,advanced,normal,Arrays and strings,Use suffix arrays or automata to answer questions about substrings.
+Strongly Connected Components and Bridges,advanced,normal,Graphs,Find a graph's tightly linked groups or its critical connections.
+Max Flow and Min Cut,advanced,normal,Graphs,Model limits as edge capacities and find the most that can pass through.
+Bipartite Matching,advanced,narrow,Graphs,Pair items from two groups so as many as possible are matched.
+2-SAT,advanced,narrow,Graphs,Express either-or constraints as a graph on true and false choices.
+Interactive Problems,advanced,normal,Implementation and design,Ask the judge questions and narrow down the answer within a query limit.
+Expression Parsing,advanced,normal,Implementation and design,Evaluate or process nested expressions according to their structure.

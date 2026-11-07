@@ -8,7 +8,7 @@ from .core.levels import current_level
 from .core.mastery import pattern_score
 from .core.reasons import hint_eligible, reason
 from .core.recommend import REVIEW, active_interview, recommend
-from .core.reviews import due_dates, schedules, streak_days
+from .core.reviews import activity, due_dates, schedules, streak_days
 from .core.siblings import choose_sibling
 from .core.streak import review_streak
 
@@ -22,7 +22,7 @@ class Snapshot:
         self.conn = conn
         self.today = today
         self.patterns = [dict(r) for r in conn.execute(
-            "SELECT name, category, tier, description FROM patterns ORDER BY list_position"
+            "SELECT name, category, tier, family, description FROM patterns ORDER BY list_position"
         )]
         self.pattern_info = {p["name"]: p for p in self.patterns}
         self.problems = {r["id"]: {**dict(r), "patterns": []} for r in conn.execute("SELECT * FROM problems")}
@@ -97,12 +97,49 @@ class Snapshot:
             rows.append({
                 "name": name,
                 "category": p["category"],
+                "family": p["family"],
                 "score": self.scores.get(name, {}).get("score"),
+                "change": self.score_change(name),
                 "attempts": self.counts[name],
                 "target": name in self.targets,
                 "mastered": name in self.mastered,
             })
         return rows
+
+    def score_change(self, name, days=14):
+        """Change in score since `days` ago, using the same rule, or None if either has no score."""
+        if name not in self.scores:
+            return None
+        then = add_days(self.today, -days)
+        earlier = [r for r in self.by_pattern[name] if r["date"] <= then]
+        past = pattern_score(earlier, self.pattern_info[name]["tier"], then)
+        if past is None:
+            return None
+        return round(self.scores[name]["score"] - past)
+
+    def score_history(self, name, step_days=7):
+        """The pattern's score at weekly points from its first attempt to today.
+
+        Each point is calculated with the same rule as today's score, using only
+        the attempts made by that date. Points before the third attempt have no score.
+        """
+        rows = self.by_pattern[name]
+        if not rows:
+            return []
+        tier = self.pattern_info[name]["tier"]
+        days = [rows[0]["date"]]
+        while days[-1] < self.today:
+            days.append(min(add_days(days[-1], step_days), self.today))
+        points = []
+        for day in days:
+            earlier = [r for r in rows if r["date"] <= day]
+            points.append({"date": day, "score": pattern_score(earlier, tier, day)})
+        return points
+
+    def activity(self, days=56):
+        """Daily review activity for the strip on the dashboard (R-30)."""
+        records = streak_days(self.schedules, self.today)
+        return activity(records, [a["date"] for a in self.attempts], self.today, days)
 
     def level(self):
         history = [
@@ -243,10 +280,10 @@ class Snapshot:
                 "kind": item["kind"],
                 "hint_eligible": hint,
                 "hint": self.hint(shown),
+                "due": self.due_now.get(original) if original else None,
                 "reason": reason(
                     item, hint, self.scores, self.today,
                     original_title=self.problems[original]["title"] if original and shown != original else None,
-                    due=self.due_now.get(original),
                     interview=self.interview,
                 ),
             })

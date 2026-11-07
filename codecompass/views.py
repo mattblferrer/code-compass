@@ -79,6 +79,7 @@ def dashboard():
         patterns=snap.pattern_rows(),
         interview=snap.interview,
         level=snap.level(),
+        activity=snap.activity(),
     )
 
 
@@ -92,7 +93,35 @@ def pattern(name):
         score=snap.scores.get(name, {}).get("score"),
         rows=snap.by_pattern[name],
         min_attempts=c.MIN_ATTEMPTS,
+        chart=history_chart(snap.score_history(name)),
     )
+
+
+def history_chart(points, width=640, height=180, pad=28):
+    """Positions for the score history line on a pattern's page."""
+    scored = [(i, p) for i, p in enumerate(points) if p["score"] is not None]
+    if len(scored) < 2:
+        return None
+    span = max(len(points) - 1, 1)
+
+    def x(i):
+        return round(pad + (width - 2 * pad) * i / span, 1)
+
+    def y(score):
+        return round(height - pad - (height - 2 * pad) * score / 100, 1)
+
+    dots = [{"x": x(i), "y": y(p["score"]), "date": p["date"], "score": p["score"]} for i, p in scored]
+    return {
+        "width": width,
+        "height": height,
+        "line": " ".join(f"{d['x']},{d['y']}" for d in dots),
+        "dots": dots,
+        "guides": [{"value": v, "y": y(v)} for v in (0, 40, 70, 100)],
+        "left": pad,
+        "right": width - pad,
+        "first": points[0]["date"],
+        "last": points[-1]["date"],
+    }
 
 
 @bp.post("/problems/<int:problem_id>/hint")
@@ -113,15 +142,51 @@ def not_now(problem_id):
     conn = get_db()
     queries.get_problem(conn, problem_id) or abort(404)
     review_of = request.form.get("review_of", type=int)
+    suggestion_id = ""
     with conn:
-        conn.execute("INSERT INTO not_now (problem_id, date) VALUES (?, ?)", (problem_id, today()))
+        not_now_id = conn.execute(
+            "INSERT INTO not_now (problem_id, date) VALUES (?, ?)", (problem_id, today())
+        ).lastrowid
         if review_of:
-            conn.execute(
-                """UPDATE sibling_suggestions SET status = 'dismissed', date = ?
-                   WHERE due_problem_id = ? AND sibling_problem_id = ? AND status = 'active'""",
-                (today(), review_of, problem_id),
-            )
-    flash("Hidden from recommendations for 7 days.")
+            row = conn.execute(
+                """SELECT id FROM sibling_suggestions
+                   WHERE due_problem_id = ? AND sibling_problem_id = ? AND status = 'active'
+                   ORDER BY id DESC LIMIT 1""",
+                (review_of, problem_id),
+            ).fetchone()
+            if row:
+                suggestion_id = row["id"]
+                conn.execute(
+                    "UPDATE sibling_suggestions SET status = 'dismissed', date = ? WHERE id = ?",
+                    (today(), suggestion_id),
+                )
+    # The category carries what Undo needs to reverse this.
+    flash("Hidden from recommendations for 7 days.", f"undo:{not_now_id}:{suggestion_id}")
+    return redirect(url_for("main.dashboard"))
+
+
+@bp.post("/not-now/undo")
+def undo_not_now():
+    """Reverse a "not now" (R-29): show the problem again, and restore a dismissed sibling."""
+    conn = get_db()
+    not_now_id = request.form.get("not_now_id", type=int)
+    suggestion_id = request.form.get("suggestion_id", type=int)
+    with conn:
+        if not_now_id:
+            conn.execute("DELETE FROM not_now WHERE id = ?", (not_now_id,))
+        if suggestion_id:
+            row = conn.execute(
+                "SELECT due_problem_id FROM sibling_suggestions WHERE id = ? AND status = 'dismissed'",
+                (suggestion_id,),
+            ).fetchone()
+            if row:
+                # Drop any sibling chosen in its place, then bring the original back.
+                conn.execute(
+                    "DELETE FROM sibling_suggestions WHERE due_problem_id = ? AND id > ? AND status = 'active'",
+                    (row["due_problem_id"], suggestion_id),
+                )
+                conn.execute("UPDATE sibling_suggestions SET status = 'active' WHERE id = ?", (suggestion_id,))
+    flash("Recommendation restored.")
     return redirect(url_for("main.dashboard"))
 
 

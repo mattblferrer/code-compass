@@ -27,11 +27,12 @@ def load(conn, patterns_path, catalog_path):
     with conn:
         for position, p in enumerate(patterns, start=1):
             conn.execute(
-                """INSERT INTO patterns (name, category, tier, description, list_position)
-                   VALUES (?, ?, ?, ?, ?)
+                """INSERT INTO patterns (name, category, tier, family, description, list_position)
+                   VALUES (?, ?, ?, ?, ?, ?)
                    ON CONFLICT (name) DO UPDATE SET category = excluded.category, tier = excluded.tier,
-                       description = excluded.description, list_position = excluded.list_position""",
-                (p["name"], p["category"], p["tier"], p["description"], position),
+                       family = excluded.family, description = excluded.description,
+                       list_position = excluded.list_position""",
+                (p["name"], p["category"], p["tier"], p["family"], p["description"], position),
             )
         pattern_ids = {row["name"]: row["id"] for row in conn.execute("SELECT id, name FROM patterns")}
 

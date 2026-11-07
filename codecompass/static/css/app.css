@@ -8,15 +8,28 @@
   --rule: #dfe3e8;
   --track: #e9edf2;
   --data: #1f5fbf;
-  --data-mid: #6f97d6;
+  --data-mid: #628bcf;
   --data-low: #b9cdec;
   --due: #a24d0a;
   --due-soft: #fdf3e7;
   --on-data: #ffffff;
   --focus: #1f5fbf;
+  --band: #163d7a;
+  --on-band: #ffffff;
+  --on-band-muted: #c9d6ee;
+  --up: #1f6f43;
+  --easy-bg: #e3f3e8;
+  --easy: #1d6a3a;
+  --medium-bg: #fbf0cf;
+  --medium: #7a5600;
+  --hard-bg: #fbe4e1;
+  --hard: #a3271c;
+  --very-hard-bg: #a3271c;
+  --very-hard: #ffffff;
 
   --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   --font-display: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-number: "Bahnschrift", "DIN Alternate", "Segoe UI Variable Display", system-ui, sans-serif;
 
   --step--1: 0.8125rem;
   --step-0: 0.9375rem;
@@ -43,6 +56,18 @@
     --due-soft: #2a2117;
     --on-data: #0d1420;
     --focus: #7aa7f0;
+    --band: #10243f;
+    --on-band: #e8eaed;
+    --on-band-muted: #a9bad6;
+    --up: #6fcf97;
+    --easy-bg: #17301f;
+    --easy: #7fd69f;
+    --medium-bg: #33290f;
+    --medium: #f0c95c;
+    --hard-bg: #3a1c19;
+    --hard: #f19a8f;
+    --very-hard-bg: #f19a8f;
+    --very-hard: #2a0f0c;
   }
 }
 
@@ -127,15 +152,14 @@ main {
   gap: 0.5rem 1.5rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  background: var(--surface);
-  border-bottom: 1px solid var(--rule);
+  background: var(--band);
 }
 
 .wordmark {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--step-1);
-  color: var(--text);
+  color: var(--on-band);
   text-decoration: none;
 }
 
@@ -145,21 +169,25 @@ main {
 }
 
 .site-nav a {
-  color: var(--muted);
+  color: var(--on-band-muted);
   text-decoration: none;
   padding: 0.35rem 0.75rem;
   border-radius: var(--radius);
 }
 
 .site-nav a:hover {
-  color: var(--text);
-  background: var(--track);
+  color: var(--on-band);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .site-nav a[aria-current="page"] {
-  color: var(--text);
-  background: var(--track);
+  color: var(--on-band);
+  background: rgba(255, 255, 255, 0.16);
   font-weight: 600;
+}
+
+.site-header :focus-visible {
+  outline-color: var(--on-band);
 }
 
 main {
@@ -169,12 +197,47 @@ main {
 
 /* --- Messages --- */
 
+/* Messages float over the page at the bottom and fade out, so nothing shifts. */
+#messages {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
 .flash {
-  padding: 0.5rem 0.9rem;
-  border: 1px solid var(--rule);
-  border-left: 3px solid var(--data);
+  margin: 0;
+  padding: 0.6rem 1.1rem;
   border-radius: var(--radius);
-  background: var(--surface);
+  background: var(--text);
+  color: var(--bg);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.25);
+  animation: toast 5s ease forwards;
+}
+
+@keyframes toast {
+  0% { opacity: 0; transform: translateY(0.5rem); }
+  6%, 85% { opacity: 1; transform: none; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flash {
+    animation-name: toast-still;
+  }
+
+  @keyframes toast-still {
+    0%, 85% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+  }
 }
 
 .banner {
@@ -356,7 +419,7 @@ input[type="checkbox"] {
 }
 
 .timer output {
-  font-family: var(--font-display);
+  font-family: var(--font-number);
   font-size: var(--step-2);
   font-weight: 600;
 }
@@ -470,6 +533,7 @@ tr:last-child td {
 .panel {
   background: var(--surface);
   border: 1px solid var(--rule);
+  border-top: 3px solid var(--data);
   border-radius: var(--radius);
   padding: 1.1rem 1.25rem 1.25rem;
 }
@@ -498,7 +562,8 @@ tr:last-child td {
 .next > li {
   counter-increment: next;
   display: grid;
-  grid-template-columns: 1.75rem minmax(0, 1fr);
+  grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+  column-gap: 0.75rem;
   padding: 0.85rem 0;
   border-top: 1px solid var(--rule);
 }
@@ -533,6 +598,25 @@ tr:last-child td {
 .mark.review {
   background: var(--due-soft);
   color: var(--due);
+}
+
+.mark.hint {
+  background: color-mix(in srgb, var(--data) 12%, var(--surface));
+  color: var(--data);
+}
+
+.due-date {
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--due);
+  font-family: var(--font-number);
+}
+
+.due-date small {
+  display: block;
+  font-family: var(--font);
+  color: var(--muted);
 }
 
 .next .reason {
@@ -619,7 +703,7 @@ tr:last-child td {
 .chart li,
 .axis {
   display: grid;
-  grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr) 2.5rem;
+  grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr) 2.25rem 2.25rem;
   align-items: center;
   gap: 0.75rem;
 }
@@ -669,7 +753,22 @@ tr:last-child td {
 
 .chart .score {
   text-align: right;
+  font-family: var(--font-number);
   font-weight: 600;
+}
+
+.change {
+  font-family: var(--font-number);
+  font-size: var(--step--1);
+  text-align: right;
+}
+
+.change.up {
+  color: var(--up);
+}
+
+.change.down {
+  color: var(--due);
 }
 
 .chart .pending {
@@ -706,7 +805,7 @@ tr:last-child td {
 
 @media (max-width: 30rem) {
   .chart li {
-    grid-template-columns: minmax(0, 1fr) 2.5rem;
+    grid-template-columns: minmax(0, 1fr) 2.25rem 2.25rem;
   }
 
   .chart .track {
@@ -761,4 +860,328 @@ tr:last-child td {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+/* --- Start-here header --- */
+
+.today {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  margin-bottom: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--data);
+  border-radius: var(--radius);
+}
+
+.today.due {
+  background: var(--due-soft);
+  border-left-color: var(--due);
+}
+
+.today.due h1 {
+  color: var(--due);
+}
+
+.today-text {
+  flex: 1 1 28rem;
+}
+
+.today h1 {
+  margin-bottom: 0.35rem;
+}
+
+.today .start {
+  font-size: var(--step-1);
+  margin-bottom: 0.6rem;
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  color: var(--muted);
+}
+
+.facts strong {
+  font-family: var(--font-number);
+  font-size: var(--step-1);
+  color: var(--text);
+}
+
+.button.big {
+  font-size: var(--step-1);
+  padding: 0.75rem 1.5rem;
+}
+
+/* --- Activity strip: one square per day for 8 weeks --- */
+
+.activity {
+  margin-bottom: 1.5rem;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(56, minmax(0, 1fr));
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 40rem) {
+  .days {
+    grid-template-columns: repeat(28, minmax(0, 1fr));
+  }
+}
+
+.days li {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--track);
+}
+
+.days li.review { background: var(--data); }
+.days li.practice { background: var(--data-mid); }
+.days li.missed { background: var(--due); }
+
+.activity-key {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  margin-top: 0.4rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.activity-key ul {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activity-key li::before {
+  content: "";
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-right: 0.3rem;
+  border-radius: 2px;
+  vertical-align: -0.02em;
+}
+
+.activity-key li.review::before { background: var(--data); }
+.activity-key li.practice::before { background: var(--data-mid); }
+.activity-key li.missed::before { background: var(--due); }
+
+/* --- Difficulty pills --- */
+
+.mark.level-easy { background: var(--easy-bg); color: var(--easy); }
+.mark.level-medium { background: var(--medium-bg); color: var(--medium); }
+.mark.level-hard { background: var(--hard-bg); color: var(--hard); }
+.mark.level-very-hard { background: var(--very-hard-bg); color: var(--very-hard); }
+
+/* Review stays solid amber so it never looks like a difficulty. */
+.mark.review {
+  background: var(--due);
+  color: var(--surface);
+}
+
+/* --- Pattern map: tiles grouped by family, shaded by score --- */
+
+.map {
+  display: grid;
+  gap: 1rem;
+}
+
+.family h3 {
+  margin: 0 0 0.4rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile a {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.35rem;
+  height: 100%;
+  min-height: 4.4rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: var(--radius);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.tile a:hover .tile-name {
+  text-decoration: underline;
+}
+
+.tile.scored a {
+  background: color-mix(in srgb, var(--data) var(--fill), var(--surface));
+  border: 1px solid color-mix(in srgb, var(--data) calc(var(--fill) + 10%), var(--surface));
+}
+
+.tile.started a {
+  border: 1px dashed var(--muted);
+}
+
+.tile.unstarted a {
+  border: 1px solid var(--rule);
+  color: var(--muted);
+}
+
+.tile-name {
+  font-size: var(--step--1);
+  line-height: 1.25;
+}
+
+.tile-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: var(--step--1);
+}
+
+.tile-value strong {
+  font-family: var(--font-number);
+  font-size: var(--step-2);
+  line-height: 1;
+}
+
+.tile .change {
+  font-size: var(--step--1);
+}
+
+.tile-tags {
+  font-size: var(--step--1);
+  color: var(--data);
+}
+
+.tile.scored .change.up,
+.tile.scored .change.down,
+.tile.scored .tile-tags {
+  color: var(--text);
+}
+
+/* --- Score history on a pattern's page --- */
+
+.history {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.history svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.history .guide {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.history .guide.band {
+  stroke: var(--muted);
+  stroke-dasharray: 3 4;
+}
+
+.history .guide-label {
+  fill: var(--muted);
+  font-size: 11px;
+  font-family: var(--font-number);
+}
+
+.history .line {
+  fill: none;
+  stroke: var(--data);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.history .dot {
+  fill: var(--surface);
+  stroke: var(--data);
+  stroke-width: 2;
+}
+
+.history figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.4rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.history figcaption span:nth-child(2) {
+  text-align: center;
+}
+
+/* A revealed hint can be hidden again. */
+details.hint > summary {
+  color: var(--data);
+  font-weight: 600;
+  padding: 0;
+}
+
+details.hint:not([open]) {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+details.hint[open] > summary {
+  margin-bottom: 0.25rem;
+}
+
+/* A message with an action stays longer and pauses while in use. */
+.flash.has-action {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation-duration: 8s;
+}
+
+.flash:hover,
+.flash:focus-within {
+  animation-play-state: paused;
+}
+
+.flash .undo {
+  padding: 0.2rem 0.7rem;
+  font-size: var(--step--1);
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+}
+
+.flash .undo:hover {
+  background: rgba(127, 127, 127, 0.2);
+  filter: none;
+}
+
+#messages :focus-visible {
+  outline-color: var(--bg);
 }

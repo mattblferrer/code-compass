@@ -25,10 +25,21 @@ def close_db(_exc=None):
         conn.close()
 
 
+# Columns added after a table was first created. CREATE TABLE IF NOT EXISTS
+# does not add them to an existing database, so they are added here.
+ADDED_COLUMNS = [
+    ("patterns", "family", "TEXT NOT NULL DEFAULT ''"),
+]
+
+
 def init_db(path):
     conn = connect(path)
     with conn:
         conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+        for table, column, declaration in ADDED_COLUMNS:
+            existing = {row["name"] for row in conn.execute(f"PRAGMA table_info({table})")}
+            if column not in existing:
+                conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {declaration}")
     conn.close()
 
 

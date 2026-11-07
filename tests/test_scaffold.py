@@ -41,3 +41,12 @@ def test_saved_data_survives_restart(app, db_path):
 def test_core_does_not_import_flask():
     for module in (PACKAGE / "core").rglob("*.py"):
         assert not re.search(r"^\s*(from|import)\s+flask\b", module.read_text(encoding="utf-8"), re.M), module
+
+
+def test_buttons_update_without_reloading(client):
+    html = client.get("/").get_data(as_text=True)
+    assert 'src="/static/js/enhance.js"' in html
+    assert 'data-swap="#today, #next-panel, #messages"' in html
+    response = client.get("/static/js/enhance.js")
+    assert response.status_code == 200
+    response.close()

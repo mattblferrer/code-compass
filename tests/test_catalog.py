@@ -55,11 +55,12 @@ def test_patterns_file_matches_docs():
     for line in (ROOT / "docs" / "patterns.md").read_text(encoding="utf-8").splitlines():
         if line.startswith("## "):
             category = "core" if line.startswith("## Core") else "advanced" if line.startswith("## Advanced") else None
-        match = re.match(r"^\| (\d+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|", line)
+        match = re.match(r"^\| (\d+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|", line)
         if match and category:
-            expected.append([match.group(2).strip(), category, match.group(3).strip().lower(), match.group(4).strip()])
+            expected.append([match.group(2).strip(), category, match.group(3).strip().lower(),
+                             match.group(4).strip(), match.group(5).strip()])
     rows = catalog.read_rows(catalog.DATA_DIR / "patterns.csv")
-    assert [[r["name"], r["category"], r["tier"], r["description"]] for r in rows] == expected
+    assert [[r["name"], r["category"], r["tier"], r["family"], r["description"]] for r in rows] == expected
 
 
 def test_schema_and_load_are_rerunnable(db_path):
@@ -151,3 +152,18 @@ def test_duplicate_links_rejected():
 def test_negative_atcoder_rating_allowed():
     rows = [dict(zip(HEADER, ["A", "l1", "easy", "-848", "AtCoder", "Stack"]))]
     assert parse_catalog(rows, {"Stack": "core"})[0]["rating"] == -848
+
+
+def test_family_column_added_to_an_older_database(tmp_path):
+    path = str(tmp_path / "old.sqlite")
+    conn = connect(path)
+    conn.execute(
+        """CREATE TABLE patterns (id INTEGER PRIMARY KEY, name TEXT NOT NULL UNIQUE, category TEXT NOT NULL,
+           tier TEXT NOT NULL, description TEXT NOT NULL, list_position INTEGER NOT NULL)"""
+    )
+    conn.close()
+    init_db(path)
+    init_db(path)
+    conn = connect(path)
+    assert "family" in {r["name"] for r in conn.execute("PRAGMA table_info(patterns)")}
+    conn.close()

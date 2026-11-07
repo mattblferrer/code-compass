@@ -9,18 +9,20 @@ def hint_eligible(problem_patterns, attempt_counts):
     return any(attempt_counts.get(p, 0) < c.MIN_ATTEMPTS for p in problem_patterns)
 
 
-def reason(item, hint, scores, today, original_title=None, due=None, interview=None):
-    """The stated reason for one recommendation. Never names a pattern when `hint` is True."""
+def reason(item, hint, scores, today, original_title=None, interview=None):
+    """The stated reason for one recommendation. Never names a pattern when `hint` is True.
+
+    Whether a hint is available and a review's due date are shown separately.
+    """
     group, pattern = item["group"], item["pattern"]
     if group == REVIEW:
-        text = f"Review of {original_title}, due {due}" if original_title else f"Review due {due}"
-        return text + ("; hint available" if hint else "")
+        return f"Review of {original_title}" if original_title else "Due for another try"
     if hint:
         if group == TARGET:
-            return "Target pattern; new pattern for you; hint available"
+            return "Target pattern, new to you"
         if group == INTERVIEW and interview:
-            return f"Practice for {', '.join(interview['companies'])} on {interview['date']}; hint available"
-        return "New pattern for you; hint available"
+            return f"Practice for {', '.join(interview['companies'])} on {interview['date']}"
+        return "New pattern for you"
     if group == TARGET:
         return f"Target pattern: {pattern}"
     if group == INTERVIEW and interview:

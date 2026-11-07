@@ -17,13 +17,28 @@
       </nav>
     </header>
     <main>
-      {% with messages = get_flashed_messages() %}
-        {% for message in messages %}
-          <p class="flash" role="status">{{ message }}</p>
-        {% endfor %}
-      {% endwith %}
+      <div id="messages" aria-live="polite">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            {% if category.startswith("undo:") %}
+              {% set parts = category.split(":") %}
+              <div class="flash has-action">
+                <span>{{ message }}</span>
+                <form method="post" action="{{ url_for('main.undo_not_now') }}" class="inline" data-swap="#today, #next-panel, #messages">
+                  <input type="hidden" name="not_now_id" value="{{ parts[1] }}">
+                  <input type="hidden" name="suggestion_id" value="{{ parts[2] }}">
+                  <button type="submit" class="undo">Undo</button>
+                </form>
+              </div>
+            {% else %}
+              <p class="flash">{{ message }}</p>
+            {% endif %}
+          {% endfor %}
+        {% endwith %}
+      </div>
       {% block content %}{% endblock %}
     </main>
+    <script src="{{ url_for('static', filename='js/enhance.js') }}"></script>
     {% block scripts %}{% endblock %}
   </body>
 </html>

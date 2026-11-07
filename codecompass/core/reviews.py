@@ -86,3 +86,35 @@ def ics(events, stamp):
     lines.append("END:VCALENDAR")
     return "\r\n".join(lines) + "\r\n"
 
+
+
+REVIEW_DAY = "review"
+PRACTICE_DAY = "practice"
+MISSED_DAY = "missed"
+QUIET_DAY = "quiet"
+
+
+def activity(day_records, attempt_dates, today, days):
+    """One status per day for the last `days` days, oldest first.
+
+    `day_records` come from streak_days. A day is "review" when a due review
+    was completed, "missed" when reviews were due but none was completed
+    (today is never missed), "practice" when only other attempts were logged,
+    and "quiet" otherwise.
+    """
+    records = {r["date"]: r for r in day_records}
+    logged = set(attempt_dates)
+    result = []
+    for back in range(days - 1, -1, -1):
+        day = (parse(today) - timedelta(days=back)).isoformat()
+        record = records.get(day, {})
+        if record.get("completed"):
+            status = REVIEW_DAY
+        elif record.get("due") and day != today:
+            status = MISSED_DAY
+        elif day in logged:
+            status = PRACTICE_DAY
+        else:
+            status = QUIET_DAY
+        result.append({"date": day, "status": status})
+    return result

@@ -21,12 +21,13 @@ def _text(row, key):
 
 
 def parse_patterns(rows, filename="patterns.csv"):
-    """Return pattern dicts with "name", "category", "tier", "description"."""
+    """Return pattern dicts with "name", "category", "tier", "family", "description"."""
     patterns, errors, seen = [], [], set()
     for number, row in enumerate(rows, start=2):
         name = _text(row, "name")
         category = _text(row, "category")
         tier = _text(row, "tier")
+        family = _text(row, "family")
         description = _text(row, "description")
         problems = []
         if not name:
@@ -37,13 +38,15 @@ def parse_patterns(rows, filename="patterns.csv"):
             problems.append(f"category must be one of {', '.join(CATEGORIES)}")
         if tier not in TIERS:
             problems.append(f"tier must be one of {', '.join(TIERS)}")
+        if not family:
+            problems.append("family is missing")
         if not description:
             problems.append("description is missing")
         if problems:
             errors.append(f"row {number}: " + "; ".join(problems))
             continue
         seen.add(name)
-        patterns.append({"name": name, "category": category, "tier": tier, "description": description})
+        patterns.append({"name": name, "category": category, "tier": tier, "family": family, "description": description})
     if errors:
         raise DataFileError(filename, errors)
     return patterns

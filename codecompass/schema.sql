@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS patterns (
     name TEXT NOT NULL UNIQUE,
     category TEXT NOT NULL CHECK (category IN ('core', 'advanced')),
     tier TEXT NOT NULL CHECK (tier IN ('narrow', 'normal', 'broad')),
+    family TEXT NOT NULL DEFAULT '',
     description TEXT NOT NULL,
     list_position INTEGER NOT NULL
 );

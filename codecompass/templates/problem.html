@@ -8,12 +8,14 @@
     <span>{{ problem['source'] }}</span>
     {% if due %}<span>Next review due {{ due }}</span>{% endif %}
   </p>
-  {% if hint_eligible and not hint and not attempts %}
-    <p>Patterns stay hidden until you show the hint or log an attempt.</p>
-  {% else %}
-    <p>Patterns: {{ patterns|join(", ") }}</p>
-  {% endif %}
-  {{ hint_block(problem, hint_eligible, hint, url_for('main.problem', problem_id=problem['id'])) }}
+  <div id="hint-area">
+    {% if hint_eligible and not hint and not attempts %}
+      <p>Patterns stay hidden until you show the hint or log an attempt.</p>
+    {% else %}
+      <p>Patterns: {{ patterns|join(", ") }}</p>
+    {% endif %}
+    {{ hint_block(problem, hint_eligible, hint, url_for('main.problem', problem_id=problem['id']), "#hint-area, #messages") }}
+  </div>
   <p class="actions">
     <a class="button" href="{{ url_for('main.log_attempt', problem=problem['id']) }}">Log attempt</a>
     {% if problem['link'] and problem['link'].startswith('http') and problem['source'] != 'Demo' %}

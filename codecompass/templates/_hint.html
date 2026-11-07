@@ -1,15 +1,15 @@
 {# Beginner hint (R-27): hidden until revealed, then shown until the next attempt is logged. #}
-{% macro hint_block(problem, eligible, hint, next_url) %}
+{% macro hint_block(problem, eligible, hint, next_url, swap) %}
   {% if hint %}
-    <div class="hint">
-      <strong>Hint</strong>
+    <details class="hint" open data-hint-id="{{ problem['id'] }}">
+      <summary>Hint</summary>
       <ul>
         {% for p in hint %}<li><strong>{{ p['name'] }}</strong>: {{ p['description'] }}</li>{% endfor %}
       </ul>
       <small>You've seen the hint, so your next attempt on this problem can't be saved as "solved alone."</small>
-    </div>
+    </details>
   {% elif eligible %}
-    <form method="post" action="{{ url_for('main.reveal_hint', problem_id=problem['id']) }}" class="inline">
+    <form method="post" action="{{ url_for('main.reveal_hint', problem_id=problem['id']) }}" class="inline" data-swap="{{ swap }}">
       <input type="hidden" name="next" value="{{ next_url }}">
       <button type="submit" class="text">Show beginner hint</button>
     </form>

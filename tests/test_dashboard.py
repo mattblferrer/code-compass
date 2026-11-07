@@ -44,9 +44,9 @@ def query(app, sql, *args):
 def test_new_user_dashboard(client):
     html = page(client)
     assert "reviews are due" not in html and "review is due" not in html
-    assert html.count("0 of 3 attempts") == 28  # Every core pattern, and no advanced ones.
+    assert html.count('class="tile unstarted"') == 28  # Every core pattern, and no advanced ones.
     assert "FFT and NTT" not in html
-    assert "New pattern for you; hint available" in html
+    assert "New pattern for you" in html and "Hint available" in html
 
 
 def test_scores_match_the_rule(client, app):
@@ -55,7 +55,7 @@ def test_scores_match_the_rule(client, app):
     html = page(client)
     attempts = [{"date": ago(d), "difficulty": "easy", "outcome": c.SOLVED_ALONE} for d in (20, 10, 2)]
     expected = pattern_score(attempts, "normal", date.today().isoformat())
-    assert f'<span class="score">{expected:.0f}</span>' in html
+    assert f"<strong>{expected:.0f}</strong>" in html
     detail = page(client, "/patterns/Stack")
     assert f"{expected:.2f}" in detail
     assert detail.count(ago(20)) == 1 and detail.count(ago(2)) == 1
@@ -81,7 +81,7 @@ def test_sibling_attempt_completes_the_review(client, app):
                             "review_of_problem_id": pid(app, "Valid Parentheses")}
     html = page(client)
     assert "review is due" not in html
-    assert "<dd>1 day</dd>" in html  # Review streak.
+    assert "<strong>1</strong> day review streak" in html
     original = page(client, f"/problems/{pid(app, 'Valid Parentheses')}")
     assert f"Next review due {(date.today() + timedelta(days=28)).isoformat()}" in original
     assert "Next review due" not in page(client, f"/problems/{pid(app, 'Daily Temperatures')}")
@@ -94,7 +94,8 @@ def test_dismissing_a_sibling_keeps_the_review_due(client, app):
     client.post(f"/problems/{temps}/not-now", data={"review_of": pid(app, "Valid Parentheses")})
     html = page(client)
     assert "1 review is due" in html
-    assert "Review due" in html  # The original is suggested, since no other sibling remains.
+    assert "Due for another try" in html  # The original is suggested, since no other sibling remains.
+    assert f'<time datetime="{ago(16)}">' in html
     assert query(app, "SELECT status FROM sibling_suggestions") == [{"status": "dismissed"}]
 
 
@@ -114,6 +115,7 @@ def test_hint_reveal_and_lock(client, app):
     client.post(f"/problems/{two_sum}/hint", data={"next": "/"})
     html = page(client)
     assert "Use a hash map or set" in html
+    assert f'<details class="hint" open data-hint-id="{two_sum}">' in html  # Can be hidden again.
     response = client.post("/log", data={"problem": TWO_SUM, "date": ago(0), "outcome": c.SOLVED_ALONE,
                                          "time_minutes": "", "time_seconds": "", "notes": ""})
     assert response.status_code == 400
@@ -152,3 +154,49 @@ def test_calendar_export(client, app):
 @pytest.mark.parametrize("path", ["/patterns/Nope", "/problems/999"])
 def test_missing_pages(client, path):
     assert client.get(path).status_code == 404
+
+
+def test_pattern_map_groups_by_family(client):
+    html = page(client)
+    for family in ("Arrays and strings", "Trees", "Graphs", "Recursion and DP"):
+        assert f'aria-label="{family}"' in html
+    assert "FFT and NTT" not in html
+
+
+def test_difficulty_pills_are_colored(client):
+    assert 'class="mark level-easy"' in page(client)
+
+
+def test_score_history_on_pattern_page(client):
+    for days in (30, 25, 20, 2):
+        log(client, PARENS, days)
+    html = page(client, "/patterns/Stack")
+    assert "Score over time" in html
+    assert html.count('class="dot"') == 4  # Weekly points from the third attempt on.
+    assert "Score over time" not in page(client, "/patterns/Trie")
+
+
+def test_undo_not_now_for_a_new_problem(client, app):
+    two_sum = pid(app, "Two Sum")
+    html = client.post(f"/problems/{two_sum}/not-now", follow_redirects=True).get_data(as_text=True)
+    assert ">Undo</button>" in html
+    not_now_id = query(app, "SELECT id FROM not_now")[0]["id"]
+    html = client.post("/not-now/undo", data={"not_now_id": not_now_id, "suggestion_id": ""},
+                       follow_redirects=True).get_data(as_text=True)
+    assert "Recommendation restored." in html
+    assert query(app, "SELECT * FROM not_now") == []
+    assert "Two Sum" in html.split('aria-labelledby="patterns-heading"')[0]
+
+
+def test_undo_restores_the_same_sibling(client, app):
+    log(client, PARENS, 30)
+    page(client)
+    temps, parens = pid(app, "Daily Temperatures"), pid(app, "Valid Parentheses")
+    client.post(f"/problems/{temps}/not-now", data={"review_of": parens})
+    page(client)  # The dashboard may choose another sibling, or fall back to the original.
+    suggestion = query(app, "SELECT id FROM sibling_suggestions WHERE status = 'dismissed'")[0]["id"]
+    not_now_id = query(app, "SELECT id FROM not_now")[0]["id"]
+    client.post("/not-now/undo", data={"not_now_id": not_now_id, "suggestion_id": suggestion})
+    rows = query(app, "SELECT sibling_problem_id, status FROM sibling_suggestions")
+    assert rows == [{"sibling_problem_id": temps, "status": "active"}]
+    assert "Review of Valid Parentheses" in page(client)

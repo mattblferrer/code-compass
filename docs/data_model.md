@@ -16,6 +16,7 @@ Mastery scores, due dates, the current difficulty level, and the review streak a
 | `name` | Text | Unique |
 | `category` | Text | `core` or `advanced` |
 | `tier` | Text | `narrow`, `normal`, or `broad` |
+| `family` | Text | The group the pattern belongs to on the dashboard's pattern map |
 | `description` | Text | The beginner hint text |
 | `list_position` | Integer | The order of `docs/patterns.md` |
 

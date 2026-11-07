@@ -1,39 +1,43 @@
 {% extends "base.html" %}
 {% from "_hint.html" import hint_block %}
 {% block title %}Dashboard - CodeCompass{% endblock %}
-{% macro bar_row(p) %}
-  {% set s = p['score'] %}
-  <li>
-    <span class="name">
-      <a href="{{ url_for('main.pattern', name=p['name']) }}">{{ p['name'] }}</a>
-      {% if p['target'] %}<span class="tag">target</span>{% endif %}
-      {% if p['mastered'] %}<span class="tag">marked mastered</span>{% endif %}
-      {% if p['category'] == 'advanced' %}<span class="tag">advanced</span>{% endif %}
-    </span>
-    <span class="track" role="img" aria-label="Score {{ '%.0f'|format(s) }} out of 100">
-      <i style="--score: {{ s }}%"></i>
-    </span>
-    <span class="score">{{ "%.0f"|format(s) }}</span>
-  </li>
+{% set day_labels = {"review": "Review done", "practice": "Practice only", "missed": "Review missed", "quiet": "No practice"} %}
+{% macro change_label(change) %}
+  {% if change is not none and change != 0 %}
+    <span class="change {{ 'up' if change > 0 else 'down' }}" title="Change since 14 days ago">{{ "%+d"|format(change)|replace("-", "−") }}</span>
+  {% endif %}
 {% endmacro %}
-{% macro pending_row(p) %}
-  <li class="pending-row">
-    <span class="name">
-      <a href="{{ url_for('main.pattern', name=p['name']) }}">{{ p['name'] }}</a>
-      {% if p['target'] %}<span class="tag">target</span>{% endif %}
-      {% if p['category'] == 'advanced' %}<span class="tag">advanced</span>{% endif %}
-    </span>
-    <span class="pending">{{ p['attempts'] }} of 3 attempts</span>
+{% macro tile(p) %}
+  {% set s = p['score'] %}
+  {% if s is not none %}
+    <li class="tile scored" style="--fill: {{ (s * 0.45)|round(1) }}%">
+  {% elif p['attempts'] %}
+    <li class="tile started">
+  {% else %}
+    <li class="tile unstarted">
+  {% endif %}
+    <a href="{{ url_for('main.pattern', name=p['name']) }}">
+      <span class="tile-name">{{ p['name'] }}</span>
+      <span class="tile-value">
+        {% if s is not none %}
+          <strong>{{ "%.0f"|format(s) }}</strong>{{ change_label(p['change']) }}
+        {% elif p['attempts'] %}
+          {{ p['attempts'] }} of 3 attempts
+        {% else %}
+          Not started
+        {% endif %}
+      </span>
+      {% if p['target'] or p['mastered'] or p['category'] == 'advanced' %}
+        <span class="tile-tags">
+          {% if p['target'] %}target{% endif %}
+          {% if p['mastered'] %}marked mastered{% endif %}
+          {% if p['category'] == 'advanced' %}advanced{% endif %}
+        </span>
+      {% endif %}
+    </a>
   </li>
 {% endmacro %}
 {% block content %}
-  {% if due_count %}
-    <p class="banner" role="status">
-      <span>{{ due_count }} {{ "review is" if due_count == 1 else "reviews are" }} due</span>
-      <a href="{{ url_for('main.reviews_calendar') }}">Add review dates to your calendar (.ics)</a>
-    </p>
-  {% endif %}
-
   {% set scored = patterns|selectattr('score', 'ne', none)|sort(attribute='score')|list %}
   {% set started = patterns|selectattr('score', 'none')|selectattr('attempts')|list %}
   {% set unstarted = patterns|selectattr('score', 'none')|rejectattr('attempts')|list %}
@@ -41,20 +45,61 @@
   {% set weak = scored|selectattr('score', 'lt', 40)|list %}
   {% set developing = scored|length - strong|length - weak|length %}
   {% set total = patterns|length or 1 %}
+  {% set first = recommendations[0] if recommendations else none %}
 
-  <h1>Dashboard</h1>
-  <dl class="summary">
-    <div><dt>Reviews due</dt><dd class="{{ 'due' if due_count }}">{{ due_count }}</dd></div>
-    <div><dt>Review streak</dt><dd>{{ streak }} {{ "day" if streak == 1 else "days" }}</dd></div>
-    <div><dt>Current level</dt><dd>{{ level|capitalize }}</dd></div>
-    <div><dt>Patterns with a score</dt><dd>{{ scored|length }} of {{ patterns|length }}</dd></div>
-  </dl>
-  {% if interview %}
-    <p class="focus-note">Focused on your interview with {{ interview['companies']|join(" and ") }} on {{ interview['date'] }}.</p>
-  {% endif %}
+  <section id="today" class="today {{ 'due' if due_count }}" aria-labelledby="today-heading" {% if due_count %}role="status"{% endif %}>
+    <div class="today-text">
+      <h1 id="today-heading">
+        {% if due_count %}
+          {{ due_count }} {{ "review is" if due_count == 1 else "reviews are" }} due
+        {% elif first %}
+          Ready for your next problem
+        {% else %}
+          Nothing to practice yet
+        {% endif %}
+      </h1>
+      {% if first %}
+        <p class="start">Start with <a href="{{ url_for('main.problem', problem_id=first['problem']['id']) }}">{{ first['problem']['title'] }}</a>. {{ first['reason'] }}{% if first['due'] %}, due {{ first['due'] }}{% endif %}.</p>
+      {% else %}
+        <p class="start">Add problems to the catalog or <a href="{{ url_for('main.new_problem') }}">add a custom problem</a> to get recommendations.</p>
+      {% endif %}
+      <p class="facts">
+        <span><strong>{{ streak }}</strong> {{ "day" if streak == 1 else "days" }} review streak</span>
+        <span><strong>{{ level|capitalize }}</strong> current level</span>
+        <span><strong>{{ scored|length }}</strong> of {{ patterns|length }} patterns scored</span>
+        {% if due_count %}<a href="{{ url_for('main.reviews_calendar') }}">Add review dates to your calendar (.ics)</a>{% endif %}
+      </p>
+      {% if interview %}
+        <p class="focus-note">Focused on your interview with {{ interview['companies']|join(" and ") }} on {{ interview['date'] }}.</p>
+      {% endif %}
+    </div>
+    {% if first %}
+      <a class="button big" href="{{ url_for('main.log_attempt', problem=first['problem']['id']) }}">Log attempt</a>
+    {% endif %}
+  </section>
+
+  <section class="activity" aria-labelledby="activity-heading">
+    <h2 id="activity-heading" class="visually-hidden">Last 8 weeks</h2>
+    <ol class="days">
+      {% for d in activity %}
+        <li class="{{ d['status'] }}" title="{{ d['date'] }}: {{ day_labels[d['status']] }}">
+          <span class="visually-hidden">{{ d['date'] }}: {{ day_labels[d['status']] }}</span>
+        </li>
+      {% endfor %}
+    </ol>
+    <div class="activity-key">
+      <span>{{ activity[0]['date'] }}</span>
+      <ul>
+        <li class="review">Review done</li>
+        <li class="practice">Practice only</li>
+        <li class="missed">Review missed</li>
+      </ul>
+      <span>Today</span>
+    </div>
+  </section>
 
   <div class="board">
-    <section class="panel" aria-labelledby="next-heading">
+    <section id="next-panel" class="panel" aria-labelledby="next-heading">
       <h2 id="next-heading">Practice next</h2>
       {% if recommendations %}
         <ol class="next">
@@ -64,7 +109,8 @@
               <div>
                 <a class="title" href="{{ url_for('main.problem', problem_id=p['id']) }}">{{ p['title'] }}</a>
                 {% if r['kind'] == 'review' %}<span class="mark review">Review</span>{% endif %}
-                <span class="mark">{{ p['difficulty']|capitalize }}</span>
+                <span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>
+                {% if r['hint_eligible'] and not r['hint'] %}<span class="mark hint" title="A beginner hint is available for this problem">Hint available</span>{% endif %}
                 <p class="reason">{{ r['reason'] }}</p>
                 <div class="actions">
                   <a class="button small" href="{{ url_for('main.log_attempt', problem=p['id']) }}">Log attempt</a>
@@ -72,14 +118,17 @@
                     <a class="button small quiet" href="{{ p['link'] }}" target="_blank" rel="noopener">Open problem</a>
                   {% endif %}
                   {% if r['kind'] == 'new' or r['is_sibling'] %}
-                    <form method="post" action="{{ url_for('main.not_now', problem_id=p['id']) }}" class="inline">
+                    <form method="post" action="{{ url_for('main.not_now', problem_id=p['id']) }}" class="inline" data-swap="#today, #next-panel, #messages">
                       {% if r['is_sibling'] %}<input type="hidden" name="review_of" value="{{ r['original']['id'] }}">{% endif %}
                       <button type="submit" class="text">Not now</button>
                     </form>
                   {% endif %}
-                  {{ hint_block(p, r['hint_eligible'], r['hint'], url_for('main.dashboard')) }}
+                  {{ hint_block(p, r['hint_eligible'], r['hint'], url_for('main.dashboard'), "#today, #next-panel, #messages") }}
                 </div>
               </div>
+              {% if r['due'] %}
+                <p class="due-date"><small>Due</small> <time datetime="{{ r['due'] }}">{{ r['due'] }}</time></p>
+              {% endif %}
             </li>
           {% endfor %}
         </ol>
@@ -89,7 +138,7 @@
     </section>
 
     <section class="panel" aria-labelledby="patterns-heading">
-      <h2 id="patterns-heading">Patterns <small>weakest first</small></h2>
+      <h2 id="patterns-heading">Patterns <small>darker is stronger; change over 14 days</small></h2>
       <div class="bands" aria-hidden="true">
         <span class="band-weak" style="--share: {{ weak|length / total * 100 }}%"></span>
         <span class="band-developing" style="--share: {{ developing / total * 100 }}%"></span>
@@ -102,24 +151,19 @@
         <li>No score yet: {{ started|length + unstarted|length }}</li>
       </ul>
 
-      {% if scored %}
-        <div class="axis" aria-hidden="true">
-          <span></span>
-          <span><b style="left: 0">0</b><b style="left: 40%">40</b><b style="left: 70%">70</b><b style="left: 100%">100</b></span>
-          <span></span>
-        </div>
-        <ul class="chart">{% for p in scored %}{{ bar_row(p) }}{% endfor %}</ul>
-      {% endif %}
-      {% if started %}
-        <h3>Not enough data yet</h3>
-        <ul class="chart">{% for p in started %}{{ pending_row(p) }}{% endfor %}</ul>
-      {% endif %}
-      {% if unstarted %}
-        <details {% if not scored and not started %}open{% endif %}>
-          <summary>Not started ({{ unstarted|length }})</summary>
-          <ul class="chart">{% for p in unstarted %}{{ pending_row(p) }}{% endfor %}</ul>
-        </details>
-      {% endif %}
+      {% set families = [] %}
+      {% for p in patterns %}{% if p['family'] not in families %}{% set _ = families.append(p['family']) %}{% endif %}{% endfor %}
+      <div class="map">
+        {% for family in families %}
+          {% set members = patterns|selectattr('family', 'eq', family)|list %}
+          <section class="family" aria-label="{{ family }}">
+            <h3>{{ family }}</h3>
+            <ul class="tiles">
+              {% for p in members %}{{ tile(p) }}{% endfor %}
+            </ul>
+          </section>
+        {% endfor %}
+      </div>
     </section>
   </div>
 {% endblock %}
