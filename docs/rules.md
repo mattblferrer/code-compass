@@ -123,3 +123,55 @@ Sources:
 | 2026-10-25 | Solved alone | Review | 14 days | 2026-11-08 |
 | 2026-11-08 | Not solved | Review | 7 days | 2026-11-15 |
 | 2026-11-20 | Solved alone | Review | 14 days | 2026-12-04 |
+
+## Sibling selection (R-28)
+
+A sibling is chosen when a due review is first shown, oldest due date first, and stays the same until the review is completed or the user dismisses it.
+
+A problem can be a sibling only if it meets all of these:
+
+- It is a catalog problem, not a custom problem.
+- The user has not attempted it.
+- It shares at least one pattern with the due problem.
+- Any inactive advanced pattern it has is also on the due problem (R-32).
+- It is not reserved by another open review.
+- It has not been dismissed for this review, and is not within a 7-day "not now" period (R-29).
+- Its difficulty is the same as the due problem's, or one level away.
+
+Rank the problems that qualify by these, in order:
+
+1. **Difficulty:** same difficulty, then one level easier, then one level harder.
+2. **Most patterns shared** with the due problem.
+3. **Fewest extra patterns** that the due problem does not have.
+4. **Catalog order.**
+
+The first-ranked problem is suggested. If none qualifies, the original problem is suggested.
+
+### Reservation
+
+A problem suggested as a sibling is reserved until the review closes or the user dismisses it. While reserved, it cannot be suggested for another open review or offered as a new problem (R-13). Only reviews already shown reserve a sibling, so a backlog of unseen reviews does not use up the catalog.
+
+### Why these choices
+
+- **Closest match** keeps the review on the skill being checked, because an extra pattern tests something else. It also always gives the same result, so it is easy to test.
+- **Easier before harder** keeps the review about recognizing the pattern rather than adding a new challenge. A harder sibling is still covered fairly by the mastery rule's stretch bonus and softer decline.
+- **Reservation** stops one attempt from having to count as a review for two problems, or as both a review and a new problem.
+
+### Worked example
+
+The due problem is Medium, with the patterns Tree Traversal and 1-D Dynamic Programming. FFT and NTT is inactive.
+
+| Catalog position | Difficulty | Patterns | Result |
+| --- | --- | --- | --- |
+| 120 | Medium | 1-D Dynamic Programming, Tree Traversal | Rank 1 |
+| 80 | Medium | 1-D Dynamic Programming, Greedy, Tree Traversal | Rank 2 |
+| 40 | Medium | Tree Traversal | Rank 3 |
+| 15 | Medium | Greedy, Tree Traversal | Rank 4 |
+| 5 | Easy | 1-D Dynamic Programming, Tree Traversal | Rank 5 |
+| 6 | Hard | 1-D Dynamic Programming, Tree Traversal | Rank 6 |
+| 10 | Medium | 1-D Dynamic Programming, Tree Traversal | Already attempted |
+| 12 | Medium | 1-D Dynamic Programming, Tree Traversal | Reserved by another open review |
+| 20 | Medium | 1-D Dynamic Programming, FFT and NTT | Has an inactive advanced pattern the due problem lacks |
+| 25 | Medium | Greedy | Shares no pattern |
+
+Problem 120 is suggested. If the user dismisses it, problem 80 is suggested next.
