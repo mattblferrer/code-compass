@@ -81,7 +81,7 @@ def test_sibling_attempt_completes_the_review(client, app):
                             "review_of_problem_id": pid(app, "Valid Parentheses")}
     html = page(client)
     assert "review is due" not in html
-    assert "<strong>1</strong> day in a row" in html  # Review streak.
+    assert "<dd>1 day</dd>" in html  # Review streak.
     original = page(client, f"/problems/{pid(app, 'Valid Parentheses')}")
     assert f"Next review due {(date.today() + timedelta(days=28)).isoformat()}" in original
     assert "Next review due" not in page(client, f"/problems/{pid(app, 'Daily Temperatures')}")

@@ -17,7 +17,7 @@ def test_stylesheet_is_served_locally(client):
     assert b'href="/static/css/app.css"' in client.get("/").data
     response = client.get("/static/css/app.css")
     assert response.status_code == 200
-    assert b"engineering-notebook" in response.data
+    assert b"No framework" in response.data
     response.close()
 
 
