@@ -1407,6 +1407,283 @@
     {
       "name": "new_user",
       "level": "easy",
+      "patterns": [
+        "Arrays and Hashing",
+        "Prefix Sums",
+        "Stack",
+        "Linked List",
+        "Binary Search",
+        "Sorting",
+        "Intervals",
+        "Heap",
+        "Trie",
+        "Greedy",
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "advanced": [
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "catalog": [
+        {
+          "id": "Arrays and Hashing/easy",
+          "position": 1,
+          "difficulty": "easy",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/medium",
+          "position": 2,
+          "difficulty": "medium",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/hard",
+          "position": 3,
+          "difficulty": "hard",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Prefix Sums/easy",
+          "position": 4,
+          "difficulty": "easy",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/medium",
+          "position": 5,
+          "difficulty": "medium",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/hard",
+          "position": 6,
+          "difficulty": "hard",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Stack/easy",
+          "position": 7,
+          "difficulty": "easy",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/medium",
+          "position": 8,
+          "difficulty": "medium",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/hard",
+          "position": 9,
+          "difficulty": "hard",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Linked List/easy",
+          "position": 10,
+          "difficulty": "easy",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/medium",
+          "position": 11,
+          "difficulty": "medium",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/hard",
+          "position": 12,
+          "difficulty": "hard",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Binary Search/easy",
+          "position": 13,
+          "difficulty": "easy",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/medium",
+          "position": 14,
+          "difficulty": "medium",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/hard",
+          "position": 15,
+          "difficulty": "hard",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Sorting/easy",
+          "position": 16,
+          "difficulty": "easy",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/medium",
+          "position": 17,
+          "difficulty": "medium",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/hard",
+          "position": 18,
+          "difficulty": "hard",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Intervals/easy",
+          "position": 19,
+          "difficulty": "easy",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/medium",
+          "position": 20,
+          "difficulty": "medium",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/hard",
+          "position": 21,
+          "difficulty": "hard",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Heap/easy",
+          "position": 22,
+          "difficulty": "easy",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/medium",
+          "position": 23,
+          "difficulty": "medium",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/hard",
+          "position": 24,
+          "difficulty": "hard",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Trie/easy",
+          "position": 25,
+          "difficulty": "easy",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/medium",
+          "position": 26,
+          "difficulty": "medium",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/hard",
+          "position": 27,
+          "difficulty": "hard",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Greedy/easy",
+          "position": 28,
+          "difficulty": "easy",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/medium",
+          "position": 29,
+          "difficulty": "medium",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/hard",
+          "position": 30,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "FFT and NTT/very hard",
+          "position": 31,
+          "difficulty": "very hard",
+          "patterns": [
+            "FFT and NTT"
+          ]
+        },
+        {
+          "id": "Greedy+2-SAT/hard",
+          "position": 0,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy",
+            "2-SAT"
+          ]
+        }
+      ],
       "expected_list": [
         "new:Arrays and Hashing/easy",
         "new:Prefix Sums/easy",
@@ -1459,6 +1736,283 @@
           "pattern": "Stack",
           "due": "2026-11-01",
           "position": 410
+        }
+      ],
+      "patterns": [
+        "Arrays and Hashing",
+        "Prefix Sums",
+        "Stack",
+        "Linked List",
+        "Binary Search",
+        "Sorting",
+        "Intervals",
+        "Heap",
+        "Trie",
+        "Greedy",
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "advanced": [
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "catalog": [
+        {
+          "id": "Arrays and Hashing/easy",
+          "position": 1,
+          "difficulty": "easy",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/medium",
+          "position": 2,
+          "difficulty": "medium",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/hard",
+          "position": 3,
+          "difficulty": "hard",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Prefix Sums/easy",
+          "position": 4,
+          "difficulty": "easy",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/medium",
+          "position": 5,
+          "difficulty": "medium",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/hard",
+          "position": 6,
+          "difficulty": "hard",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Stack/easy",
+          "position": 7,
+          "difficulty": "easy",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/medium",
+          "position": 8,
+          "difficulty": "medium",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/hard",
+          "position": 9,
+          "difficulty": "hard",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Linked List/easy",
+          "position": 10,
+          "difficulty": "easy",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/medium",
+          "position": 11,
+          "difficulty": "medium",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/hard",
+          "position": 12,
+          "difficulty": "hard",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Binary Search/easy",
+          "position": 13,
+          "difficulty": "easy",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/medium",
+          "position": 14,
+          "difficulty": "medium",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/hard",
+          "position": 15,
+          "difficulty": "hard",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Sorting/easy",
+          "position": 16,
+          "difficulty": "easy",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/medium",
+          "position": 17,
+          "difficulty": "medium",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/hard",
+          "position": 18,
+          "difficulty": "hard",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Intervals/easy",
+          "position": 19,
+          "difficulty": "easy",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/medium",
+          "position": 20,
+          "difficulty": "medium",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/hard",
+          "position": 21,
+          "difficulty": "hard",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Heap/easy",
+          "position": 22,
+          "difficulty": "easy",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/medium",
+          "position": 23,
+          "difficulty": "medium",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/hard",
+          "position": 24,
+          "difficulty": "hard",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Trie/easy",
+          "position": 25,
+          "difficulty": "easy",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/medium",
+          "position": 26,
+          "difficulty": "medium",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/hard",
+          "position": 27,
+          "difficulty": "hard",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Greedy/easy",
+          "position": 28,
+          "difficulty": "easy",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/medium",
+          "position": 29,
+          "difficulty": "medium",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/hard",
+          "position": 30,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "FFT and NTT/very hard",
+          "position": 31,
+          "difficulty": "very hard",
+          "patterns": [
+            "FFT and NTT"
+          ]
+        },
+        {
+          "id": "Greedy+2-SAT/hard",
+          "position": 0,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy",
+            "2-SAT"
+          ]
         }
       ],
       "expected_list": [
@@ -1531,6 +2085,283 @@
           "position": 500
         }
       ],
+      "patterns": [
+        "Arrays and Hashing",
+        "Prefix Sums",
+        "Stack",
+        "Linked List",
+        "Binary Search",
+        "Sorting",
+        "Intervals",
+        "Heap",
+        "Trie",
+        "Greedy",
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "advanced": [
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "catalog": [
+        {
+          "id": "Arrays and Hashing/easy",
+          "position": 1,
+          "difficulty": "easy",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/medium",
+          "position": 2,
+          "difficulty": "medium",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/hard",
+          "position": 3,
+          "difficulty": "hard",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Prefix Sums/easy",
+          "position": 4,
+          "difficulty": "easy",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/medium",
+          "position": 5,
+          "difficulty": "medium",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/hard",
+          "position": 6,
+          "difficulty": "hard",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Stack/easy",
+          "position": 7,
+          "difficulty": "easy",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/medium",
+          "position": 8,
+          "difficulty": "medium",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/hard",
+          "position": 9,
+          "difficulty": "hard",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Linked List/easy",
+          "position": 10,
+          "difficulty": "easy",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/medium",
+          "position": 11,
+          "difficulty": "medium",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/hard",
+          "position": 12,
+          "difficulty": "hard",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Binary Search/easy",
+          "position": 13,
+          "difficulty": "easy",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/medium",
+          "position": 14,
+          "difficulty": "medium",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/hard",
+          "position": 15,
+          "difficulty": "hard",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Sorting/easy",
+          "position": 16,
+          "difficulty": "easy",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/medium",
+          "position": 17,
+          "difficulty": "medium",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/hard",
+          "position": 18,
+          "difficulty": "hard",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Intervals/easy",
+          "position": 19,
+          "difficulty": "easy",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/medium",
+          "position": 20,
+          "difficulty": "medium",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/hard",
+          "position": 21,
+          "difficulty": "hard",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Heap/easy",
+          "position": 22,
+          "difficulty": "easy",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/medium",
+          "position": 23,
+          "difficulty": "medium",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/hard",
+          "position": 24,
+          "difficulty": "hard",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Trie/easy",
+          "position": 25,
+          "difficulty": "easy",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/medium",
+          "position": 26,
+          "difficulty": "medium",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/hard",
+          "position": 27,
+          "difficulty": "hard",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Greedy/easy",
+          "position": 28,
+          "difficulty": "easy",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/medium",
+          "position": 29,
+          "difficulty": "medium",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/hard",
+          "position": 30,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "FFT and NTT/very hard",
+          "position": 31,
+          "difficulty": "very hard",
+          "patterns": [
+            "FFT and NTT"
+          ]
+        },
+        {
+          "id": "Greedy+2-SAT/hard",
+          "position": 0,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy",
+            "2-SAT"
+          ]
+        }
+      ],
       "expected_list": [
         "review:Sorting/old",
         "review:Stack/old",
@@ -1585,6 +2416,283 @@
           "position": 410
         }
       ],
+      "patterns": [
+        "Arrays and Hashing",
+        "Prefix Sums",
+        "Stack",
+        "Linked List",
+        "Binary Search",
+        "Sorting",
+        "Intervals",
+        "Heap",
+        "Trie",
+        "Greedy",
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "advanced": [
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "catalog": [
+        {
+          "id": "Arrays and Hashing/easy",
+          "position": 1,
+          "difficulty": "easy",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/medium",
+          "position": 2,
+          "difficulty": "medium",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/hard",
+          "position": 3,
+          "difficulty": "hard",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Prefix Sums/easy",
+          "position": 4,
+          "difficulty": "easy",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/medium",
+          "position": 5,
+          "difficulty": "medium",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/hard",
+          "position": 6,
+          "difficulty": "hard",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Stack/easy",
+          "position": 7,
+          "difficulty": "easy",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/medium",
+          "position": 8,
+          "difficulty": "medium",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/hard",
+          "position": 9,
+          "difficulty": "hard",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Linked List/easy",
+          "position": 10,
+          "difficulty": "easy",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/medium",
+          "position": 11,
+          "difficulty": "medium",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/hard",
+          "position": 12,
+          "difficulty": "hard",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Binary Search/easy",
+          "position": 13,
+          "difficulty": "easy",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/medium",
+          "position": 14,
+          "difficulty": "medium",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/hard",
+          "position": 15,
+          "difficulty": "hard",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Sorting/easy",
+          "position": 16,
+          "difficulty": "easy",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/medium",
+          "position": 17,
+          "difficulty": "medium",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/hard",
+          "position": 18,
+          "difficulty": "hard",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Intervals/easy",
+          "position": 19,
+          "difficulty": "easy",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/medium",
+          "position": 20,
+          "difficulty": "medium",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/hard",
+          "position": 21,
+          "difficulty": "hard",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Heap/easy",
+          "position": 22,
+          "difficulty": "easy",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/medium",
+          "position": 23,
+          "difficulty": "medium",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/hard",
+          "position": 24,
+          "difficulty": "hard",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Trie/easy",
+          "position": 25,
+          "difficulty": "easy",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/medium",
+          "position": 26,
+          "difficulty": "medium",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/hard",
+          "position": 27,
+          "difficulty": "hard",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Greedy/easy",
+          "position": 28,
+          "difficulty": "easy",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/medium",
+          "position": 29,
+          "difficulty": "medium",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/hard",
+          "position": 30,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "FFT and NTT/very hard",
+          "position": 31,
+          "difficulty": "very hard",
+          "patterns": [
+            "FFT and NTT"
+          ]
+        },
+        {
+          "id": "Greedy+2-SAT/hard",
+          "position": 0,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy",
+            "2-SAT"
+          ]
+        }
+      ],
       "expected_list": [
         "review:Stack/old",
         "review:Heap/old",
@@ -1633,6 +2741,283 @@
       "unscored_attempts": {
         "Linked List": 2
       },
+      "patterns": [
+        "Arrays and Hashing",
+        "Prefix Sums",
+        "Stack",
+        "Linked List",
+        "Binary Search",
+        "Sorting",
+        "Intervals",
+        "Heap",
+        "Trie",
+        "Greedy",
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "advanced": [
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "catalog": [
+        {
+          "id": "Arrays and Hashing/easy",
+          "position": 1,
+          "difficulty": "easy",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/medium",
+          "position": 2,
+          "difficulty": "medium",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/hard",
+          "position": 3,
+          "difficulty": "hard",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Prefix Sums/easy",
+          "position": 4,
+          "difficulty": "easy",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/medium",
+          "position": 5,
+          "difficulty": "medium",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/hard",
+          "position": 6,
+          "difficulty": "hard",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Stack/easy",
+          "position": 7,
+          "difficulty": "easy",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/medium",
+          "position": 8,
+          "difficulty": "medium",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/hard",
+          "position": 9,
+          "difficulty": "hard",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Linked List/easy",
+          "position": 10,
+          "difficulty": "easy",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/medium",
+          "position": 11,
+          "difficulty": "medium",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/hard",
+          "position": 12,
+          "difficulty": "hard",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Binary Search/easy",
+          "position": 13,
+          "difficulty": "easy",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/medium",
+          "position": 14,
+          "difficulty": "medium",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/hard",
+          "position": 15,
+          "difficulty": "hard",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Sorting/easy",
+          "position": 16,
+          "difficulty": "easy",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/medium",
+          "position": 17,
+          "difficulty": "medium",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/hard",
+          "position": 18,
+          "difficulty": "hard",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Intervals/easy",
+          "position": 19,
+          "difficulty": "easy",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/medium",
+          "position": 20,
+          "difficulty": "medium",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/hard",
+          "position": 21,
+          "difficulty": "hard",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Heap/easy",
+          "position": 22,
+          "difficulty": "easy",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/medium",
+          "position": 23,
+          "difficulty": "medium",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/hard",
+          "position": 24,
+          "difficulty": "hard",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Trie/easy",
+          "position": 25,
+          "difficulty": "easy",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/medium",
+          "position": 26,
+          "difficulty": "medium",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/hard",
+          "position": 27,
+          "difficulty": "hard",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Greedy/easy",
+          "position": 28,
+          "difficulty": "easy",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/medium",
+          "position": 29,
+          "difficulty": "medium",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/hard",
+          "position": 30,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "FFT and NTT/very hard",
+          "position": 31,
+          "difficulty": "very hard",
+          "patterns": [
+            "FFT and NTT"
+          ]
+        },
+        {
+          "id": "Greedy+2-SAT/hard",
+          "position": 0,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy",
+            "2-SAT"
+          ]
+        }
+      ],
       "expected_list": [
         "new:Linked List/hard",
         "new:Greedy/medium",
@@ -1672,6 +3057,283 @@
       "unscored_attempts": {
         "Linked List": 2
       },
+      "patterns": [
+        "Arrays and Hashing",
+        "Prefix Sums",
+        "Stack",
+        "Linked List",
+        "Binary Search",
+        "Sorting",
+        "Intervals",
+        "Heap",
+        "Trie",
+        "Greedy",
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "advanced": [
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "catalog": [
+        {
+          "id": "Arrays and Hashing/easy",
+          "position": 1,
+          "difficulty": "easy",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/medium",
+          "position": 2,
+          "difficulty": "medium",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/hard",
+          "position": 3,
+          "difficulty": "hard",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Prefix Sums/easy",
+          "position": 4,
+          "difficulty": "easy",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/medium",
+          "position": 5,
+          "difficulty": "medium",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/hard",
+          "position": 6,
+          "difficulty": "hard",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Stack/easy",
+          "position": 7,
+          "difficulty": "easy",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/medium",
+          "position": 8,
+          "difficulty": "medium",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/hard",
+          "position": 9,
+          "difficulty": "hard",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Linked List/easy",
+          "position": 10,
+          "difficulty": "easy",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/medium",
+          "position": 11,
+          "difficulty": "medium",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/hard",
+          "position": 12,
+          "difficulty": "hard",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Binary Search/easy",
+          "position": 13,
+          "difficulty": "easy",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/medium",
+          "position": 14,
+          "difficulty": "medium",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/hard",
+          "position": 15,
+          "difficulty": "hard",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Sorting/easy",
+          "position": 16,
+          "difficulty": "easy",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/medium",
+          "position": 17,
+          "difficulty": "medium",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/hard",
+          "position": 18,
+          "difficulty": "hard",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Intervals/easy",
+          "position": 19,
+          "difficulty": "easy",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/medium",
+          "position": 20,
+          "difficulty": "medium",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/hard",
+          "position": 21,
+          "difficulty": "hard",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Heap/easy",
+          "position": 22,
+          "difficulty": "easy",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/medium",
+          "position": 23,
+          "difficulty": "medium",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/hard",
+          "position": 24,
+          "difficulty": "hard",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Trie/easy",
+          "position": 25,
+          "difficulty": "easy",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/medium",
+          "position": 26,
+          "difficulty": "medium",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/hard",
+          "position": 27,
+          "difficulty": "hard",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Greedy/easy",
+          "position": 28,
+          "difficulty": "easy",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/medium",
+          "position": 29,
+          "difficulty": "medium",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/hard",
+          "position": 30,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "FFT and NTT/very hard",
+          "position": 31,
+          "difficulty": "very hard",
+          "patterns": [
+            "FFT and NTT"
+          ]
+        },
+        {
+          "id": "Greedy+2-SAT/hard",
+          "position": 0,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy",
+            "2-SAT"
+          ]
+        }
+      ],
       "expected_list": [
         "new:FFT and NTT/very hard",
         "new:Linked List/easy",
@@ -1711,6 +3373,283 @@
       "unscored_attempts": {
         "Linked List": 2
       },
+      "patterns": [
+        "Arrays and Hashing",
+        "Prefix Sums",
+        "Stack",
+        "Linked List",
+        "Binary Search",
+        "Sorting",
+        "Intervals",
+        "Heap",
+        "Trie",
+        "Greedy",
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "advanced": [
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "catalog": [
+        {
+          "id": "Arrays and Hashing/easy",
+          "position": 1,
+          "difficulty": "easy",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/medium",
+          "position": 2,
+          "difficulty": "medium",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/hard",
+          "position": 3,
+          "difficulty": "hard",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Prefix Sums/easy",
+          "position": 4,
+          "difficulty": "easy",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/medium",
+          "position": 5,
+          "difficulty": "medium",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/hard",
+          "position": 6,
+          "difficulty": "hard",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Stack/easy",
+          "position": 7,
+          "difficulty": "easy",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/medium",
+          "position": 8,
+          "difficulty": "medium",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/hard",
+          "position": 9,
+          "difficulty": "hard",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Linked List/easy",
+          "position": 10,
+          "difficulty": "easy",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/medium",
+          "position": 11,
+          "difficulty": "medium",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/hard",
+          "position": 12,
+          "difficulty": "hard",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Binary Search/easy",
+          "position": 13,
+          "difficulty": "easy",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/medium",
+          "position": 14,
+          "difficulty": "medium",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/hard",
+          "position": 15,
+          "difficulty": "hard",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Sorting/easy",
+          "position": 16,
+          "difficulty": "easy",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/medium",
+          "position": 17,
+          "difficulty": "medium",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/hard",
+          "position": 18,
+          "difficulty": "hard",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Intervals/easy",
+          "position": 19,
+          "difficulty": "easy",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/medium",
+          "position": 20,
+          "difficulty": "medium",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/hard",
+          "position": 21,
+          "difficulty": "hard",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Heap/easy",
+          "position": 22,
+          "difficulty": "easy",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/medium",
+          "position": 23,
+          "difficulty": "medium",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/hard",
+          "position": 24,
+          "difficulty": "hard",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Trie/easy",
+          "position": 25,
+          "difficulty": "easy",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/medium",
+          "position": 26,
+          "difficulty": "medium",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/hard",
+          "position": 27,
+          "difficulty": "hard",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Greedy/easy",
+          "position": 28,
+          "difficulty": "easy",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/medium",
+          "position": 29,
+          "difficulty": "medium",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/hard",
+          "position": 30,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "FFT and NTT/very hard",
+          "position": 31,
+          "difficulty": "very hard",
+          "patterns": [
+            "FFT and NTT"
+          ]
+        },
+        {
+          "id": "Greedy+2-SAT/hard",
+          "position": 0,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy",
+            "2-SAT"
+          ]
+        }
+      ],
       "expected_list": [
         "new:Trie/medium",
         "new:Trie/easy",
@@ -1749,6 +3688,283 @@
       "unscored_attempts": {
         "Linked List": 2
       },
+      "patterns": [
+        "Arrays and Hashing",
+        "Prefix Sums",
+        "Stack",
+        "Linked List",
+        "Binary Search",
+        "Sorting",
+        "Intervals",
+        "Heap",
+        "Trie",
+        "Greedy",
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "advanced": [
+        "FFT and NTT",
+        "2-SAT"
+      ],
+      "catalog": [
+        {
+          "id": "Arrays and Hashing/easy",
+          "position": 1,
+          "difficulty": "easy",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/medium",
+          "position": 2,
+          "difficulty": "medium",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Arrays and Hashing/hard",
+          "position": 3,
+          "difficulty": "hard",
+          "patterns": [
+            "Arrays and Hashing"
+          ]
+        },
+        {
+          "id": "Prefix Sums/easy",
+          "position": 4,
+          "difficulty": "easy",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/medium",
+          "position": 5,
+          "difficulty": "medium",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Prefix Sums/hard",
+          "position": 6,
+          "difficulty": "hard",
+          "patterns": [
+            "Prefix Sums"
+          ]
+        },
+        {
+          "id": "Stack/easy",
+          "position": 7,
+          "difficulty": "easy",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/medium",
+          "position": 8,
+          "difficulty": "medium",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Stack/hard",
+          "position": 9,
+          "difficulty": "hard",
+          "patterns": [
+            "Stack"
+          ]
+        },
+        {
+          "id": "Linked List/easy",
+          "position": 10,
+          "difficulty": "easy",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/medium",
+          "position": 11,
+          "difficulty": "medium",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Linked List/hard",
+          "position": 12,
+          "difficulty": "hard",
+          "patterns": [
+            "Linked List"
+          ]
+        },
+        {
+          "id": "Binary Search/easy",
+          "position": 13,
+          "difficulty": "easy",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/medium",
+          "position": 14,
+          "difficulty": "medium",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Binary Search/hard",
+          "position": 15,
+          "difficulty": "hard",
+          "patterns": [
+            "Binary Search"
+          ]
+        },
+        {
+          "id": "Sorting/easy",
+          "position": 16,
+          "difficulty": "easy",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/medium",
+          "position": 17,
+          "difficulty": "medium",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Sorting/hard",
+          "position": 18,
+          "difficulty": "hard",
+          "patterns": [
+            "Sorting"
+          ]
+        },
+        {
+          "id": "Intervals/easy",
+          "position": 19,
+          "difficulty": "easy",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/medium",
+          "position": 20,
+          "difficulty": "medium",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Intervals/hard",
+          "position": 21,
+          "difficulty": "hard",
+          "patterns": [
+            "Intervals"
+          ]
+        },
+        {
+          "id": "Heap/easy",
+          "position": 22,
+          "difficulty": "easy",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/medium",
+          "position": 23,
+          "difficulty": "medium",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Heap/hard",
+          "position": 24,
+          "difficulty": "hard",
+          "patterns": [
+            "Heap"
+          ]
+        },
+        {
+          "id": "Trie/easy",
+          "position": 25,
+          "difficulty": "easy",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/medium",
+          "position": 26,
+          "difficulty": "medium",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Trie/hard",
+          "position": 27,
+          "difficulty": "hard",
+          "patterns": [
+            "Trie"
+          ]
+        },
+        {
+          "id": "Greedy/easy",
+          "position": 28,
+          "difficulty": "easy",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/medium",
+          "position": 29,
+          "difficulty": "medium",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "Greedy/hard",
+          "position": 30,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy"
+          ]
+        },
+        {
+          "id": "FFT and NTT/very hard",
+          "position": 31,
+          "difficulty": "very hard",
+          "patterns": [
+            "FFT and NTT"
+          ]
+        },
+        {
+          "id": "Greedy+2-SAT/hard",
+          "position": 0,
+          "difficulty": "hard",
+          "patterns": [
+            "Greedy",
+            "2-SAT"
+          ]
+        }
+      ],
       "expected_list": [
         "new:Linked List/hard",
         "new:Intervals/hard",

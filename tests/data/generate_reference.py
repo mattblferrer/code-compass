@@ -481,7 +481,8 @@ RECOMMENDATION_CASES = [
 
 
 def recommendation_section():
-    return [{**c, "expected_list": recommend(c)} for c in RECOMMENDATION_CASES]
+    return [{**c, "patterns": PATTERNS, "advanced": ADVANCED, "catalog": base_catalog(),
+             "expected_list": recommend(c)} for c in RECOMMENDATION_CASES]
 
 
 # --- Build ---
