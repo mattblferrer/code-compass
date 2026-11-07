@@ -271,12 +271,26 @@ Every problem has one of four levels: easy, medium, hard, or very hard.
 
 The shares come from the Codeforces API on 2026-11-07 (11,194 rated problems out of 11,503).
 
+### AtCoder difficulty estimates
+
+AtCoder has no official problem rating, so these use the `difficulty` value from AtCoder Problems' `problem-models.json`, an unofficial estimate. The value is stored as given, and it can be negative.
+
+| Difficulty value | Level | Share of usable AtCoder problems | Typical AtCoder Beginner Contest position |
+| --- | --- | --- | --- |
+| Under 400 | Easy | 28% | A to C |
+| 400 to 1199 | Medium | 19% | D |
+| 1200 to 1999 | Hard | 20% | E and F |
+| 2000 or more | Very hard | 33% | G and H |
+
+The shares come from the file on 2026-11-07 (4,401 usable problems out of 5,201). The positions are from the median difficulty at each position in contests numbered 212 and above.
+
 ### What counts
 
-- **Core patterns:** catalog problems in core patterns stop at a rating of 2099, so very hard problems enter the catalog only through advanced patterns. A catalog problem with both core and advanced patterns follows the advanced limit.
+- **Core patterns:** catalog problems in core patterns stop below the very hard level (2099 on Codeforces, 1999 on AtCoder), so very hard problems enter the catalog only through advanced patterns. A catalog problem with both core and advanced patterns follows the advanced limit.
 - **Other sites:** problems from LeetCode and other sites keep their own labels, so a LeetCode Hard stays hard by default. The catalog reviewer can mark an individual problem as very hard during review, and a user can choose very hard when adding a custom problem.
-- **Sync and lookup:** a Codeforces problem of any rating is mapped by the table above (R-33, R-35). The user supplies the level when a problem has no rating.
-- **Unrated problems:** Codeforces problems with no rating are left out of the catalog.
+- **Sync and lookup:** a Codeforces or AtCoder problem of any rating is mapped by the tables above (R-33, R-35). The user supplies the level when a problem has no rating.
+- **Unrated problems:** Codeforces problems with no rating, and AtCoder problems with no difficulty value or flagged `is_experimental`, are left out of the catalog. In sync and lookup, the user supplies their level.
+- **Stored ratings:** a problem's rating from its source site is stored (`docs/data_model.md`), but no rule other than these tables reads it.
 
 ### Very hard setting (R-32)
 
@@ -290,10 +304,12 @@ The setting never affects logging, sync, due dates, or scores. Turning on advanc
 
 ### Why these values
 
-No official conversion between Codeforces ratings and LeetCode levels was found. The lower cutoffs follow Codeforces rank boundaries: below Pupil is easy, Pupil and Specialist are medium, and Expert and Candidate Master are hard. Informal forum estimates place LeetCode's hardest problems at about 2000 or below, so the very hard level starts just above that. These values are provisional.
+No official conversion between Codeforces ratings and LeetCode levels was found. The lower cutoffs follow Codeforces rank boundaries: below Pupil is easy, Pupil and Specialist are medium, and Expert and Candidate Master are hard. Informal forum estimates place LeetCode's hardest problems at about 2000 or below, so the very hard level starts just above that. No reliable conversion between Codeforces and AtCoder was found, so the AtCoder cutoffs are set so that each contest position falls clearly in one level. These values are provisional.
 
 Sources:
 
 - [Codeforces ranks on Wikipedia](https://en.wikipedia.org/wiki/Codeforces)
 - [Forum estimate of LeetCode levels in Codeforces ratings](https://mirror.codeforces.com/blog/entry/87135)
 - [Forum thread on LeetCode hards](https://mirror.codeforces.com/topic/87680/en2)
+- [AtCoder Problems difficulty estimates](https://kenkoooo.com/atcoder/resources/problem-models.json)
+- [Forum post comparing Codeforces and AtCoder ratings](https://codeforces.com/blog/entry/93069)

@@ -20,7 +20,7 @@ Python, Flask, server-rendered Jinja templates, SQLite through the standard `sql
 - **Dates are `YYYY-MM-DD` strings** in storage and in `core/`. Functions take "today" as an argument rather than reading the clock, so tests can use fixed dates. The current date is resolved only in the route layer, using the user's local time zone.
 - **Offline first (R-24).** Serve every asset from `codecompass/static/`, with no CDN links. Vendor any new library.
 - **No outgoing requests** except the optional sync (R-03, R-33, R-34), which runs only when the user starts it, by public username, for Codeforces, AtCoder, and LeetCode, and the problem lookup by ID or link (R-35), which runs only when the user starts it, for Codeforces and AtCoder. Keep all of that code in one module. Never add logins, stored passwords or cookies, or bot evasion.
-- **Time taken and ratings never affect** scores, review dates, or recommendations (R-26, R-34).
+- **Time taken and the user's contest ratings never affect** scores, review dates, or recommendations (R-26, R-34). A problem's rating from its source site is used only to set its difficulty level (`docs/rules.md`), which the rules then use.
 - `schema.sql` runs on every app start, so its statements must be safe to rerun.
 
 ## Testing rules
