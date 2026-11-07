@@ -175,3 +175,80 @@ The due problem is Medium, with the patterns Tree Traversal and 1-D Dynamic Prog
 | 25 | Medium | Greedy | Shares no pattern |
 
 Problem 120 is suggested. If the user dismisses it, problem 80 is suggested next.
+
+## Recommendation tie-breaks (R-13, R-15, R-32)
+
+R-13 sets the order of the slots. These rules decide what fills each one.
+
+### Sharing slots across patterns
+
+New-problem slots go to one problem per pattern, in ranked order. A pattern that has already supplied a new problem to the list is skipped until every other ranked pattern has supplied one, then the order starts again. This applies across the target, unscored, and weakest-pattern groups. Due reviews do not count.
+
+### Ranking patterns
+
+| Group | Order |
+| --- | --- |
+| Scored patterns | Lowest score first, then longest since the last attempt, then pattern-list order. Mastered patterns come after all others (R-32). |
+| Unscored patterns | Most attempts first, then pattern-list order. |
+| Target patterns | Unscored targets first, in the unscored order above, then scored targets in the scored order above. |
+
+Pattern-list order is the order of `docs/patterns.md`.
+
+### Choosing a problem within a pattern
+
+A problem can be offered as new only if it meets all of these:
+
+- The user has never attempted it. A problem attempted with help returns through its own review schedule.
+- It is not within a 7-day "not now" period (R-29).
+- It is not reserved as a sibling (R-28).
+- It has no inactive advanced pattern (R-32).
+- It is not already on the list.
+- Its difficulty is the user's current level, or one level away. For a target slot, any difficulty qualifies, because choosing a target is an explicit request.
+
+Rank the problems that qualify by these, in order:
+
+1. **Difficulty:** the current level, then one level easier, then one level harder. For a target slot, this continues to two levels easier, then two levels harder.
+2. **Fewest extra patterns** besides the pattern it was chosen for.
+3. **Catalog order.**
+
+A pattern with no qualifying problem is skipped, and its slot passes to the next pattern.
+
+### Due reviews on the same date
+
+Compare each problem's weakest pattern and take the weaker one first. A pattern showing "not enough data" counts as weaker than any score. Then use catalog order, with custom problems after catalog problems in the order they were added.
+
+### Worked example
+
+The current level is Medium, with no target patterns and no interview date.
+
+| Pattern | Score | Last attempt | Note |
+| --- | --- | --- | --- |
+| Intervals | 30.00 | 2026-11-03 | Marked as mastered |
+| Greedy | 40.00 | 2026-10-20 | |
+| Stack | 40.00 | 2026-11-05 | Has a review due 2026-11-01 |
+| Heap | 55.00 | 2026-11-01 | Has a review due 2026-11-01 |
+| Sorting | 70.00 | 2026-11-02 | |
+| Linked List | Not enough data | | 2 attempts |
+| Prefix Sums | Not enough data | | 1 attempt |
+| Arrays and Hashing | Not enough data | | 0 attempts |
+
+The list is:
+
+| Slot | Group | Pattern | Why |
+| --- | --- | --- | --- |
+| 1 | Due review | Stack | Same due date as Heap, and a lower score |
+| 2 | Due review | Heap | |
+| 3 | Unscored | Linked List | Most attempts among unscored patterns |
+| 4 | New | Greedy | Tied with Stack on score, and longest since its last attempt |
+| 5 | New | Stack | Next weakest, because Intervals is marked as mastered |
+
+Within Greedy, suppose the qualifying problems are:
+
+| Catalog position | Difficulty | Extra patterns | Rank |
+| --- | --- | --- | --- |
+| 31 | Medium | 0 | 1 |
+| 12 | Medium | 1 | 2 |
+| 4 | Easy | 0 | 3 |
+| 50 | Hard | 0 | 4 |
+
+Problem 31 fills slot 4.
