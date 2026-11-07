@@ -44,7 +44,8 @@ Fade = 0.5 ^ (days / 60)
 | --- | --- |
 | Under 40 | Easy |
 | 40 to 69.99 | Medium |
-| 70 or more | Hard |
+| 70 to 89.99 | Hard |
+| 90 or more | Very hard |
 
 ### What counts
 
@@ -136,6 +137,7 @@ A problem can be a sibling only if it meets all of these:
 - Any inactive advanced pattern it has is also on the due problem (R-32).
 - It is not reserved by another open review.
 - It has not been dismissed for this review, and is not within a 7-day "not now" period (R-29).
+- It meets the very hard setting (see Difficulty levels).
 - Its difficulty is the same as the due problem's, or one level away.
 
 Rank the problems that qualify by these, in order:
@@ -203,11 +205,12 @@ A problem can be offered as new only if it meets all of these:
 - It is not reserved as a sibling (R-28).
 - It has no inactive advanced pattern (R-32).
 - It is not already on the list.
+- It meets the very hard setting (see Difficulty levels).
 - Its difficulty is the user's current level, or one level away. For a target slot, any difficulty qualifies, because choosing a target is an explicit request.
 
 Rank the problems that qualify by these, in order:
 
-1. **Difficulty:** the current level, then one level easier, then one level harder. For a target slot, this continues to two levels easier, then two levels harder.
+1. **Difficulty:** the current level, then one level easier, then one level harder. For a target slot, this continues to the levels further away, trying the easier one first at each distance.
 2. **Fewest extra patterns** besides the pattern it was chosen for.
 3. **Catalog order.**
 
@@ -252,3 +255,45 @@ Within Greedy, suppose the qualifying problems are:
 | 50 | Hard | 0 | 4 |
 
 Problem 31 fills slot 4.
+
+## Difficulty levels (R-01)
+
+Every problem has one of four levels: easy, medium, hard, or very hard.
+
+### Codeforces ratings
+
+| Rating | Level | Share of rated Codeforces problems |
+| --- | --- | --- |
+| Under 1200 | Easy | 21% |
+| 1200 to 1599 | Medium | 17% |
+| 1600 to 2099 | Hard | 23% |
+| 2100 or more | Very hard | 39% |
+
+The shares come from the Codeforces API on 2026-11-07 (11,194 rated problems out of 11,503).
+
+### What counts
+
+- **Core patterns:** catalog problems in core patterns stop at a rating of 2099, so very hard problems enter the catalog only through advanced patterns. A catalog problem with both core and advanced patterns follows the advanced limit.
+- **Other sites:** problems from LeetCode and other sites keep their own labels, so a LeetCode Hard stays hard by default. The catalog reviewer can mark an individual problem as very hard during review, and a user can choose very hard when adding a custom problem.
+- **Sync and lookup:** a Codeforces problem of any rating is mapped by the table above (R-33, R-35). The user supplies the level when a problem has no rating.
+- **Unrated problems:** Codeforces problems with no rating are left out of the catalog.
+
+### Very hard setting (R-32)
+
+Very hard problems are not recommended unless the user turns on the very hard setting, which is off by default. While it is off:
+
+- New problems exclude very hard problems, except that a target slot can use one when no easier problem qualifies.
+- A sibling can be very hard only if the due problem is very hard.
+- The current difficulty level stops at hard.
+
+The setting never affects logging, sync, due dates, or scores. Turning on advanced patterns does not turn it on.
+
+### Why these values
+
+No official conversion between Codeforces ratings and LeetCode levels was found. The lower cutoffs follow Codeforces rank boundaries: below Pupil is easy, Pupil and Specialist are medium, and Expert and Candidate Master are hard. Informal forum estimates place LeetCode's hardest problems at about 2000 or below, so the very hard level starts just above that. These values are provisional.
+
+Sources:
+
+- [Codeforces ranks on Wikipedia](https://en.wikipedia.org/wiki/Codeforces)
+- [Forum estimate of LeetCode levels in Codeforces ratings](https://mirror.codeforces.com/blog/entry/87135)
+- [Forum thread on LeetCode hards](https://mirror.codeforces.com/topic/87680/en2)
