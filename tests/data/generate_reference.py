@@ -331,6 +331,22 @@ def base_catalog():
     return catalog
 
 
+def active_interview(interviews, today):
+    upcoming = [i for i in interviews if 0 <= (d(i["date"]) - d(today)).days <= 14]
+    if not upcoming:
+        return None
+    nearest = min(i["date"] for i in upcoming)
+    same = [i for i in upcoming if i["date"] == nearest]
+    patterns = []
+    for i in same:
+        for p in i.get("patterns", []):
+            if p not in patterns:
+                patterns.append(p)
+    given = [i["difficulty"] for i in same if i.get("difficulty")]
+    hardest = max(given, key=LEVELS.index) if given else None
+    return {"companies": [i["company"] for i in same], "date": nearest, "patterns": patterns, "difficulty": hardest}
+
+
 def recommend(s):
     catalog = base_catalog()
     targets = set(s.get("targets", []))
@@ -339,10 +355,11 @@ def recommend(s):
     attempts = s.get("unscored_attempts", {})
     advanced_on = s.get("advanced_on", False)
     very_hard_on = s.get("very_hard_on", False)
-    level = LEVELS.index(s["level"])
+    interview = s.get("interview")
+    company = set(interview["patterns"]) if interview else set()
 
     def active(p):
-        return p in CORE or advanced_on or p in targets
+        return p in CORE or advanced_on or p in targets or p in company
 
     def order(p):
         return PATTERNS.index(p)
@@ -357,8 +374,15 @@ def recommend(s):
     unscored = sorted((p for p in PATTERNS if active(p) and p not in scores), key=unscored_key)
     target_list = [p for p in unscored if p in targets] + [p for p in scored if p in targets]
 
+    focus = interview is not None and (bool(company) or bool(scored))
+    level_name = s["level"]
+    if focus and interview.get("difficulty"):
+        level_name = interview["difficulty"]
+        if level_name == "very hard":
+            very_hard_on = True
+    level = LEVELS.index(level_name)
+
     reviews = list(s.get("due", []))
-    focus = s.get("interview_within_14_days", False) and bool(scored)
 
     def weakness(r):
         return scores.get(r["pattern"], {"score": -1})["score"]
@@ -425,13 +449,17 @@ def recommend(s):
         return added
 
     fill(target_list, min(2, 5 - len(chosen)), is_target=True)
-    if not scored:
+    if focus:
+        if company:
+            ranked = [p for p in unscored if p in company] + [p for p in scored if p in company]
+        else:
+            ranked = scored
+        fill(ranked[:2], 5 - len(chosen))
+    elif not scored:
         fill(unscored, 5 - len(chosen))
     else:
-        if not focus:
-            fill(unscored, min(1, 5 - len(chosen)))
-        new_group = scored[:2] if focus else scored
-        fill(new_group, 5 - len(chosen))
+        fill(unscored, min(1, 5 - len(chosen)))
+        fill(scored, 5 - len(chosen))
     for r in reviews[3:]:
         if len(chosen) < 5:
             chosen.append(f"review:{r['problem']}")
@@ -465,7 +493,7 @@ RECOMMENDATION_CASES = [
      "due": [due("Sorting/old", "Sorting", "2026-10-30", 100), due("Heap/old", "Heap", "2026-11-01", 300),
              due("Stack/old", "Stack", "2026-11-01", 410), due("Greedy/old", "Greedy", "2026-11-05", 500)]},
     {"name": "interview_within_14_days", "level": "medium", "scores": WORKED_SCORES,
-     "mastered": ["Intervals"], "interview_within_14_days": True,
+     "mastered": ["Intervals"], "interview": {"patterns": [], "difficulty": None},
      "unscored_attempts": {"Linked List": 2},
      "due": [due("Heap/old", "Heap", "2026-11-01", 300), due("Stack/old", "Stack", "2026-11-03", 410)]},
     {"name": "exclusions", "level": "hard", "scores": WORKED_SCORES, "mastered": ["Intervals"],
@@ -473,11 +501,44 @@ RECOMMENDATION_CASES = [
      "unscored_attempts": {"Linked List": 2}},
     {"name": "advanced_target_with_settings_off", "level": "easy", "scores": WORKED_SCORES,
      "targets": [FFT], "unscored_attempts": {"Linked List": 2}},
+    {"name": "interview_company_patterns_and_difficulty", "level": "medium", "scores": WORKED_SCORES,
+     "mastered": ["Intervals"], "unscored_attempts": {"Trie": 1},
+     "interview": {"patterns": ["Heap", "Sorting", "Trie"], "difficulty": "hard"},
+     "due": [due("Sorting/old", "Sorting", "2026-11-01", 100), due("Greedy/old", "Greedy", "2026-11-03", 500)]},
+    {"name": "interview_advanced_pattern_very_hard", "level": "easy", "scores": WORKED_SCORES,
+     "interview": {"patterns": [FFT], "difficulty": "very hard"}},
+    {"name": "interview_patterns_with_no_scores", "level": "easy",
+     "interview": {"patterns": ["Greedy", "Stack"], "difficulty": None}},
+    {"name": "interview_without_patterns_or_scores", "level": "easy",
+     "interview": {"patterns": [], "difficulty": None}},
     {"name": "single_target_fills_both_slots", "level": "medium", "scores": WORKED_SCORES,
      "targets": ["Trie"], "unscored_attempts": {"Linked List": 2}},
     {"name": "advanced_and_very_hard_on", "level": "hard", "scores": WORKED_SCORES,
      "advanced_on": True, "very_hard_on": True, "unscored_attempts": {"Linked List": 2}},
 ]
+
+
+def interview(company, date_, patterns=(), difficulty=None):
+    return {"company": company, "date": date_, "patterns": list(patterns), "difficulty": difficulty}
+
+
+INTERVIEW_CASES = [
+    ("none", []),
+    ("past_only", [interview("A", "2026-11-09", ["Heap"])]),
+    ("beyond_window", [interview("A", "2026-11-25", ["Heap"])]),
+    ("today_counts", [interview("A", "2026-11-10", ["Heap"], "hard")]),
+    ("nearest_wins", [interview("Far", "2026-11-20", ["Greedy"], "hard"),
+                      interview("Near", "2026-11-15", ["Heap"], "medium")]),
+    ("same_date_combined", [interview("A", "2026-11-15", ["Heap", "Stack"], "medium"),
+                            interview("B", "2026-11-15", ["Stack", "Trie"], "hard"),
+                            interview("C", "2026-11-15")]),
+    ("no_patterns_or_difficulty", [interview("A", "2026-11-12")]),
+]
+
+
+def interview_section():
+    return [{"name": n, "today": TODAY, "interviews": x, "expected": active_interview(x, TODAY)}
+            for n, x in INTERVIEW_CASES]
 
 
 def recommendation_section():
@@ -500,6 +561,7 @@ def main():
         "streak": streak_section(),
         "difficulty_level": level_section(),
         "sibling": sibling_section(),
+        "interview": interview_section(),
         "recommendations": recommendation_section(),
     }
 

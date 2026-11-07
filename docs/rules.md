@@ -226,7 +226,7 @@ Compare each problem's weakest pattern and take the weaker one first. A pattern 
 
 ### Worked example
 
-The current level is Medium, with no target patterns and no interview date.
+The current level is Medium, with no target patterns and no interviews.
 
 | Pattern | Score | Last attempt | Note |
 | --- | --- | --- | --- |
@@ -317,3 +317,21 @@ Sources:
 - [Forum thread on LeetCode hards](https://mirror.codeforces.com/topic/87680/en2)
 - [AtCoder Problems difficulty estimates](https://kenkoooo.com/atcoder/resources/problem-models.json)
 - [Forum post comparing Codeforces and AtCoder ratings](https://codeforces.com/blog/entry/93069)
+
+## Interview focus (R-15)
+
+### Which interview
+
+The interview in focus is the nearest one dated from today to 14 days ahead. Interviews on that same date are combined: their patterns are joined, and the hardest target difficulty given is used. Past interviews and interviews further away are kept but ignored, and the app does not prompt about them.
+
+### While an interview is in focus
+
+- **Due reviews:** weakest pattern first, then due date, then catalog order.
+- **Target slots:** unchanged (R-32).
+- **Unscored slot:** dropped.
+- **New problems with interview patterns:** they come only from the 2 weakest of the interview's patterns. Unscored patterns rank first, in the unscored order, then scored patterns, weakest first, with mastered patterns last. This applies even when no pattern has a score yet.
+- **New problems without interview patterns:** they come only from the 2 weakest scored active patterns. If no active pattern has a score, the interview has no effect.
+- **Advanced patterns:** an interview's patterns are active while it is in focus, even if advanced patterns are off.
+- **Target difficulty:** it replaces the current difficulty level for new problems, still allowing one level either way. If it is very hard, very hard problems are allowed while that interview is in focus.
+
+Interviews never change a score. Because only 2 patterns supply new problems, the list can have fewer than 5 problems when those patterns run out.

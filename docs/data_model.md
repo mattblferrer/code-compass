@@ -60,8 +60,26 @@ The two columns together are the primary key.
 
 | Column | Type | Notes |
 | --- | --- | --- |
-| `key` | Text | Primary key: `interview_date`, `starting_difficulty`, `advanced_on`, `very_hard_on` |
+| `key` | Text | Primary key: `starting_difficulty`, `advanced_on`, `very_hard_on` |
 | `value` | Text | |
+
+### `interviews` (R-15)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `id` | Integer | Primary key |
+| `company` | Text | Required |
+| `date` | Text | Required |
+| `target_difficulty` | Text | Optional: `easy`, `medium`, `hard`, or `very hard` |
+
+### `interview_patterns` (R-15)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `interview_id` | Integer | References `interviews` |
+| `pattern_id` | Integer | References `patterns` |
+
+The two columns together are the primary key. An interview with no rows here has no patterns of its own.
 
 ### `pattern_preferences` (R-32)
 

@@ -11,7 +11,7 @@ import pytest
 from codecompass.core import constants as c
 from codecompass.core.levels import atcoder_level, codeforces_level, current_level
 from codecompass.core.mastery import pattern_score
-from codecompass.core.recommend import interview_focus, recommend
+from codecompass.core.recommend import active_interview, recommend
 from codecompass.core.schedule import review_schedule
 from codecompass.core.siblings import choose_sibling
 from codecompass.core.streak import review_streak
@@ -84,7 +84,7 @@ def test_recommendations(case):
         "level": case["level"],
         "advanced_on": case.get("advanced_on", False),
         "very_hard_on": case.get("very_hard_on", False),
-        "focus": case.get("interview_within_14_days", False),
+        "interview": case.get("interview"),
     }
     result = [f"{item['kind']}:{item['problem']}" for item in recommend(state)]
     assert result == case["expected_list"]
@@ -106,13 +106,6 @@ def test_atcoder_levels(difficulty, level):
     assert atcoder_level(difficulty) == level
 
 
-@pytest.mark.parametrize("interview, any_scored, expected", [
-    ("2026-11-24", True, True),
-    ("2026-11-25", True, False),
-    ("2026-11-10", True, True),
-    ("2026-11-09", True, False),
-    ("2026-11-20", False, False),
-    (None, True, False),
-])
-def test_interview_focus(interview, any_scored, expected):
-    assert interview_focus(interview, "2026-11-10", any_scored) is expected
+@cases("interview")
+def test_active_interview(case):
+    assert active_interview(case["interviews"], case["today"]) == case["expected"]

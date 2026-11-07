@@ -6,13 +6,33 @@ REVIEW = "review"
 TARGET = "target"
 UNSCORED = "unscored"
 WEAK = "weak"
+INTERVIEW = "interview"
 
 
-def interview_focus(interview_date, today, any_scored):
-    """True when R-15 narrows the list."""
-    if not interview_date or not any_scored:
-        return False
-    return 0 <= days_between(today, interview_date) <= c.FOCUS_WINDOW_DAYS
+def active_interview(interviews, today):
+    """The interview that focuses the list (R-15), or None.
+
+    Each interview has "company", "date", and optional "patterns" and
+    "difficulty". The nearest one from today to 14 days ahead is used, and
+    interviews on that same date are combined.
+    """
+    upcoming = [i for i in interviews if 0 <= days_between(today, i["date"]) <= c.FOCUS_WINDOW_DAYS]
+    if not upcoming:
+        return None
+    nearest = min(i["date"] for i in upcoming)
+    same_day = [i for i in upcoming if i["date"] == nearest]
+    patterns = []
+    for item in same_day:
+        for pattern in item.get("patterns") or ():
+            if pattern not in patterns:
+                patterns.append(pattern)
+    given = [i["difficulty"] for i in same_day if i.get("difficulty")]
+    return {
+        "companies": [i["company"] for i in same_day],
+        "date": nearest,
+        "patterns": patterns,
+        "difficulty": max(given, key=c.LEVELS.index) if given else None,
+    }
 
 
 def recommend(state):
@@ -27,7 +47,8 @@ def recommend(state):
       due: due reviews with "problem", "patterns", "due", "position"
       excluded: problem ids that cannot be new (attempted, not now, reserved)
       targets, mastered: pattern names
-      level, advanced_on, very_hard_on, focus
+      level, advanced_on, very_hard_on
+      interview: the result of active_interview, or None
 
     Returns dicts with "kind" (review or new), "problem", "group", and "pattern".
     """
@@ -39,11 +60,12 @@ def recommend(state):
     attempts = state.get("unscored_attempts", {})
     advanced_on = state.get("advanced_on", False)
     very_hard_on = state.get("very_hard_on", False)
-    level = c.LEVELS.index(state["level"])
     excluded = set(state.get("excluded", ()))
+    interview = state.get("interview")
+    company = set(interview["patterns"]) if interview else set()
 
     def active(name):
-        return name not in advanced or advanced_on or name in targets
+        return name not in advanced or advanced_on or name in targets or name in company
 
     def list_order(name):
         return patterns.index(name)
@@ -57,7 +79,14 @@ def recommend(state):
         key=lambda p: (p in mastered, -attempts.get(p, 0), list_order(p)),
     )
     target_patterns = [p for p in unscored if p in targets] + [p for p in scored if p in targets]
-    focus = state.get("focus", False) and bool(scored)
+
+    focus = interview is not None and (bool(company) or bool(scored))
+    level_name = state["level"]
+    if focus and interview.get("difficulty"):
+        level_name = interview["difficulty"]
+        if level_name == c.VERY_HARD:
+            very_hard_on = True
+    level = c.LEVELS.index(level_name)
 
     def weakness(review):
         values = [scores[p]["score"] if p in scores else -1 for p in review["patterns"]]
@@ -129,13 +158,17 @@ def recommend(state):
         return c.LIST_SIZE - len(result)
 
     fill(TARGET, target_patterns, min(c.MAX_TARGET_SLOTS, free()), is_target=True)
-    if not scored:
+    if focus:
+        if company:
+            ranked = [p for p in unscored if p in company] + [p for p in scored if p in company]
+            fill(INTERVIEW, ranked[: c.FOCUS_WEAKEST_PATTERNS], free())
+        else:
+            fill(WEAK, scored[: c.FOCUS_WEAKEST_PATTERNS], free())
+    elif not scored:
         fill(UNSCORED, unscored, free())
     else:
-        if not focus:
-            fill(UNSCORED, unscored, min(c.MAX_UNSCORED_SLOTS, free()))
-        weak = scored[: c.FOCUS_WEAKEST_PATTERNS] if focus else scored
-        fill(WEAK, weak, free())
+        fill(UNSCORED, unscored, min(c.MAX_UNSCORED_SLOTS, free()))
+        fill(WEAK, scored, free())
     for r in reviews[c.MAX_REVIEW_SLOTS:]:
         if free() <= 0:
             break
