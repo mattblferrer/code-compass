@@ -66,3 +66,60 @@ Today is 2026-11-10, and the pattern is in the normal tier.
 | 2026-10-31 | Hard | Solved alone | 45.82 | Medium | 1 | 100 | 40% | 67.49 |
 
 Fading 67.49 over the 10 days to today gives a score of **60.13**. The same attempts give 69.43 in the narrow tier and 54.16 in the broad tier.
+
+## Review intervals (R-12, R-28)
+
+Each attempted problem has a current interval and a due date, except that a sibling attempt starts no schedule of its own. The next due date is the attempt date plus the new interval.
+
+| Attempt | New interval |
+| --- | --- |
+| First attempt on the problem | The first interval for its outcome |
+| Review, solved alone | Double the current interval |
+| Review, any other outcome | The first interval for its outcome |
+| Early attempt, any outcome | The first interval for its outcome, and no review is completed |
+
+### Values
+
+| Outcome | First interval |
+| --- | --- |
+| Solved alone | 14 days |
+| Solved with hints | 10 days |
+| Solved after viewing the solution | 7 days |
+| Not solved | 7 days |
+
+### What counts
+
+- A review is an attempt on the due problem or its suggested sibling, on or after the due date. A sibling's outcome sets the original problem's next interval (R-28).
+- An early attempt is an attempt on the problem itself before its due date.
+- A late review gets no extra credit: doubling uses the current interval, not the days that actually passed, and the next due date counts from the attempt date.
+- Intervals have no maximum.
+- Dates follow the user's local time zone.
+
+### Why these values
+
+These are provisional and will be checked against tester feedback. The rule follows the growing intervals of SM-2 and Anki, with these differences:
+
+- **Longer first intervals.** SM-2 starts at 1 day and then 6 days, which suits flashcards that take seconds. A coding problem can take 30 minutes or more, and re-solving it the next day mostly tests memory of that problem.
+- **Doubling instead of a per-problem ease factor.** SM-2 and Anki start at 2.5 and adjust ease for each item. A fixed multiplier is simpler to explain and test.
+- **A first interval of 14 days for solved alone.** Cepeda et al. (2008) found the best gap was about 20% of the time until the test for delays of a few weeks, which suggests up to about 11 days for an interview 8 weeks away. That study covered memorizing facts, so it is only a rough guide. Fourteen days gives 2 reviews in 8 weeks if every review is solved alone (days 14 and 42).
+
+No published schedule designed for coding problems was found.
+
+Sources:
+
+- [Anki deck options](https://docs.ankiweb.net/deck-options.html)
+- [Anki's scheduling algorithm FAQ](https://docs.ankiweb.net/faqs/what-spaced-repetition-algorithm)
+- [SM-2 original article](https://www-v1.supermemo.com/archives1990-2015/english/ol/sm2)
+- [Cepeda et al. (2008)](https://escholarship.org/uc/item/0kp5q19x)
+
+### Worked example
+
+| Date | Outcome | Attempt type | New interval | Next due |
+| --- | --- | --- | --- | --- |
+| 2026-09-01 | Solved alone | First attempt | 14 days | 2026-09-15 |
+| 2026-09-15 | Solved alone | Review | 28 days | 2026-10-13 |
+| 2026-10-13 | Solved with hints | Review | 10 days | 2026-10-23 |
+| 2026-10-18 | Not solved | Early attempt | 7 days | 2026-10-25 |
+| 2026-10-25 | Solved alone | Review | 14 days | 2026-11-08 |
+| 2026-11-08 | Not solved | Review | 7 days | 2026-11-15 |
+| 2026-11-20 | Solved alone | Review | 14 days | 2026-12-04 |
