@@ -184,17 +184,21 @@ R-13 sets the order of the slots. These rules decide what fills each one.
 
 ### Sharing slots across patterns
 
-New-problem slots go to one problem per pattern, in ranked order. A pattern that has already supplied a new problem to the list is skipped until every other ranked pattern has supplied one, then the order starts again. This applies across the target, unscored, and weakest-pattern groups. Due reviews do not count.
+New-problem slots go to one problem per pattern, in ranked order. A pattern that has already supplied a new problem to the list is skipped until every other ranked pattern has supplied one, then the order starts again. This applies across the target, unscored, and weakest-pattern groups. Due reviews do not count. A group with a single pattern loops back to it, so one target pattern can fill both target slots.
 
 ### Ranking patterns
 
 | Group | Order |
 | --- | --- |
-| Scored patterns | Lowest score first, then longest since the last attempt, then pattern-list order. Mastered patterns come after all others (R-32). |
+| Scored patterns | Lowest score first, then longest since the last attempt, then pattern-list order. Mastered patterns come after all others (R-32), including when choosing the 2 weakest patterns near an interview (R-15). |
 | Unscored patterns | Most attempts first, then pattern-list order. |
 | Target patterns | Unscored targets first, in the unscored order above, then scored targets in the scored order above. |
 
 Pattern-list order is the order of `docs/patterns.md`.
+
+### Current difficulty level
+
+When two levels tie for the most common difficulty in the last 10 attempts (R-13), the harder level is used.
 
 ### Choosing a problem within a pattern
 
