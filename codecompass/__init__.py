@@ -14,6 +14,8 @@ def create_app(test_config=None):
         "CODECOMPASS_DATABASE",
         str(Path(app.instance_path) / "codecompass.sqlite"),
     )
+    # Only used to sign the flash-message cookie on this local app.
+    app.config["SECRET_KEY"] = os.environ.get("CODECOMPASS_SECRET_KEY") or os.urandom(16).hex()
     app.config["PATTERNS_PATH"] = str(catalog.DATA_DIR / "patterns.csv")
     app.config["CATALOG_PATH"] = str(catalog.DATA_DIR / "catalog.csv")
     if test_config:

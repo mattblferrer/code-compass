@@ -1,0 +1,34 @@
+/* Small additions to Pico.css. */
+.field-error {
+  color: var(--pico-del-color);
+}
+
+.flash {
+  padding: 0.5rem 0.75rem;
+  border-left: 4px solid var(--pico-primary);
+  background: var(--pico-card-background-color);
+}
+
+label.outcome small {
+  display: block;
+  margin-left: 1.75rem;
+  color: var(--pico-muted-color);
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: var(--pico-spacing);
+}
+
+.timer button {
+  width: auto;
+  margin: 0;
+}
+
+.pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: 0 1rem;
+}

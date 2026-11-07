@@ -1,0 +1,99 @@
+"""Database reads and writes used by the routes."""
+
+
+def patterns(conn):
+    return conn.execute("SELECT id, name, category, tier, description FROM patterns ORDER BY list_position").fetchall()
+
+
+def problem_choices(conn):
+    return conn.execute(
+        """SELECT id, title, source, difficulty FROM problems
+           ORDER BY is_custom, catalog_position IS NULL, catalog_position, title"""
+    ).fetchall()
+
+
+def get_problem(conn, problem_id):
+    return conn.execute("SELECT * FROM problems WHERE id = ?", (problem_id,)).fetchone()
+
+
+def problem_by_link(conn, link):
+    return conn.execute("SELECT * FROM problems WHERE link = ?", (link,)).fetchone()
+
+
+def problem_patterns(conn, problem_id):
+    return [
+        row["name"] for row in conn.execute(
+            """SELECT pt.name FROM problem_patterns pp JOIN patterns pt ON pt.id = pp.pattern_id
+               WHERE pp.problem_id = ? ORDER BY pt.list_position""",
+            (problem_id,),
+        )
+    ]
+
+
+def add_custom_problem(conn, values):
+    with conn:
+        problem_id = conn.execute(
+            "INSERT INTO problems (title, link, difficulty, source, is_custom) VALUES (?, ?, ?, 'custom', 1)",
+            (values["title"], values["link"], values["difficulty"]),
+        ).lastrowid
+        conn.executemany(
+            "INSERT INTO problem_patterns (problem_id, pattern_id) SELECT ?, id FROM patterns WHERE name = ?",
+            [(problem_id, name) for name in values["patterns"]],
+        )
+    return problem_id
+
+
+def unused_hint(conn, problem_id):
+    return conn.execute(
+        "SELECT 1 FROM hint_reveals WHERE problem_id = ? AND used = 0 LIMIT 1", (problem_id,)
+    ).fetchone() is not None
+
+
+def add_attempt(conn, values, entry_method="manual"):
+    with conn:
+        attempt_id = conn.execute(
+            """INSERT INTO attempts (problem_id, date, outcome, time_seconds, notes, entry_method, review_of_problem_id)
+               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (values["problem_id"], values["date"], values["outcome"], values["time_seconds"],
+             values["notes"], entry_method, values.get("review_of_problem_id")),
+        ).lastrowid
+        conn.execute("UPDATE hint_reveals SET used = 1 WHERE problem_id = ? AND used = 0", (values["problem_id"],))
+    return attempt_id
+
+
+def get_attempt(conn, attempt_id):
+    return conn.execute(
+        """SELECT a.*, p.title, p.source FROM attempts a JOIN problems p ON p.id = a.problem_id
+           WHERE a.id = ?""",
+        (attempt_id,),
+    ).fetchone()
+
+
+def update_attempt(conn, attempt_id, values):
+    with conn:
+        conn.execute(
+            """UPDATE attempts SET problem_id = ?, date = ?, outcome = ?, time_seconds = ?, notes = ?
+               WHERE id = ?""",
+            (values["problem_id"], values["date"], values["outcome"], values["time_seconds"],
+             values["notes"], attempt_id),
+        )
+
+
+def delete_attempt(conn, attempt_id):
+    with conn:
+        conn.execute("DELETE FROM attempts WHERE id = ?", (attempt_id,))
+
+
+def attempts_for_problem(conn, problem_id):
+    """Oldest first, in logged order (R-06)."""
+    return conn.execute(
+        "SELECT * FROM attempts WHERE problem_id = ? ORDER BY date, id", (problem_id,)
+    ).fetchall()
+
+
+def recent_attempts(conn, limit=50):
+    return conn.execute(
+        """SELECT a.*, p.title, p.source FROM attempts a JOIN problems p ON p.id = a.problem_id
+           ORDER BY a.date DESC, a.id DESC LIMIT ?""",
+        (limit,),
+    ).fetchall()

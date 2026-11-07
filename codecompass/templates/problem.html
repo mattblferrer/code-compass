@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ problem['title'] }} - CodeCompass{% endblock %}
+{% block content %}
+  <h1>{{ problem['title'] }}</h1>
+  <p>
+    {{ problem['difficulty']|capitalize }} · {{ problem['source'] }}
+    {% if problem['link'] %} · <a href="{{ problem['link'] }}" target="_blank" rel="noopener">Open problem</a>{% endif %}
+  </p>
+  <p>Patterns: {{ patterns|join(", ") }}</p>
+  <p><a role="button" href="{{ url_for('main.log_attempt', problem=problem['id']) }}">Log an attempt</a></p>
+
+  <h2>Attempts</h2>
+  {% if attempts %}
+    <table>
+      <thead><tr><th>Date</th><th>Outcome</th><th>Minutes</th><th>Notes</th><th></th></tr></thead>
+      <tbody>
+        {% for a in attempts %}
+          <tr>
+            <td>{{ a['date'] }}</td>
+            <td>{{ a['outcome']|outcome }}</td>
+            <td>{{ a['time_seconds']|minutes }}</td>
+            <td>{{ a['notes'] or "" }}</td>
+            <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No attempts yet.</p>
+  {% endif %}
+{% endblock %}
