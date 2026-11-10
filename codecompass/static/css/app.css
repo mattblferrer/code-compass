@@ -38,11 +38,14 @@
   --step-3: 1.875rem;
   --radius: 6px;
 
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
+/* Dark tokens: used when the system prefers dark and the user has not chosen light,
+   or whenever the user chooses dark with the header toggle (theme.js). Keep the two blocks the same. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --bg: #121417;
     --surface: #1a1d21;
     --text: #e8eaed;
@@ -69,6 +72,35 @@
     --very-hard-bg: #f19a8f;
     --very-hard: #2a0f0c;
   }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121417;
+  --surface: #1a1d21;
+  --text: #e8eaed;
+  --muted: #9ea7b1;
+  --rule: #2c3138;
+  --track: #252a30;
+  --data: #7aa7f0;
+  --data-mid: #4f78bb;
+  --data-low: #34507e;
+  --due: #f0a35a;
+  --due-soft: #2a2117;
+  --on-data: #0d1420;
+  --focus: #7aa7f0;
+  --band: #10243f;
+  --on-band: #e8eaed;
+  --on-band-muted: #a9bad6;
+  --up: #6fcf97;
+  --easy-bg: #17301f;
+  --easy: #7fd69f;
+  --medium-bg: #33290f;
+  --medium: #f0c95c;
+  --hard-bg: #3a1c19;
+  --hard: #f19a8f;
+  --very-hard-bg: #f19a8f;
+  --very-hard: #2a0f0c;
 }
 
 /* --- Base --- */
@@ -1618,4 +1650,48 @@ figure.rating-chart {
 .tip-change {
   font-family: var(--font-number);
   font-weight: 600;
+}
+
+/* Light and dark mode toggle in the header (theme.js) */
+.site-nav {
+  margin-left: auto;
+}
+
+button.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--on-band-muted);
+  font-weight: 400;
+}
+
+button.theme-toggle[hidden] {
+  display: none;
+}
+
+button.theme-toggle:hover {
+  filter: none;
+  color: var(--on-band);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.theme-toggle svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The icon shows the mode the button switches to. */
+.theme-toggle .icon-sun,
+.theme-toggle.is-dark .icon-moon {
+  display: none;
+}
+
+.theme-toggle.is-dark .icon-sun {
+  display: inline;
 }

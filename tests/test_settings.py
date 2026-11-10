@@ -79,3 +79,22 @@ def test_problem_kind_and_hidden_sites():
     assert not is_hidden("https://example.com/x", ["Stack"], advanced, {("leetcode", "core")})
     assert not is_hidden(None, ["Stack"], advanced, hidden)
     assert not is_hidden("https://cses.fi/problemset/task/1068", ["Stack"], advanced, set())
+
+
+def test_every_page_offers_the_light_and_dark_toggle(client):
+    for path in ("/", "/log", "/history", "/sync", "/profile", "/settings"):
+        page = client.get(path).get_data(as_text=True)
+        assert 'id="theme-toggle"' in page and "js/theme.js" in page
+        # The saved choice is applied before the stylesheet loads, so the page never flashes.
+        assert page.index('localStorage.getItem("codecompass-theme")') < page.index("css/app.css")
+
+
+def test_dark_tokens_match_for_the_system_setting_and_the_toggle():
+    import re
+    from pathlib import Path
+
+    css = (Path(__file__).parent.parent / "codecompass" / "static" / "css" / "app.css").read_text(encoding="utf-8")
+    media = css.split('  :root:not([data-theme="light"]) {', 1)[1].split("}", 1)[0]
+    chosen = css.split(':root[data-theme="dark"] {', 1)[1].split("}", 1)[0]
+    tokens = lambda block: re.findall(r"(--[\w-]+|color-scheme):\s*([^;]+);", block)
+    assert tokens(media) and tokens(media) == tokens(chosen)
