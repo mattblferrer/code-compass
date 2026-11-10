@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
   </head>
   <body>
-    {% set nav = [("main.dashboard", "Dashboard"), ("main.log_attempt", "Log"), ("main.history", "History"), ("main.settings", "Settings")] %}
+    {% set nav = [("main.dashboard", "Dashboard"), ("main.log_attempt", "Log"), ("main.history", "History"), ("main.interviews", "Interviews"), ("main.settings", "Settings")] %}
     <header class="site-header">
       <a class="wordmark" href="{{ url_for('main.dashboard') }}">CodeCompass</a>
       <nav class="site-nav" aria-label="Main">
@@ -27,6 +27,14 @@
                 <form method="post" action="{{ url_for('main.undo_not_now') }}" class="inline" data-swap="#today, #next-panel, #messages">
                   <input type="hidden" name="not_now_id" value="{{ parts[1] }}">
                   <input type="hidden" name="suggestion_id" value="{{ parts[2] }}">
+                  <button type="submit" class="undo">Undo</button>
+                </form>
+              </div>
+            {% elif category.startswith("undo-delete:") %}
+              {# Like every message, it floats at the bottom and fades after a few seconds (app.css). #}
+              <div class="flash has-action">
+                <span>{{ message }}</span>
+                <form method="post" action="{{ url_for('main.undo_delete', item_id=category.split(':')[1]|int) }}" class="inline">
                   <button type="submit" class="undo">Undo</button>
                 </form>
               </div>

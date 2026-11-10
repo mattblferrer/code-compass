@@ -128,6 +128,17 @@ The two columns together are the primary key. An interview with no rows here has
 | `problem_id` | Integer | References `problems` |
 | `date` | Text | Every use is kept |
 
+### `deleted_items` (R-07, R-15)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `id` | Integer | Primary key |
+| `kind` | Text | `attempt` or `interview` |
+| `payload` | Text | The deleted row as JSON; an interview's includes its pattern names |
+| `date` | Text | The date it was deleted |
+
+A deleted attempt or interview is kept here so Undo can put it back, under its old id when that id is still free. A row is removed when it is restored, and rows older than one day are removed at the next deletion.
+
 ### `hint_reveals` (R-27)
 
 | Column | Type | Notes |

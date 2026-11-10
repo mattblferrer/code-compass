@@ -164,3 +164,30 @@ def validate_settings(data, pattern_names, sites, kinds):
         "hidden": hidden,
     }
     return values, errors
+
+
+def validate_interview(data, patterns, pattern_names):
+    """Check an upcoming interview (R-15).
+
+    `data` has "company", "date", and optional "target_difficulty"; `patterns`
+    is the list of chosen pattern names. Company and date are required. A past
+    date is allowed: the interview is kept but ignored, as docs/rules.md says.
+    Returns (values, errors).
+    """
+    errors = {}
+    company = _text(data, "company")
+    if not company:
+        errors["company"] = "Enter the company name."
+    day = _text(data, "date")
+    try:
+        if date.fromisoformat(day).isoformat() != day:
+            raise ValueError
+    except ValueError:
+        errors["date"] = MESSAGES["date_format"]
+    difficulty = _text(data, "target_difficulty")
+    if difficulty and difficulty not in c.LEVELS:
+        errors["target_difficulty"] = "Choose a difficulty, or leave it as any."
+    chosen = [p for p in patterns if p in pattern_names]
+    values = {"company": company, "date": day, "target_difficulty": difficulty or None,
+              "patterns": [name for name in pattern_names if name in chosen]}
+    return values, errors

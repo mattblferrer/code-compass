@@ -214,6 +214,8 @@ main {
 }
 
 .flash {
+  /* The container lets clicks through to the page; each message itself takes them, so Undo works. */
+  pointer-events: auto;
   margin: 0;
   padding: 0.6rem 1.1rem;
   border-radius: var(--radius);
@@ -1300,4 +1302,27 @@ table.sites label {
   align-items: center;
   margin: 0;
   font-weight: 400;
+}
+
+/* Interviews (R-15) */
+table.interviews td.actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  white-space: nowrap;
+}
+
+table.interviews tr[aria-current="true"] {
+  background: var(--surface-2, transparent);
+}
+
+/* Five main links: let them wrap rather than scroll on a phone (R-23). */
+.site-nav {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 30rem) {
+  .site-nav a {
+    padding: 0.35rem 0.5rem;
+  }
 }

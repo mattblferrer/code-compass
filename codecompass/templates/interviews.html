@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Interviews - CodeCompass{% endblock %}
+{% macro error(field) %}
+  {% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}
+{% endmacro %}
+{% macro pattern_box(p) %}
+  <label><input type="checkbox" name="patterns" value="{{ p['name'] }}" {% if p['name'] in chosen %}checked{% endif %}>{{ p['name'] }}</label>
+{% endmacro %}
+{% block content %}
+  <h1>Interviews</h1>
+  <p>When your nearest interview is within {{ window }} days, recommendations focus on it: its patterns, or else your 2 weakest patterns, and its target difficulty. Interviews on the same date are combined. Past interviews are kept but no longer count.</p>
+
+  {% if interviews %}
+    <div class="table-wrap">
+      <table class="interviews">
+        <thead>
+          <tr><th scope="col">Company</th><th scope="col">Date</th><th scope="col">Difficulty</th><th scope="col">Patterns</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr>
+        </thead>
+        <tbody>
+          {% for i in interviews %}
+            <tr {% if editing and editing['id'] == i['id'] %}aria-current="true"{% endif %}>
+              <th scope="row">{{ i['company'] }}</th>
+              <td>
+                {{ i['date'] }}
+                {% if i['date'] == focus_date %}<span class="tag">In focus</span>
+                {% elif i['date'] < today %}<span class="tag">Past</span>{% endif %}
+              </td>
+              <td>{{ (i['target_difficulty'] or 'any')|capitalize }}</td>
+              <td>{{ i['patterns']|join(', ') if i['patterns'] else 'Any' }}</td>
+              <td class="actions">
+                <a href="{{ url_for('main.edit_interview', interview_id=i['id']) }}">Edit</a>
+                <form method="post" action="{{ url_for('main.delete_interview', interview_id=i['id']) }}" class="inline">
+                  <button type="submit" class="text">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="empty">No interviews yet.</p>
+  {% endif %}
+
+  <h2>{% if editing %}Edit the interview with {{ editing['company'] }}{% else %}Add an interview{% endif %}</h2>
+  <form method="post" class="sheet" novalidate
+        action="{{ url_for('main.edit_interview', interview_id=editing['id']) if editing else url_for('main.interviews') }}">
+    <label>
+      Company
+      <input name="company" value="{{ form.get('company', '') }}" {% if errors.get('company') %}aria-invalid="true" aria-describedby="company-error"{% endif %}>
+      {{ error("company") }}
+    </label>
+    <label>
+      Date
+      <input name="date" type="date" value="{{ form.get('date', '') }}" {% if errors.get('date') %}aria-invalid="true" aria-describedby="date-error"{% endif %}>
+      {{ error("date") }}
+    </label>
+    <label>
+      Target difficulty (optional)
+      <select name="target_difficulty" {% if errors.get('target_difficulty') %}aria-invalid="true" aria-describedby="target_difficulty-error"{% endif %}>
+        <option value="">Any</option>
+        {% for level in levels %}
+          <option value="{{ level }}" {% if form.get('target_difficulty') == level %}selected{% endif %}>{{ level|capitalize }}</option>
+        {% endfor %}
+      </select>
+      <small>Replaces your current level for new problems while this interview is in focus.</small>
+      {{ error("target_difficulty") }}
+    </label>
+    <fieldset>
+      <legend>Patterns (optional)</legend>
+      <small>Patterns this company is known to ask. With none, the focus uses your 2 weakest patterns.</small>
+      <div class="pattern-grid">
+        {% for p in patterns if p['category'] == 'core' %}{{ pattern_box(p) }}{% endfor %}
+      </div>
+      <details {% if patterns|selectattr('category', 'equalto', 'advanced')|selectattr('name', 'in', chosen)|list %}open{% endif %}>
+        <summary>Advanced patterns</summary>
+        <div class="pattern-grid">
+          {% for p in patterns if p['category'] == 'advanced' %}{{ pattern_box(p) }}{% endfor %}
+        </div>
+      </details>
+    </fieldset>
+    <button type="submit">{% if editing %}Save changes{% else %}Add interview{% endif %}</button>
+    {% if editing %}<a href="{{ url_for('main.interviews') }}">Cancel</a>{% endif %}
+  </form>
+{% endblock %}

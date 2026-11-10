@@ -54,3 +54,6 @@ LEVEL_STEP_COUNT = 3
 # Difficulty levels from site ratings (R-01): (lowest rating, level), highest first.
 CODEFORCES_LEVEL_FLOORS = ((2100, "very hard"), (1600, "hard"), (1200, "medium"))
 ATCODER_LEVEL_FLOORS = ((2000, "very hard"), (1200, "hard"), (400, "medium"))
+
+# How long a deleted attempt or interview can be restored with Undo, in days.
+UNDO_DAYS = 1

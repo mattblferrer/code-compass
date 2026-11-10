@@ -4,6 +4,7 @@ from flask import Blueprint, Response, abort, flash, jsonify, redirect, render_t
 
 from . import picker, queries
 from .core.problem_refs import ID_HINTS, SITES
+from .core.recommend import active_interview
 from .core.reviews import ics
 from .core.sites import FILTER_SITES, KINDS
 from .state import DEFAULT_SETTINGS, Snapshot
@@ -13,6 +14,7 @@ from .core.validation import (
     OUTCOME_LABELS,
     format_minutes,
     validate_attempt,
+    validate_interview,
     validate_problem,
     validate_settings,
 )
@@ -267,8 +269,9 @@ def edit_attempt(attempt_id):
 def delete_attempt(attempt_id):
     conn = get_db()
     attempt = queries.get_attempt(conn, attempt_id) or abort(404)
-    queries.delete_attempt(conn, attempt_id)
-    flash("Attempt deleted.")
+    item_id = queries.delete_attempt(conn, attempt_id, today())
+    # The category carries what Undo needs; base.html shows it as a toast.
+    flash("Attempt deleted.", f"undo-delete:{item_id}")
     return redirect(url_for("main.problem", problem_id=attempt["problem_id"]))
 
 
@@ -342,3 +345,77 @@ def settings():
         "settings.html", current=current, errors=errors, patterns=patterns, levels=c.LEVELS,
         sites=[(site, SITES[site]) for site in FILTER_SITES], kinds=KINDS,
     ), status
+
+
+def interview_page(conn, form, chosen, errors, editing=None, status=200):
+    """The interviews page: the list, with the one in focus marked, and the add or edit form (R-15)."""
+    rows = queries.interviews(conn)
+    focus = active_interview(
+        [{"company": r["company"], "date": r["date"], "patterns": r["patterns"], "difficulty": r["target_difficulty"]}
+         for r in rows],
+        today(),
+    )
+    return render_template(
+        "interviews.html", interviews=rows, focus_date=focus["date"] if focus else None, today=today(),
+        window=c.FOCUS_WINDOW_DAYS, form=form, chosen=chosen, errors=errors, editing=editing,
+        patterns=queries.patterns(conn), levels=c.LEVELS,
+    ), status
+
+
+def checked_interview(conn):
+    names = [p["name"] for p in queries.patterns(conn)]
+    return validate_interview(request.form, request.form.getlist("patterns"), names)
+
+
+@bp.route("/interviews", methods=["GET", "POST"])
+def interviews():
+    conn = get_db()
+    if request.method == "GET":
+        return interview_page(conn, {}, [], {})
+    values, errors = checked_interview(conn)
+    if errors:
+        return interview_page(conn, request.form.to_dict(), request.form.getlist("patterns"), errors, status=400)
+    queries.save_interview(conn, values)
+    flash(f"Interview with {values['company']} added.")
+    return redirect(url_for("main.interviews"))
+
+
+@bp.route("/interviews/<int:interview_id>/edit", methods=["GET", "POST"])
+def edit_interview(interview_id):
+    conn = get_db()
+    interview = queries.get_interview(conn, interview_id) or abort(404)
+    if request.method == "GET":
+        form = {"company": interview["company"], "date": interview["date"],
+                "target_difficulty": interview["target_difficulty"] or ""}
+        return interview_page(conn, form, interview["patterns"], {}, editing=interview)
+    values, errors = checked_interview(conn)
+    if errors:
+        return interview_page(conn, request.form.to_dict(), request.form.getlist("patterns"), errors,
+                              editing=interview, status=400)
+    queries.save_interview(conn, values, interview_id)
+    flash(f"Interview with {values['company']} updated.")
+    return redirect(url_for("main.interviews"))
+
+
+@bp.post("/interviews/<int:interview_id>/delete")
+def delete_interview(interview_id):
+    conn = get_db()
+    interview = queries.get_interview(conn, interview_id) or abort(404)
+    item_id = queries.delete_interview(conn, interview_id, today())
+    flash(f"Interview with {interview['company']} deleted.", f"undo-delete:{item_id}")
+    return redirect(url_for("main.interviews"))
+
+
+@bp.post("/undo/<int:item_id>")
+def undo_delete(item_id):
+    """Restore a deleted attempt or interview (R-07, R-15)."""
+    restored = queries.restore_deleted(get_db(), item_id)
+    if restored is None:
+        flash("That can no longer be undone.")
+        return redirect(url_for("main.dashboard"))
+    kind, row = restored
+    if kind == "attempt":
+        flash("Attempt restored.")
+        return redirect(url_for("main.problem", problem_id=row["problem_id"]))
+    flash(f"Interview with {row['company']} restored.")
+    return redirect(url_for("main.interviews"))

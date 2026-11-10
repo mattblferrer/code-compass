@@ -70,7 +70,7 @@
         {% if due_count %}<a href="{{ url_for('main.reviews_calendar') }}">Add review dates to your calendar (.ics)</a>{% endif %}
       </p>
       {% if interview %}
-        <p class="focus-note">Focused on your interview with {{ interview['companies']|join(" and ") }} on {{ interview['date'] }}.</p>
+        <p class="focus-note">Focused on your <a href="{{ url_for('main.interviews') }}">interview</a> with {{ interview['companies']|join(" and ") }} on {{ interview['date'] }}.</p>
       {% endif %}
     </div>
     {% if first %}

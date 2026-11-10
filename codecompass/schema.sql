@@ -128,3 +128,11 @@ CREATE TABLE IF NOT EXISTS rating_history (
     rating INTEGER NOT NULL,
     PRIMARY KEY (site, username, contest)
 );
+
+-- Recently deleted attempts and interviews, kept so a deletion can be undone (R-07, R-15).
+CREATE TABLE IF NOT EXISTS deleted_items (
+    id INTEGER PRIMARY KEY,
+    kind TEXT NOT NULL CHECK (kind IN ('attempt', 'interview')),
+    payload TEXT NOT NULL,
+    date TEXT NOT NULL
+);
