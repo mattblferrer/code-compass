@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Profile - CodeCompass{% endblock %}
+{% block content %}
+  <h1>Profile</h1>
+  <p class="lede">Contest ratings from your linked accounts, as of each one's last sync. They are shown here only: they never affect scores, review dates, or recommendations, and each site uses its own scale.</p>
+
+  {% if not histories %}
+    <p class="empty">No account is linked. <a href="{{ url_for('main.settings') }}#accounts">Link a Codeforces, AtCoder, or LeetCode username in settings</a>, then sync to see your ratings here.</p>
+  {% endif %}
+
+  {% for h in histories %}
+    <section class="rating-site" aria-labelledby="rating-{{ h.site }}">
+      <h2 id="rating-{{ h.site }}">{{ h.label }} <a class="handle" href="{{ h.url }}" rel="noreferrer" target="_blank">{{ h.username }}</a></h2>
+      {% if h.rows %}
+        <dl class="rating-summary">
+          <div><dt>Current</dt><dd>{{ h.current }}</dd></div>
+          <div><dt>Best</dt><dd>{{ h.best }}</dd></div>
+          <div><dt>Rated contests</dt><dd>{{ h.rows|length }}</dd></div>
+        </dl>
+      {% endif %}
+      <p class="synced">{% if h.synced %}Last synced {{ h.synced }}.{% else %}Not synced yet.{% endif %} <a href="{{ url_for('main.sync_page') }}">Sync</a></p>
+      {% if h.site == 'leetcode' %}<p class="notice" role="note">{{ leetcode_notice }}</p>{% endif %}
+
+      {% if h.rows %}
+        {% set chart = h.chart %}
+        {% if chart %}
+          {# Without JavaScript this shows the whole history; js/rating_chart.js adds zooming and hover details. #}
+          <figure class="history rating-chart" data-points='{{ h.rows|tojson }}' data-label="{{ h.label }} rating">
+            <svg viewBox="0 0 {{ chart['width'] }} {{ chart['height'] }}" role="img"
+                 aria-label="{{ h.label }} rating from {{ chart['first'] }} to {{ chart['last'] }}, ending at {{ chart['dots'][-1]['rating'] }}">
+              {% for g in chart['guides'] %}
+                <line class="guide" x1="{{ chart['left'] }}" x2="{{ chart['right'] }}" y1="{{ g['y'] }}" y2="{{ g['y'] }}"></line>
+                <text class="guide-label" x="{{ chart['left'] - 6 }}" y="{{ g['y'] + 4 }}" text-anchor="end">{{ g['value'] }}</text>
+              {% endfor %}
+              {% for t in chart['ticks'] %}
+                <line class="tick" x1="{{ t['x'] }}" x2="{{ t['x'] }}" y1="{{ chart['axis'] }}" y2="{{ chart['axis'] + 5 }}"></line>
+                <text class="tick-label" x="{{ t['x'] }}" y="{{ chart['axis'] + 18 }}" text-anchor="middle">{{ t['label'] }}</text>
+              {% endfor %}
+              <polyline class="line" points="{{ chart['line'] }}"></polyline>
+              {% for d in chart['dots'] %}
+                <circle class="dot" cx="{{ d['x'] }}" cy="{{ d['y'] }}" r="3"><title>{{ d['contest'] }}, {{ d['date'] }}: {{ d['change'] }}</title></circle>
+              {% endfor %}
+            </svg>
+            <figcaption>
+              <span>{{ chart['first'] }} to {{ chart['last'] }}, {{ h.rows|length }} rated contests</span>
+            </figcaption>
+          </figure>
+        {% endif %}
+
+        <h3>Contest history</h3>
+        <div class="table-wrap contest-history">
+          <table class="ratings">
+            <thead><tr><th scope="col">Date</th><th scope="col">Contest</th><th scope="col" class="number">Rating</th><th scope="col" class="number">Change</th></tr></thead>
+            <tbody>
+              {% for r in h.rows|reverse %}
+                <tr>
+                  <td>{{ r['date'] }}</td>
+                  <td>{{ r['contest'] }}</td>
+                  <td class="number">{{ r['rating'] }}</td>
+                  <td class="number delta {{ 'up' if r['change'] and r['change'] > 0 else ('down' if r['change'] and r['change'] < 0 else '') }}">{{ r['change']|signed }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% elif h.synced %}
+        <p class="empty">{{ h.username }} has no rated contests on {{ h.label }}.</p>
+      {% else %}
+        <p class="empty">Press Sync now on the <a href="{{ url_for('main.sync_page') }}">sync page</a> to fetch the rating history.</p>
+      {% endif %}
+    </section>
+  {% endfor %}
+{% endblock %}
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/rating_chart.js') }}"></script>
+{% endblock %}

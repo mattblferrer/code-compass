@@ -1347,3 +1347,275 @@ form.lookup {
 .lookup-status {
   margin: 0.75rem 0 0;
 }
+
+/* Sync (R-33, R-34) */
+.notice {
+  max-width: 44rem;
+  padding: 0.6rem 0.8rem;
+  border-left: 3px solid var(--due);
+  background: var(--due-soft);
+  color: var(--text);
+  font-size: var(--step--1);
+}
+
+label > small.notice {
+  margin-top: 0.4rem;
+  font-weight: 400;
+}
+
+form.accounts {
+  margin-top: 1.5rem;
+}
+
+.sync-accounts ul {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.sync-accounts small {
+  display: block;
+  color: var(--muted);
+}
+
+.sync-items {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.sync-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.sync-head {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.sync-head .meta,
+.sync-head small {
+  display: block;
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.meta {
+  color: var(--muted);
+}
+
+.sync-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 0.5rem;
+}
+
+.sync-outcomes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 0.5rem;
+}
+
+details.external-help > summary {
+  list-style: none;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+}
+
+details.external-help > summary::-webkit-details-marker {
+  display: none;
+}
+
+details.external-help[open] > summary {
+  border-color: var(--data);
+}
+
+details.external-help > div {
+  display: grid;
+  gap: 0.25rem;
+  max-width: 20rem;
+  margin-top: 0.5rem;
+}
+
+details.external-help small {
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+
+.rating-site {
+  margin-bottom: 2rem;
+}
+
+.rating-site h3 small {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+table.ratings td.number {
+  font-family: var(--font-number);
+}
+
+/* Rating chart: time axis ticks and zoom controls (R-34) */
+.history .tick {
+  stroke: var(--muted);
+  stroke-width: 1;
+}
+
+.history .tick-label {
+  fill: var(--muted);
+  font-size: 11px;
+  font-family: var(--font-number);
+}
+
+.chart-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.chart-controls button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.chart-hint {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+
+.rating-chart.zoomable svg {
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.rating-chart.zoomable svg.dragging {
+  cursor: grabbing;
+}
+
+/* Profile: rating summary, contest history, and chart details (R-34) */
+.lede {
+  max-width: 44rem;
+  color: var(--muted);
+}
+
+.rating-site h2 .handle {
+  font-size: var(--step-0);
+  font-weight: 400;
+  margin-left: 0.4rem;
+}
+
+.rating-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  margin: 0 0 0.5rem;
+}
+
+.rating-summary dt {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.rating-summary dd {
+  margin: 0;
+  font-family: var(--font-number);
+  font-size: var(--step-2);
+  font-weight: 600;
+}
+
+.rating-site .synced {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.contest-history {
+  max-height: 26rem;
+  overflow-y: auto;
+}
+
+.contest-history thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+}
+
+table.ratings .number {
+  text-align: right;
+  font-family: var(--font-number);
+}
+
+.delta.up,
+.tip-change.up {
+  color: var(--up);
+}
+
+.delta.down,
+.tip-change.down {
+  color: var(--due);
+}
+
+figure.rating-chart {
+  position: relative;
+}
+
+.rating-chart svg:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.history .dot.focus {
+  fill: var(--data);
+  stroke: var(--surface);
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.chart-tip {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  gap: 0.1rem;
+  max-width: 16rem;
+  padding: 0.45rem 0.65rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  font-size: var(--step--1);
+  pointer-events: none;
+}
+
+.chart-tip[hidden] {
+  display: none;
+}
+
+.chart-tip span:nth-child(2) {
+  color: var(--muted);
+}
+
+.tip-change {
+  font-family: var(--font-number);
+  font-weight: 600;
+}

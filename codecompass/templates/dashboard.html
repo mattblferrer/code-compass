@@ -69,6 +69,9 @@
         <span><strong>{{ scored|length }}</strong> of {{ patterns|length }} patterns scored</span>
         {% if due_count %}<a href="{{ url_for('main.reviews_calendar') }}">Add review dates to your calendar (.ics)</a>{% endif %}
       </p>
+      {% if sync_pending %}
+        <p class="focus-note"><a href="{{ url_for('main.sync_page') }}">{{ sync_pending }} synced {{ "submission" if sync_pending == 1 else "submissions" }}</a> {{ "waits" if sync_pending == 1 else "wait" }} for an outcome.</p>
+      {% endif %}
       {% if interview %}
         <p class="focus-note">Focused on your <a href="{{ url_for('main.interviews') }}">interview</a> with {{ interview['companies']|join(" and ") }} on {{ interview['date'] }}.</p>
       {% endif %}

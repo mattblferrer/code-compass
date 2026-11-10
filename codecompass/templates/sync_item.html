@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Confirm a synced submission - CodeCompass{% endblock %}
+{% macro error(field) %}
+  {% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}
+{% endmacro %}
+{% macro pattern_box(p) %}
+  <label><input type="checkbox" name="patterns" value="{{ p['name'] }}" {% if p['name'] in chosen %}checked{% endif %}>{{ p['name'] }}</label>
+{% endmacro %}
+{% block content %}
+  <h1>Confirm a synced submission</h1>
+  <p>
+    <a href="{{ item['problem_link'] }}" rel="noreferrer" target="_blank"><strong>{{ item['title'] }}</strong></a>
+    <span class="meta">{{ sites[item['site']] }} · {{ item['date'] }} · {{ "Accepted" if item['accepted'] else "No accepted submission" }}</span>
+  </p>
+  {% if item['site'] == 'leetcode' %}<p class="notice" role="note">{{ leetcode_notice }}</p>{% endif %}
+
+  <form method="post" class="sheet" novalidate>
+    {% if details %}
+      <input type="hidden" name="details" value="1">
+      <p class="small">This problem is new to CodeCompass, so it is added as a custom problem when you confirm.
+        {% if item['rating'] is not none %}Its rating on {{ sites[item['site']] }} is {{ item['rating'] }}.{% endif %}</p>
+      <label>
+        Difficulty
+        <select name="difficulty" {% if errors.get('difficulty') %}aria-invalid="true" aria-describedby="difficulty-error"{% endif %}>
+          <option value="">Choose one</option>
+          {% for level in levels %}
+            <option value="{{ level }}" {% if form.get('difficulty') == level %}selected{% endif %}>{{ level|capitalize }}</option>
+          {% endfor %}
+        </select>
+        {{ error("difficulty") }}
+      </label>
+      <fieldset>
+        <legend>Patterns</legend>
+        {% if item['tags'] %}<small>Tags on {{ sites[item['site']] }}: {{ item['tags']|join(", ") }}</small>{% endif %}
+        <div class="pattern-grid">
+          {% for p in patterns if p['category'] == 'core' %}{{ pattern_box(p) }}{% endfor %}
+        </div>
+        <details {% if patterns|selectattr('category', 'equalto', 'advanced')|selectattr('name', 'in', chosen)|list %}open{% endif %}>
+          <summary>Advanced patterns</summary>
+          <div class="pattern-grid">
+            {% for p in patterns if p['category'] == 'advanced' %}{{ pattern_box(p) }}{% endfor %}
+          </div>
+        </details>
+        {{ error("patterns") }}
+      </fieldset>
+    {% endif %}
+
+    <fieldset>
+      <legend>Outcome</legend>
+      {% if hint %}<small>You revealed a hint for this problem, so it cannot count as solved alone.</small>{% endif %}
+      {% for outcome in choices if not (hint and outcome == 'solved_alone') %}
+        <label class="choice">
+          <input type="radio" name="outcome" value="{{ outcome }}" {% if form.get('outcome') == outcome %}checked{% endif %}>
+          <span>{{ outcome_labels[outcome] }}<small>{{ outcome_definitions[outcome] }}</small></span>
+        </label>
+      {% endfor %}
+      {{ error("outcome") }}
+      {{ error("date") }}
+    </fieldset>
+    <button type="submit">Save attempt</button>
+    <a class="button quiet" href="{{ url_for('main.sync_page') }}">Back to sync</a>
+  </form>
+{% endblock %}

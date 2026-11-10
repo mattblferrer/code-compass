@@ -3,6 +3,7 @@
 The logging form and CSV import share these functions (R-05, R-20). Each
 returns (values, errors), where errors maps a field name to a message.
 """
+import re
 from datetime import date
 
 from . import constants as c
@@ -203,4 +204,23 @@ def validate_interview(data, patterns, pattern_names):
     chosen = [p for p in patterns if p in pattern_names]
     values = {"company": company, "date": day, "target_difficulty": difficulty or None,
               "patterns": [name for name in pattern_names if name in chosen]}
+    return values, errors
+
+
+# Usernames are sent to the site in a request, so only the characters the sites allow are accepted.
+_USERNAME = re.compile(r"^[A-Za-z0-9_.\-]{1,40}$")
+
+
+def validate_accounts(data, sites):
+    """Check the linked-account usernames (R-33). A blank field unlinks that site.
+
+    Only a public username is asked for, never a password or cookie (R-03).
+    Returns (values, errors), where values maps each site to a username or None.
+    """
+    errors, values = {}, {}
+    for site in sites:
+        name = _text(data, f"username:{site}")
+        if name and not _USERNAME.match(name):
+            errors[site] = "Enter the public username as it appears on the site: letters, digits, _, . or -."
+        values[site] = name or None
     return values, errors

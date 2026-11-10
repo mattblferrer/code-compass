@@ -431,3 +431,32 @@ The interview in focus is the nearest one dated from today to 14 days ahead. Int
 - **Target difficulty:** it replaces the current difficulty level for new problems, still allowing one level either way. If it is very hard, very hard problems are allowed while that interview is in focus.
 
 Interviews never change a score. Because only 2 patterns supply new problems, the list can have fewer than 5 problems when those patterns run out.
+
+## Sync and lookup sources (R-03, R-33, R-34, R-35)
+
+CodeCompass contacts only these sources, and only when the user starts a sync or a lookup. All requests are in `codecompass/remote.py`. They are plain requests with an honest User-Agent, with no logins, passwords, or cookies, and a username is the public one shown on the site.
+
+| Site | Source | What is read | Used by |
+| --- | --- | --- | --- |
+| Codeforces | `https://codeforces.com/api/user.status` (official API) | The user's submissions, newest first, 200 per request until the sync's start time is reached | Sync |
+| Codeforces | `https://codeforces.com/api/user.rating` (official API) | Rating after each rated contest | Sync |
+| Codeforces | `https://codeforces.com/api/problemset.problems` (official API) | Problem title, rating, and tags | Lookup |
+| AtCoder | `https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions` (AtCoder Problems, unofficial) | The user's submissions from the sync's start time, 500 per request | Sync |
+| AtCoder | `https://kenkoooo.com/atcoder/resources/problems.json` (AtCoder Problems) | Problem titles, only when a synced problem is not in CodeCompass | Sync |
+| AtCoder | `https://kenkoooo.com/atcoder/resources/problem-models.json` (AtCoder Problems) | Difficulty estimates, only for a problem not in CodeCompass | Sync, lookup |
+| AtCoder | `https://atcoder.jp/users/{username}/history/json` | Rating after each contest; unrated contests are skipped | Sync |
+| AtCoder | `https://atcoder.jp/contests/{contest}/tasks/{task}` | The task page's title | Lookup |
+| LeetCode | `https://leetcode.com/graphql` (undocumented), one request per sync | `recentAcSubmissionList` (the last 20 accepted submissions) and `userContestRankingHistory` (attended contests) | Sync |
+
+**Limits.** Requests to one host are spaced by its published limit: 2 seconds for the Codeforces API (one call per 2 seconds) and 1.1 seconds for AtCoder Problems (which asks for more than 1 second). AtCoder and LeetCode publish no limit, so requests to them are spaced by 1 and 2 seconds. A refused request (HTTP 401, 403, or 429, or Codeforces' "call limit exceeded") is never retried: that site's sync or the lookup stops and says so, and nothing from it is saved.
+
+**Unknown usernames.** Codeforces reports a username that does not exist. AtCoder and LeetCode return empty results for one, the same as a user with no activity, so a mistyped username there shows no new submissions and no rated contests.
+
+### Sync items (R-33)
+
+- **First sync:** submissions from the last 30 days. A changed username starts with a first sync again.
+- **Later syncs:** submissions since the previous sync, less 24 hours, so submissions a source records late are still found. An item already listed, confirmed, or dismissed is never listed again.
+- **One item per problem per day,** by the user's local date. It counts as accepted if any submission that day was accepted.
+- **Failed tries before a solve:** a day with no accepted submission is dropped when the problem was accepted on a later day, so the failed tries and the solve are one item, dated the day of the solve. This also removes such an item still waiting for an outcome when a later sync finds the solve; one already confirmed or dismissed stays as it is.
+- **Separate solves:** accepted submissions on different days are separate items. A day with no accepted submission after the last solve is still listed, and offers "not solved."
+- **Skipped:** Codeforces gym contests, which are not in the problem set.

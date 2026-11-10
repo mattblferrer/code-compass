@@ -99,4 +99,24 @@
 
     <button type="submit">Save settings</button>
   </form>
+
+  {# R-33: only a public username per site. No password or cookie is ever asked for (R-03). #}
+  <form method="post" action="{{ url_for('main.link_accounts') }}" class="sheet settings accounts" id="accounts" novalidate>
+    <fieldset>
+      <legend>Linked accounts</legend>
+      <p class="small">Link a public username to sync your submissions and contest ratings. CodeCompass contacts a site only when you press Sync now on the <a href="{{ url_for('main.sync_page') }}">sync page</a>. Leave a field blank to unlink that site.</p>
+      {% for site, label in sync_sites %}
+        {% set described = (['leetcode-notice'] if site == 'leetcode' else []) + (['username-' ~ site ~ '-error'] if account_errors.get(site) else []) %}
+        <label>
+          {{ label }} username
+          <input name="username:{{ site }}" value="{{ usernames.get(site) or '' }}" autocomplete="off" spellcheck="false"
+                 {% if account_errors.get(site) %}aria-invalid="true"{% endif %}
+                 {% if described %}aria-describedby="{{ described|join(' ') }}"{% endif %}>
+          {% if site == 'leetcode' %}<small class="notice" id="leetcode-notice">{{ leetcode_notice }} The sync reads only the recent accepted submissions LeetCode shows (about 20).</small>{% endif %}
+          {% if account_errors.get(site) %}<small class="field-error" id="username-{{ site }}-error">{{ account_errors[site] }}</small>{% endif %}
+        </label>
+      {% endfor %}
+    </fieldset>
+    <button type="submit">Save linked accounts</button>
+  </form>
 {% endblock %}

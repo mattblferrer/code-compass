@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Sync - CodeCompass{% endblock %}
+{% block content %}
+  {% set leetcode_shown = accounts|selectattr(0, 'equalto', 'leetcode')|list or items|selectattr('site', 'equalto', 'leetcode')|list %}
+  <h1>Sync</h1>
+
+  {% if accounts %}
+    <section class="sync-accounts" aria-label="Linked accounts">
+      <ul>
+        {% for site, label, account in accounts %}
+          <li>
+            <strong>{{ label }}</strong> {{ account['username'] }}
+            <small>{% if last_synced[site] %}Last synced {{ last_synced[site] }}{% else %}Not synced yet{% endif %}</small>
+          </li>
+        {% endfor %}
+      </ul>
+      <form method="post" action="{{ url_for('main.run_sync') }}">
+        <button type="submit">Sync now</button>
+      </form>
+      <p class="small">Fetches submissions since the last sync (the last 30 days on a first sync) and the rating history. Nothing becomes an attempt until you choose an outcome. Ratings are on your <a href="{{ url_for('main.profile') }}">profile</a>. <a href="{{ url_for('main.settings') }}#accounts">Change usernames</a></p>
+    </section>
+  {% else %}
+    <p class="empty">No account is linked. <a href="{{ url_for('main.settings') }}#accounts">Link a Codeforces, AtCoder, or LeetCode username in settings</a> to sync your submissions and ratings.</p>
+  {% endif %}
+
+  {% if leetcode_shown %}
+    <p class="notice" role="note">{{ leetcode_notice }}</p>
+  {% endif %}
+
+  <h2>Waiting for an outcome</h2>
+  {% if items %}
+    <p class="small">Sites show that you submitted, not how much help you had. Choose what happened for each one; "Had external help" covers hints, AI chat, discussion posts, or a full solution.</p>
+    <ul class="sync-items">
+      {% for item in items %}
+        {% set missing = item.details and (not item.details.difficulty or not item.details.patterns) %}
+        <li class="sync-item">
+          <div class="sync-head">
+            <a href="{{ item['problem_link'] }}" rel="noreferrer" target="_blank"><strong>{{ item['title'] }}</strong></a>
+            <span class="meta">{{ sites[item['site']] }} · {{ item['date'] }} · {{ "Accepted" if item['accepted'] else "No accepted submission" }}</span>
+            {% if item.details %}
+              <small>
+                New to CodeCompass, so it is added as a custom problem when you confirm.
+                {% if not missing %}
+                  {{ item.details.difficulty|capitalize }}; {{ item.details.patterns|join(", ") }}.
+                  <a href="{{ url_for('main.sync_item', item_id=item['id']) }}">Change</a>
+                {% endif %}
+              </small>
+            {% endif %}
+            {% if item.hint %}<small>You revealed a hint for this problem, so it cannot count as solved alone.</small>{% endif %}
+          </div>
+          <div class="sync-actions">
+            {% if missing %}
+              <a class="button" href="{{ url_for('main.sync_item', item_id=item['id']) }}">Choose the {{ "level and patterns" if not item.details.difficulty and not item.details.patterns else ("level" if not item.details.difficulty else "patterns") }}</a>
+            {% else %}
+              <form method="post" action="{{ url_for('main.sync_item', item_id=item['id']) }}" class="sync-outcomes">
+                {% if not item.hint %}
+                  <button type="submit" name="outcome" value="solved_alone" title="{{ outcome_definitions['solved_alone'] }}">Solved alone</button>
+                {% endif %}
+                <details class="external-help">
+                  <summary>Had external help</summary>
+                  <div>
+                    {% for outcome in ('solved_with_hints', 'solved_after_solution') %}
+                      <button type="submit" name="outcome" value="{{ outcome }}" class="quiet">{{ outcome_labels[outcome] }}</button>
+                      <small>{{ outcome_definitions[outcome] }}</small>
+                    {% endfor %}
+                  </div>
+                </details>
+                {% if 'not_solved' in item.choices %}
+                  <button type="submit" name="outcome" value="not_solved" class="quiet" title="{{ outcome_definitions['not_solved'] }}">Not solved</button>
+                {% endif %}
+              </form>
+            {% endif %}
+            <form method="post" action="{{ url_for('main.dismiss_sync_item', item_id=item['id']) }}" class="inline">
+              <button type="submit" class="text">Dismiss</button>
+            </form>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty">Nothing is waiting. {% if accounts %}Press Sync now to check for new submissions.{% endif %}</p>
+  {% endif %}
+
+{% endblock %}

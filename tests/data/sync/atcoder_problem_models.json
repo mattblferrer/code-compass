@@ -1,0 +1,1 @@
+{"abc300_a": {"slope": -0.0006, "intercept": 7.9, "variance": 0.2, "difficulty": -1147, "discrimination": 0.004, "irt_loglikelihood": -0.1, "irt_users": 9000, "is_experimental": false}, "abc300_b": {"slope": -0.0006, "intercept": 8.4, "variance": 0.2, "difficulty": 486, "discrimination": 0.004, "irt_loglikelihood": -0.3, "irt_users": 9000, "is_experimental": false}}

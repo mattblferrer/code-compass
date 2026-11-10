@@ -1,10 +1,14 @@
 import csv
 import io
-from datetime import date
+import time
+from datetime import date, datetime
+from urllib.parse import quote
 
 from flask import Blueprint, Response, abort, flash, jsonify, redirect, render_template, request, url_for
 
 from . import picker, queries, remote
+from . import sync as syncing
+from .core.sync import LEETCODE_NOTICE, PROFILE_URLS, new_problem_details, outcome_choices, rating_changes
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
 from .core.exchange import COLUMNS, export_rows, plan_import
 from .core.recommend import active_interview
@@ -17,6 +21,7 @@ from .core.validation import (
     OUTCOME_LABELS,
     format_clock,
     format_minutes,
+    validate_accounts,
     validate_attempt,
     validate_interview,
     validate_problem,
@@ -30,6 +35,15 @@ bp = Blueprint("main", __name__)
 def today():
     """The user's local date. Only routes read the clock."""
     return date.today().isoformat()
+
+
+def now_seconds():
+    return int(time.time())
+
+
+def local_date(seconds):
+    """The user's local date for a Unix time from a synced site."""
+    return datetime.fromtimestamp(seconds).date().isoformat()
 
 
 @bp.app_template_filter("clock")
@@ -90,9 +104,11 @@ def find_problem():
 
 @bp.route("/")
 def dashboard():
-    snap = Snapshot(get_db(), today())
+    conn = get_db()
+    snap = Snapshot(conn, today())
     return render_template(
         "dashboard.html",
+        sync_pending=len(syncing.pending_items(conn)),
         due_count=len(snap.due_now),
         streak=snap.streak(),
         recommendations=snap.recommendations(),
@@ -358,7 +374,7 @@ def run_lookup(conn, form, lookup, pattern_names):
         return {**form, "link": link}, [], {**lookup, "site": site, "existing": dict(existing)}
     try:
         details = remote.lookup(site, link, pattern_names)
-    except remote.LookupFailed as error:
+    except remote.RequestFailed as error:
         message = LOOKUP_MESSAGES[error.kind].format(site=error.site)
         return {**form, "link": link}, [], {**lookup, "site": site, "message": message}
     filled = {"title": details["title"], "link": details["link"], "difficulty": details["difficulty"],
@@ -388,10 +404,34 @@ def settings():
         current = {**DEFAULT_SETTINGS, **saved["settings"], "preferences": saved["preferences"],
                    "hidden": saved["hidden"]}
         errors, status = {}, 200
+    return settings_page(conn, current, errors, patterns, status)
+
+
+def settings_page(conn, current, errors, patterns, status=200, usernames=None, account_errors=None):
+    if usernames is None:
+        usernames = {site: a["username"] for site, a in syncing.accounts(conn).items()}
     return render_template(
         "settings.html", current=current, errors=errors, patterns=patterns, levels=c.LEVELS,
         sites=[(site, SITES[site]) for site in FILTER_SITES], kinds=KINDS,
+        sync_sites=[(site, SITES[site]) for site in syncing.SYNC_SITES], usernames=usernames,
+        account_errors=account_errors or {}, leetcode_notice=LEETCODE_NOTICE,
     ), status
+
+
+@bp.post("/settings/accounts")
+def link_accounts():
+    """Link a public username per site for sync (R-33). Only usernames are asked for (R-03)."""
+    conn = get_db()
+    values, errors = validate_accounts(request.form, syncing.SYNC_SITES)
+    if errors:
+        saved = queries.read_settings(conn)
+        current = {**DEFAULT_SETTINGS, **saved["settings"], "preferences": saved["preferences"],
+                   "hidden": saved["hidden"]}
+        typed = {site: request.form.get(f"username:{site}", "") for site in syncing.SYNC_SITES}
+        return settings_page(conn, current, {}, queries.patterns(conn), 400, typed, errors)
+    syncing.link_accounts(conn, values)
+    flash("Linked accounts saved." if any(values.values()) else "Linked accounts saved. No site is linked.")
+    return redirect(url_for("main.settings") + "#accounts")
 
 
 def interview_page(conn, form, chosen, errors, editing=None, status=200):
@@ -512,3 +552,206 @@ def import_csv():
     result = {"error": None, "rows": len(rows), "imported": len(plan["attempts"]),
               "created": [p["title"] for p in plan["new_problems"]], "skipped": plan["skipped"]}
     return render_template("import.html", result=result, columns=COLUMNS)
+
+
+SYNC_MESSAGES = {
+    "no_user": "{label}: no user named {username} was found. Check the username in settings.",
+    "refused": "{source} refused the request, so the {label} sync stopped. Try again later.",
+    "failed": "Could not reach {source}, so the {label} sync stopped. Check your connection and try again.",
+}
+
+
+@bp.route("/sync")
+def sync_page():
+    """Synced submissions waiting for an outcome (R-33). Rating history is on the profile page."""
+    conn = get_db()
+    accounts = syncing.accounts(conn)
+    items = syncing.pending_items(conn)
+    pattern_names = [p["name"] for p in queries.patterns(conn)]
+    for item in items:
+        item["choices"] = outcome_choices(item["accepted"])
+        item["hint"] = bool(item["problem_id"]) and queries.unused_hint(conn, item["problem_id"])
+        if not item["problem_id"]:
+            item["details"] = new_problem_details(item["site"], item, pattern_names)
+    return render_template(
+        "sync.html",
+        accounts=[(site, SITES[site], accounts[site]) for site in syncing.SYNC_SITES if site in accounts],
+        last_synced={site: synced_label(a["last_synced"]) for site, a in accounts.items()},
+        items=items, outcome_labels=OUTCOME_LABELS, outcome_definitions=OUTCOME_DEFINITIONS,
+        leetcode_notice=LEETCODE_NOTICE, sites=SITES,
+    )
+
+
+@bp.route("/profile")
+def profile():
+    """Contest rating over time and contest history for each linked account (R-34).
+
+    Shows only what the last sync stored, so it works offline. Ratings never affect
+    scores, review dates, or recommendations.
+    """
+    conn = get_db()
+    accounts = syncing.accounts(conn)
+    ratings = syncing.rating_history(conn)
+    histories = []
+    for site in syncing.SYNC_SITES:
+        if site not in accounts:
+            continue
+        rows = rating_changes(site, ratings.get(site, []))
+        username = accounts[site]["username"]
+        histories.append({
+            "site": site, "label": SITES[site], "username": username,
+            "url": PROFILE_URLS[site].format(quote(username, safe="")),
+            "synced": synced_label(accounts[site]["last_synced"]), "rows": rows, "chart": rating_chart(rows),
+            "current": rows[-1]["rating"] if rows else None,
+            "best": max(r["rating"] for r in rows) if rows else None,
+        })
+    return render_template("profile.html", histories=histories, leetcode_notice=LEETCODE_NOTICE)
+
+
+def synced_label(stamp):
+    """A stored UTC sync time in the user's local time, or None before the first sync."""
+    if not stamp:
+        return None
+    return datetime.fromisoformat(stamp).astimezone().strftime("%Y-%m-%d %H:%M")
+
+
+@bp.post("/sync")
+def run_sync():
+    """Run a sync the user started. A refused site stops its own sync and says so (R-03)."""
+    conn = get_db()
+    accounts = syncing.accounts(conn)
+    if not accounts:
+        flash("Link a username in settings first.")
+        return redirect(url_for("main.settings") + "#accounts")
+    for result in syncing.run(conn, now_seconds(), local_date):
+        if result["error"]:
+            flash(SYNC_MESSAGES[result["error"]].format(
+                label=result["label"], source=result.get("source", result["label"]),
+                username=accounts[result["site"]]["username"]))
+        elif result["added"]:
+            plural = "submission" if result["added"] == 1 else "submissions"
+            flash(f"{result['label']}: {result['added']} new {plural} to confirm.")
+        else:
+            flash(f"{result['label']}: no new submissions.")
+    return redirect(url_for("main.sync_page"))
+
+
+def pending_item(conn, item_id):
+    item = syncing.get_item(conn, item_id) or abort(404)
+    if item["status"] != "pending":
+        abort(404)
+    return item
+
+
+@bp.post("/sync/items/<int:item_id>/dismiss")
+def dismiss_sync_item(item_id):
+    """Dismiss an item without an attempt; it does not come back (R-33)."""
+    conn = get_db()
+    pending_item(conn, item_id)
+    syncing.set_status(conn, item_id, "dismissed")
+    flash("Item dismissed.")
+    return redirect(url_for("main.sync_page"))
+
+
+@bp.route("/sync/items/<int:item_id>", methods=["GET", "POST"])
+def sync_item(item_id):
+    """Confirm a synced item with an outcome, which makes it an attempt (R-33).
+
+    An item whose problem is not in CodeCompass becomes a custom problem (R-02),
+    with the site's rating and Codeforces tags mapped and the user supplying
+    whatever is missing. Nothing is saved until an outcome is chosen.
+    """
+    conn = get_db()
+    item = pending_item(conn, item_id)
+    patterns = queries.patterns(conn)
+    names = [p["name"] for p in patterns]
+    details = None if item["problem_id"] else new_problem_details(item["site"], item, names)
+    hint = bool(item["problem_id"]) and queries.unused_hint(conn, item["problem_id"])
+    if request.method == "GET":
+        return sync_item_page(item, details, patterns, hint, details["patterns"] if details else [],
+                              {"difficulty": details["difficulty"]} if details else {}, {})
+
+    form = request.form.to_dict()
+    errors = {}
+    if form.get("outcome") not in outcome_choices(item["accepted"]):
+        errors["outcome"] = "Choose an outcome."
+    problem_values, chosen = None, []
+    if details:
+        # The details form sends its own fields; a confirm from the list uses the mapped values.
+        own = bool(form.get("details"))
+        chosen = request.form.getlist("patterns") if own else details["patterns"]
+        form["difficulty"] = form.get("difficulty", "") if own else details["difficulty"]
+        rating = "" if item["rating"] is None else str(item["rating"])
+        problem_values, problem_errors = validate_problem(
+            {"title": item["title"], "link": item["problem_link"], "difficulty": form["difficulty"], "rating": rating},
+            chosen, set(names))
+        errors.update(problem_errors)
+    values, attempt_errors = validate_attempt({"date": item["date"], "outcome": form.get("outcome", "")},
+                                              today(), item["problem_id"] or 0, hint)
+    for field, message in attempt_errors.items():
+        errors.setdefault(field, message)
+    if errors:
+        return sync_item_page(item, details, patterns, hint, chosen, form, errors, 400)
+
+    problem_id = item["problem_id"] or queries.add_custom_problem(conn, problem_values)
+    values["problem_id"] = problem_id
+    values["review_of_problem_id"] = Snapshot(conn, today()).review_of(problem_id, values["date"])
+    queries.add_attempt(conn, values, entry_method="sync")
+    syncing.set_status(conn, item_id, "confirmed")
+    flash(f"Saved {item['title']} on {item['date']} as {OUTCOME_LABELS[values['outcome']].lower()}.")
+    return redirect(url_for("main.sync_page"))
+
+
+def sync_item_page(item, details, patterns, hint, chosen, form, errors, status=200):
+    return render_template(
+        "sync_item.html", item=item, details=details, patterns=patterns, hint=hint, chosen=chosen, form=form,
+        errors=errors, levels=c.LEVELS, choices=outcome_choices(item["accepted"]), outcome_labels=OUTCOME_LABELS,
+        outcome_definitions=OUTCOME_DEFINITIONS, sites=SITES, leetcode_notice=LEETCODE_NOTICE,
+    ), status
+
+
+@bp.app_template_filter("signed")
+def signed_filter(change):
+    """A rating change with its sign, such as +162 or −87."""
+    if change is None:
+        return ""
+    return f"+{change}" if change > 0 else ("−" + str(-change) if change < 0 else "0")
+
+
+def rating_change_label(row):
+    """How a contest changed the rating, as in 1602 → 1764 (+162)."""
+    if row.get("old_rating") is None:
+        return str(row["rating"])
+    return f"{row['old_rating']} → {row['rating']} ({signed_filter(row['change'])})"
+
+
+def rating_chart(rows, width=640, height=220, left=48, right=16, top=14, bottom=34):
+    """Positions for a site's rating line on a time scale: each contest sits at its date.
+
+    This is the whole history, drawn without JavaScript; js/rating_chart.js redraws it
+    from the same rows so the time axis can be zoomed and panned.
+    """
+    if len(rows) < 2:
+        return None
+    days = [date.fromisoformat(r["date"]).toordinal() for r in rows]
+    pad_days = max((days[-1] - days[0]) * 0.02, 3)
+    start, end = days[0] - pad_days, days[-1] + pad_days
+    low, high = min(r["rating"] for r in rows), max(r["rating"] for r in rows)
+    span = max(high - low, 1)
+
+    def x(day):
+        return round(left + (width - left - right) * (day - start) / (end - start), 1)
+
+    def y(rating):
+        return round(top + (height - top - bottom) * (1 - (rating - low) / span), 1)
+
+    dots = [{"x": x(d), "y": y(r["rating"]), "date": r["date"], "rating": r["rating"], "contest": r["contest"],
+             "change": rating_change_label(r)} for d, r in zip(days, rows)]
+    years = range(date.fromordinal(days[0]).year + 1, date.fromordinal(days[-1]).year + 1)
+    return {
+        "width": width, "height": height, "dots": dots,
+        "line": " ".join(f"{d['x']},{d['y']}" for d in dots),
+        "guides": [{"value": v, "y": y(v)} for v in sorted({low, high})],
+        "ticks": [{"label": str(year), "x": x(date(year, 1, 1).toordinal())} for year in years],
+        "left": left, "right": width - right, "axis": height - bottom, "first": rows[0]["date"], "last": rows[-1]["date"],
+    }

@@ -36,3 +36,14 @@ def app(db_path, catalog_path):
 @pytest.fixture
 def client(app):
     return app.test_client()
+
+
+@pytest.fixture(autouse=True)
+def no_waiting(monkeypatch):
+    """Requests are paced per site (remote.SPACING); tests record the waits instead of sleeping."""
+    from codecompass import remote
+
+    waits = []
+    monkeypatch.setattr(remote, "sleep", waits.append)
+    monkeypatch.setattr(remote, "_last_request", {})
+    return waits
