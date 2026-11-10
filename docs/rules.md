@@ -274,7 +274,7 @@ The catalog is built once, before release, from these sources. A problem is iden
 | 4 | LeetCode Patterns (Sean Prashad) | Every problem | 179 |
 | 5 | NeetCode All | Every problem | 450 |
 | 6 | CSES problem set | Every problem | 400 |
-| 7 | Codeforces API | Picked per pattern (see below) | 1,009 after merging duplicates |
+| 7 | Codeforces API | Picked per pattern (see below) | 980 after merging duplicates |
 
 The five LeetCode lists give 515 unique problems. The 20 that any list marks as needing LeetCode Premium are left out, because the user could not open them, leaving 495. The 495 include NeetCode All's 30 JavaScript exercises, which are tagged with the advanced JavaScript pattern, so they appear only for users who turn it on. The lists are read from where they are published (NeetCode's and Sean Prashad's data files on GitHub, the Grind 169 site, and cses.fi), never from LeetCode itself (R-03). LeetCode's own Top Interview 150 and LeetCode 75 are not used for the same reason.
 
@@ -282,7 +282,7 @@ The five LeetCode lists give 515 unique problems. The 20 that any list marks as 
 
 Codeforces problems add a different style from LeetCode and CSES, often relying more on an observation than on a known technique, so each pattern with a matching tag takes a fixed share of them.
 
-1. **Pool.** For each pattern, the pool is the rated Codeforces problems with the pattern's tag from `docs/patterns.md`, leaving out `*special` problems. Tree DP, Bitmask DP, and Minimum Spanning Tree need both of their tags (`trees` and `dp`, `bitmasks` and `dp`, `graphs` and `dsu`). For a core pattern, the pool stops below very hard (see What counts).
+1. **Pool.** For each pattern, the pool is the rated Codeforces problems with the pattern's tag from `docs/patterns.md`, leaving out `*special` problems. Tree DP needs both of its tags (`trees` and `dp`). For a core pattern, the pool stops below very hard (see What counts).
 2. **Cutoffs.** Leave out problems solved by fewer than 1,000 users (`solvedCount` from `problemset.problems`) and problems from contests that started before 2015 (`startTimeSeconds` from `contest.list`), so obscure and old problems stay out.
 3. **Count.** N = the smaller of 50 and 75% of the pool after the cutoffs, rounded down.
 4. **Spread.** Take problems in rounds over the levels the pattern allows, easy first: one easy, one medium, one hard, and for an advanced pattern one very hard, then repeat until N are taken. Within a level, the problem solved by the most users comes first. A level that runs out is skipped.
@@ -291,16 +291,17 @@ Codeforces problems add a different style from LeetCode and CSES, often relying 
 Some patterns get no automatic picks:
 
 - **No tag or only broad tags:** patterns whose Codeforces tags are all on the "too broad" list in `docs/patterns.md`, or that have none, such as Stack, Heap, Linked List, Tree Traversal, and 1-D Dynamic Programming. The reviewer can still add these patterns to a picked problem.
-- **Shared tags:** a tag listed for more than one pattern is picked alone only for the first: `greedy` for Greedy, `sortings` for Sorting, `dsu` for Union-Find, and `bitmasks` for Bit Manipulation (the tag pairs above are separate). Intervals, whose tags are `greedy` and `sortings`, gets no automatic picks.
+- **Shared tags:** a tag listed for more than one pattern is picked alone only for the first: `greedy` for Greedy and `sortings` for Sorting. Intervals, whose tags are `greedy` and `sortings`, gets no automatic picks.
+- **Unreliable tag pairs:** Minimum Spanning Tree and Bitmask DP have no tags, because the pairs `graphs` with `dsu` and `bitmasks` with `dp` matched the technique in only 21% and 43% of editorials (`docs/patterns.md`). A problem that the old pair would have picked (steps 1 to 4 with the pair as the pattern's tags) is still picked when its editorial confirms the technique.
 
-This gives 30 patterns with picks, 1,298 picks in all and 1,009 problems after merging, from the API on 2026-11-10. Most patterns take 50. Those with small pools take fewer: Expression Parsing 9, Chinese Remainder Theorem 13, 2-SAT 18, Meet in the Middle 20, FFT and NTT 26, Bipartite Matching 37, Suffix Structures 38, Ternary Search 40, Matrices and Matrix Exponentiation 48, and Max Flow and Min Cut 49.
+This gives 30 patterns with picks, 1,213 picks in all and 980 problems after merging, from the API on 2026-11-10. Most patterns take 50. Those with small pools or only confirmed picks take fewer: Minimum Spanning Tree 6, Bitmask DP 9, Expression Parsing 9, Chinese Remainder Theorem 13, 2-SAT 18, Meet in the Middle 20, FFT and NTT 26, Bipartite Matching 37, Suffix Structures 38, Ternary Search 40, Matrices and Matrix Exponentiation 48, and Max Flow and Min Cut 49.
 
 ### Codeforces reserve (R-37)
 
 Besides the reviewed catalog, the app keeps an unreviewed reserve of Codeforces problems, built automatically from the same `problemset.problems` response with `flask --app codecompass build-reserve`. It lets the user log any of these problems without typing their details, and it supplies new problems and siblings when the catalog runs out for a pattern.
 
 - **What is in it:** every rated programming problem that is not tagged `*special` and has at least one tag that maps to a pattern, including through the broad-tag defaults below. The cutoffs above (1,000 solvers, 2015) do not apply. On 2026-11-10 this was 10,661 problems.
-- **Patterns:** from the tags alone, with no review: each tag in the "Codeforces tags" column of `docs/patterns.md` that is not too broad, a shared tag only for the first pattern listed above, and the three tag pairs. Only when none of these apply, each broad tag adds a default pattern: `math` Math, `dp` 1-D Dynamic Programming, `strings` Strings, `graphs` and `dfs and similar` Graph Traversal, `trees` Tree Traversal, `data structures` Data Structure Design, and `two pointers` Two Pointers. These patterns are rougher than the catalog's.
+- **Patterns:** from the tags alone, with no review: each tag in the "Codeforces tags" column of `docs/patterns.md` that is not too broad, a shared tag only for the first pattern listed above, and the Tree DP tag pair. Only when none of these apply, each broad tag adds a default pattern: `math` Math, `dp` 1-D Dynamic Programming, `strings` Strings, `graphs` and `dfs and similar` Graph Traversal, `trees` Tree Traversal, `data structures` Data Structure Design, and `two pointers` Two Pointers. These patterns are rougher than the catalog's.
 - **Problems it cannot hold:** a regular Codeforces problem with no rating, or with no tag that maps even by default, is not in the reserve (290 on 2026-11-10). Its title, link, and level (blank without a rating) are kept in a separate list, so when the user looks it up by ID, link, or exact title, the custom-problem form (R-02) opens with them filled in and the user chooses the patterns.
 - **Difficulty:** from the rating by the Codeforces table below. Unlike the catalog, a reserve problem with only core patterns can be very hard, as in sync and lookup.
 - **Order:** most solved first. This order replaces catalog order in every tie-break that uses it.
@@ -309,6 +310,10 @@ Besides the reviewed catalog, the app keeps an unreviewed reserve of Codeforces 
 ### Drafting entries
 
 Entries are drafted by AI from the source's title, link, difficulty or rating, and tags, then reviewed by the author (R-01). No problem statement is copied. A Codeforces problem's patterns start from its tags as mapped in `docs/patterns.md`, and the reviewer decides any that come from broad tags.
+
+Before the author's review, the drafts were checked against public solutions, and a pattern was added or removed only where a solution showed it: LeetCode against the tags and named solutions in the doocs/leetcode repository, CSES against the write-ups and accepted code in public solution repositories, and Codeforces against the editorials in the open-r1/codeforces dataset. Each changed entry's note in `review/catalog_review.csv` names its source.
+
+When there is reasonable doubt that a Codeforces tag fits the problem, such as a pattern that comes from a tag pair or from a tag Codeforces applies loosely (`divide and conquer` matched its editorial in about half of the problems checked), the tag is checked against the problem's editorial if one is available, and otherwise against readily available accepted solutions (for example, the open-r1/codeforces-submissions dataset). The pattern is kept, changed, or removed to match. If neither is available, the tags stay and the entry is marked as unverified in the review file.
 
 ## Difficulty levels (R-01)
 

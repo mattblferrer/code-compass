@@ -61,8 +61,9 @@ def test_mapping_matches_patterns_doc():
     (["greedy", "sortings"], ["Sorting", "Greedy"]),
     (["math", "dp", "data structures"], []),
     (["trees", "dp"], ["Tree DP"]),
-    (["bitmasks", "dp"], ["Bit Manipulation", "Bitmask DP"]),
-    (["graphs", "dsu", "*special"], ["Union-Find", "Minimum Spanning Tree"]),
+    # No pairs for Bitmask DP or Minimum Spanning Tree: editorials rarely use them.
+    (["bitmasks", "dp"], ["Bit Manipulation"]),
+    (["graphs", "dsu", "*special"], ["Union-Find"]),
     (["fft", "math"], ["FFT and NTT"]),
     (["communication"], []),
 ])

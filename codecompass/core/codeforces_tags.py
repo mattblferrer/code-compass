@@ -46,11 +46,11 @@ DIRECT = {
     "expression parsing": "Expression Parsing",
 }
 
-# Two tags that together map to a pattern.
+# Two tags that together map to a pattern. Only Tree DP: checked against editorials,
+# graphs+dsu meant a spanning tree in about 21% of problems and bitmasks+dp meant
+# a DP over masks in about 43%, so those pairs are not used (docs/rules.md).
 PAIRS = {
     frozenset({"trees", "dp"}): "Tree DP",
-    frozenset({"bitmasks", "dp"}): "Bitmask DP",
-    frozenset({"graphs", "dsu"}): "Minimum Spanning Tree",
 }
 
 

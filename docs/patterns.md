@@ -27,7 +27,7 @@ The last two columns show where each pattern comes from. "Interview lists" names
 | 17 | Topological Sort | Narrow | Graphs | Order the nodes of a directed graph so dependencies come first. | NeetCode: Graphs | graphs |
 | 18 | Union-Find | Narrow | Graphs | Merge groups and check whether two items are in the same group. | NeetCode: Graphs | dsu |
 | 19 | Shortest Paths | Normal | Graphs | Find minimum-cost routes through a weighted graph. | NeetCode: Advanced Graphs | shortest paths |
-| 20 | Minimum Spanning Tree | Narrow | Graphs | Connect all nodes at the lowest total edge cost. | NeetCode: Advanced Graphs | graphs, dsu |
+| 20 | Minimum Spanning Tree | Narrow | Graphs | Connect all nodes at the lowest total edge cost. | NeetCode: Advanced Graphs | - |
 | 21 | 1-D Dynamic Programming | Broad | Recursion and DP | Build an answer from smaller answers along a single index. | NeetCode: 1-D Dynamic Programming | dp |
 | 22 | 2-D Dynamic Programming | Broad | Recursion and DP | Build an answer from smaller answers over two indices, such as a grid or two strings. | NeetCode: 2-D Dynamic Programming | dp |
 | 23 | Greedy | Broad | Searching and ordering | Make the locally best choice at each step, after checking that doing so is safe. | NeetCode: Greedy | greedy |
@@ -55,7 +55,7 @@ The last two columns show where each pattern comes from. "Interview lists" names
 | 40 | Ternary Search | Narrow | Searching and ordering | Narrow in on the peak or valley of a function with a single turning point. | - | ternary search |
 | 41 | Segment Tree and Fenwick Tree | Normal | Trees | Answer range queries and handle updates in logarithmic time. | LeetCode: Segment Tree, Binary Indexed Tree | data structures |
 | 42 | Tree DP | Normal | Recursion and DP | Compute a value for each subtree from the values of its children. | - | trees, dp |
-| 43 | Bitmask DP | Normal | Recursion and DP | Use a set of chosen items, stored as bits, as the dynamic programming state. | LeetCode: Bitmask | bitmasks, dp |
+| 43 | Bitmask DP | Normal | Recursion and DP | Use a set of chosen items, stored as bits, as the dynamic programming state. | LeetCode: Bitmask | - |
 | 44 | Lowest Common Ancestor and Tree Queries | Normal | Trees | Answer questions about paths between tree nodes after preprocessing. | - | trees |
 | 45 | String Hashing | Narrow | Arrays and strings | Compare substrings quickly using rolling or polynomial hashes. | LeetCode: Rolling Hash | hashing |
 | 46 | String Matching | Normal | Arrays and strings | Find occurrences of a pattern using prefix information, as in KMP or the Z-function. | LeetCode: String Matching | strings |
@@ -72,4 +72,5 @@ The last two columns show where each pattern comes from. "Interview lists" names
 
 - **Not mapped:** `*special` and `communication`, which describe the problem format or contest rather than a technique.
 - **Too broad to map automatically:** `data structures`, `graphs`, `dfs and similar`, `math`, `trees`, `strings`, `dp`, and `two pointers` each match more than one pattern, so these problems need a person to choose the pattern. The unreviewed reserve (R-37) is the exception: there, a problem with only broad tags gets a default pattern for each, as listed in `docs/rules.md`.
-- **Pairs:** when picking catalog problems, Tree DP, Bitmask DP, and Minimum Spanning Tree need both of their listed tags at once. `docs/rules.md` (Catalog sources) gives the full picking rule, including which pattern a shared tag is picked for.
+- **Pairs:** Tree DP needs both of its listed tags at once. `docs/rules.md` (Catalog sources) gives the full picking rule, including which pattern a shared tag is picked for.
+- **No tag mapping:** Minimum Spanning Tree and Bitmask DP have no Codeforces tags. Checked against the editorials in the open-r1/codeforces dataset on 2026-11-10, `graphs` with `dsu` meant a spanning tree in 28 of 134 problems (21%), and `bitmasks` with `dp` meant a DP over masks in 71 of 166 (43%, and only 59% even at rating 2400 and above). `trees` with `dp` meant tree DP in 182 of 224 (81%), so that pair stays.
