@@ -167,3 +167,19 @@ def test_family_column_added_to_an_older_database(tmp_path):
     conn = connect(path)
     assert "family" in {r["name"] for r in conn.execute("PRAGMA table_info(patterns)")}
     conn.close()
+
+
+def test_shipped_catalog_is_valid():
+    """R-01 verification, part 1: the real catalog file passes the validator.
+
+    Every entry has a title, link, difficulty, source, and at least one pattern
+    from the documented list, and there are at least 500 entries.
+    """
+    patterns = catalog.read_rows(catalog.DATA_DIR / "patterns.csv")
+    categories = {p["name"]: p["category"] for p in patterns}
+    rows = parse_catalog(catalog.read_rows(catalog.DATA_DIR / "catalog.csv"), categories, "catalog.csv")
+    assert len(rows) >= 500
+    for row in rows:
+        assert row["title"] and row["link"] and row["source"]
+        assert row["difficulty"] in {"easy", "medium", "hard", "very hard"}
+        assert row["patterns"] and set(row["patterns"]) <= set(categories)

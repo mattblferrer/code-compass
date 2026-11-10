@@ -164,13 +164,13 @@ Backspace String Compare,https://leetcode.com/problems/backspace-string-compare/
 Next Permutation,https://leetcode.com/problems/next-permutation/,medium,,Grind 169,Two Pointers
 Top K Frequent Words,https://leetcode.com/problems/top-k-frequent-words/,medium,,Grind 169,Arrays and Hashing; Heap
 Maximum Frequency Stack,https://leetcode.com/problems/maximum-frequency-stack/,hard,,Grind 169,Arrays and Hashing; Stack; Data Structure Design
-Swap Nodes In Pairs,https://leetcode.com/problems/swap-nodes-in-pairs/,medium,,Grind 169,Linked List
+Swap Nodes in Pairs,https://leetcode.com/problems/swap-nodes-in-pairs/,medium,,Grind 169,Linked List
 Path Sum II,https://leetcode.com/problems/path-sum-ii/,medium,,Grind 169,Tree Traversal; Backtracking and Brute Force
 Rotate Array,https://leetcode.com/problems/rotate-array/,medium,,Grind 169,Two Pointers
 Odd Even Linked List,https://leetcode.com/problems/odd-even-linked-list/,medium,,Grind 169,Linked List
 Decode String,https://leetcode.com/problems/decode-string/,medium,,Grind 169,Stack; Strings
 Contiguous Array,https://leetcode.com/problems/contiguous-array/,medium,,Grind 169,Arrays and Hashing; Prefix Sums
-Maximum Width of Binary Tree ,https://leetcode.com/problems/maximum-width-of-binary-tree/,medium,,Grind 169,Tree Traversal
+Maximum Width of Binary Tree,https://leetcode.com/problems/maximum-width-of-binary-tree/,medium,,Grind 169,Tree Traversal
 Find K Closest Elements,https://leetcode.com/problems/find-k-closest-elements/,medium,,Grind 169,Two Pointers; Binary Search
 Longest Common Prefix,https://leetcode.com/problems/longest-common-prefix/,easy,,Grind 169,Strings
 Sort List,https://leetcode.com/problems/sort-list/,medium,,Grind 169,Linked List; Sorting
@@ -185,7 +185,7 @@ Binary Tree Zigzag Level Order Traversal,https://leetcode.com/problems/binary-tr
 Path Sum III,https://leetcode.com/problems/path-sum-iii/,medium,,Grind 169,Prefix Sums; Tree Traversal
 Largest Number,https://leetcode.com/problems/largest-number/,medium,,Grind 169,Sorting; Greedy
 Bus Routes,https://leetcode.com/problems/bus-routes/,hard,,Grind 169,Graph Traversal
-Symmetric Tree ,https://leetcode.com/problems/symmetric-tree/,easy,,Grind 169,Tree Traversal
+Symmetric Tree,https://leetcode.com/problems/symmetric-tree/,easy,,Grind 169,Tree Traversal
 All Nodes Distance K in Binary Tree,https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/,medium,,Grind 169,Tree Traversal; Graph Traversal
 Palindrome Number,https://leetcode.com/problems/palindrome-number/,easy,,Grind 169,Math
 Convert Sorted Array to Binary Search Tree,https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/,easy,,Grind 169,Tree Traversal; Binary Search Trees
@@ -194,7 +194,7 @@ Squares of a Sorted Array,https://leetcode.com/problems/squares-of-a-sorted-arra
 Rotate List,https://leetcode.com/problems/rotate-list/,medium,,Grind 169,Two Pointers; Linked List
 Basic Calculator II,https://leetcode.com/problems/basic-calculator-ii/,medium,,Grind 169,Stack; Strings
 Combination Sum IV,https://leetcode.com/problems/combination-sum-iv/,medium,,Grind 169,1-D Dynamic Programming
-Insert Delete Get Random O(1),https://leetcode.com/problems/insert-delete-getrandom-o1/,medium,,Grind 169,Arrays and Hashing; Data Structure Design
+Insert Delete GetRandom O(1),https://leetcode.com/problems/insert-delete-getrandom-o1/,medium,,Grind 169,Arrays and Hashing; Data Structure Design
 Palindrome Pairs,https://leetcode.com/problems/palindrome-pairs/,hard,,Grind 169,Arrays and Hashing; Trie; Strings
 Sudoku Solver,https://leetcode.com/problems/sudoku-solver/,hard,,Grind 169,Backtracking and Brute Force
 First Missing Positive,https://leetcode.com/problems/first-missing-positive/,hard,,Grind 169,Arrays and Hashing
@@ -202,8 +202,8 @@ Smallest Range Covering Elements from K Lists,https://leetcode.com/problems/smal
 Substring with Concatenation of All Words,https://leetcode.com/problems/substring-with-concatenation-of-all-words/,hard,,LeetCode Patterns,Arrays and Hashing; Sliding Window
 Permutations II,https://leetcode.com/problems/permutations-ii/,medium,,LeetCode Patterns,Backtracking and Brute Force
 Combinations,https://leetcode.com/problems/combinations/,medium,,LeetCode Patterns,Backtracking and Brute Force
-Search In Rotated Sorted Array II,https://leetcode.com/problems/search-in-rotated-sorted-array-ii/,medium,,LeetCode Patterns,Binary Search
-Remove Duplicates From Sorted List,https://leetcode.com/problems/remove-duplicates-from-sorted-list/,easy,,LeetCode Patterns,Linked List
+Search in Rotated Sorted Array II,https://leetcode.com/problems/search-in-rotated-sorted-array-ii/,medium,,LeetCode Patterns,Binary Search
+Remove Duplicates from Sorted List,https://leetcode.com/problems/remove-duplicates-from-sorted-list/,easy,,LeetCode Patterns,Linked List
 Reverse Linked List II,https://leetcode.com/problems/reverse-linked-list-ii/,medium,,LeetCode Patterns,Linked List
 Binary Tree Level Order Traversal II,https://leetcode.com/problems/binary-tree-level-order-traversal-ii/,medium,,LeetCode Patterns,Tree Traversal
 Minimum Depth of Binary Tree,https://leetcode.com/problems/minimum-depth-of-binary-tree/,easy,,LeetCode Patterns,Tree Traversal
@@ -221,7 +221,7 @@ Find K Pairs with Smallest Sums,https://leetcode.com/problems/find-k-pairs-with-
 Kth Smallest Element in a Sorted Matrix,https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/,medium,,LeetCode Patterns,Binary Search; Heap
 Is Subsequence,https://leetcode.com/problems/is-subsequence/,easy,,LeetCode Patterns,Two Pointers
 Find All Duplicates in an Array,https://leetcode.com/problems/find-all-duplicates-in-an-array/,medium,,LeetCode Patterns,Arrays and Hashing
-Find All Numbers Disappeared in An Array,https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/,easy,,LeetCode Patterns,Arrays and Hashing
+Find All Numbers Disappeared in an Array,https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/,easy,,LeetCode Patterns,Arrays and Hashing
 Sort Characters By Frequency,https://leetcode.com/problems/sort-characters-by-frequency/,medium,,LeetCode Patterns,Arrays and Hashing; Heap
 Minimum Number of Arrows to Burst Balloons,https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/,medium,,LeetCode Patterns,Sorting; Intervals; Greedy
 Concatenated Words,https://leetcode.com/problems/concatenated-words/,hard,,LeetCode Patterns,Trie; 1-D Dynamic Programming
@@ -240,7 +240,7 @@ Reorganize String,https://leetcode.com/problems/reorganize-string/,medium,,LeetC
 Letter Case Permutation,https://leetcode.com/problems/letter-case-permutation/,medium,,LeetCode Patterns,Backtracking and Brute Force
 Count Unique Characters of All Substrings of a Given String,https://leetcode.com/problems/count-unique-characters-of-all-substrings-of-a-given-string/,hard,,LeetCode Patterns,Arrays and Hashing; Strings
 Peak Index in a Mountain Array,https://leetcode.com/problems/peak-index-in-a-mountain-array/,medium,,LeetCode Patterns,Binary Search
-Fruits into Basket,https://leetcode.com/problems/fruit-into-baskets/,medium,,LeetCode Patterns,Sliding Window
+Fruit Into Baskets,https://leetcode.com/problems/fruit-into-baskets/,medium,,LeetCode Patterns,Sliding Window
 Interval List Intersections,https://leetcode.com/problems/interval-list-intersections/,medium,,LeetCode Patterns,Two Pointers; Intervals
 Convert 1D Array Into 2D Array,https://leetcode.com/problems/convert-1d-array-into-2d-array/,easy,,LeetCode Patterns,Simulation and Implementation
 Concatenation of Array,https://leetcode.com/problems/concatenation-of-array/,easy,,NeetCode All,Arrays and Hashing

@@ -326,6 +326,8 @@ Entries are drafted by AI from the source's title, link, difficulty or rating, a
 
 Before the author's review, the drafts were checked against public solutions, and a pattern was added or removed only where a solution showed it: LeetCode against the tags and named solutions in the doocs/leetcode repository, CSES against the write-ups and accepted code in public solution repositories, and Codeforces against the editorials in the open-r1/codeforces dataset. Each changed entry's note in `review/catalog_review.csv` names its source.
 
+The author reviewed the checked drafts on 2026-11-10 with a quick pass over the catalog, relying on the check against editorials and code for the individual tags. The `reviewed` column of `review/catalog_review.csv` records the date for each entry; flags such as "tags unverified" stay in place so those entries can be revisited.
+
 When there is reasonable doubt that a Codeforces tag fits the problem, such as a pattern that comes from a tag pair or from a tag Codeforces applies loosely (`divide and conquer` matched its editorial in about half of the problems checked), the tag is checked against the problem's editorial if one is available, and otherwise against readily available accepted solutions (for example, the open-r1/codeforces-submissions dataset). The pattern is kept, changed, or removed to match. If neither is available, the tags stay and the entry is marked as unverified in the review file.
 
 ## Difficulty levels (R-01)
