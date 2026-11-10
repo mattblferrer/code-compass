@@ -46,7 +46,7 @@ Course Schedule,https://leetcode.com/problems/course-schedule/,medium,,Blind 75,
 Climbing Stairs,https://leetcode.com/problems/climbing-stairs/,easy,,Blind 75,1-D Dynamic Programming
 House Robber,https://leetcode.com/problems/house-robber/,medium,,Blind 75,1-D Dynamic Programming
 House Robber II,https://leetcode.com/problems/house-robber-ii/,medium,,Blind 75,1-D Dynamic Programming
-Longest Palindromic Substring,https://leetcode.com/problems/longest-palindromic-substring/,medium,,Blind 75,Two Pointers; Strings
+Longest Palindromic Substring,https://leetcode.com/problems/longest-palindromic-substring/,medium,,Blind 75,Two Pointers; 2-D Dynamic Programming; Strings
 Palindromic Substrings,https://leetcode.com/problems/palindromic-substrings/,medium,,Blind 75,Two Pointers; Strings
 Decode Ways,https://leetcode.com/problems/decode-ways/,medium,,Blind 75,1-D Dynamic Programming
 Coin Change,https://leetcode.com/problems/coin-change/,medium,,Blind 75,1-D Dynamic Programming
@@ -58,13 +58,13 @@ Longest Common Subsequence,https://leetcode.com/problems/longest-common-subseque
 Maximum Subarray,https://leetcode.com/problems/maximum-subarray/,medium,,Blind 75,1-D Dynamic Programming; Greedy
 Jump Game,https://leetcode.com/problems/jump-game/,medium,,Blind 75,Greedy
 Insert Interval,https://leetcode.com/problems/insert-interval/,medium,,Blind 75,Intervals
-Merge Intervals,https://leetcode.com/problems/merge-intervals/,medium,,Blind 75,Intervals
-Non Overlapping Intervals,https://leetcode.com/problems/non-overlapping-intervals/,medium,,Blind 75,Intervals; Greedy
+Merge Intervals,https://leetcode.com/problems/merge-intervals/,medium,,Blind 75,Sorting; Intervals
+Non Overlapping Intervals,https://leetcode.com/problems/non-overlapping-intervals/,medium,,Blind 75,Sorting; Intervals; Greedy
 Rotate Image,https://leetcode.com/problems/rotate-image/,medium,,Blind 75,Simulation and Implementation
 Spiral Matrix,https://leetcode.com/problems/spiral-matrix/,medium,,Blind 75,Simulation and Implementation
 Set Matrix Zeroes,https://leetcode.com/problems/set-matrix-zeroes/,medium,,Blind 75,Simulation and Implementation
 Number of 1 Bits,https://leetcode.com/problems/number-of-1-bits/,easy,,Blind 75,Bit Manipulation
-Counting Bits,https://leetcode.com/problems/counting-bits/,easy,,Blind 75,Bit Manipulation
+Counting Bits,https://leetcode.com/problems/counting-bits/,easy,,Blind 75,1-D Dynamic Programming; Bit Manipulation
 Reverse Bits,https://leetcode.com/problems/reverse-bits/,easy,,Blind 75,Bit Manipulation
 Missing Number,https://leetcode.com/problems/missing-number/,easy,,Blind 75,Bit Manipulation; Math
 Sum of Two Integers,https://leetcode.com/problems/sum-of-two-integers/,medium,,Blind 75,Bit Manipulation
@@ -115,7 +115,7 @@ Word Ladder,https://leetcode.com/problems/word-ladder/,hard,,NeetCode 150,Graph 
 Reconstruct Itinerary,https://leetcode.com/problems/reconstruct-itinerary/,hard,,NeetCode 150,Graph Traversal
 Min Cost to Connect All Points,https://leetcode.com/problems/min-cost-to-connect-all-points/,medium,,NeetCode 150,Minimum Spanning Tree
 Network Delay Time,https://leetcode.com/problems/network-delay-time/,medium,,NeetCode 150,Shortest Paths
-Swim In Rising Water,https://leetcode.com/problems/swim-in-rising-water/,hard,,NeetCode 150,Shortest Paths
+Swim In Rising Water,https://leetcode.com/problems/swim-in-rising-water/,hard,,NeetCode 150,Union-Find; Shortest Paths
 Cheapest Flights Within K Stops,https://leetcode.com/problems/cheapest-flights-within-k-stops/,medium,,NeetCode 150,Shortest Paths
 Min Cost Climbing Stairs,https://leetcode.com/problems/min-cost-climbing-stairs/,easy,,NeetCode 150,1-D Dynamic Programming
 Partition Equal Subset Sum,https://leetcode.com/problems/partition-equal-subset-sum/,medium,,NeetCode 150,1-D Dynamic Programming
@@ -134,7 +134,7 @@ Hand of Straights,https://leetcode.com/problems/hand-of-straights/,medium,,NeetC
 Merge Triplets to Form Target Triplet,https://leetcode.com/problems/merge-triplets-to-form-target-triplet/,medium,,NeetCode 150,Greedy
 Partition Labels,https://leetcode.com/problems/partition-labels/,medium,,NeetCode 150,Greedy
 Valid Parenthesis String,https://leetcode.com/problems/valid-parenthesis-string/,medium,,NeetCode 150,Greedy
-Minimum Interval to Include Each Query,https://leetcode.com/problems/minimum-interval-to-include-each-query/,hard,,NeetCode 150,Intervals; Heap
+Minimum Interval to Include Each Query,https://leetcode.com/problems/minimum-interval-to-include-each-query/,hard,,NeetCode 150,Sorting; Intervals; Heap
 Happy Number,https://leetcode.com/problems/happy-number/,easy,,NeetCode 150,Math
 Plus One,https://leetcode.com/problems/plus-one/,easy,,NeetCode 150,Math
 "Pow(x, n)",https://leetcode.com/problems/powx-n/,medium,,NeetCode 150,Math
@@ -156,7 +156,7 @@ Accounts Merge,https://leetcode.com/problems/accounts-merge/,medium,,Grind 169,G
 Sort Colors,https://leetcode.com/problems/sort-colors/,medium,,Grind 169,Two Pointers; Sorting
 String to Integer (atoi),https://leetcode.com/problems/string-to-integer-atoi/,medium,,Grind 169,Strings; Simulation and Implementation
 Basic Calculator,https://leetcode.com/problems/basic-calculator/,hard,,Grind 169,Stack; Strings
-Maximum Profit in Job Scheduling,https://leetcode.com/problems/maximum-profit-in-job-scheduling/,hard,,Grind 169,Binary Search; 1-D Dynamic Programming
+Maximum Profit in Job Scheduling,https://leetcode.com/problems/maximum-profit-in-job-scheduling/,hard,,Grind 169,Binary Search; Sorting; 1-D Dynamic Programming
 Find All Anagrams in a String,https://leetcode.com/problems/find-all-anagrams-in-a-string/,medium,,Grind 169,Arrays and Hashing; Sliding Window
 Minimum Height Trees,https://leetcode.com/problems/minimum-height-trees/,medium,,Grind 169,Graph Traversal; Topological Sort
 Roman to Integer,https://leetcode.com/problems/roman-to-integer/,easy,,Grind 169,Strings
@@ -223,7 +223,7 @@ Is Subsequence,https://leetcode.com/problems/is-subsequence/,easy,,LeetCode Patt
 Find All Duplicates in an Array,https://leetcode.com/problems/find-all-duplicates-in-an-array/,medium,,LeetCode Patterns,Arrays and Hashing
 Find All Numbers Disappeared in An Array,https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/,easy,,LeetCode Patterns,Arrays and Hashing
 Sort Characters By Frequency,https://leetcode.com/problems/sort-characters-by-frequency/,medium,,LeetCode Patterns,Arrays and Hashing; Heap
-Minimum Number of Arrows to Burst Balloons,https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/,medium,,LeetCode Patterns,Intervals; Greedy
+Minimum Number of Arrows to Burst Balloons,https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/,medium,,LeetCode Patterns,Sorting; Intervals; Greedy
 Concatenated Words,https://leetcode.com/problems/concatenated-words/,hard,,LeetCode Patterns,Trie; 1-D Dynamic Programming
 Sliding Window Median,https://leetcode.com/problems/sliding-window-median/,hard,,LeetCode Patterns,Sliding Window; Heap
 Merge Two Binary Trees,https://leetcode.com/problems/merge-two-binary-trees/,easy,,LeetCode Patterns,Tree Traversal
@@ -292,7 +292,7 @@ Remove Duplicates From Sorted Array II,https://leetcode.com/problems/remove-dupl
 4Sum,https://leetcode.com/problems/4sum/,medium,,NeetCode All,Two Pointers; Sorting
 Number of Subsequences That Satisfy The Given Sum Condition,https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/,medium,,NeetCode All,Two Pointers; Sorting
 Array With Elements Not Equal to Average of Neighbors,https://leetcode.com/problems/array-with-elements-not-equal-to-average-of-neighbors/,medium,,NeetCode All,Sorting; Greedy
-Boats to Save People,https://leetcode.com/problems/boats-to-save-people/,medium,,NeetCode All,Two Pointers; Greedy
+Boats to Save People,https://leetcode.com/problems/boats-to-save-people/,medium,,NeetCode All,Two Pointers; Sorting; Greedy
 Contains Duplicate II,https://leetcode.com/problems/contains-duplicate-ii/,easy,,NeetCode All,Arrays and Hashing; Sliding Window
 Number of Sub Arrays of Size K and Avg Greater than or Equal to Threshold,https://leetcode.com/problems/number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/,medium,,NeetCode All,Sliding Window
 Frequency of The Most Frequent Element,https://leetcode.com/problems/frequency-of-the-most-frequent-element/,medium,,NeetCode All,Sliding Window; Sorting
@@ -316,15 +316,15 @@ Sqrt(x) ,https://leetcode.com/problems/sqrtx/,easy,,NeetCode All,Binary Search
 Single Element in a Sorted Array,https://leetcode.com/problems/single-element-in-a-sorted-array/,medium,,NeetCode All,Binary Search
 Capacity to Ship Packages,https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/,medium,,NeetCode All,Binary Search
 Successful Pairs of Spells and Potions,https://leetcode.com/problems/successful-pairs-of-spells-and-potions/,medium,,NeetCode All,Binary Search; Sorting
-Minimize the Maximum Difference of Pairs,https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/,medium,,NeetCode All,Binary Search; Greedy
+Minimize the Maximum Difference of Pairs,https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/,medium,,NeetCode All,Binary Search; Sorting; Greedy
 Find First And Last Position of Element In Sorted Array,https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/,medium,,NeetCode All,Binary Search
-Maximum Number of Removable Characters,https://leetcode.com/problems/maximum-number-of-removable-characters/,medium,,NeetCode All,Binary Search
+Maximum Number of Removable Characters,https://leetcode.com/problems/maximum-number-of-removable-characters/,medium,,NeetCode All,Two Pointers; Binary Search
 Populating Next Right Pointers In Each Node,https://leetcode.com/problems/populating-next-right-pointers-in-each-node/,medium,,NeetCode All,Tree Traversal
 Search Suggestions System,https://leetcode.com/problems/search-suggestions-system/,medium,,NeetCode All,Binary Search; Trie
-Split Array Largest Sum,https://leetcode.com/problems/split-array-largest-sum/,hard,,NeetCode All,Binary Search
+Split Array Largest Sum,https://leetcode.com/problems/split-array-largest-sum/,hard,,NeetCode All,Binary Search; Greedy
 Intersection of Two Linked Lists,https://leetcode.com/problems/intersection-of-two-linked-lists/,easy,,NeetCode All,Two Pointers; Linked List
 Maximum Twin Sum Of A Linked List,https://leetcode.com/problems/maximum-twin-sum-of-a-linked-list/,medium,,NeetCode All,Two Pointers; Linked List
-Swapping Nodes in a Linked List,https://leetcode.com/problems/swapping-nodes-in-a-linked-list/,medium,,NeetCode All,Linked List
+Swapping Nodes in a Linked List,https://leetcode.com/problems/swapping-nodes-in-a-linked-list/,medium,,NeetCode All,Two Pointers; Linked List
 LFU Cache,https://leetcode.com/problems/lfu-cache/,hard,,NeetCode All,Arrays and Hashing; Linked List; Data Structure Design
 Design Linked List,https://leetcode.com/problems/design-linked-list/,medium,,NeetCode All,Linked List; Data Structure Design
 Design Browser History,https://leetcode.com/problems/design-browser-history/,medium,,NeetCode All,Linked List; Data Structure Design
@@ -354,7 +354,7 @@ Operations On Tree,https://leetcode.com/problems/operations-on-tree/,medium,,Nee
 All Possible Full Binary Trees,https://leetcode.com/problems/all-possible-full-binary-trees/,medium,,NeetCode All,Tree Traversal
 Find Bottom Left Tree Value,https://leetcode.com/problems/find-bottom-left-tree-value/,medium,,NeetCode All,Tree Traversal
 Trim a Binary Search Tree,https://leetcode.com/problems/trim-a-binary-search-tree/,medium,,NeetCode All,Binary Search Trees
-Binary Search Tree Iterator,https://leetcode.com/problems/binary-search-tree-iterator/,medium,,NeetCode All,Binary Search Trees; Data Structure Design
+Binary Search Tree Iterator,https://leetcode.com/problems/binary-search-tree-iterator/,medium,,NeetCode All,Stack; Binary Search Trees; Data Structure Design
 Convert Bst to Greater Tree,https://leetcode.com/problems/convert-bst-to-greater-tree/,medium,,NeetCode All,Binary Search Trees
 Extra Characters in a String,https://leetcode.com/problems/extra-characters-in-a-string/,medium,,NeetCode All,Trie; 1-D Dynamic Programming
 Minimize Deviation in Array,https://leetcode.com/problems/minimize-deviation-in-array/,hard,,NeetCode All,Heap; Greedy
@@ -365,13 +365,13 @@ Process Tasks Using Servers,https://leetcode.com/problems/process-tasks-using-se
 Find The Kth Largest Integer In The Array,https://leetcode.com/problems/find-the-kth-largest-integer-in-the-array/,medium,,NeetCode All,Heap
 Longest Happy String,https://leetcode.com/problems/longest-happy-string/,medium,,NeetCode All,Heap; Greedy
 Car Pooling,https://leetcode.com/problems/car-pooling/,medium,,NeetCode All,Prefix Sums; Intervals
-Maximum Performance of a Team,https://leetcode.com/problems/maximum-performance-of-a-team/,hard,,NeetCode All,Heap; Greedy
-IPO,https://leetcode.com/problems/ipo/,hard,,NeetCode All,Heap; Greedy
+Maximum Performance of a Team,https://leetcode.com/problems/maximum-performance-of-a-team/,hard,,NeetCode All,Sorting; Heap; Greedy
+IPO,https://leetcode.com/problems/ipo/,hard,,NeetCode All,Sorting; Heap; Greedy
 Restore IP Addresses,https://leetcode.com/problems/restore-ip-addresses/,medium,,NeetCode All,Backtracking and Brute Force
 Matchsticks to Square,https://leetcode.com/problems/matchsticks-to-square/,medium,,NeetCode All,Backtracking and Brute Force
 Splitting a String Into Descending Consecutive Values,https://leetcode.com/problems/splitting-a-string-into-descending-consecutive-values/,medium,,NeetCode All,Backtracking and Brute Force
 Find Unique Binary String,https://leetcode.com/problems/find-unique-binary-string/,medium,,NeetCode All,Backtracking and Brute Force
-Maximum Length of a Concatenated String With Unique Characters,https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/,medium,,NeetCode All,Backtracking and Brute Force
+Maximum Length of a Concatenated String With Unique Characters,https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/,medium,,NeetCode All,Backtracking and Brute Force; Bit Manipulation
 N Queens II,https://leetcode.com/problems/n-queens-ii/,hard,,NeetCode All,Backtracking and Brute Force
 Island Perimeter,https://leetcode.com/problems/island-perimeter/,easy,,NeetCode All,Simulation and Implementation
 Verifying An Alien Dictionary,https://leetcode.com/problems/verifying-an-alien-dictionary/,easy,,NeetCode All,Arrays and Hashing; Strings
@@ -399,7 +399,7 @@ Largest Color Value in a Directed Graph,https://leetcode.com/problems/largest-co
 Minimum Number of Days to Eat N Oranges,https://leetcode.com/problems/minimum-number-of-days-to-eat-n-oranges/,hard,,NeetCode All,1-D Dynamic Programming
 Path with Minimum Effort,https://leetcode.com/problems/path-with-minimum-effort/,medium,,NeetCode All,Shortest Paths
 Path with Maximum Probability,https://leetcode.com/problems/path-with-maximum-probability/,medium,,NeetCode All,Shortest Paths
-Number of Good Paths,https://leetcode.com/problems/number-of-good-paths/,hard,,NeetCode All,Union-Find
+Number of Good Paths,https://leetcode.com/problems/number-of-good-paths/,hard,,NeetCode All,Sorting; Union-Find
 Remove Max Number of Edges to Keep Graph Fully Traversable,https://leetcode.com/problems/remove-max-number-of-edges-to-keep-graph-fully-traversable/,hard,,NeetCode All,Union-Find
 Find Critical and Pseudo Critical Edges in Minimum Spanning Tree,https://leetcode.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/,hard,,NeetCode All,Union-Find; Minimum Spanning Tree
 Triangle,https://leetcode.com/problems/triangle/,medium,,NeetCode All,1-D Dynamic Programming
@@ -430,7 +430,7 @@ Ones and Zeroes,https://leetcode.com/problems/ones-and-zeroes/,medium,,NeetCode 
 Maximum Alternating Subsequence Sum,https://leetcode.com/problems/maximum-alternating-subsequence-sum/,medium,,NeetCode All,2-D Dynamic Programming
 Count Vowels Permutation,https://leetcode.com/problems/count-vowels-permutation/,hard,,NeetCode All,2-D Dynamic Programming
 Number of Ways to Rearrange Sticks With K Sticks Visible,https://leetcode.com/problems/number-of-ways-to-rearrange-sticks-with-k-sticks-visible/,hard,,NeetCode All,2-D Dynamic Programming
-Stone Game II,https://leetcode.com/problems/stone-game-ii/,medium,,NeetCode All,2-D Dynamic Programming
+Stone Game II,https://leetcode.com/problems/stone-game-ii/,medium,,NeetCode All,Prefix Sums; 2-D Dynamic Programming
 Flip String to Monotone Increasing,https://leetcode.com/problems/flip-string-to-monotone-increasing/,medium,,NeetCode All,1-D Dynamic Programming
 Maximum Value of K Coins from Piles,https://leetcode.com/problems/maximum-value-of-k-coins-from-piles/,hard,,NeetCode All,2-D Dynamic Programming
 Number of Music Playlists,https://leetcode.com/problems/number-of-music-playlists/,hard,,NeetCode All,2-D Dynamic Programming
@@ -445,10 +445,10 @@ Dota2 Senate,https://leetcode.com/problems/dota2-senate/,medium,,NeetCode All,Gr
 Maximum Points You Can Obtain From Cards,https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/,medium,,NeetCode All,Prefix Sums; Sliding Window
 Eliminate Maximum Number of Monsters,https://leetcode.com/problems/eliminate-maximum-number-of-monsters/,medium,,NeetCode All,Sorting; Greedy
 Two City Scheduling,https://leetcode.com/problems/two-city-scheduling/,medium,,NeetCode All,Sorting; Greedy
-Maximum Length of Pair Chain,https://leetcode.com/problems/maximum-length-of-pair-chain/,medium,,NeetCode All,Intervals; Greedy
+Maximum Length of Pair Chain,https://leetcode.com/problems/maximum-length-of-pair-chain/,medium,,NeetCode All,Sorting; Intervals; Greedy
 Minimum Deletions to Make Character Frequencies Unique,https://leetcode.com/problems/minimum-deletions-to-make-character-frequencies-unique/,medium,,NeetCode All,Arrays and Hashing; Greedy
 Candy,https://leetcode.com/problems/candy/,hard,,NeetCode All,Greedy
-Remove Covered Intervals,https://leetcode.com/problems/remove-covered-intervals/,medium,,NeetCode All,Intervals
+Remove Covered Intervals,https://leetcode.com/problems/remove-covered-intervals/,medium,,NeetCode All,Sorting; Intervals
 Data Stream as Disjoint Intervals,https://leetcode.com/problems/data-stream-as-disjoint-intervals/,hard,,NeetCode All,Intervals; Data Structure Design
 Excel Sheet Column Title,https://leetcode.com/problems/excel-sheet-column-title/,easy,,NeetCode All,Math
 Greatest Common Divisor of Strings,https://leetcode.com/problems/greatest-common-divisor-of-strings/,easy,,NeetCode All,Math; Strings
@@ -462,7 +462,7 @@ Integer to Roman,https://leetcode.com/problems/integer-to-roman/,medium,,NeetCod
 Robot Bounded In Circle,https://leetcode.com/problems/robot-bounded-in-circle/,medium,,NeetCode All,Math; Simulation and Implementation
 Zigzag Conversion,https://leetcode.com/problems/zigzag-conversion/,medium,,NeetCode All,Strings; Simulation and Implementation
 Find Missing Observations,https://leetcode.com/problems/find-missing-observations/,medium,,NeetCode All,Math
-Shuffle the Array,https://leetcode.com/problems/shuffle-the-array/,easy,,NeetCode All,Bit Manipulation
+Shuffle the Array,https://leetcode.com/problems/shuffle-the-array/,easy,,NeetCode All,Simulation and Implementation
 Add to Array-Form of Integer,https://leetcode.com/problems/add-to-array-form-of-integer/,easy,,NeetCode All,Math
 Create Hello World Function,https://leetcode.com/problems/create-hello-world-function/,easy,,NeetCode All,JavaScript
 Counter,https://leetcode.com/problems/counter/,easy,,NeetCode All,JavaScript
@@ -514,12 +514,12 @@ Chessboard and Queens,https://cses.fi/problemset/task/1624,easy,,CSES problem se
 Raab Game I,https://cses.fi/problemset/task/3399,medium,,CSES problem set,Constructive Algorithms
 Mex Grid Construction,https://cses.fi/problemset/task/3419,medium,,CSES problem set,Constructive Algorithms
 Knight Moves Grid,https://cses.fi/problemset/task/3217,medium,,CSES problem set,Graph Traversal
-Grid Coloring I,https://cses.fi/problemset/task/3311,medium,,CSES problem set,Constructive Algorithms
+Grid Coloring I,https://cses.fi/problemset/task/3311,medium,,CSES problem set,Greedy
 Digit Queries,https://cses.fi/problemset/task/2431,easy,,CSES problem set,Math
 String Reorder,https://cses.fi/problemset/task/1743,medium,,CSES problem set,Greedy; Strings
 Grid Path Description,https://cses.fi/problemset/task/1625,medium,,CSES problem set,Backtracking and Brute Force
 Distinct Numbers,https://cses.fi/problemset/task/1621,easy,,CSES problem set,Sorting
-Apartments,https://cses.fi/problemset/task/1084,easy,,CSES problem set,Two Pointers; Sorting
+Apartments,https://cses.fi/problemset/task/1084,easy,,CSES problem set,Two Pointers; Sorting; Greedy
 Ferris Wheel,https://cses.fi/problemset/task/1090,easy,,CSES problem set,Two Pointers; Greedy
 Concert Tickets,https://cses.fi/problemset/task/1091,easy,,CSES problem set,Binary Search
 Restaurant Customers,https://cses.fi/problemset/task/1619,easy,,CSES problem set,Sorting; Intervals
@@ -624,7 +624,7 @@ List Removals,https://cses.fi/problemset/task/1749,medium,,CSES problem set,Segm
 Salary Queries,https://cses.fi/problemset/task/1144,medium,,CSES problem set,Segment Tree and Fenwick Tree
 Prefix Sum Queries,https://cses.fi/problemset/task/2166,medium,,CSES problem set,Segment Tree and Fenwick Tree
 Pizzeria Queries,https://cses.fi/problemset/task/2206,medium,,CSES problem set,Segment Tree and Fenwick Tree
-Visible Buildings Queries,https://cses.fi/problemset/task/3304,hard,,CSES problem set,Monotonic Stack and Queue; Segment Tree and Fenwick Tree
+Visible Buildings Queries,https://cses.fi/problemset/task/3304,hard,,CSES problem set,Monotonic Stack and Queue; Lowest Common Ancestor and Tree Queries
 Range Interval Queries,https://cses.fi/problemset/task/3163,hard,,CSES problem set,Segment Tree and Fenwick Tree
 Subarray Sum Queries,https://cses.fi/problemset/task/1190,medium,,CSES problem set,Segment Tree and Fenwick Tree
 Subarray Sum Queries II,https://cses.fi/problemset/task/3226,hard,,CSES problem set,Segment Tree and Fenwick Tree
@@ -679,8 +679,8 @@ Graph Paths I,https://cses.fi/problemset/task/1723,medium,,CSES problem set,Matr
 Graph Paths II,https://cses.fi/problemset/task/1724,medium,,CSES problem set,Shortest Paths; Matrices and Matrix Exponentiation
 System of Linear Equations,https://cses.fi/problemset/task/3154,hard,,CSES problem set,Matrices and Matrix Exponentiation
 Sum of Four Squares,https://cses.fi/problemset/task/3355,hard,,CSES problem set,Number Theory
-Triangle Number Sums,https://cses.fi/problemset/task/3406,hard,,CSES problem set,Number Theory
-Dice Probability,https://cses.fi/problemset/task/1725,medium,,CSES problem set,Probability and Expected Value
+Triangle Number Sums,https://cses.fi/problemset/task/3406,hard,,CSES problem set,Two Pointers; Number Theory
+Dice Probability,https://cses.fi/problemset/task/1725,medium,,CSES problem set,2-D Dynamic Programming; Probability and Expected Value
 Moving Robots,https://cses.fi/problemset/task/1726,hard,,CSES problem set,Probability and Expected Value
 Candy Lottery,https://cses.fi/problemset/task/1727,hard,,CSES problem set,Probability and Expected Value
 Inversion Probability,https://cses.fi/problemset/task/1728,very hard,,CSES problem set,Probability and Expected Value
@@ -719,7 +719,7 @@ Polygon Lattice Points,https://cses.fi/problemset/task/2193,hard,,CSES problem s
 Minimum Euclidean Distance,https://cses.fi/problemset/task/2194,hard,,CSES problem set,Geometry; Divide and Conquer
 Convex Hull,https://cses.fi/problemset/task/2195,medium,,CSES problem set,Geometry
 Maximum Manhattan Distances,https://cses.fi/problemset/task/3410,hard,,CSES problem set,Geometry
-All Manhattan Distances,https://cses.fi/problemset/task/3411,hard,,CSES problem set,Sorting; Geometry
+All Manhattan Distances,https://cses.fi/problemset/task/3411,hard,,CSES problem set,Prefix Sums; Sorting; Geometry
 Intersection Points,https://cses.fi/problemset/task/1740,hard,,CSES problem set,Geometry; Segment Tree and Fenwick Tree
 Line Segments Trace I,https://cses.fi/problemset/task/3427,very hard,,CSES problem set,Geometry
 Line Segments Trace II,https://cses.fi/problemset/task/3428,very hard,,CSES problem set,Geometry
@@ -803,15 +803,15 @@ MST Edge Set Check,https://cses.fi/problemset/task/3408,hard,,CSES problem set,U
 MST Edge Cost,https://cses.fi/problemset/task/3409,very hard,,CSES problem set,Minimum Spanning Tree; Lowest Common Ancestor and Tree Queries
 Network Breakdown,https://cses.fi/problemset/task/1677,hard,,CSES problem set,Union-Find
 Tree Coin Collecting I,https://cses.fi/problemset/task/3114,very hard,,CSES problem set,Graph Traversal; Lowest Common Ancestor and Tree Queries
-Tree Coin Collecting II,https://cses.fi/problemset/task/3149,very hard,,CSES problem set,Lowest Common Ancestor and Tree Queries
+Tree Coin Collecting II,https://cses.fi/problemset/task/3149,very hard,,CSES problem set,Tree Traversal; Lowest Common Ancestor and Tree Queries
 Tree Isomorphism I,https://cses.fi/problemset/task/1700,hard,,CSES problem set,Arrays and Hashing; Tree Traversal
 Tree Isomorphism II,https://cses.fi/problemset/task/1701,hard,,CSES problem set,Tree Traversal; String Hashing
 Flight Route Requests,https://cses.fi/problemset/task/1699,very hard,,CSES problem set,Union-Find; Strongly Connected Components and Bridges
 Critical Cities,https://cses.fi/problemset/task/1703,very hard,,CSES problem set,Strongly Connected Components and Bridges
 Visiting Cities,https://cses.fi/problemset/task/1203,hard,,CSES problem set,Shortest Paths; Strongly Connected Components and Bridges
-Graph Coloring,https://cses.fi/problemset/task/3308,very hard,,CSES problem set,Graph Traversal; Constructive Algorithms
+Graph Coloring,https://cses.fi/problemset/task/3308,very hard,,CSES problem set,Bitmask DP
 Bus Companies,https://cses.fi/problemset/task/3158,hard,,CSES problem set,Shortest Paths
-Split into Two Paths,https://cses.fi/problemset/task/3358,very hard,,CSES problem set,Graph Traversal; Constructive Algorithms
+Split into Two Paths,https://cses.fi/problemset/task/3358,very hard,,CSES problem set,Bipartite Matching
 Network Renovation,https://cses.fi/problemset/task/1704,hard,,CSES problem set,Tree Traversal; Constructive Algorithms
 Forbidden Cities,https://cses.fi/problemset/task/1705,hard,,CSES problem set,Lowest Common Ancestor and Tree Queries; Strongly Connected Components and Bridges
 Creating Offices,https://cses.fi/problemset/task/1752,hard,,CSES problem set,Tree Traversal; Greedy
@@ -836,27 +836,27 @@ Collecting Numbers Distribution,https://cses.fi/problemset/task/3157,very hard,,
 Functional Graph Distribution,https://cses.fi/problemset/task/2415,very hard,,CSES problem set,2-D Dynamic Programming; Combinatorics
 Shortest Subsequence,https://cses.fi/problemset/task/1087,medium,,CSES problem set,Greedy; Strings
 Distinct Values Sum,https://cses.fi/problemset/task/3150,hard,,CSES problem set,Arrays and Hashing; Math
-Distinct Values Splits,https://cses.fi/problemset/task/3190,hard,,CSES problem set,Two Pointers; 1-D Dynamic Programming
+Distinct Values Splits,https://cses.fi/problemset/task/3190,hard,,CSES problem set,Prefix Sums; Sliding Window; 1-D Dynamic Programming
 Swap Game,https://cses.fi/problemset/task/1670,hard,,CSES problem set,Graph Traversal
 Beautiful Permutation II,https://cses.fi/problemset/task/3175,hard,,CSES problem set,Greedy; Constructive Algorithms
 Multiplication Table,https://cses.fi/problemset/task/2422,medium,,CSES problem set,Binary Search
 Bubble Sort Rounds I,https://cses.fi/problemset/task/3151,hard,,CSES problem set,Sorting
 Bubble Sort Rounds II,https://cses.fi/problemset/task/3152,hard,,CSES problem set,Sorting; Simulation and Implementation
-Nearest Campsites I,https://cses.fi/problemset/task/3306,hard,,CSES problem set,Graph Traversal
-Nearest Campsites II,https://cses.fi/problemset/task/3307,very hard,,CSES problem set,Geometry
+Nearest Campsites I,https://cses.fi/problemset/task/3306,very hard,,CSES problem set,Sorting; Segment Tree and Fenwick Tree
+Nearest Campsites II,https://cses.fi/problemset/task/3307,very hard,,CSES problem set,Sorting; Segment Tree and Fenwick Tree
 Advertisement,https://cses.fi/problemset/task/1142,medium,,CSES problem set,Monotonic Stack and Queue
 Special Substrings,https://cses.fi/problemset/task/2186,hard,,CSES problem set,Arrays and Hashing; Strings
-Counting LCM Arrays,https://cses.fi/problemset/task/3169,very hard,,CSES problem set,1-D Dynamic Programming; Number Theory
+Counting LCM Arrays,https://cses.fi/problemset/task/3169,very hard,,CSES problem set,Number Theory; Matrices and Matrix Exponentiation
 Square Subsets,https://cses.fi/problemset/task/3193,very hard,,CSES problem set,Bit Manipulation; Number Theory
 Subarray Sum Constraints,https://cses.fi/problemset/task/3294,hard,,CSES problem set,Prefix Sums; Union-Find
-Water Containers Moves,https://cses.fi/problemset/task/3213,very hard,,CSES problem set,Number Theory
+Water Containers Moves,https://cses.fi/problemset/task/3213,hard,,CSES problem set,Shortest Paths
 Water Containers Queries,https://cses.fi/problemset/task/3214,very hard,,CSES problem set,Number Theory
 Stack Weights,https://cses.fi/problemset/task/2425,very hard,,CSES problem set,Segment Tree and Fenwick Tree
 Maximum Average Subarrays,https://cses.fi/problemset/task/3301,very hard,,CSES problem set,Prefix Sums; Geometry
 Subsets with Fixed Average,https://cses.fi/problemset/task/3302,hard,,CSES problem set,2-D Dynamic Programming
-Two Array Average,https://cses.fi/problemset/task/3361,hard,,CSES problem set,Binary Search
+Two Array Average,https://cses.fi/problemset/task/3361,hard,,CSES problem set,Prefix Sums; Binary Search
 Pyramid Array,https://cses.fi/problemset/task/1747,hard,,CSES problem set,Greedy; Segment Tree and Fenwick Tree
-Permutation Subsequence,https://cses.fi/problemset/task/3404,very hard,,CSES problem set,Constructive Algorithms
+Permutation Subsequence,https://cses.fi/problemset/task/3404,hard,,CSES problem set,Binary Search; 1-D Dynamic Programming
 Bit Inversions,https://cses.fi/problemset/task/1188,hard,,CSES problem set,Segment Tree and Fenwick Tree
 Writing Numbers,https://cses.fi/problemset/task/1086,hard,,CSES problem set,Binary Search; Math
 Letter Pair Move Game,https://cses.fi/problemset/task/2427,very hard,,CSES problem set,Simulation and Implementation; Constructive Algorithms
@@ -867,26 +867,26 @@ List of Sums,https://cses.fi/problemset/task/2414,very hard,,CSES problem set,Ma
 Bouncing Ball Steps,https://cses.fi/problemset/task/3215,hard,,CSES problem set,Math
 Bouncing Ball Cycle,https://cses.fi/problemset/task/3216,very hard,,CSES problem set,Number Theory
 Knight Moves Queries,https://cses.fi/problemset/task/3218,hard,,CSES problem set,Graph Traversal; Math
-K Subset Sums I,https://cses.fi/problemset/task/3108,hard,,CSES problem set,Heap
-K Subset Sums II,https://cses.fi/problemset/task/3109,hard,,CSES problem set,Heap
+K Subset Sums I,https://cses.fi/problemset/task/3108,hard,,CSES problem set,Sorting; Heap
+K Subset Sums II,https://cses.fi/problemset/task/3109,hard,,CSES problem set,Sorting; Heap
 Increasing Array II,https://cses.fi/problemset/task/2132,hard,,CSES problem set,Heap; Greedy
 Food Division,https://cses.fi/problemset/task/1189,hard,,CSES problem set,Prefix Sums; Greedy
 Swap Round Sorting,https://cses.fi/problemset/task/1698,very hard,,CSES problem set,Graph Traversal; Constructive Algorithms
-Binary Subsequences,https://cses.fi/problemset/task/2430,very hard,,CSES problem set,Constructive Algorithms
+Binary Subsequences,https://cses.fi/problemset/task/2430,very hard,,CSES problem set,1-D Dynamic Programming; Constructive Algorithms
 School Excursion,https://cses.fi/problemset/task/1706,hard,,CSES problem set,Union-Find; 1-D Dynamic Programming
 Coin Grid,https://cses.fi/problemset/task/1709,hard,,CSES problem set,Bipartite Matching
-Grid Coloring II,https://cses.fi/problemset/task/3312,very hard,,CSES problem set,Constructive Algorithms
+Grid Coloring II,https://cses.fi/problemset/task/3312,very hard,,CSES problem set,2-SAT
 Programmers and Artists,https://cses.fi/problemset/task/2426,hard,,CSES problem set,Sorting; Greedy
 Removing Digits II,https://cses.fi/problemset/task/2174,hard,,CSES problem set,1-D Dynamic Programming; Math
 Coin Arrangement,https://cses.fi/problemset/task/2180,hard,,CSES problem set,Greedy
-Replace with Difference,https://cses.fi/problemset/task/3159,very hard,,CSES problem set,Constructive Algorithms
+Replace with Difference,https://cses.fi/problemset/task/3159,very hard,,CSES problem set,1-D Dynamic Programming; Constructive Algorithms
 Grid Puzzle I,https://cses.fi/problemset/task/2432,very hard,,CSES problem set,Constructive Algorithms; Max Flow and Min Cut
 Grid Puzzle II,https://cses.fi/problemset/task/2131,very hard,,CSES problem set,Max Flow and Min Cut
 Bit Substrings,https://cses.fi/problemset/task/2115,very hard,,CSES problem set,FFT and NTT
 Reversal Sorting,https://cses.fi/problemset/task/2075,hard,,CSES problem set,Data Structure Design
 Book Shop II,https://cses.fi/problemset/task/1159,hard,,CSES problem set,2-D Dynamic Programming
 GCD Subsets,https://cses.fi/problemset/task/3161,very hard,,CSES problem set,Number Theory; Combinatorics
-Minimum Cost Pairs,https://cses.fi/problemset/task/3402,hard,,CSES problem set,Greedy
+Minimum Cost Pairs,https://cses.fi/problemset/task/3402,hard,,CSES problem set,Sorting; Heap; Greedy
 Same Sum Subsets,https://cses.fi/problemset/task/3425,very hard,,CSES problem set,Math; Constructive Algorithms
 Mex Grid Queries,https://cses.fi/problemset/task/1157,hard,,CSES problem set,Bit Manipulation; Math
 Maximum Building II,https://cses.fi/problemset/task/1148,hard,,CSES problem set,Monotonic Stack and Queue; 2-D Dynamic Programming
@@ -999,7 +999,7 @@ Draw a Square,https://codeforces.com/problemset/problem/2074/A,easy,800,Codeforc
 Two Substrings,https://codeforces.com/problemset/problem/550/A,medium,1500,Codeforces API,Backtracking and Brute Force; Greedy; Simulation and Implementation
 Special Permutation,https://codeforces.com/problemset/problem/1454/A,easy,800,Codeforces API,Probability and Expected Value; Constructive Algorithms
 Square Year,https://codeforces.com/problemset/problem/2114/A,easy,800,Codeforces API,Binary Search; Backtracking and Brute Force
-Eating Candies,https://codeforces.com/problemset/problem/1669/F,easy,1100,Codeforces API,Binary Search; Greedy
+Eating Candies,https://codeforces.com/problemset/problem/1669/F,easy,1100,Codeforces API,Two Pointers; Binary Search; Greedy
 Different Divisors,https://codeforces.com/problemset/problem/1474/B,easy,1000,Codeforces API,Binary Search; Greedy; Number Theory; Constructive Algorithms
 Scuza,https://codeforces.com/problemset/problem/1742/E,medium,1200,Codeforces API,Binary Search; Greedy
 And Then There Were K,https://codeforces.com/problemset/problem/1527/A,easy,800,Codeforces API,Bit Manipulation
@@ -1017,8 +1017,8 @@ Mahmoud and a Triangle,https://codeforces.com/problemset/problem/766/B,easy,1000
 Rock and Lever,https://codeforces.com/problemset/problem/1420/B,medium,1200,Codeforces API,Bit Manipulation
 Omkar and Last Class of Math,https://codeforces.com/problemset/problem/1372/B,medium,1300,Codeforces API,Greedy; Number Theory
 Cardboard for Pictures,https://codeforces.com/problemset/problem/1850/E,easy,1100,Codeforces API,Binary Search; Simulation and Implementation; Geometry
-Petr and a Combination Lock,https://codeforces.com/problemset/problem/1097/B,medium,1200,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Bitmask DP
-Romantic Glasses,https://codeforces.com/problemset/problem/1915/E,medium,1300,Codeforces API,Greedy
+Petr and a Combination Lock,https://codeforces.com/problemset/problem/1097/B,medium,1200,Codeforces API,Backtracking and Brute Force; Bit Manipulation
+Romantic Glasses,https://codeforces.com/problemset/problem/1915/E,medium,1300,Codeforces API,Prefix Sums; Greedy
 Contrast Value,https://codeforces.com/problemset/problem/1832/C,medium,1200,Codeforces API,Greedy; Simulation and Implementation
 I Hate 1111,https://codeforces.com/problemset/problem/1526/B,medium,1400,Codeforces API,Number Theory
 Maximum Median,https://codeforces.com/problemset/problem/1201/C,medium,1400,Codeforces API,Binary Search; Sorting; Greedy
@@ -1043,7 +1043,7 @@ Matryoshkas,https://codeforces.com/problemset/problem/1790/D,medium,1200,Codefor
 Woodcutters,https://codeforces.com/problemset/problem/545/C,medium,1500,Codeforces API,Greedy
 Triangles on a Rectangle,https://codeforces.com/problemset/problem/1620/B,easy,1000,Codeforces API,Greedy; Geometry
 Lasers,https://codeforces.com/problemset/problem/2148/B,easy,800,Codeforces API,Geometry
-Eating Queries,https://codeforces.com/problemset/problem/1676/E,easy,1100,Codeforces API,Binary Search; Sorting; Greedy
+Eating Queries,https://codeforces.com/problemset/problem/1676/E,easy,1100,Codeforces API,Prefix Sums; Binary Search; Sorting; Greedy
 Roof Construction,https://codeforces.com/problemset/problem/1632/B,easy,1000,Codeforces API,Bit Manipulation; Constructive Algorithms
 Divisible Pairs,https://codeforces.com/problemset/problem/1931/D,medium,1300,Codeforces API,Number Theory; Combinatorics
 Stable Groups,https://codeforces.com/problemset/problem/1539/C,medium,1200,Codeforces API,Sorting; Greedy
@@ -1074,18 +1074,18 @@ Divide and Equalize,https://codeforces.com/problemset/problem/1881/D,medium,1300
 Poisoned Dagger,https://codeforces.com/problemset/problem/1613/C,medium,1200,Codeforces API,Binary Search
 "Having Been a Treasurer in the Past, I Help Goblins Deceive",https://codeforces.com/problemset/problem/2072/B,easy,900,Codeforces API,Combinatorics; Constructive Algorithms
 Strange Birthday Party,https://codeforces.com/problemset/problem/1470/A,medium,1300,Codeforces API,Binary Search; Sorting; Greedy
-Orac and Models,https://codeforces.com/problemset/problem/1350/B,medium,1400,Codeforces API,Number Theory
+Orac and Models,https://codeforces.com/problemset/problem/1350/B,medium,1400,Codeforces API,1-D Dynamic Programming; Number Theory
 Yet Another Broken Keyboard,https://codeforces.com/problemset/problem/1272/C,medium,1200,Codeforces API,Simulation and Implementation; Combinatorics
 Even-Odd Game,https://codeforces.com/problemset/problem/1472/D,medium,1200,Codeforces API,Sorting; Greedy; Game Theory
 Make Them Equal,https://codeforces.com/problemset/problem/1594/C,medium,1200,Codeforces API,Backtracking and Brute Force; Greedy
 Iskander and Drawings,https://codeforces.com/problemset/problem/2244/A,easy,800,Codeforces API,Greedy; Game Theory
 Cat Cycle,https://codeforces.com/problemset/problem/1487/B,medium,1200,Codeforces API,Number Theory
-Karen and Coffee,https://codeforces.com/problemset/problem/816/B,medium,1400,Codeforces API,Binary Search; Simulation and Implementation
+Karen and Coffee,https://codeforces.com/problemset/problem/816/B,medium,1400,Codeforces API,Prefix Sums; Binary Search; Simulation and Implementation
 Queue,https://codeforces.com/problemset/problem/545/D,medium,1300,Codeforces API,Sorting; Greedy; Simulation and Implementation
 Mortal Kombat Tower,https://codeforces.com/problemset/problem/1418/C,medium,1500,Codeforces API,Shortest Paths; Greedy
 Challenging Cliffs,https://codeforces.com/problemset/problem/1537/C,medium,1200,Codeforces API,Greedy; Simulation and Implementation; Constructive Algorithms
 Remove Two Letters,https://codeforces.com/problemset/problem/1800/D,medium,1200,Codeforces API,Greedy; String Hashing
-Subsequence Addition (Hard Version),https://codeforces.com/problemset/problem/1807/G2,easy,1100,Codeforces API,Sorting; Greedy; Bit Manipulation; Simulation and Implementation; Bitmask DP
+Subsequence Addition (Hard Version),https://codeforces.com/problemset/problem/1807/G2,easy,1100,Codeforces API,Sorting; Greedy; Bit Manipulation; Simulation and Implementation
 Make it Alternating,https://codeforces.com/problemset/problem/1879/C,medium,1300,Codeforces API,Greedy; Combinatorics
 Dictionary,https://codeforces.com/problemset/problem/1674/B,easy,800,Codeforces API,Combinatorics
 Password,https://codeforces.com/problemset/problem/1743/A,easy,800,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; Combinatorics
@@ -1103,11 +1103,11 @@ AND Sorting,https://codeforces.com/problemset/problem/1682/B,easy,1100,Codeforce
 Bad Triangle,https://codeforces.com/problemset/problem/1398/A,easy,800,Codeforces API,Geometry
 2D Traveling,https://codeforces.com/problemset/problem/1869/B,easy,1100,Codeforces API,Sorting; Shortest Paths; Geometry
 Anna and the Valentine's Day Gift,https://codeforces.com/problemset/problem/1931/E,medium,1400,Codeforces API,Sorting; Greedy; Game Theory
-News Distribution,https://codeforces.com/problemset/problem/1167/C,medium,1400,Codeforces API,Union-Find; Minimum Spanning Tree
+News Distribution,https://codeforces.com/problemset/problem/1167/C,medium,1400,Codeforces API,Union-Find
 Potions (Easy Version),https://codeforces.com/problemset/problem/1526/C1,medium,1500,Codeforces API,Backtracking and Brute Force; Greedy
 Tenzing and Books,https://codeforces.com/problemset/problem/1842/B,easy,1100,Codeforces API,Greedy; Bit Manipulation
 Polygon,https://codeforces.com/problemset/problem/1360/E,medium,1300,Codeforces API,Shortest Paths; Simulation and Implementation
-The Lakes,https://codeforces.com/problemset/problem/1829/E,easy,1100,Codeforces API,Union-Find; Minimum Spanning Tree; Simulation and Implementation
+The Lakes,https://codeforces.com/problemset/problem/1829/E,easy,1100,Codeforces API,Graph Traversal; Union-Find; Simulation and Implementation
 Sorted Adjacent Differences,https://codeforces.com/problemset/problem/1339/B,medium,1200,Codeforces API,Sorting; Constructive Algorithms
 Pasha and Stick,https://codeforces.com/problemset/problem/610/A,easy,1000,Codeforces API,Combinatorics
 3SUM,https://codeforces.com/problemset/problem/1692/F,medium,1300,Codeforces API,Backtracking and Brute Force
@@ -1117,10 +1117,10 @@ Flip the Bits,https://codeforces.com/problemset/problem/1504/B,medium,1200,Codef
 Phoenix and Beauty,https://codeforces.com/problemset/problem/1348/B,medium,1400,Codeforces API,Sorting; Greedy; Constructive Algorithms
 Number Game,https://codeforces.com/problemset/problem/1370/C,medium,1400,Codeforces API,Number Theory; Game Theory
 Add or XOR,https://codeforces.com/problemset/problem/2119/A,easy,800,Codeforces API,Greedy; Bit Manipulation
-Cyclic Components,https://codeforces.com/problemset/problem/977/E,medium,1500,Codeforces API,Union-Find; Minimum Spanning Tree
+Cyclic Components,https://codeforces.com/problemset/problem/977/E,medium,1500,Codeforces API,Graph Traversal; Union-Find
 Turtle and Piggy Are Playing a Game 2,https://codeforces.com/problemset/problem/2003/B,easy,800,Codeforces API,Sorting; Greedy; Game Theory
 Splitting Items,https://codeforces.com/problemset/problem/2004/C,easy,1100,Codeforces API,Sorting; Greedy; Game Theory
-AGAGA XOOORRR,https://codeforces.com/problemset/problem/1516/B,medium,1500,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation; Bitmask DP
+AGAGA XOOORRR,https://codeforces.com/problemset/problem/1516/B,medium,1500,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation
 Gregor and the Pawn Game,https://codeforces.com/problemset/problem/1549/B,easy,800,Codeforces API,Greedy; Simulation and Implementation; Max Flow and Min Cut; Bipartite Matching
 Row GCD,https://codeforces.com/problemset/problem/1458/A,hard,1600,Codeforces API,Number Theory
 Submission Bait,https://codeforces.com/problemset/problem/1990/A,easy,900,Codeforces API,Sorting; Backtracking and Brute Force; Greedy; Game Theory
@@ -1136,19 +1136,19 @@ Special Permutation,https://codeforces.com/problemset/problem/1352/G,hard,1600,C
 New Bakery,https://codeforces.com/problemset/problem/1978/B,easy,800,Codeforces API,Binary Search; Greedy; Ternary Search
 Box Fitting,https://codeforces.com/problemset/problem/1498/B,medium,1300,Codeforces API,Binary Search; Greedy; Bit Manipulation
 Johnny and Another Rating Drop,https://codeforces.com/problemset/problem/1362/C,medium,1400,Codeforces API,Greedy; Bit Manipulation
-Greetings,https://codeforces.com/problemset/problem/1915/F,medium,1500,Codeforces API,Sorting; Divide and Conquer
+Greetings,https://codeforces.com/problemset/problem/1915/F,medium,1500,Codeforces API,Sorting
 Friendly Numbers,https://codeforces.com/problemset/problem/2197/A,easy,800,Codeforces API,Binary Search; Backtracking and Brute Force; Simulation and Implementation; Expression Parsing
 Fox And Names,https://codeforces.com/problemset/problem/510/C,hard,1600,Codeforces API,Sorting
 Another String Minimization Problem,https://codeforces.com/problemset/problem/1706/A,easy,800,Codeforces API,Greedy; Constructive Algorithms; Suffix Structures; 2-SAT
 Secret Box,https://codeforces.com/problemset/problem/1985/E,medium,1200,Codeforces API,Backtracking and Brute Force; Combinatorics
-Sakurako's Hobby,https://codeforces.com/problemset/problem/2008/D,easy,1100,Codeforces API,Union-Find; Minimum Spanning Tree
+Sakurako's Hobby,https://codeforces.com/problemset/problem/2008/D,easy,1100,Codeforces API,Union-Find
 Fortune Telling,https://codeforces.com/problemset/problem/1634/B,medium,1400,Codeforces API,Bit Manipulation
 Swap Game,https://codeforces.com/problemset/problem/1747/C,medium,1200,Codeforces API,Game Theory
 Forming Triangles,https://codeforces.com/problemset/problem/1922/B,medium,1200,Codeforces API,Sorting; Combinatorics; Constructive Algorithms
-Data Structures Fan,https://codeforces.com/problemset/problem/1872/E,medium,1500,Codeforces API,Binary Search; Bit Manipulation; Bitmask DP
+Data Structures Fan,https://codeforces.com/problemset/problem/1872/E,medium,1500,Codeforces API,Binary Search; Bit Manipulation
 Iva & Pav,https://codeforces.com/problemset/problem/1878/E,medium,1400,Codeforces API,Binary Search; Greedy; Bit Manipulation
 Equal or Not Equal,https://codeforces.com/problemset/problem/1620/A,easy,800,Codeforces API,Union-Find; Simulation and Implementation; Constructive Algorithms
-a-Good String,https://codeforces.com/problemset/problem/1385/D,medium,1500,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Simulation and Implementation; Divide and Conquer; Bitmask DP
+a-Good String,https://codeforces.com/problemset/problem/1385/D,medium,1500,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Simulation and Implementation; Divide and Conquer
 Orac and LCM,https://codeforces.com/problemset/problem/1349/A,hard,1600,Codeforces API,Number Theory
 Array Elimination,https://codeforces.com/problemset/problem/1601/A,medium,1300,Codeforces API,Greedy; Bit Manipulation; Number Theory
 Rudolph and Christmas Tree,https://codeforces.com/problemset/problem/1846/D,medium,1200,Codeforces API,Geometry; Constructive Algorithms
@@ -1166,46 +1166,41 @@ Copil Copac Draws Trees,https://codeforces.com/problemset/problem/1830/A,medium,
 MEX Game 1,https://codeforces.com/problemset/problem/1943/A,medium,1300,Codeforces API,Greedy; Game Theory
 Almost Ternary Matrix,https://codeforces.com/problemset/problem/1699/B,easy,900,Codeforces API,Bit Manipulation; Matrices and Matrix Exponentiation; Constructive Algorithms
 Eastern Exhibition,https://codeforces.com/problemset/problem/1486/B,medium,1500,Codeforces API,Binary Search; Sorting; Shortest Paths; Geometry
-Solve The Maze,https://codeforces.com/problemset/problem/1365/D,hard,1700,Codeforces API,Union-Find; Shortest Paths; Minimum Spanning Tree; Greedy; Simulation and Implementation; Constructive Algorithms
+Solve The Maze,https://codeforces.com/problemset/problem/1365/D,hard,1700,Codeforces API,Union-Find; Shortest Paths; Greedy; Simulation and Implementation; Constructive Algorithms
 Arrow Path,https://codeforces.com/problemset/problem/1948/C,medium,1300,Codeforces API,Backtracking and Brute Force; Shortest Paths; Constructive Algorithms
 Partitioning the Array,https://codeforces.com/problemset/problem/1920/C,hard,1600,Codeforces API,Backtracking and Brute Force; Number Theory
 Game On Leaves,https://codeforces.com/problemset/problem/1363/C,hard,1600,Codeforces API,Game Theory
 AND Sequences,https://codeforces.com/problemset/problem/1513/B,medium,1400,Codeforces API,Bit Manipulation; Combinatorics; Constructive Algorithms
 Array Walk,https://codeforces.com/problemset/problem/1389/B,hard,1600,Codeforces API,Backtracking and Brute Force; Greedy
-MIN-MEX Cut,https://codeforces.com/problemset/problem/1566/B,easy,800,Codeforces API,Greedy; Bit Manipulation; Constructive Algorithms; Bitmask DP
 Journey,https://codeforces.com/problemset/problem/839/C,medium,1500,Codeforces API,Probability and Expected Value; Tree DP
-Lunar New Year and a Wander,https://codeforces.com/problemset/problem/1106/D,medium,1500,Codeforces API,Shortest Paths; Greedy
+Lunar New Year and a Wander,https://codeforces.com/problemset/problem/1106/D,medium,1500,Codeforces API,Heap; Shortest Paths; Greedy
 Find The Array,https://codeforces.com/problemset/problem/1463/B,medium,1400,Codeforces API,Greedy; Bit Manipulation; Constructive Algorithms
-Getting Zero,https://codeforces.com/problemset/problem/1661/B,medium,1300,Codeforces API,Backtracking and Brute Force; Shortest Paths; Greedy; Bit Manipulation; Bitmask DP
-Factorials and Powers of Two,https://codeforces.com/problemset/problem/1646/C,medium,1500,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Constructive Algorithms; Bitmask DP
+Getting Zero,https://codeforces.com/problemset/problem/1661/B,medium,1300,Codeforces API,Backtracking and Brute Force; Shortest Paths; Greedy; Bit Manipulation
 Valid BFS?,https://codeforces.com/problemset/problem/1037/D,hard,1700,Codeforces API,Shortest Paths
 Constructing the Array,https://codeforces.com/problemset/problem/1353/D,hard,1600,Codeforces API,Sorting; Constructive Algorithms
 Weird Sum,https://codeforces.com/problemset/problem/1648/A,medium,1400,Codeforces API,Sorting; Combinatorics; Geometry; Matrices and Matrix Exponentiation
-Parsa's Humongous Tree,https://codeforces.com/problemset/problem/1528/A,hard,1600,Codeforces API,Greedy; Divide and Conquer; Tree DP
+Parsa's Humongous Tree,https://codeforces.com/problemset/problem/1528/A,hard,1600,Codeforces API,Greedy; Tree DP
 Almost All Divisors,https://codeforces.com/problemset/problem/1165/D,hard,1600,Codeforces API,Number Theory
 Chocolate,https://codeforces.com/problemset/problem/617/B,medium,1300,Codeforces API,Combinatorics
 Kuroni and Impossible Calculation,https://codeforces.com/problemset/problem/1305/C,hard,1600,Codeforces API,Backtracking and Brute Force; Number Theory; Combinatorics
-Make Them Equal,https://codeforces.com/problemset/problem/1633/D,hard,1600,Codeforces API,Greedy
+Make Them Equal,https://codeforces.com/problemset/problem/1633/D,hard,1600,Codeforces API,1-D Dynamic Programming; Greedy
 Misha and Changing Handles,https://codeforces.com/problemset/problem/501/B,easy,1100,Codeforces API,Union-Find
-Round Dance,https://codeforces.com/problemset/problem/1833/E,hard,1600,Codeforces API,Union-Find; Shortest Paths; Minimum Spanning Tree
+Round Dance,https://codeforces.com/problemset/problem/1833/E,hard,1600,Codeforces API,Union-Find; Shortest Paths
 Training Before the Olympiad,https://codeforces.com/problemset/problem/1916/C,medium,1200,Codeforces API,Greedy; Simulation and Implementation; Game Theory; Constructive Algorithms
-Penalty,https://codeforces.com/problemset/problem/1553/C,medium,1200,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation; Bitmask DP
 To Become Max,https://codeforces.com/problemset/problem/1856/C,hard,1600,Codeforces API,Binary Search; Backtracking and Brute Force
-k-LCM (hard version),https://codeforces.com/problemset/problem/1497/C2,hard,1600,Codeforces API,Constructive Algorithms
-Vitamins,https://codeforces.com/problemset/problem/1042/B,medium,1200,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Simulation and Implementation; Bitmask DP
+k-LCM (hard version),https://codeforces.com/problemset/problem/1497/C2,hard,1600,Codeforces API,Number Theory; Constructive Algorithms
 Li Hua and Maze,https://codeforces.com/problemset/problem/1797/A,easy,800,Codeforces API,Greedy; Simulation and Implementation; Constructive Algorithms; Max Flow and Min Cut
 Jellyfish and Game,https://codeforces.com/problemset/problem/1874/A,medium,1200,Codeforces API,Backtracking and Brute Force; Greedy; Simulation and Implementation; Game Theory
 Soldier and Cards,https://codeforces.com/problemset/problem/546/C,medium,1400,Codeforces API,Backtracking and Brute Force; Game Theory
 Thermostat,https://codeforces.com/problemset/problem/1759/C,easy,1100,Codeforces API,Shortest Paths; Greedy
 Tracking Segments,https://codeforces.com/problemset/problem/1843/E,hard,1600,Codeforces API,Binary Search; Backtracking and Brute Force
-Split Into Two Sets,https://codeforces.com/problemset/problem/1702/E,hard,1600,Codeforces API,Union-Find; Minimum Spanning Tree
+Split Into Two Sets,https://codeforces.com/problemset/problem/1702/E,hard,1600,Codeforces API,Union-Find
 Deadline,https://codeforces.com/problemset/problem/1288/A,easy,1100,Codeforces API,Binary Search; Backtracking and Brute Force; Ternary Search
 Satyam and Counting,https://codeforces.com/problemset/problem/2009/D,medium,1400,Codeforces API,Geometry
 pspspsps,https://codeforces.com/problemset/problem/2049/B,medium,1300,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; Constructive Algorithms; Bipartite Matching
-Double Perspective,https://codeforces.com/problemset/problem/2129/A,medium,1300,Codeforces API,Sorting; Union-Find; Minimum Spanning Tree; Greedy; Constructive Algorithms
+Double Perspective,https://codeforces.com/problemset/problem/2129/A,medium,1300,Codeforces API,Sorting; Union-Find; Greedy; Constructive Algorithms
 Set of Strangers,https://codeforces.com/problemset/problem/2069/B,medium,1200,Codeforces API,Greedy; Matrices and Matrix Exponentiation
 Product 1 Modulo N,https://codeforces.com/problemset/problem/1514/C,hard,1600,Codeforces API,Greedy; Number Theory
-MAX-MEX Cut,https://codeforces.com/problemset/problem/1566/C,easy,1000,Codeforces API,Greedy; Bit Manipulation; Constructive Algorithms; Bitmask DP
 Line Segments,https://codeforces.com/problemset/problem/2119/B,medium,1200,Codeforces API,Greedy; Geometry
 Masha and a Beautiful Tree,https://codeforces.com/problemset/problem/1741/D,medium,1300,Codeforces API,Sorting; Divide and Conquer
 Advertising Agency,https://codeforces.com/problemset/problem/1475/E,hard,1600,Codeforces API,Sorting; Combinatorics
@@ -1215,7 +1210,7 @@ Sorting Game,https://codeforces.com/problemset/problem/2190/A,medium,1200,Codefo
 Meeting on the Line,https://codeforces.com/problemset/problem/1730/B,hard,1600,Codeforces API,Binary Search; Greedy; Simulation and Implementation; Geometry; Ternary Search
 Weight of the System of Nested Segments,https://codeforces.com/problemset/problem/1650/C,medium,1200,Codeforces API,Sorting; Greedy; Simulation and Implementation; String Hashing
 Books Exchange (hard version),https://codeforces.com/problemset/problem/1249/B2,medium,1300,Codeforces API,Union-Find
-Kousuke's Assignment,https://codeforces.com/problemset/problem/2033/D,medium,1300,Codeforces API,Union-Find; Greedy
+Kousuke's Assignment,https://codeforces.com/problemset/problem/2033/D,medium,1300,Codeforces API,Union-Find; 1-D Dynamic Programming; Greedy
 Adding Powers,https://codeforces.com/problemset/problem/1312/C,medium,1400,Codeforces API,Greedy; Bit Manipulation; Simulation and Implementation; Number Theory; Ternary Search
 King Keykhosrow's Mystery,https://codeforces.com/problemset/problem/2034/A,easy,800,Codeforces API,Backtracking and Brute Force; Number Theory; Chinese Remainder Theorem
 Binary String Reconstruction,https://codeforces.com/problemset/problem/1400/C,medium,1500,Codeforces API,Backtracking and Brute Force; Greedy; Constructive Algorithms; 2-SAT
@@ -1223,17 +1218,17 @@ Stepan and Permutation,https://codeforces.com/problemset/problem/2244/C,easy,110
 Klee's SUPER DUPER LARGE Array!!!,https://codeforces.com/problemset/problem/2009/E,medium,1400,Codeforces API,Binary Search; Ternary Search
 Alyona and a Narrow Fridge,https://codeforces.com/problemset/problem/1119/B,medium,1300,Codeforces API,Binary Search; Sorting; Greedy; Max Flow and Min Cut
 Fear of the Dark,https://codeforces.com/problemset/problem/1886/B,medium,1200,Codeforces API,Binary Search; Geometry
-Bear and Friendship Condition,https://codeforces.com/problemset/problem/771/A,medium,1500,Codeforces API,Union-Find; Minimum Spanning Tree
+Bear and Friendship Condition,https://codeforces.com/problemset/problem/771/A,medium,1500,Codeforces API,Union-Find
 Circle of Monsters,https://codeforces.com/problemset/problem/1334/C,hard,1600,Codeforces API,Backtracking and Brute Force; Greedy; Constructive Algorithms
-Maximum Sum on Even Positions,https://codeforces.com/problemset/problem/1373/D,hard,1600,Codeforces API,Greedy; Simulation and Implementation; Divide and Conquer
+Maximum Sum on Even Positions,https://codeforces.com/problemset/problem/1373/D,hard,1600,Codeforces API,Prefix Sums; Greedy; Simulation and Implementation
 Game with a Fraction,https://codeforces.com/problemset/problem/2196/A,medium,1200,Codeforces API,Game Theory
 Maximum Sum of Products,https://codeforces.com/problemset/problem/1519/D,hard,1600,Codeforces API,Backtracking and Brute Force; Simulation and Implementation
-Sleeping Schedule,https://codeforces.com/problemset/problem/1324/E,hard,1700,Codeforces API,Simulation and Implementation
-Decreasing String,https://codeforces.com/problemset/problem/1886/C,hard,1600,Codeforces API,Simulation and Implementation
+Sleeping Schedule,https://codeforces.com/problemset/problem/1324/E,hard,1700,Codeforces API,2-D Dynamic Programming; Simulation and Implementation
+Decreasing String,https://codeforces.com/problemset/problem/1886/C,hard,1600,Codeforces API,Stack; Simulation and Implementation
 Red-Blue Shuffle,https://codeforces.com/problemset/problem/1459/A,easy,800,Codeforces API,Probability and Expected Value
 Black Circles,https://codeforces.com/problemset/problem/2002/C,medium,1200,Codeforces API,Backtracking and Brute Force; Greedy; Geometry
-Edgy Trees,https://codeforces.com/problemset/problem/1139/C,medium,1500,Codeforces API,Union-Find; Minimum Spanning Tree
-Lost Numbers,https://codeforces.com/problemset/problem/1167/B,medium,1400,Codeforces API,Backtracking and Brute Force; Divide and Conquer; Interactive Problems
+Edgy Trees,https://codeforces.com/problemset/problem/1139/C,medium,1500,Codeforces API,Union-Find
+Lost Numbers,https://codeforces.com/problemset/problem/1167/B,medium,1400,Codeforces API,Backtracking and Brute Force; Interactive Problems
 Diamond Miner,https://codeforces.com/problemset/problem/1495/A,medium,1200,Codeforces API,Sorting; Greedy; Geometry
 Zero Quantity Maximization,https://codeforces.com/problemset/problem/1133/D,medium,1500,Codeforces API,Number Theory; String Hashing
 Competitive Programmer,https://codeforces.com/problemset/problem/1266/A,easy,1000,Codeforces API,Chinese Remainder Theorem
@@ -1242,78 +1237,76 @@ Hemose Shopping,https://codeforces.com/problemset/problem/1592/B,medium,1200,Cod
 Interview,https://codeforces.com/problemset/problem/1807/E,medium,1300,Codeforces API,Binary Search; Simulation and Implementation; Interactive Problems
 String Equality,https://codeforces.com/problemset/problem/1451/C,medium,1400,Codeforces API,Greedy; Simulation and Implementation; String Hashing
 Good Triples,https://codeforces.com/problemset/problem/1907/E,hard,1600,Codeforces API,Backtracking and Brute Force; Number Theory; Combinatorics
-Cut 'em all!,https://codeforces.com/problemset/problem/982/C,medium,1500,Codeforces API,Greedy; Tree DP
+Cut 'em all!,https://codeforces.com/problemset/problem/982/C,medium,1500,Codeforces API,Tree Traversal; Greedy
 Erase and Extend (Easy Version),https://codeforces.com/problemset/problem/1537/E1,hard,1600,Codeforces API,Binary Search; Backtracking and Brute Force; Greedy; Simulation and Implementation; String Hashing; Suffix Structures
 Did We Get Everything Covered?,https://codeforces.com/problemset/problem/1924/A,medium,1500,Codeforces API,Shortest Paths; Greedy; Constructive Algorithms
-Add One,https://codeforces.com/problemset/problem/1513/C,hard,1600,Codeforces API,Matrices and Matrix Exponentiation
-Beautiful Numbers,https://codeforces.com/problemset/problem/2203/B,easy,1000,Codeforces API,Greedy; Bit Manipulation; FFT and NTT; Bitmask DP
+Add One,https://codeforces.com/problemset/problem/1513/C,hard,1600,Codeforces API,1-D Dynamic Programming; Matrices and Matrix Exponentiation
+Beautiful Numbers,https://codeforces.com/problemset/problem/2203/B,easy,1000,Codeforces API,Greedy; Bit Manipulation; FFT and NTT
 Keshi Is Throwing a Party,https://codeforces.com/problemset/problem/1610/C,hard,1600,Codeforces API,Binary Search; Greedy
-Secret Passwords,https://codeforces.com/problemset/problem/1263/D,medium,1500,Codeforces API,Union-Find; Minimum Spanning Tree
+Secret Passwords,https://codeforces.com/problemset/problem/1263/D,medium,1500,Codeforces API,Union-Find
 Multiples of Length,https://codeforces.com/problemset/problem/1396/A,hard,1600,Codeforces API,Greedy; Number Theory; Constructive Algorithms
 Air Conditioners,https://codeforces.com/problemset/problem/1547/E,medium,1500,Codeforces API,Sorting; Shortest Paths; Simulation and Implementation
-Mocha and Diana (Easy Version),https://codeforces.com/problemset/problem/1559/D1,medium,1400,Codeforces API,Backtracking and Brute Force; Union-Find; Minimum Spanning Tree; Greedy; Constructive Algorithms
+Mocha and Diana (Easy Version),https://codeforces.com/problemset/problem/1559/D1,medium,1400,Codeforces API,Backtracking and Brute Force; Union-Find; Greedy; Constructive Algorithms
 Watchmen,https://codeforces.com/problemset/problem/650/A,medium,1400,Codeforces API,Geometry
-Disappearing Permutation,https://codeforces.com/problemset/problem/2086/C,medium,1300,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy; Simulation and Implementation
+Disappearing Permutation,https://codeforces.com/problemset/problem/2086/C,medium,1300,Codeforces API,Union-Find; Greedy; Simulation and Implementation
 Product Queries,https://codeforces.com/problemset/problem/2193/E,medium,1300,Codeforces API,Shortest Paths; Number Theory
 Vitaliy and Pie,https://codeforces.com/problemset/problem/525/A,easy,1100,Codeforces API,Greedy; String Hashing
-Hits Different,https://codeforces.com/problemset/problem/1829/G,hard,1600,Codeforces API,Simulation and Implementation
+Hits Different,https://codeforces.com/problemset/problem/1829/G,hard,1600,Codeforces API,Prefix Sums; Simulation and Implementation
 Hilbert's Hotel,https://codeforces.com/problemset/problem/1344/A,hard,1600,Codeforces API,Sorting; Number Theory
 Running Miles,https://codeforces.com/problemset/problem/1826/D,hard,1700,Codeforces API,Backtracking and Brute Force; Greedy
 Strange Function,https://codeforces.com/problemset/problem/1542/C,hard,1600,Codeforces API,Number Theory
 Maximize the Root,https://codeforces.com/problemset/problem/1997/D,medium,1500,Codeforces API,Binary Search; Greedy; Tree DP
 Diluc and Kaeya,https://codeforces.com/problemset/problem/1536/C,medium,1500,Codeforces API,Number Theory; String Hashing
-The Sports Festival,https://codeforces.com/problemset/problem/1509/C,hard,1800,Codeforces API,Greedy
+The Sports Festival,https://codeforces.com/problemset/problem/1509/C,hard,1800,Codeforces API,2-D Dynamic Programming; Greedy
 Taxes,https://codeforces.com/problemset/problem/735/D,hard,1600,Codeforces API,Number Theory
 I Love 1543,https://codeforces.com/problemset/problem/2036/D,medium,1300,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; Matrices and Matrix Exponentiation
 Say No to Palindromes,https://codeforces.com/problemset/problem/1555/D,hard,1600,Codeforces API,Backtracking and Brute Force; Constructive Algorithms
 Simple Polygon Embedding,https://codeforces.com/problemset/problem/1354/C1,medium,1400,Codeforces API,Binary Search; Geometry; Ternary Search
-Qpwoeirut And The City,https://codeforces.com/problemset/problem/1706/C,medium,1400,Codeforces API,Greedy; Simulation and Implementation; Max Flow and Min Cut
+Qpwoeirut And The City,https://codeforces.com/problemset/problem/1706/C,medium,1400,Codeforces API,Prefix Sums; Greedy; Simulation and Implementation; Max Flow and Min Cut
 Bear and Prime 100,https://codeforces.com/problemset/problem/679/A,medium,1400,Codeforces API,Constructive Algorithms; Interactive Problems
 Stay or Mirror,https://codeforces.com/problemset/problem/2129/B,hard,1600,Codeforces API,Sorting; Backtracking and Brute Force; Greedy
 Two Arrays,https://codeforces.com/problemset/problem/1288/C,hard,1600,Codeforces API,Combinatorics
 Modulo Sum,https://codeforces.com/problemset/problem/577/B,hard,1900,Codeforces API,Combinatorics
-Inversion Graph,https://codeforces.com/problemset/problem/1638/C,medium,1300,Codeforces API,Union-Find; Minimum Spanning Tree
+Inversion Graph,https://codeforces.com/problemset/problem/1638/C,medium,1300,Codeforces API,Stack; Union-Find
 Set or Decrease,https://codeforces.com/problemset/problem/1622/C,hard,1600,Codeforces API,Binary Search; Sorting; Backtracking and Brute Force; Greedy
-Unforgivable Curse (easy version),https://codeforces.com/problemset/problem/1800/E1,medium,1400,Codeforces API,Backtracking and Brute Force; Union-Find; Minimum Spanning Tree; Greedy; Constructive Algorithms
+Unforgivable Curse (easy version),https://codeforces.com/problemset/problem/1800/E1,medium,1400,Codeforces API,Backtracking and Brute Force; Union-Find; Greedy; Constructive Algorithms
 Yarik and Musical Notes,https://codeforces.com/problemset/problem/1899/D,medium,1300,Codeforces API,Number Theory; String Hashing
 The Morning Star,https://codeforces.com/problemset/problem/1850/G,medium,1500,Codeforces API,Sorting; Simulation and Implementation; Combinatorics; Geometry
 Doremy's IQ,https://codeforces.com/problemset/problem/1707/A,hard,1600,Codeforces API,Binary Search; Greedy; Simulation and Implementation; Constructive Algorithms
-Unforgivable Curse (hard version),https://codeforces.com/problemset/problem/1800/E2,medium,1500,Codeforces API,Backtracking and Brute Force; Union-Find; Minimum Spanning Tree; Greedy; Constructive Algorithms
-PolandBall and Forest,https://codeforces.com/problemset/problem/755/C,medium,1300,Codeforces API,Union-Find; Minimum Spanning Tree; Interactive Problems
+Unforgivable Curse (hard version),https://codeforces.com/problemset/problem/1800/E2,medium,1500,Codeforces API,Backtracking and Brute Force; Union-Find; Greedy; Constructive Algorithms
+PolandBall and Forest,https://codeforces.com/problemset/problem/755/C,medium,1300,Codeforces API,Union-Find; Interactive Problems
 Another Problem About Dividing Numbers,https://codeforces.com/problemset/problem/1538/D,hard,1700,Codeforces API,Number Theory; Constructive Algorithms
 Phoenix and Distribution,https://codeforces.com/problemset/problem/1348/C,hard,1600,Codeforces API,Sorting; Greedy; Constructive Algorithms
 Mixing Water,https://codeforces.com/problemset/problem/1359/C,hard,1700,Codeforces API,Binary Search
 Anji's Binary Tree,https://codeforces.com/problemset/problem/1900/C,medium,1300,Codeforces API,Tree DP
 Reverse String,https://codeforces.com/problemset/problem/1553/B,medium,1300,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; String Hashing
 Chocolate Bunny,https://codeforces.com/problemset/problem/1407/C,hard,1600,Codeforces API,Constructive Algorithms; Interactive Problems
-Remove Exactly Two,https://codeforces.com/problemset/problem/2063/C,hard,1600,Codeforces API,Sorting; Backtracking and Brute Force; Greedy; Tree DP
-Mr. Kitayuta's Colorful Graph,https://codeforces.com/problemset/problem/505/B,medium,1400,Codeforces API,Union-Find; Minimum Spanning Tree
-Boboniu and Bit Operations,https://codeforces.com/problemset/problem/1395/C,hard,1600,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation; Bitmask DP
+Remove Exactly Two,https://codeforces.com/problemset/problem/2063/C,hard,1600,Codeforces API,Sorting; Tree Traversal; Backtracking and Brute Force; Greedy
+Mr. Kitayuta's Colorful Graph,https://codeforces.com/problemset/problem/505/B,medium,1400,Codeforces API,Union-Find
+Boboniu and Bit Operations,https://codeforces.com/problemset/problem/1395/C,hard,1600,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation
 Nene's Magical Matrix,https://codeforces.com/problemset/problem/1956/C,hard,1600,Codeforces API,Greedy; Constructive Algorithms
 Gardener and Tree,https://codeforces.com/problemset/problem/1593/E,hard,1600,Codeforces API,Backtracking and Brute Force; Greedy; Simulation and Implementation
-Neo's Escape,https://codeforces.com/problemset/problem/2108/C,medium,1500,Codeforces API,Binary Search; Backtracking and Brute Force; Union-Find; Minimum Spanning Tree; Greedy; Simulation and Implementation
-Vlad and an Odd Ordering,https://codeforces.com/problemset/problem/1926/E,medium,1500,Codeforces API,Binary Search; Bit Manipulation; Simulation and Implementation; Number Theory; Bitmask DP
+Neo's Escape,https://codeforces.com/problemset/problem/2108/C,medium,1500,Codeforces API,Binary Search; Backtracking and Brute Force; Union-Find; Greedy; Simulation and Implementation
 Interesting Sequence,https://codeforces.com/problemset/problem/1775/C,hard,1600,Codeforces API,Bit Manipulation
-Sequence Pair Weight,https://codeforces.com/problemset/problem/1527/C,hard,1600,Codeforces API,Simulation and Implementation; String Hashing
+Sequence Pair Weight,https://codeforces.com/problemset/problem/1527/C,hard,1600,Codeforces API,Prefix Sums; 1-D Dynamic Programming; Simulation and Implementation; String Hashing
 Ruler (easy version),https://codeforces.com/problemset/problem/1999/G1,medium,1500,Codeforces API,Binary Search; Interactive Problems
 Guess the K-th Zero (Easy version),https://codeforces.com/problemset/problem/1520/F1,hard,1600,Codeforces API,Binary Search; Interactive Problems
 Reading Books (easy version),https://codeforces.com/problemset/problem/1374/E1,hard,1600,Codeforces API,Sorting; Greedy
 Motarack's Birthday,https://codeforces.com/problemset/problem/1301/B,medium,1500,Codeforces API,Binary Search; Greedy; Ternary Search
 Great Graphs,https://codeforces.com/problemset/problem/1540/A,medium,1400,Codeforces API,Sorting; Shortest Paths; Greedy; Constructive Algorithms
-"Vampiric Powers, anyone?",https://codeforces.com/problemset/problem/1847/C,medium,1400,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation; Bitmask DP
 Classy Numbers,https://codeforces.com/problemset/problem/1036/C,hard,1900,Codeforces API,Combinatorics
-"Sakurako, Kosuke, and the Permutation",https://codeforces.com/problemset/problem/2033/E,medium,1400,Codeforces API,Backtracking and Brute Force; Union-Find; Minimum Spanning Tree; Greedy
+"Sakurako, Kosuke, and the Permutation",https://codeforces.com/problemset/problem/2033/E,medium,1400,Codeforces API,Backtracking and Brute Force; Union-Find; Greedy
 Password Cracking,https://codeforces.com/problemset/problem/2013/C,medium,1400,Codeforces API,Constructive Algorithms; Interactive Problems
 Zero Path,https://codeforces.com/problemset/problem/1695/C,hard,1700,Codeforces API,Backtracking and Brute Force; Shortest Paths; Greedy
 Everyone is a Winner!,https://codeforces.com/problemset/problem/1263/C,medium,1400,Codeforces API,Binary Search; Number Theory; Meet in the Middle
 Balanced Stone Heaps,https://codeforces.com/problemset/problem/1623/C,hard,1600,Codeforces API,Binary Search; Greedy
 Sum and Product,https://codeforces.com/problemset/problem/1857/F,hard,1600,Codeforces API,Binary Search
-Baby Ehab Partitions Again,https://codeforces.com/problemset/problem/1516/C,hard,1700,Codeforces API,Bit Manipulation; Constructive Algorithms; Bitmask DP
+Baby Ehab Partitions Again,https://codeforces.com/problemset/problem/1516/C,hard,1700,Codeforces API,Bit Manipulation; Constructive Algorithms
 Minimal Height Tree,https://codeforces.com/problemset/problem/1437/D,hard,1600,Codeforces API,Shortest Paths; Greedy
 Kirei Attacks the Estate,https://codeforces.com/problemset/problem/2114/E,medium,1400,Codeforces API,Greedy; Tree DP
 Array Destruction,https://codeforces.com/problemset/problem/1474/C,hard,1700,Codeforces API,Sorting; Backtracking and Brute Force; Greedy; Simulation and Implementation; Constructive Algorithms
 Guessing the Greatest (easy version),https://codeforces.com/problemset/problem/1486/C1,hard,1600,Codeforces API,Binary Search; Interactive Problems
-Cover it!,https://codeforces.com/problemset/problem/1176/E,hard,1700,Codeforces API,Union-Find; Shortest Paths; Minimum Spanning Tree
+Cover it!,https://codeforces.com/problemset/problem/1176/E,hard,1700,Codeforces API,Union-Find; Shortest Paths
 "AND, OR and square sum",https://codeforces.com/problemset/problem/1368/D,hard,1700,Codeforces API,Greedy; Bit Manipulation
 Prefix Flip (Hard Version),https://codeforces.com/problemset/problem/1381/A2,hard,1700,Codeforces API,Simulation and Implementation; Constructive Algorithms
 Maximum White Subtree,https://codeforces.com/problemset/problem/1324/F,hard,1800,Codeforces API,Tree DP
@@ -1322,14 +1315,14 @@ Incremental Path,https://codeforces.com/problemset/problem/2150/A,medium,1300,Co
 Tree Cutting,https://codeforces.com/problemset/problem/1946/C,hard,1600,Codeforces API,Binary Search; Greedy; Simulation and Implementation; Tree DP
 Triangle Coloring,https://codeforces.com/problemset/problem/1795/D,hard,1600,Codeforces API,Combinatorics
 Infected Tree,https://codeforces.com/problemset/problem/1689/C,hard,1600,Codeforces API,Tree DP
-Strange Test,https://codeforces.com/problemset/problem/1632/C,hard,1600,Codeforces API,Binary Search; Backtracking and Brute Force; Bit Manipulation; Bitmask DP
-Serval and The Formula,https://codeforces.com/problemset/problem/2085/C,hard,1600,Codeforces API,Greedy; Bit Manipulation; Constructive Algorithms; Bitmask DP
-Hungry Games,https://codeforces.com/problemset/problem/1994/C,hard,1600,Codeforces API,Binary Search
+Strange Test,https://codeforces.com/problemset/problem/1632/C,hard,1600,Codeforces API,Binary Search; Backtracking and Brute Force; Bit Manipulation
+Serval and The Formula,https://codeforces.com/problemset/problem/2085/C,hard,1600,Codeforces API,Greedy; Bit Manipulation; Constructive Algorithms
+Hungry Games,https://codeforces.com/problemset/problem/1994/C,hard,1600,Codeforces API,Binary Search; 1-D Dynamic Programming
 Game with Chips,https://codeforces.com/problemset/problem/1327/C,hard,1600,Codeforces API,Simulation and Implementation; Constructive Algorithms
 Counting Rectangles,https://codeforces.com/problemset/problem/1722/E,hard,1600,Codeforces API,Backtracking and Brute Force; Simulation and Implementation
 AquaMoon and Stolen String,https://codeforces.com/problemset/problem/1546/B,medium,1200,Codeforces API,Interactive Problems
 Ehab the Xorcist,https://codeforces.com/problemset/problem/1325/D,hard,1700,Codeforces API,Greedy; Bit Manipulation; Number Theory; Constructive Algorithms
-Little Alawn's Puzzle,https://codeforces.com/problemset/problem/1534/C,medium,1300,Codeforces API,Union-Find; Minimum Spanning Tree; Combinatorics
+Little Alawn's Puzzle,https://codeforces.com/problemset/problem/1534/C,medium,1300,Codeforces API,Union-Find; Combinatorics
 Igor In the Museum,https://codeforces.com/problemset/problem/598/D,hard,1700,Codeforces API,Shortest Paths
 Cobb,https://codeforces.com/problemset/problem/1554/B,hard,1700,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation
 Deleting Divisors,https://codeforces.com/problemset/problem/1537/D,hard,1700,Codeforces API,Number Theory; Game Theory
@@ -1337,31 +1330,29 @@ NEKO's Maze Game,https://codeforces.com/problemset/problem/1292/A,medium,1400,Co
 Turtle vs. Rabbit Race: Optimal Trainings,https://codeforces.com/problemset/problem/1933/E,medium,1500,Codeforces API,Binary Search; Simulation and Implementation; Ternary Search
 The Meeting Place Cannot Be Changed,https://codeforces.com/problemset/problem/780/B,hard,1600,Codeforces API,Binary Search
 Good Numbers (hard version),https://codeforces.com/problemset/problem/1249/C2,medium,1500,Codeforces API,Binary Search; Greedy; Meet in the Middle
-Spy-string,https://codeforces.com/problemset/problem/1360/F,hard,1700,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Constructive Algorithms; Bitmask DP; String Hashing
+Spy-string,https://codeforces.com/problemset/problem/1360/F,hard,1700,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Constructive Algorithms; String Hashing
 Vasiliy's Multiset,https://codeforces.com/problemset/problem/706/D,hard,1800,Codeforces API,Binary Search; Bit Manipulation
-Maximum Crossings (Hard Version),https://codeforces.com/problemset/problem/1676/H2,medium,1500,Codeforces API,Sorting; Divide and Conquer
+Maximum Crossings (Hard Version),https://codeforces.com/problemset/problem/1676/H2,medium,1500,Codeforces API,Sorting
 Colored Portals,https://codeforces.com/problemset/problem/2004/D,hard,1600,Codeforces API,Binary Search; Backtracking and Brute Force; Shortest Paths; Greedy; Simulation and Implementation
 Prefix-Suffix Palindrome (Easy version),https://codeforces.com/problemset/problem/1326/D1,medium,1500,Codeforces API,String Hashing; Suffix Structures
 The Nether,https://codeforces.com/problemset/problem/2133/C,medium,1400,Codeforces API,Interactive Problems
 Searching Local Minimum,https://codeforces.com/problemset/problem/1479/A,hard,1700,Codeforces API,Binary Search; Ternary Search; Interactive Problems
-Jatayu's Balanced Bracket Sequence,https://codeforces.com/problemset/problem/1726/C,medium,1300,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy
 Stoned Game,https://codeforces.com/problemset/problem/1396/B,hard,1800,Codeforces API,Backtracking and Brute Force; Greedy; Game Theory; Constructive Algorithms
 Permutation of Rows and Columns,https://codeforces.com/problemset/problem/1980/E,hard,1600,Codeforces API,Sorting; Greedy; Simulation and Implementation; Matrices and Matrix Exponentiation; Constructive Algorithms; String Hashing
-Quiz Master,https://codeforces.com/problemset/problem/1777/C,hard,1700,Codeforces API,Binary Search; Sorting; Number Theory
+Quiz Master,https://codeforces.com/problemset/problem/1777/C,hard,1700,Codeforces API,Two Pointers; Binary Search; Sorting; Number Theory
 Sequence and Swaps,https://codeforces.com/problemset/problem/1455/D,hard,1600,Codeforces API,Sorting; Greedy
-Carrying Conundrum,https://codeforces.com/problemset/problem/1567/C,hard,1600,Codeforces API,Bit Manipulation; Combinatorics; Bitmask DP
+Carrying Conundrum,https://codeforces.com/problemset/problem/1567/C,hard,1600,Codeforces API,Bit Manipulation; Combinatorics
 Torn Lucky Ticket,https://codeforces.com/problemset/problem/1895/C,medium,1400,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; String Hashing
-Dima and a Bad XOR,https://codeforces.com/problemset/problem/1151/B,hard,1600,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Constructive Algorithms; Bitmask DP
-Graph Composition,https://codeforces.com/problemset/problem/2060/E,medium,1500,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy
+Dima and a Bad XOR,https://codeforces.com/problemset/problem/1151/B,hard,1600,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Constructive Algorithms
 Guess The Tree,https://codeforces.com/problemset/problem/2001/C,medium,1500,Codeforces API,Binary Search; Backtracking and Brute Force; Union-Find; Greedy; Divide and Conquer; Interactive Problems
-"Good Key, Bad Key",https://codeforces.com/problemset/problem/1703/G,hard,1600,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation; Bitmask DP
+"Good Key, Bad Key",https://codeforces.com/problemset/problem/1703/G,hard,1600,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation
 Sum of LDS,https://codeforces.com/problemset/problem/2128/D,hard,1600,Codeforces API,Backtracking and Brute Force; Greedy; Combinatorics
 Beautiful Permutation,https://codeforces.com/problemset/problem/2162/D,medium,1400,Codeforces API,Binary Search; Interactive Problems
 Chat Screenshots,https://codeforces.com/problemset/problem/1931/F,hard,1700,Codeforces API,Combinatorics
 Kefa and Dishes,https://codeforces.com/problemset/problem/580/D,hard,1800,Codeforces API,Bit Manipulation; Bitmask DP
 Decode,https://codeforces.com/problemset/problem/1996/E,hard,1600,Codeforces API,Simulation and Implementation; Combinatorics
 Customer Service,https://codeforces.com/problemset/problem/2059/C,hard,1600,Codeforces API,Sorting; Backtracking and Brute Force; Greedy; Constructive Algorithms; Bipartite Matching
-Catch Overflow!,https://codeforces.com/problemset/problem/1175/B,hard,1600,Codeforces API,Simulation and Implementation; Expression Parsing
+Catch Overflow!,https://codeforces.com/problemset/problem/1175/B,hard,1600,Codeforces API,Stack; Simulation and Implementation; Expression Parsing
 Circle Perimeter,https://codeforces.com/problemset/problem/1971/F,hard,1600,Codeforces API,Binary Search; Backtracking and Brute Force; Simulation and Implementation; Geometry
 PriceFixed,https://codeforces.com/problemset/problem/1539/D,hard,1600,Codeforces API,Binary Search; Sorting; Greedy; Simulation and Implementation
 Cards Partition,https://codeforces.com/problemset/problem/2018/A,hard,1600,Codeforces API,Backtracking and Brute Force; Greedy; Simulation and Implementation; 2-SAT
@@ -1373,77 +1364,72 @@ Fixed Point Guessing,https://codeforces.com/problemset/problem/1698/D,hard,1600,
 Random Events,https://codeforces.com/problemset/problem/1461/C,medium,1500,Codeforces API,Probability and Expected Value
 Rae Taylor and Trees (easy version),https://codeforces.com/problemset/problem/2171/D,medium,1400,Codeforces API,Binary Search; Union-Find; Greedy; Simulation and Implementation; Tree DP
 D-Function,https://codeforces.com/problemset/problem/1985/G,hard,1600,Codeforces API,Number Theory; Combinatorics
-Chef Monocarp,https://codeforces.com/problemset/problem/1437/C,hard,1800,Codeforces API,Sorting; Greedy; Max Flow and Min Cut; Bipartite Matching
-Spying on the Beaver,https://codeforces.com/problemset/problem/2257/C,medium,1200,Codeforces API,Union-Find; Minimum Spanning Tree; Constructive Algorithms
-Bewitching Stargazer,https://codeforces.com/problemset/problem/2053/C,medium,1500,Codeforces API,Bit Manipulation; Divide and Conquer; Bitmask DP
+Chef Monocarp,https://codeforces.com/problemset/problem/1437/C,hard,1800,Codeforces API,Sorting; 2-D Dynamic Programming; Greedy; Max Flow and Min Cut; Bipartite Matching
+Bewitching Stargazer,https://codeforces.com/problemset/problem/2053/C,medium,1500,Codeforces API,Bit Manipulation; Divide and Conquer
 Grid Covering,https://codeforces.com/problemset/problem/2217/C,medium,1300,Codeforces API,Number Theory; Chinese Remainder Theorem
-Timofey and a tree,https://codeforces.com/problemset/problem/763/A,hard,1600,Codeforces API,Union-Find; Minimum Spanning Tree; Simulation and Implementation; Tree DP
+Timofey and a tree,https://codeforces.com/problemset/problem/763/A,hard,1600,Codeforces API,Union-Find; Simulation and Implementation; Tree DP
 Prefix-Suffix Palindrome (Hard version),https://codeforces.com/problemset/problem/1326/D2,hard,1800,Codeforces API,Binary Search; Greedy; String Hashing; Suffix Structures
 Find the Zero,https://codeforces.com/problemset/problem/2209/C,medium,1400,Codeforces API,Constructive Algorithms; Interactive Problems
 Destroying Array,https://codeforces.com/problemset/problem/722/C,hard,1600,Codeforces API,Union-Find
 Mike and Feet,https://codeforces.com/problemset/problem/547/B,hard,1900,Codeforces API,Binary Search; Union-Find
 Tree with Maximum Cost,https://codeforces.com/problemset/problem/1092/F,hard,1900,Codeforces API,Tree DP
-Secret message,https://codeforces.com/problemset/problem/2194/C,medium,1300,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Number Theory; Bitmask DP
 Flexible String,https://codeforces.com/problemset/problem/1778/C,hard,1600,Codeforces API,Backtracking and Brute Force; Bit Manipulation
-XOUR,https://codeforces.com/problemset/problem/1971/G,hard,1700,Codeforces API,Sorting; Union-Find
+XOUR,https://codeforces.com/problemset/problem/1971/G,hard,1700,Codeforces API,Sorting; Union-Find; Bit Manipulation
 Hacking Numbers (Easy Version),https://codeforces.com/problemset/problem/2109/C1,medium,1500,Codeforces API,Bit Manipulation; Number Theory; Constructive Algorithms; Interactive Problems
 Engineer Artem,https://codeforces.com/problemset/problem/1438/C,hard,2000,Codeforces API,Chinese Remainder Theorem; FFT and NTT; Constructive Algorithms; Max Flow and Min Cut; 2-SAT
-Maximum modulo equality,https://codeforces.com/problemset/problem/2050/F,hard,1700,Codeforces API,Number Theory; Divide and Conquer
+Maximum modulo equality,https://codeforces.com/problemset/problem/2050/F,hard,1700,Codeforces API,Number Theory
 Equivalent Strings,https://codeforces.com/problemset/problem/559/B,hard,1700,Codeforces API,Sorting; Divide and Conquer; String Hashing
 Ruler (hard version),https://codeforces.com/problemset/problem/1999/G2,hard,1700,Codeforces API,Binary Search; Ternary Search; Interactive Problems
-Integers Have Friends,https://codeforces.com/problemset/problem/1548/B,hard,1800,Codeforces API,Binary Search; Number Theory; Divide and Conquer
-Swap Dilemma,https://codeforces.com/problemset/problem/1983/D,hard,1700,Codeforces API,Sorting; Greedy; Constructive Algorithms; Divide and Conquer
+Integers Have Friends,https://codeforces.com/problemset/problem/1548/B,hard,1800,Codeforces API,Binary Search; Number Theory; Segment Tree and Fenwick Tree
+Swap Dilemma,https://codeforces.com/problemset/problem/1983/D,hard,1700,Codeforces API,Sorting; Greedy; Constructive Algorithms
 Tree Jumps,https://codeforces.com/problemset/problem/2070/D,hard,1600,Codeforces API,Tree DP
 Don't Blame Me,https://codeforces.com/problemset/problem/1829/H,hard,1700,Codeforces API,Bit Manipulation; Combinatorics; Bitmask DP
 Eat the Chip,https://codeforces.com/problemset/problem/1921/E,hard,1600,Codeforces API,Backtracking and Brute Force; Greedy; Game Theory
-Sum of XOR Functions,https://codeforces.com/problemset/problem/1879/D,hard,1700,Codeforces API,Bit Manipulation; Combinatorics; Divide and Conquer; Bitmask DP
-Divan and bitwise operations,https://codeforces.com/problemset/problem/1614/C,medium,1500,Codeforces API,Bit Manipulation; Combinatorics; Constructive Algorithms; Bitmask DP
-By Elevator or Stairs?,https://codeforces.com/problemset/problem/1249/E,hard,1700,Codeforces API,Shortest Paths
+Sum of XOR Functions,https://codeforces.com/problemset/problem/1879/D,hard,1700,Codeforces API,Bit Manipulation; Combinatorics
+By Elevator or Stairs?,https://codeforces.com/problemset/problem/1249/E,hard,1700,Codeforces API,Shortest Paths; 2-D Dynamic Programming
 Odd-Even Subsequence,https://codeforces.com/problemset/problem/1370/D,hard,2000,Codeforces API,Binary Search; Union-Find; Greedy; Simulation and Implementation
 Max Sum OR (Easy Version),https://codeforces.com/problemset/problem/2146/D1,medium,1500,Codeforces API,Greedy; Bit Manipulation; Constructive Algorithms; Divide and Conquer
-String Transformation 1,https://codeforces.com/problemset/problem/1383/A,hard,1700,Codeforces API,Sorting; Union-Find; Minimum Spanning Tree; Greedy
+String Transformation 1,https://codeforces.com/problemset/problem/1383/A,hard,1700,Codeforces API,Sorting; Union-Find; Greedy
 Bicycles,https://codeforces.com/problemset/problem/1915/G,hard,1800,Codeforces API,Sorting; Shortest Paths; Greedy; Simulation and Implementation
-Where is the Pizza?,https://codeforces.com/problemset/problem/1670/C,medium,1400,Codeforces API,Union-Find; Minimum Spanning Tree; Simulation and Implementation
-Armchairs,https://codeforces.com/problemset/problem/1525/D,hard,1800,Codeforces API,Greedy; Max Flow and Min Cut; Bipartite Matching
-Moamen and XOR,https://codeforces.com/problemset/problem/1557/C,hard,1700,Codeforces API,Bit Manipulation; Combinatorics; Matrices and Matrix Exponentiation; Bitmask DP
+Armchairs,https://codeforces.com/problemset/problem/1525/D,hard,1800,Codeforces API,2-D Dynamic Programming; Greedy; Max Flow and Min Cut; Bipartite Matching
+Moamen and XOR,https://codeforces.com/problemset/problem/1557/C,hard,1700,Codeforces API,2-D Dynamic Programming; Bit Manipulation; Combinatorics; Matrices and Matrix Exponentiation
 Gerald's Hexagon,https://codeforces.com/problemset/problem/559/A,hard,1600,Codeforces API,Backtracking and Brute Force; Geometry
-Phase Shift,https://codeforces.com/problemset/problem/1735/C,medium,1400,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy; Simulation and Implementation
-Cow and Snacks,https://codeforces.com/problemset/problem/1209/D,hard,1700,Codeforces API,Union-Find; Minimum Spanning Tree
+Cow and Snacks,https://codeforces.com/problemset/problem/1209/D,hard,1700,Codeforces API,Union-Find
 Text Document Analysis,https://codeforces.com/problemset/problem/723/B,easy,1100,Codeforces API,Simulation and Implementation; Expression Parsing
 Training Session,https://codeforces.com/problemset/problem/1598/D,hard,1700,Codeforces API,Simulation and Implementation; Combinatorics; Geometry
 Manhattan Subarrays,https://codeforces.com/problemset/problem/1550/C,hard,1700,Codeforces API,Backtracking and Brute Force; Greedy; Simulation and Implementation; Geometry
 Required Length,https://codeforces.com/problemset/problem/1681/D,hard,1700,Codeforces API,Backtracking and Brute Force; Shortest Paths; String Hashing
-Maximum Distributed Tree,https://codeforces.com/problemset/problem/1401/D,hard,1800,Codeforces API,Sorting; Greedy; Simulation and Implementation; Number Theory; Tree DP
+Maximum Distributed Tree,https://codeforces.com/problemset/problem/1401/D,hard,1800,Codeforces API,Sorting; Tree Traversal; Greedy; Simulation and Implementation; Number Theory
 Shichikuji and Power Grid,https://codeforces.com/problemset/problem/1245/D,hard,1900,Codeforces API,Union-Find; Shortest Paths; Minimum Spanning Tree; Greedy
 Manhattan Pairs,https://codeforces.com/problemset/problem/2122/C,hard,1700,Codeforces API,Sorting; Greedy; Geometry; Constructive Algorithms
 Power Products,https://codeforces.com/problemset/problem/1225/D,hard,1800,Codeforces API,Number Theory; String Hashing
-Harmonious Graph,https://codeforces.com/problemset/problem/1253/D,hard,1700,Codeforces API,Sorting; Union-Find; Minimum Spanning Tree; Greedy; Constructive Algorithms
+Harmonious Graph,https://codeforces.com/problemset/problem/1253/D,hard,1700,Codeforces API,Sorting; Graph Traversal; Union-Find; Greedy; Constructive Algorithms
 White Sheet,https://codeforces.com/problemset/problem/1216/C,hard,1700,Codeforces API,Geometry
-Path Queries,https://codeforces.com/problemset/problem/1213/G,hard,1800,Codeforces API,Sorting; Union-Find; Minimum Spanning Tree; Divide and Conquer
+Path Queries,https://codeforces.com/problemset/problem/1213/G,hard,1800,Codeforces API,Sorting; Union-Find
 Divide and Summarize,https://codeforces.com/problemset/problem/1461/D,hard,1600,Codeforces API,Binary Search; Sorting; Backtracking and Brute Force; Simulation and Implementation; Divide and Conquer
 Alternating Path,https://codeforces.com/problemset/problem/2204/D,medium,1400,Codeforces API,Constructive Algorithms; Bipartite Matching
-Kevin and Puzzle,https://codeforces.com/problemset/problem/2061/C,hard,1600,Codeforces API,Combinatorics; 2-SAT
+Kevin and Puzzle,https://codeforces.com/problemset/problem/2061/C,hard,1600,Codeforces API,1-D Dynamic Programming; Combinatorics; 2-SAT
 Guessing the Greatest (hard version),https://codeforces.com/problemset/problem/1486/C2,hard,1900,Codeforces API,Binary Search; Interactive Problems
 Circle Game,https://codeforces.com/problemset/problem/1451/D,hard,1700,Codeforces API,Game Theory; Geometry
-The Third Letter,https://codeforces.com/problemset/problem/1850/H,hard,1700,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy; Simulation and Implementation
+The Third Letter,https://codeforces.com/problemset/problem/1850/H,hard,1700,Codeforces API,Union-Find; Greedy; Simulation and Implementation
 Replace To Make Regular Bracket Sequence,https://codeforces.com/problemset/problem/612/C,medium,1400,Codeforces API,Expression Parsing
 Christmas Trees,https://codeforces.com/problemset/problem/1283/D,hard,1800,Codeforces API,Shortest Paths; Greedy
 Secret Santa,https://codeforces.com/problemset/problem/1530/D,hard,1600,Codeforces API,Greedy; Constructive Algorithms; Max Flow and Min Cut
-Compress Words,https://codeforces.com/problemset/problem/1200/E,hard,2000,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; String Hashing; Suffix Structures
+Compress Words,https://codeforces.com/problemset/problem/1200/E,hard,2000,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; String Hashing; String Matching; Suffix Structures
 Penchick and Desert Rabbit,https://codeforces.com/problemset/problem/2031/D,hard,1700,Codeforces API,Binary Search; Union-Find; Greedy; Simulation and Implementation
 Replace the Numbers,https://codeforces.com/problemset/problem/1620/E,hard,1900,Codeforces API,Union-Find; Simulation and Implementation; Constructive Algorithms
-Minimum Maximum Distance,https://codeforces.com/problemset/problem/1881/F,hard,1700,Codeforces API,Shortest Paths; Tree DP
+Minimum Maximum Distance,https://codeforces.com/problemset/problem/1881/F,hard,1700,Codeforces API,Tree Traversal; Shortest Paths
 Maximum Subsequence,https://codeforces.com/problemset/problem/888/E,hard,1800,Codeforces API,Bit Manipulation; Divide and Conquer; Meet in the Middle
-The Number of Imposters,https://codeforces.com/problemset/problem/1594/D,hard,1700,Codeforces API,Union-Find; Minimum Spanning Tree; Constructive Algorithms
+The Number of Imposters,https://codeforces.com/problemset/problem/1594/D,hard,1700,Codeforces API,Union-Find; Constructive Algorithms
 Labyrinth,https://codeforces.com/problemset/problem/1063/B,hard,1800,Codeforces API,Shortest Paths
 Iris and Game on the Tree,https://codeforces.com/problemset/problem/2006/A,hard,1700,Codeforces API,Greedy; Game Theory; Constructive Algorithms
-"A Wide, Wide Graph",https://codeforces.com/problemset/problem/1805/D,hard,1800,Codeforces API,Greedy; Tree DP
+"A Wide, Wide Graph",https://codeforces.com/problemset/problem/1805/D,hard,1800,Codeforces API,Tree Traversal; Greedy
 Trapmigiano Reggiano,https://codeforces.com/problemset/problem/2071/C,hard,1700,Codeforces API,Sorting; Greedy; Constructive Algorithms; Tree DP
 Idiot First Search,https://codeforces.com/problemset/problem/2195/E,medium,1500,Codeforces API,Tree DP
 Village Guilds,https://codeforces.com/problemset/problem/2238/C,medium,1400,Codeforces API,Tree DP
 0-1 MST,https://codeforces.com/problemset/problem/1242/B,hard,1900,Codeforces API,Sorting; Union-Find; Minimum Spanning Tree
 khba Loves to Sleep!,https://codeforces.com/problemset/problem/2167/E,hard,1600,Codeforces API,Binary Search; Greedy; Simulation and Implementation; Geometry
-Mad City,https://codeforces.com/problemset/problem/1873/H,hard,1700,Codeforces API,Union-Find; Shortest Paths; Minimum Spanning Tree; Game Theory
+Mad City,https://codeforces.com/problemset/problem/1873/H,hard,1700,Codeforces API,Union-Find; Shortest Paths; Game Theory
 Segments Covering,https://codeforces.com/problemset/problem/2125/D,hard,1600,Codeforces API,Probability and Expected Value
 Mathematical Problem,https://codeforces.com/problemset/problem/1916/D,hard,1700,Codeforces API,Backtracking and Brute Force; Geometry; Constructive Algorithms
 Koxia and Number Theory,https://codeforces.com/problemset/problem/1770/C,hard,1700,Codeforces API,Backtracking and Brute Force; Number Theory; Chinese Remainder Theorem
@@ -1453,9 +1439,9 @@ Rendez-vous de Marian et Robin,https://codeforces.com/problemset/problem/2014/E,
 Going Home,https://codeforces.com/problemset/problem/1500/A,hard,1800,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; String Hashing
 MAD Interactive Problem,https://codeforces.com/problemset/problem/2159/A,hard,1700,Codeforces API,Simulation and Implementation; Constructive Algorithms; Interactive Problems
 Tree Requests,https://codeforces.com/problemset/problem/570/D,very hard,2200,Codeforces API,Binary Search; Bit Manipulation; Constructive Algorithms
-Explorer Space,https://codeforces.com/problemset/problem/1517/D,hard,1800,Codeforces API,Shortest Paths
+Explorer Space,https://codeforces.com/problemset/problem/1517/D,hard,1800,Codeforces API,Shortest Paths; 2-D Dynamic Programming
 Character Blocking,https://codeforces.com/problemset/problem/1840/E,hard,1600,Codeforces API,Simulation and Implementation; String Hashing
-Bakry and Partitioning,https://codeforces.com/problemset/problem/1592/C,hard,1700,Codeforces API,Bit Manipulation; Constructive Algorithms; Tree DP; Bitmask DP
+Bakry and Partitioning,https://codeforces.com/problemset/problem/1592/C,hard,1700,Codeforces API,Bit Manipulation; Constructive Algorithms; Tree DP
 For the Champion,https://codeforces.com/problemset/problem/2135/B,hard,1700,Codeforces API,Constructive Algorithms; Interactive Problems
 Rating System,https://codeforces.com/problemset/problem/1845/D,hard,1800,Codeforces API,Binary Search; Backtracking and Brute Force; Union-Find; Greedy
 SUM and REPLACE,https://codeforces.com/problemset/problem/920/F,hard,2000,Codeforces API,Backtracking and Brute Force; Union-Find; Number Theory
@@ -1464,32 +1450,28 @@ Friendly Spiders,https://codeforces.com/problemset/problem/1775/D,hard,1800,Code
 Guess the Array,https://codeforces.com/problemset/problem/727/C,medium,1400,Codeforces API,Constructive Algorithms; Interactive Problems
 Game on Array,https://codeforces.com/problemset/problem/2147/D,hard,1700,Codeforces API,Greedy; Game Theory
 TediousLee,https://codeforces.com/problemset/problem/1369/D,hard,1900,Codeforces API,Greedy; Tree DP
-"XOR, Expression and Two Binary Numbers",https://codeforces.com/problemset/problem/2234/D,medium,1500,Codeforces API,Bit Manipulation; Number Theory; Divide and Conquer; Bitmask DP
-A and B and Lecture Rooms,https://codeforces.com/problemset/problem/519/E,very hard,2100,Codeforces API,Binary Search; Tree DP
+"XOR, Expression and Two Binary Numbers",https://codeforces.com/problemset/problem/2234/D,medium,1500,Codeforces API,Bit Manipulation; Number Theory; Divide and Conquer
+A and B and Lecture Rooms,https://codeforces.com/problemset/problem/519/E,very hard,2100,Codeforces API,Binary Search; Lowest Common Ancestor and Tree Queries
 Buy Low Sell High,https://codeforces.com/problemset/problem/865/D,very hard,2400,Codeforces API,Greedy; Constructive Algorithms
 Quartet Swapping,https://codeforces.com/problemset/problem/2101/B,hard,1800,Codeforces API,Sorting; Backtracking and Brute Force; Greedy; Divide and Conquer
 Li Hua and Chess,https://codeforces.com/problemset/problem/1797/C,hard,1600,Codeforces API,Greedy; Constructive Algorithms; Interactive Problems
 Take a Guess,https://codeforces.com/problemset/problem/1556/D,hard,1800,Codeforces API,Bit Manipulation; Constructive Algorithms; Interactive Problems
 Division Versus Addition,https://codeforces.com/problemset/problem/2152/D,hard,1700,Codeforces API,Greedy; Game Theory
 Hacking Numbers (Medium Version),https://codeforces.com/problemset/problem/2109/C2,hard,1700,Codeforces API,Number Theory; Constructive Algorithms; Interactive Problems
-World is Mine,https://codeforces.com/problemset/problem/1987/D,hard,1800,Codeforces API,Game Theory
+World is Mine,https://codeforces.com/problemset/problem/1987/D,hard,1800,Codeforces API,2-D Dynamic Programming; Game Theory
 Sports Betting,https://codeforces.com/problemset/problem/2097/A,medium,1400,Codeforces API,Sorting; Backtracking and Brute Force; 2-SAT
 Fewer Batteries,https://codeforces.com/problemset/problem/2110/D,hard,1700,Codeforces API,Binary Search; Greedy; String Hashing
-Unfair Game,https://codeforces.com/problemset/problem/1955/F,hard,1800,Codeforces API,Greedy; Simulation and Implementation; Game Theory
+Unfair Game,https://codeforces.com/problemset/problem/1955/F,hard,1800,Codeforces API,Greedy; Bit Manipulation; Simulation and Implementation; Game Theory
 Palindrome Game (hard version),https://codeforces.com/problemset/problem/1527/B2,hard,1900,Codeforces API,Game Theory; Constructive Algorithms
-Dr. Evil Underscores,https://codeforces.com/problemset/problem/1285/D,hard,1900,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation; Divide and Conquer; Tree DP; Bitmask DP
+Dr. Evil Underscores,https://codeforces.com/problemset/problem/1285/D,hard,1900,Codeforces API,Tree Traversal; Backtracking and Brute Force; Greedy; Bit Manipulation; Divide and Conquer
 "Goodbye, Banker Life",https://codeforces.com/problemset/problem/2072/F,hard,1700,Codeforces API,Bit Manipulation; Number Theory; Combinatorics; FFT and NTT; Constructive Algorithms; 2-SAT
-Minimax Problem,https://codeforces.com/problemset/problem/1288/D,hard,2000,Codeforces API,Binary Search; Bit Manipulation; Bitmask DP
 Bitwise Operation Wizard,https://codeforces.com/problemset/problem/1936/A,hard,1700,Codeforces API,Greedy; Bit Manipulation; Constructive Algorithms; Interactive Problems
 Fair,https://codeforces.com/problemset/problem/986/A,hard,1600,Codeforces API,Shortest Paths; Greedy; Number Theory
-Social Network,https://codeforces.com/problemset/problem/1609/D,hard,1600,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy; Simulation and Implementation
 Firefly's Queries,https://codeforces.com/problemset/problem/2009/F,hard,1700,Codeforces API,Bit Manipulation; Max Flow and Min Cut
 Gerald and Giant Chess,https://codeforces.com/problemset/problem/559/C,very hard,2200,Codeforces API,Number Theory; Combinatorics
 Watto and Mechanism,https://codeforces.com/problemset/problem/514/C,hard,2000,Codeforces API,Binary Search; String Hashing; Suffix Structures
 Ilya and Escalator,https://codeforces.com/problemset/problem/518/D,hard,1700,Codeforces API,Combinatorics; Probability and Expected Value
 Arithmetics Competition,https://codeforces.com/problemset/problem/2132/E,hard,1700,Codeforces API,Binary Search; Sorting; Greedy; Ternary Search
-Peaceful Rooks,https://codeforces.com/problemset/problem/1411/C,hard,1700,Codeforces API,Union-Find; Minimum Spanning Tree
-Zookeeper and The Infinite Zoo,https://codeforces.com/problemset/problem/1491/D,hard,1800,Codeforces API,Greedy; Bit Manipulation; Constructive Algorithms; Bitmask DP
 Tree Tag,https://codeforces.com/problemset/problem/1404/B,hard,1900,Codeforces API,Game Theory; Tree DP
 Nearest Opposite Parity,https://codeforces.com/problemset/problem/1272/E,hard,1900,Codeforces API,Shortest Paths
 Escape The Maze (easy version),https://codeforces.com/problemset/problem/1611/E1,hard,1700,Codeforces API,Shortest Paths; Greedy
@@ -1498,54 +1480,47 @@ Fixed Prefix Permutations,https://codeforces.com/problemset/problem/1792/D,hard,
 Problem with Random Tests,https://codeforces.com/problemset/problem/1743/D,hard,1700,Codeforces API,Backtracking and Brute Force; Greedy; Probability and Expected Value
 Billion Players Game,https://codeforces.com/problemset/problem/2157/D,hard,1600,Codeforces API,Binary Search; Sorting; Greedy; Ternary Search
 Bear and Three Musketeers,https://codeforces.com/problemset/problem/574/B,medium,1500,Codeforces API,Backtracking and Brute Force; String Hashing
-Paint the Tree,https://codeforces.com/problemset/problem/1244/D,hard,1800,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; Constructive Algorithms; Tree DP
+Paint the Tree,https://codeforces.com/problemset/problem/1244/D,hard,1800,Codeforces API,Tree Traversal; Backtracking and Brute Force; Simulation and Implementation; Constructive Algorithms
 Love Rescue,https://codeforces.com/problemset/problem/939/D,hard,1600,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy
 Find a Mine,https://codeforces.com/problemset/problem/1934/C,hard,1700,Codeforces API,Binary Search; Greedy; Geometry; Constructive Algorithms; Interactive Problems
 "Rock, Paper, Scissors",https://codeforces.com/problemset/problem/1426/E,hard,1800,Codeforces API,Backtracking and Brute Force; Greedy; Constructive Algorithms; Max Flow and Min Cut
-Beautiful Array,https://codeforces.com/problemset/problem/1155/D,hard,1900,Codeforces API,Backtracking and Brute Force; Greedy; Divide and Conquer
+Beautiful Array,https://codeforces.com/problemset/problem/1155/D,hard,1900,Codeforces API,Backtracking and Brute Force; 2-D Dynamic Programming; Greedy
 The Projections of Paco,https://codeforces.com/problemset/problem/2274/A,easy,800,Codeforces API,Simulation and Implementation; String Hashing
 Fight Against Traffic,https://codeforces.com/problemset/problem/954/D,hard,1600,Codeforces API,Shortest Paths
-New Reform,https://codeforces.com/problemset/problem/659/E,hard,1600,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy
 Make It Connected,https://codeforces.com/problemset/problem/1095/F,hard,1900,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy
 Guess the Cycle Size,https://codeforces.com/problemset/problem/1729/E,hard,1800,Codeforces API,Probability and Expected Value; Interactive Problems
-Police Stations,https://codeforces.com/problemset/problem/796/D,very hard,2100,Codeforces API,Shortest Paths; Constructive Algorithms; Tree DP
+Police Stations,https://codeforces.com/problemset/problem/796/D,very hard,2100,Codeforces API,Tree Traversal; Shortest Paths; Constructive Algorithms
 MinOr Tree,https://codeforces.com/problemset/problem/1624/G,hard,1900,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy; Bit Manipulation
 RPD and Rap Sheet (Easy Version),https://codeforces.com/problemset/problem/1543/D1,hard,1700,Codeforces API,Bit Manipulation; Constructive Algorithms; Interactive Problems
-Socks,https://codeforces.com/problemset/problem/731/C,hard,1600,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy
-Fixing a Binary String,https://codeforces.com/problemset/problem/1979/D,hard,1800,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation; Constructive Algorithms; Bitmask DP; String Hashing
-Max GEQ Sum,https://codeforces.com/problemset/problem/1691/D,hard,1800,Codeforces API,Binary Search; Simulation and Implementation; Constructive Algorithms; Divide and Conquer
+Fixing a Binary String,https://codeforces.com/problemset/problem/1979/D,hard,1800,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation; Constructive Algorithms; String Hashing
+Max GEQ Sum,https://codeforces.com/problemset/problem/1691/D,hard,1800,Codeforces API,Prefix Sums; Binary Search; Simulation and Implementation; Constructive Algorithms
 Problem about GCD,https://codeforces.com/problemset/problem/2043/D,hard,1800,Codeforces API,Backtracking and Brute Force; Number Theory; Max Flow and Min Cut
-Funny Game,https://codeforces.com/problemset/problem/1994/D,hard,1900,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy; Number Theory; Constructive Algorithms
-Maximum AND,https://codeforces.com/problemset/problem/1721/D,hard,1800,Codeforces API,Sorting; Greedy; Bit Manipulation; Divide and Conquer
-Petya and Array,https://codeforces.com/problemset/problem/1042/D,hard,1800,Codeforces API,Divide and Conquer
-Selling a Menagerie,https://codeforces.com/problemset/problem/1872/F,hard,1800,Codeforces API,Union-Find; Minimum Spanning Tree; Simulation and Implementation
+Maximum AND,https://codeforces.com/problemset/problem/1721/D,hard,1800,Codeforces API,Sorting; Greedy; Bit Manipulation
+Petya and Array,https://codeforces.com/problemset/problem/1042/D,hard,1800,Codeforces API,Segment Tree and Fenwick Tree
 Drazil and His Happy Friends,https://codeforces.com/problemset/problem/515/B,medium,1300,Codeforces API,Backtracking and Brute Force; Union-Find; Number Theory; Meet in the Middle
 Medium Demon Problem (easy version),https://codeforces.com/problemset/problem/2044/G1,hard,1700,Codeforces API,Simulation and Implementation; Bipartite Matching
 Paint the Tree,https://codeforces.com/problemset/problem/1975/D,hard,1700,Codeforces API,Backtracking and Brute Force; Shortest Paths; Greedy; Tree DP
 3-Coloring,https://codeforces.com/problemset/problem/1503/B,hard,1700,Codeforces API,Game Theory; Constructive Algorithms; Interactive Problems
 Shortest Cycle,https://codeforces.com/problemset/problem/1205/B,hard,1900,Codeforces API,Backtracking and Brute Force; Shortest Paths; Bit Manipulation
 Buy a Ticket,https://codeforces.com/problemset/problem/938/D,hard,2000,Codeforces API,Shortest Paths
-Connect the Dots,https://codeforces.com/problemset/problem/2020/D,hard,1800,Codeforces API,Backtracking and Brute Force; Union-Find; Minimum Spanning Tree; Tree DP
 Santa's Bot,https://codeforces.com/problemset/problem/1279/D,hard,1700,Codeforces API,Combinatorics; Probability and Expected Value
 Cow and Fields,https://codeforces.com/problemset/problem/1307/D,hard,1900,Codeforces API,Binary Search; Sorting; Shortest Paths; Greedy
-Lakes in Berland,https://codeforces.com/problemset/problem/723/D,hard,1600,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy; Simulation and Implementation
-Primitive Primes,https://codeforces.com/problemset/problem/1316/C,hard,1800,Codeforces API,Constructive Algorithms; Ternary Search
-Xor-Paths,https://codeforces.com/problemset/problem/1006/F,very hard,2100,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Meet in the Middle; Bitmask DP
-Maximize the Largest Component (Easy Version),https://codeforces.com/problemset/problem/1985/H1,hard,1700,Codeforces API,Backtracking and Brute Force; Union-Find; Minimum Spanning Tree; Simulation and Implementation
+Primitive Primes,https://codeforces.com/problemset/problem/1316/C,hard,1800,Codeforces API,Number Theory; Constructive Algorithms; Ternary Search
+Xor-Paths,https://codeforces.com/problemset/problem/1006/F,very hard,2100,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Meet in the Middle
 "Anna, Svyatoslav and Maps",https://codeforces.com/problemset/problem/1204/C,hard,1700,Codeforces API,Shortest Paths; Greedy
 The Number of Pairs,https://codeforces.com/problemset/problem/1499/D,very hard,2100,Codeforces API,Number Theory
 Object Identification,https://codeforces.com/problemset/problem/2066/A,medium,1400,Codeforces API,Greedy; Simulation and Implementation; Interactive Problems
-Array Stabilization (GCD version),https://codeforces.com/problemset/problem/1547/F,hard,1900,Codeforces API,Binary Search; Backtracking and Brute Force; Number Theory; Divide and Conquer
-Skipping,https://codeforces.com/problemset/problem/2023/B,hard,1700,Codeforces API,Binary Search; Shortest Paths
+Array Stabilization (GCD version),https://codeforces.com/problemset/problem/1547/F,hard,1900,Codeforces API,Binary Search; Backtracking and Brute Force; Number Theory
+Skipping,https://codeforces.com/problemset/problem/2023/B,hard,1700,Codeforces API,Prefix Sums; Binary Search; Shortest Paths
 Flamingoes of Mystery,https://codeforces.com/problemset/problem/1425/F,medium,1400,Codeforces API,Interactive Problems
-XOR Construction,https://codeforces.com/problemset/problem/1895/D,hard,1900,Codeforces API,Bit Manipulation; Constructive Algorithms; Suffix Structures
-The Bakery,https://codeforces.com/problemset/problem/833/B,very hard,2200,Codeforces API,Binary Search; Divide and Conquer
+XOR Construction,https://codeforces.com/problemset/problem/1895/D,hard,1900,Codeforces API,Trie; Bit Manipulation; Constructive Algorithms; Suffix Structures
+The Bakery,https://codeforces.com/problemset/problem/833/B,very hard,2200,Codeforces API,Binary Search; 2-D Dynamic Programming; Divide and Conquer; Segment Tree and Fenwick Tree
 Creative Snap,https://codeforces.com/problemset/problem/1111/C,hard,1700,Codeforces API,Binary Search; Backtracking and Brute Force; Divide and Conquer
 Code For 1,https://codeforces.com/problemset/problem/768/B,hard,1600,Codeforces API,Constructive Algorithms; Divide and Conquer
 Polygon for the Angle,https://codeforces.com/problemset/problem/1096/C,hard,1600,Codeforces API,Backtracking and Brute Force; Geometry
 Remainders Game,https://codeforces.com/problemset/problem/687/B,hard,1800,Codeforces API,Number Theory; Chinese Remainder Theorem
-Treasure Island,https://codeforces.com/problemset/problem/1214/D,hard,1900,Codeforces API,String Hashing; Max Flow and Min Cut
-Infinite Set,https://codeforces.com/problemset/problem/1635/D,hard,1800,Codeforces API,Bit Manipulation; Number Theory; Matrices and Matrix Exponentiation; Bitmask DP
+Treasure Island,https://codeforces.com/problemset/problem/1214/D,hard,1900,Codeforces API,Graph Traversal; String Hashing; Max Flow and Min Cut
+Infinite Set,https://codeforces.com/problemset/problem/1635/D,hard,1800,Codeforces API,Bit Manipulation; Number Theory; Matrices and Matrix Exponentiation
 Minimizing Difference,https://codeforces.com/problemset/problem/1244/E,hard,2000,Codeforces API,Binary Search; Sorting; Greedy; Constructive Algorithms; Ternary Search
 Bad Luck Island,https://codeforces.com/problemset/problem/540/D,hard,1900,Codeforces API,Probability and Expected Value
 Empty Triangle,https://codeforces.com/problemset/problem/2074/E,hard,1600,Codeforces API,Probability and Expected Value; Geometry; Interactive Problems
@@ -1555,46 +1530,46 @@ Treasure Map Destruction (Constructive Version),https://codeforces.com/problemse
 Maximum Distance To Port,https://codeforces.com/problemset/problem/2172/M,medium,1400,Codeforces API,Shortest Paths
 Nearest Excluded Points,https://codeforces.com/problemset/problem/1651/D,hard,1900,Codeforces API,Binary Search; Shortest Paths
 Graph and Graph,https://codeforces.com/problemset/problem/2059/D,hard,1900,Codeforces API,Shortest Paths; Greedy
-Clear the Multiset,https://codeforces.com/problemset/problem/1400/E,very hard,2200,Codeforces API,Greedy; Divide and Conquer
+Clear the Multiset,https://codeforces.com/problemset/problem/1400/E,very hard,2200,Codeforces API,2-D Dynamic Programming; Greedy; Divide and Conquer
 Mike and Shortcuts,https://codeforces.com/problemset/problem/689/B,hard,1600,Codeforces API,Shortest Paths; Greedy
 Navigation System,https://codeforces.com/problemset/problem/1320/B,hard,1700,Codeforces API,Shortest Paths
-The Door Problem,https://codeforces.com/problemset/problem/776/D,hard,2000,Codeforces API,Union-Find; Minimum Spanning Tree; 2-SAT
+The Door Problem,https://codeforces.com/problemset/problem/776/D,hard,2000,Codeforces API,Union-Find; 2-SAT
 Wet Shark and Flowers,https://codeforces.com/problemset/problem/621/C,hard,1700,Codeforces API,Number Theory; Combinatorics; Probability and Expected Value
 LuoTianyi and the Floating Islands (Easy Version),https://codeforces.com/problemset/problem/1824/B1,hard,1800,Codeforces API,Combinatorics; Probability and Expected Value
 Erase and Extend (Hard Version),https://codeforces.com/problemset/problem/1537/E2,very hard,2200,Codeforces API,Binary Search; Greedy; String Hashing; Suffix Structures
-1-Trees and Queries,https://codeforces.com/problemset/problem/1304/E,hard,2000,Codeforces API,Shortest Paths
-Xor-MST,https://codeforces.com/problemset/problem/888/G,very hard,2300,Codeforces API,Bit Manipulation; Constructive Algorithms
+1-Trees and Queries,https://codeforces.com/problemset/problem/1304/E,hard,2000,Codeforces API,Shortest Paths; Lowest Common Ancestor and Tree Queries
+Xor-MST,https://codeforces.com/problemset/problem/888/G,very hard,2300,Codeforces API,Trie; Bit Manipulation; Constructive Algorithms
 2+ doors,https://codeforces.com/problemset/problem/1715/D,hard,1900,Codeforces API,Greedy; Bit Manipulation; 2-SAT
 Batteries,https://codeforces.com/problemset/problem/2155/D,hard,1800,Codeforces API,Backtracking and Brute Force; Constructive Algorithms; Bipartite Matching; Interactive Problems
 Tournament Countdown,https://codeforces.com/problemset/problem/1713/D,hard,1800,Codeforces API,Greedy; Number Theory; Probability and Expected Value; Constructive Algorithms; Interactive Problems
-Restorer Distance,https://codeforces.com/problemset/problem/1355/E,very hard,2100,Codeforces API,Binary Search; Sorting; Greedy; Ternary Search
-The Fair Nut and Rectangles,https://codeforces.com/problemset/problem/1083/E,very hard,2400,Codeforces API,Geometry
-Coloring Edges,https://codeforces.com/problemset/problem/1217/D,very hard,2100,Codeforces API,Constructive Algorithms
+Restorer Distance,https://codeforces.com/problemset/problem/1355/E,very hard,2100,Codeforces API,Prefix Sums; Binary Search; Sorting; Greedy; Ternary Search
+The Fair Nut and Rectangles,https://codeforces.com/problemset/problem/1083/E,very hard,2400,Codeforces API,1-D Dynamic Programming; Geometry
+Coloring Edges,https://codeforces.com/problemset/problem/1217/D,very hard,2100,Codeforces API,Graph Traversal; Constructive Algorithms
 Team Building,https://codeforces.com/problemset/problem/1316/E,very hard,2300,Codeforces API,Sorting; Greedy; Bit Manipulation; Bitmask DP
-Unusual Matrix,https://codeforces.com/problemset/problem/1475/F,hard,1900,Codeforces API,Backtracking and Brute Force; Constructive Algorithms; 2-SAT
+Unusual Matrix,https://codeforces.com/problemset/problem/1475/F,hard,1900,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Constructive Algorithms; 2-SAT
 Errich-Tac-Toe (Easy Version),https://codeforces.com/problemset/problem/1450/C1,very hard,2100,Codeforces API,Constructive Algorithms
 Gellyfish and Camellia Japonica,https://codeforces.com/problemset/problem/2115/B,very hard,2100,Codeforces API,Backtracking and Brute Force; Greedy; Constructive Algorithms; Tree DP
 GCD of an Array,https://codeforces.com/problemset/problem/1493/D,very hard,2100,Codeforces API,Sorting; Backtracking and Brute Force; Simulation and Implementation; Number Theory; String Hashing
 Omkar and Circle,https://codeforces.com/problemset/problem/1372/D,very hard,2100,Codeforces API,Backtracking and Brute Force; Greedy; Game Theory
 Vanya and Scales,https://codeforces.com/problemset/problem/552/C,hard,1900,Codeforces API,Backtracking and Brute Force; Greedy; Number Theory; Meet in the Middle
 Make it Zero,https://codeforces.com/problemset/problem/2124/E,very hard,2100,Codeforces API,Greedy; Constructive Algorithms
-Magic Gems,https://codeforces.com/problemset/problem/1117/D,very hard,2100,Codeforces API,Matrices and Matrix Exponentiation
-Yet Another Minimization Problem,https://codeforces.com/problemset/problem/868/F,very hard,2500,Codeforces API,Divide and Conquer
+Magic Gems,https://codeforces.com/problemset/problem/1117/D,very hard,2100,Codeforces API,1-D Dynamic Programming; Matrices and Matrix Exponentiation
+Yet Another Minimization Problem,https://codeforces.com/problemset/problem/868/F,very hard,2500,Codeforces API,2-D Dynamic Programming; Divide and Conquer
 Multiples and Power Differences,https://codeforces.com/problemset/problem/1485/D,very hard,2200,Codeforces API,Number Theory; Constructive Algorithms
 Anton and Tree,https://codeforces.com/problemset/problem/734/E,very hard,2100,Codeforces API,Tree DP
 Need for Pink Slips,https://codeforces.com/problemset/problem/1543/C,hard,1900,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Simulation and Implementation; Probability and Expected Value
 Nearest vectors,https://codeforces.com/problemset/problem/598/C,very hard,2300,Codeforces API,Sorting; Geometry
 Pavel and Triangles,https://codeforces.com/problemset/problem/1119/E,hard,1900,Codeforces API,Backtracking and Brute Force; Greedy; FFT and NTT; Ternary Search
 Serval and Kaitenzushi Buffet,https://codeforces.com/problemset/problem/2085/D,hard,2000,Codeforces API,Greedy; Bipartite Matching
-Gifts Order,https://codeforces.com/problemset/problem/2057/D,hard,2000,Codeforces API,Greedy; Simulation and Implementation; Matrices and Matrix Exponentiation
+Gifts Order,https://codeforces.com/problemset/problem/2057/D,hard,2000,Codeforces API,Greedy; Simulation and Implementation; Matrices and Matrix Exponentiation; Segment Tree and Fenwick Tree
 Division + LCP (easy version),https://codeforces.com/problemset/problem/1968/G1,hard,1900,Codeforces API,Binary Search; String Hashing; Suffix Structures
-Wish I Knew How to Sort,https://codeforces.com/problemset/problem/1753/C,hard,2000,Codeforces API,Probability and Expected Value
+Wish I Knew How to Sort,https://codeforces.com/problemset/problem/1753/C,hard,2000,Codeforces API,1-D Dynamic Programming; Probability and Expected Value
 Cut,https://codeforces.com/problemset/problem/1516/D,very hard,2100,Codeforces API,Binary Search; Number Theory
 Count Pairs,https://codeforces.com/problemset/problem/1188/B,very hard,2300,Codeforces API,Number Theory; Matrices and Matrix Exponentiation
 Gift Set,https://codeforces.com/problemset/problem/1538/G,very hard,2100,Codeforces API,Binary Search; Greedy; Ternary Search
 Ancient Tree,https://codeforces.com/problemset/problem/2127/E,very hard,2100,Codeforces API,Union-Find; Greedy; Constructive Algorithms
 Weakness and Poorness,https://codeforces.com/problemset/problem/578/C,hard,2000,Codeforces API,Ternary Search
-One Occurrence,https://codeforces.com/problemset/problem/1000/F,very hard,2400,Codeforces API,Divide and Conquer
+One Occurrence,https://codeforces.com/problemset/problem/1000/F,very hard,2400,Codeforces API,Segment Tree and Fenwick Tree
 Lonely Mountain Dungeons,https://codeforces.com/problemset/problem/1928/D,hard,1900,Codeforces API,Backtracking and Brute Force; Greedy; Ternary Search
 Pokémon Army (hard version),https://codeforces.com/problemset/problem/1420/C2,very hard,2100,Codeforces API,Greedy; Simulation and Implementation; Divide and Conquer
 Binary Subsequence Rotation,https://codeforces.com/problemset/problem/1370/E,very hard,2100,Codeforces API,Binary Search; Greedy; Constructive Algorithms
@@ -1603,23 +1578,21 @@ Game With Triangles,https://codeforces.com/problemset/problem/2063/D,hard,2000,C
 Ehab's Last Corollary,https://codeforces.com/problemset/problem/1364/D,very hard,2100,Codeforces API,Greedy; Simulation and Implementation; Constructive Algorithms
 Programming Competition,https://codeforces.com/problemset/problem/1914/F,hard,1900,Codeforces API,Greedy; Tree DP; Bipartite Matching
 0-1-Tree,https://codeforces.com/problemset/problem/1156/D,very hard,2200,Codeforces API,Union-Find; Divide and Conquer; Tree DP
-Nearest Beautiful Number (hard version),https://codeforces.com/problemset/problem/1560/F2,very hard,2100,Codeforces API,Backtracking and Brute Force; Greedy; Bit Manipulation; Constructive Algorithms; Bitmask DP
 Sasha and Array,https://codeforces.com/problemset/problem/718/C,very hard,2300,Codeforces API,Matrices and Matrix Exponentiation
 Nezuko in the Clearing,https://codeforces.com/problemset/problem/2149/F,hard,1900,Codeforces API,Binary Search; Ternary Search
 Good Trip,https://codeforces.com/problemset/problem/1925/D,hard,1900,Codeforces API,Combinatorics; Probability and Expected Value
 Send Boxes to Alice (Easy Version),https://codeforces.com/problemset/problem/1254/B1,hard,1800,Codeforces API,Greedy; Number Theory; Constructive Algorithms; Ternary Search
-Qualification Rounds,https://codeforces.com/problemset/problem/868/C,medium,1500,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Constructive Algorithms; Bitmask DP
 23 Kingdom,https://codeforces.com/problemset/problem/2101/C,very hard,2200,Codeforces API,Binary Search; Backtracking and Brute Force; Greedy; Ternary Search
-Tree Orientation (Easy Version),https://codeforces.com/problemset/problem/2208/D1,hard,1800,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy; Matrices and Matrix Exponentiation; Constructive Algorithms
-Score of a Tree,https://codeforces.com/problemset/problem/1777/D,hard,1900,Codeforces API,Bit Manipulation; Combinatorics; Probability and Expected Value; Tree DP; Bitmask DP
+Tree Orientation (Easy Version),https://codeforces.com/problemset/problem/2208/D1,hard,1800,Codeforces API,Union-Find; Greedy; Matrices and Matrix Exponentiation; Constructive Algorithms
+Score of a Tree,https://codeforces.com/problemset/problem/1777/D,hard,1900,Codeforces API,Bit Manipulation; Combinatorics; Probability and Expected Value; Tree DP
 Beautiful Subarrays,https://codeforces.com/problemset/problem/665/E,very hard,2100,Codeforces API,Divide and Conquer
 Reverse Card (Hard Version),https://codeforces.com/problemset/problem/1967/B2,very hard,2200,Codeforces API,Backtracking and Brute Force; Number Theory
-Vasya And The Matrix,https://codeforces.com/problemset/problem/1016/D,hard,1800,Codeforces API,Constructive Algorithms; Max Flow and Min Cut
+Vasya And The Matrix,https://codeforces.com/problemset/problem/1016/D,hard,1800,Codeforces API,Bit Manipulation; Constructive Algorithms; Max Flow and Min Cut
 Tavas and Malekas,https://codeforces.com/problemset/problem/535/D,hard,1900,Codeforces API,Greedy; String Hashing; Suffix Structures
 Dasha and Nightmares,https://codeforces.com/problemset/problem/1800/F,hard,1900,Codeforces API,Bit Manipulation; Meet in the Middle; String Hashing
 Minimal Segment Cover,https://codeforces.com/problemset/problem/1175/E,very hard,2200,Codeforces API,Greedy; Simulation and Implementation; Divide and Conquer; Tree DP
 Message Transmission Error (hard version),https://codeforces.com/problemset/problem/2010/C2,hard,1700,Codeforces API,String Hashing; Suffix Structures
-Phoenix and Computers,https://codeforces.com/problemset/problem/1515/E,very hard,2200,Codeforces API,Combinatorics
+Phoenix and Computers,https://codeforces.com/problemset/problem/1515/E,very hard,2200,Codeforces API,2-D Dynamic Programming; Combinatorics
 Beautiful Mirrors,https://codeforces.com/problemset/problem/1265/E,very hard,2100,Codeforces API,Probability and Expected Value
 GCD Guess,https://codeforces.com/problemset/problem/1665/D,hard,2000,Codeforces API,Bit Manipulation; Number Theory; Chinese Remainder Theorem; Game Theory; Constructive Algorithms; Interactive Problems
 Mysterious Crime,https://codeforces.com/problemset/problem/1043/D,hard,1700,Codeforces API,Backtracking and Brute Force; Combinatorics; Meet in the Middle
@@ -1632,60 +1605,59 @@ Two Arrays,https://codeforces.com/problemset/problem/1366/E,very hard,2100,Codef
 Robot in a Hallway,https://codeforces.com/problemset/problem/1716/C,hard,2000,Codeforces API,Greedy; Simulation and Implementation; Ternary Search
 Kate and imperfection,https://codeforces.com/problemset/problem/1333/F,very hard,2200,Codeforces API,Sorting; Greedy; Simulation and Implementation; Number Theory
 GCD Queries,https://codeforces.com/problemset/problem/1762/D,very hard,2100,Codeforces API,Number Theory; Constructive Algorithms; Interactive Problems
-Divan and Kostomuksha (easy version),https://codeforces.com/problemset/problem/1614/D1,very hard,2100,Codeforces API,Number Theory
+Divan and Kostomuksha (easy version),https://codeforces.com/problemset/problem/1614/D1,very hard,2100,Codeforces API,1-D Dynamic Programming; Number Theory
 Soldier and Traveling,https://codeforces.com/problemset/problem/546/E,very hard,2100,Codeforces API,Max Flow and Min Cut
-Koxia and Game,https://codeforces.com/problemset/problem/1770/D,hard,2000,Codeforces API,Union-Find; Minimum Spanning Tree; Simulation and Implementation; Game Theory; Constructive Algorithms; Max Flow and Min Cut; Bipartite Matching
-Kingdom and its Cities,https://codeforces.com/problemset/problem/613/D,very hard,2800,Codeforces API,Sorting; Divide and Conquer; Tree DP
-Water Balance,https://codeforces.com/problemset/problem/1299/C,very hard,2100,Codeforces API,Greedy; Geometry
-Points on Plane,https://codeforces.com/problemset/problem/576/C,very hard,2100,Codeforces API,Sorting; Greedy; Geometry; Constructive Algorithms; Divide and Conquer
-Anya and Cubes,https://codeforces.com/problemset/problem/525/E,very hard,2100,Codeforces API,Binary Search; Backtracking and Brute Force; Bit Manipulation; Meet in the Middle; Bitmask DP
+Koxia and Game,https://codeforces.com/problemset/problem/1770/D,hard,2000,Codeforces API,Union-Find; Simulation and Implementation; Game Theory; Constructive Algorithms; Max Flow and Min Cut; Bipartite Matching
+Kingdom and its Cities,https://codeforces.com/problemset/problem/613/D,very hard,2800,Codeforces API,Sorting; Tree DP; Lowest Common Ancestor and Tree Queries
+Water Balance,https://codeforces.com/problemset/problem/1299/C,very hard,2100,Codeforces API,Prefix Sums; Greedy; Geometry
+Points on Plane,https://codeforces.com/problemset/problem/576/C,very hard,2100,Codeforces API,Sorting; Greedy; Geometry; Constructive Algorithms
+Anya and Cubes,https://codeforces.com/problemset/problem/525/E,very hard,2100,Codeforces API,Binary Search; Backtracking and Brute Force; Bit Manipulation; Meet in the Middle
 Guess The Maximums,https://codeforces.com/problemset/problem/1363/D,very hard,2100,Codeforces API,Binary Search; Simulation and Implementation; Interactive Problems
-Escape Through Leaf,https://codeforces.com/problemset/problem/932/F,very hard,2700,Codeforces API,Geometry
+Escape Through Leaf,https://codeforces.com/problemset/problem/932/F,very hard,2700,Codeforces API,Geometry; Tree DP
 Checkpoints,https://codeforces.com/problemset/problem/1453/D,hard,1900,Codeforces API,Backtracking and Brute Force; Greedy; Probability and Expected Value; Constructive Algorithms
-Non-Decreasing Dilemma,https://codeforces.com/problemset/problem/1567/E,very hard,2200,Codeforces API,Divide and Conquer
-Math Division,https://codeforces.com/problemset/problem/2081/A,hard,1800,Codeforces API,Bit Manipulation; Probability and Expected Value; Bitmask DP
-Chemical table,https://codeforces.com/problemset/problem/1012/B,hard,1900,Codeforces API,Union-Find; Minimum Spanning Tree; Matrices and Matrix Exponentiation; Constructive Algorithms
-Earn or Unlock,https://codeforces.com/problemset/problem/1854/B,very hard,2200,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Bitmask DP
+Non-Decreasing Dilemma,https://codeforces.com/problemset/problem/1567/E,very hard,2200,Codeforces API,Segment Tree and Fenwick Tree
+Math Division,https://codeforces.com/problemset/problem/2081/A,hard,1800,Codeforces API,Bit Manipulation; Probability and Expected Value
+Chemical table,https://codeforces.com/problemset/problem/1012/B,hard,1900,Codeforces API,Union-Find; Matrices and Matrix Exponentiation; Constructive Algorithms
 Height All the Same,https://codeforces.com/problemset/problem/1332/E,very hard,2100,Codeforces API,Combinatorics; Matrices and Matrix Exponentiation; Constructive Algorithms
 Special Segments of Permutation,https://codeforces.com/problemset/problem/1156/E,very hard,2200,Codeforces API,Union-Find; Divide and Conquer
-Array Collapse,https://codeforces.com/problemset/problem/1913/D,very hard,2100,Codeforces API,Divide and Conquer; Tree DP
+Array Collapse,https://codeforces.com/problemset/problem/1913/D,very hard,2100,Codeforces API,Monotonic Stack and Queue; Tree DP
 Recovering BST,https://codeforces.com/problemset/problem/1025/D,very hard,2100,Codeforces API,Backtracking and Brute Force; Number Theory; Tree DP
-Arena,https://codeforces.com/problemset/problem/1606/E,very hard,2100,Codeforces API,Combinatorics
+Arena,https://codeforces.com/problemset/problem/1606/E,very hard,2100,Codeforces API,2-D Dynamic Programming; Combinatorics
 Destiny,https://codeforces.com/problemset/problem/840/D,very hard,2500,Codeforces API,Probability and Expected Value
 From the Unknown (Easy Version),https://codeforces.com/problemset/problem/2135/D1,very hard,2100,Codeforces API,Constructive Algorithms; Interactive Problems
 Strange Housing,https://codeforces.com/problemset/problem/1470/D,very hard,2200,Codeforces API,Greedy; Constructive Algorithms; Bipartite Matching
-Edge Split,https://codeforces.com/problemset/problem/1726/D,hard,2000,Codeforces API,Backtracking and Brute Force; Union-Find; Minimum Spanning Tree; Probability and Expected Value; Constructive Algorithms
+Edge Split,https://codeforces.com/problemset/problem/1726/D,hard,2000,Codeforces API,Backtracking and Brute Force; Graph Traversal; Union-Find; Minimum Spanning Tree; Probability and Expected Value; Constructive Algorithms
 Monocarp and the Set,https://codeforces.com/problemset/problem/1886/D,very hard,2100,Codeforces API,Combinatorics
-Xor Tree,https://codeforces.com/problemset/problem/1446/C,very hard,2100,Codeforces API,Binary Search; Bit Manipulation; Divide and Conquer; Tree DP; Bitmask DP
+Xor Tree,https://codeforces.com/problemset/problem/1446/C,very hard,2100,Codeforces API,Binary Search; Bit Manipulation; Divide and Conquer; Tree DP
 Timofey and Black-White Tree,https://codeforces.com/problemset/problem/1790/F,very hard,2100,Codeforces API,Backtracking and Brute Force; Shortest Paths; Greedy; Divide and Conquer
-Qpwoeirut and Vertices,https://codeforces.com/problemset/problem/1706/E,very hard,2300,Codeforces API,Binary Search; Union-Find; Greedy; Divide and Conquer
-Expected Power,https://codeforces.com/problemset/problem/2020/E,hard,2000,Codeforces API,Bit Manipulation; Probability and Expected Value; Bitmask DP
+Qpwoeirut and Vertices,https://codeforces.com/problemset/problem/1706/E,very hard,2300,Codeforces API,Binary Search; Union-Find; Greedy; Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries
+Expected Power,https://codeforces.com/problemset/problem/2020/E,hard,2000,Codeforces API,Bit Manipulation; Probability and Expected Value
 Challenges in school №41,https://codeforces.com/problemset/problem/1333/D,very hard,2100,Codeforces API,Sorting; Backtracking and Brute Force; Greedy; Simulation and Implementation; Game Theory; Constructive Algorithms
-Sum of Paths,https://codeforces.com/problemset/problem/1467/D,very hard,2200,Codeforces API,Combinatorics
+Sum of Paths,https://codeforces.com/problemset/problem/1467/D,very hard,2200,Codeforces API,2-D Dynamic Programming; Combinatorics
 Anton and School - 2,https://codeforces.com/problemset/problem/785/D,very hard,2300,Codeforces API,Number Theory; Combinatorics
 Ivan and Burgers,https://codeforces.com/problemset/problem/1100/F,very hard,2500,Codeforces API,Greedy; Divide and Conquer
 Query Jungle,https://codeforces.com/problemset/problem/2152/G,very hard,2900,Codeforces API,Simulation and Implementation; Matrices and Matrix Exponentiation
-Skyline Photo,https://codeforces.com/problemset/problem/1482/E,very hard,2100,Codeforces API,Divide and Conquer
-Till I Collapse,https://codeforces.com/problemset/problem/786/C,very hard,2400,Codeforces API,Divide and Conquer
+Skyline Photo,https://codeforces.com/problemset/problem/1482/E,very hard,2100,Codeforces API,Monotonic Stack and Queue; 1-D Dynamic Programming; Segment Tree and Fenwick Tree
+Till I Collapse,https://codeforces.com/problemset/problem/786/C,very hard,2400,Codeforces API,Divide and Conquer; Segment Tree and Fenwick Tree
 Bitwise Queries (Hard Version),https://codeforces.com/problemset/problem/1451/E2,very hard,2300,Codeforces API,Bit Manipulation; Constructive Algorithms; Interactive Problems
 ''a'' String Problem,https://codeforces.com/problemset/problem/1984/D,hard,2000,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; String Hashing; Suffix Structures
 Segment Sum,https://codeforces.com/problemset/problem/1073/E,very hard,2300,Codeforces API,Bit Manipulation; Combinatorics; Bitmask DP
 Omkar and Duck,https://codeforces.com/problemset/problem/1392/E,very hard,2100,Codeforces API,Bit Manipulation; Constructive Algorithms; Interactive Problems
 She knows...,https://codeforces.com/problemset/problem/2092/E,very hard,2100,Codeforces API,Combinatorics; Constructive Algorithms
 Number of Components,https://codeforces.com/problemset/problem/1151/E,very hard,2100,Codeforces API,Combinatorics
-Level Up,https://codeforces.com/problemset/problem/1997/E,very hard,2200,Codeforces API,Binary Search; Backtracking and Brute Force; Simulation and Implementation; Divide and Conquer
+Level Up,https://codeforces.com/problemset/problem/1997/E,very hard,2200,Codeforces API,Binary Search; Backtracking and Brute Force; Simulation and Implementation; Segment Tree and Fenwick Tree
 Puzzles,https://codeforces.com/problemset/problem/696/B,hard,1700,Codeforces API,Probability and Expected Value
 More Wrong,https://codeforces.com/problemset/problem/1856/D,very hard,2100,Codeforces API,Divide and Conquer; Interactive Problems
-Game on Sum (Easy Version),https://codeforces.com/problemset/problem/1628/D1,very hard,2100,Codeforces API,Combinatorics; Game Theory
+Game on Sum (Easy Version),https://codeforces.com/problemset/problem/1628/D1,very hard,2100,Codeforces API,2-D Dynamic Programming; Combinatorics; Game Theory
 Salyg1n and Array (hard version),https://codeforces.com/problemset/problem/1867/E2,very hard,2200,Codeforces API,Constructive Algorithms; Interactive Problems
 How Many Paths?,https://codeforces.com/problemset/problem/1547/G,very hard,2100,Codeforces API,Tree DP
-Thief in a Shop,https://codeforces.com/problemset/problem/632/E,very hard,2400,Codeforces API,FFT and NTT; Divide and Conquer
+Thief in a Shop,https://codeforces.com/problemset/problem/632/E,very hard,2400,Codeforces API,FFT and NTT
 Placing Rooks,https://codeforces.com/problemset/problem/1342/E,very hard,2300,Codeforces API,Combinatorics; FFT and NTT
 Rebus,https://codeforces.com/problemset/problem/663/A,hard,1800,Codeforces API,Greedy; Constructive Algorithms; Expression Parsing
-Game of Stones,https://codeforces.com/problemset/problem/768/E,very hard,2100,Codeforces API,Bit Manipulation; Game Theory; Bitmask DP
+Game of Stones,https://codeforces.com/problemset/problem/768/E,very hard,2100,Codeforces API,Bit Manipulation; Game Theory
 Segments Removal,https://codeforces.com/problemset/problem/899/E,hard,2000,Codeforces API,Union-Find; Simulation and Implementation; Max Flow and Min Cut
 Keyboard Purchase,https://codeforces.com/problemset/problem/1238/E,very hard,2200,Codeforces API,Bit Manipulation; Bitmask DP
-Mahmoud and a xor trip,https://codeforces.com/problemset/problem/766/E,very hard,2100,Codeforces API,Bit Manipulation; Constructive Algorithms; Tree DP; Bitmask DP
+Mahmoud and a xor trip,https://codeforces.com/problemset/problem/766/E,very hard,2100,Codeforces API,Bit Manipulation; Constructive Algorithms; Tree DP
 Grid Xor,https://codeforces.com/problemset/problem/1628/C,very hard,2300,Codeforces API,Greedy; Simulation and Implementation; Constructive Algorithms; Interactive Problems
 Bits And Pieces,https://codeforces.com/problemset/problem/1208/F,very hard,2600,Codeforces API,Greedy; Bit Manipulation; Bitmask DP
 Once Again...,https://codeforces.com/problemset/problem/582/B,hard,1900,Codeforces API,Matrices and Matrix Exponentiation; Constructive Algorithms
@@ -1693,8 +1665,7 @@ Paired Payment,https://codeforces.com/problemset/problem/1486/E,very hard,2200,C
 Balanced Tree,https://codeforces.com/problemset/problem/2062/D,very hard,2200,Codeforces API,Greedy; Tree DP
 Marbles,https://codeforces.com/problemset/problem/1215/E,very hard,2200,Codeforces API,Bit Manipulation; Bitmask DP
 LuoTianyi and the Floating Islands (Hard Version),https://codeforces.com/problemset/problem/1824/B2,very hard,2300,Codeforces API,Combinatorics; Probability and Expected Value
-Mike and Foam,https://codeforces.com/problemset/problem/547/C,very hard,2300,Codeforces API,Bit Manipulation; Number Theory; Combinatorics; Bitmask DP
-Maple and Tree Beauty (Hard Version),https://codeforces.com/problemset/problem/2138/C2,hard,2000,Codeforces API,Backtracking and Brute Force; Bit Manipulation; FFT and NTT; Tree DP; Bitmask DP
+Maple and Tree Beauty (Hard Version),https://codeforces.com/problemset/problem/2138/C2,hard,2000,Codeforces API,Backtracking and Brute Force; Bit Manipulation; FFT and NTT; Tree DP
 Bear and Tree Jumps,https://codeforces.com/problemset/problem/771/C,very hard,2100,Codeforces API,Tree DP
 Flexible String Revisit,https://codeforces.com/problemset/problem/1778/D,very hard,2100,Codeforces API,Combinatorics; Probability and Expected Value
 Jon and Orbs,https://codeforces.com/problemset/problem/768/D,very hard,2200,Codeforces API,Probability and Expected Value
@@ -1717,7 +1688,7 @@ Wet Shark and Blocks,https://codeforces.com/problemset/problem/621/E,hard,2000,C
 Preorder,https://codeforces.com/problemset/problem/1671/E,very hard,2100,Codeforces API,Sorting; Union-Find; Combinatorics; Divide and Conquer; Tree DP; String Hashing
 Single-use Stones,https://codeforces.com/problemset/problem/965/D,hard,1900,Codeforces API,Binary Search; Greedy; Max Flow and Min Cut
 Canteen (Easy Version),https://codeforces.com/problemset/problem/2089/B1,hard,1900,Codeforces API,Binary Search; Greedy; Max Flow and Min Cut
-Makoto and a Blackboard,https://codeforces.com/problemset/problem/1097/D,very hard,2200,Codeforces API,Number Theory; Probability and Expected Value
+Makoto and a Blackboard,https://codeforces.com/problemset/problem/1097/D,very hard,2200,Codeforces API,2-D Dynamic Programming; Number Theory; Probability and Expected Value
 ConstructOR,https://codeforces.com/problemset/problem/1748/D,very hard,2100,Codeforces API,Bit Manipulation; Number Theory; Chinese Remainder Theorem; Combinatorics; Constructive Algorithms
 New Year's Puzzle,https://codeforces.com/problemset/problem/1472/F,very hard,2100,Codeforces API,Sorting; Backtracking and Brute Force; Greedy; Bipartite Matching
 Arithmetic Progression,https://codeforces.com/problemset/problem/1114/E,very hard,2200,Codeforces API,Binary Search; Number Theory; Probability and Expected Value; Interactive Problems
@@ -1729,20 +1700,20 @@ Yet Another Substring Reverse,https://codeforces.com/problemset/problem/1234/F,v
 Xor-sequences,https://codeforces.com/problemset/problem/691/E,hard,1900,Codeforces API,Matrices and Matrix Exponentiation
 Game with String,https://codeforces.com/problemset/problem/930/B,hard,1600,Codeforces API,Simulation and Implementation; Probability and Expected Value
 Delivery Bears,https://codeforces.com/problemset/problem/653/D,very hard,2200,Codeforces API,Binary Search; Max Flow and Min Cut
-Gold Transfer,https://codeforces.com/problemset/problem/1535/E,very hard,2200,Codeforces API,Binary Search; Greedy; Tree DP; Interactive Problems
+Gold Transfer,https://codeforces.com/problemset/problem/1535/E,very hard,2200,Codeforces API,Binary Search; Tree Traversal; Greedy; Lowest Common Ancestor and Tree Queries; Interactive Problems
 Guess Game,https://codeforces.com/problemset/problem/1864/E,very hard,2100,Codeforces API,Sorting; Bit Manipulation; Probability and Expected Value; Game Theory
 Mimo & Yuyu,https://codeforces.com/problemset/problem/2155/E,very hard,2200,Codeforces API,Greedy; Game Theory
 Tree Array,https://codeforces.com/problemset/problem/1540/B,very hard,2300,Codeforces API,Backtracking and Brute Force; Combinatorics; Probability and Expected Value; Tree DP
 Timofey and rectangles,https://codeforces.com/problemset/problem/763/B,very hard,2100,Codeforces API,Geometry; Constructive Algorithms
 Two strings,https://codeforces.com/problemset/problem/762/C,very hard,2100,Codeforces API,Binary Search; String Hashing
-You Are Given Some Strings...,https://codeforces.com/problemset/problem/1202/E,very hard,2400,Codeforces API,Backtracking and Brute Force; Suffix Structures
-Three Occurrences,https://codeforces.com/problemset/problem/1418/G,very hard,2500,Codeforces API,Divide and Conquer; String Hashing
-Gellyfish and Forget-Me-Not,https://codeforces.com/problemset/problem/2115/D,very hard,2900,Codeforces API,Greedy; Bit Manipulation; Game Theory; Bitmask DP
-Mahmoud and Ehab and yet another xor task,https://codeforces.com/problemset/problem/959/F,very hard,2400,Codeforces API,Bit Manipulation; Matrices and Matrix Exponentiation; Bitmask DP
+You Are Given Some Strings...,https://codeforces.com/problemset/problem/1202/E,very hard,2400,Codeforces API,Trie; Backtracking and Brute Force; Suffix Structures
+Three Occurrences,https://codeforces.com/problemset/problem/1418/G,very hard,2500,Codeforces API,Segment Tree and Fenwick Tree; String Hashing
+Gellyfish and Forget-Me-Not,https://codeforces.com/problemset/problem/2115/D,very hard,2900,Codeforces API,Greedy; Bit Manipulation; Game Theory
+Mahmoud and Ehab and yet another xor task,https://codeforces.com/problemset/problem/959/F,very hard,2400,Codeforces API,Bit Manipulation; Matrices and Matrix Exponentiation
 Nature Reserve,https://codeforces.com/problemset/problem/1059/D,very hard,2200,Codeforces API,Binary Search; Geometry; Ternary Search
 ±1,https://codeforces.com/problemset/problem/1971/H,very hard,2100,Codeforces API,2-SAT
 Priority Queue,https://codeforces.com/problemset/problem/1542/D,very hard,2200,Codeforces API,Simulation and Implementation; Combinatorics; Ternary Search
-The Number of Subpermutations,https://codeforces.com/problemset/problem/1175/F,very hard,2500,Codeforces API,Backtracking and Brute Force; Divide and Conquer; String Hashing
+The Number of Subpermutations,https://codeforces.com/problemset/problem/1175/F,very hard,2500,Codeforces API,Backtracking and Brute Force; Bit Manipulation; String Hashing
 Vika and Bonuses,https://codeforces.com/problemset/problem/1848/D,very hard,2200,Codeforces API,Binary Search; Backtracking and Brute Force; Ternary Search
 Fuzzy Search,https://codeforces.com/problemset/problem/528/D,very hard,2500,Codeforces API,Backtracking and Brute Force; Bit Manipulation; FFT and NTT
 Frequency of String,https://codeforces.com/problemset/problem/963/D,very hard,2500,Codeforces API,String Hashing; Suffix Structures
@@ -1755,53 +1726,53 @@ DFS Checker (Hard Version),https://codeforces.com/problemset/problem/2002/D2,ver
 Disks,https://codeforces.com/problemset/problem/1949/I,hard,1800,Codeforces API,Geometry; Bipartite Matching
 Petya and Graph,https://codeforces.com/problemset/problem/1082/G,very hard,2400,Codeforces API,Max Flow and Min Cut
 Cards,https://codeforces.com/problemset/problem/1278/F,very hard,2600,Codeforces API,Number Theory; Combinatorics; Probability and Expected Value
-Kazaee,https://codeforces.com/problemset/problem/1746/F,very hard,2800,Codeforces API,Probability and Expected Value; String Hashing
+Kazaee,https://codeforces.com/problemset/problem/1746/F,very hard,2800,Codeforces API,Probability and Expected Value; Segment Tree and Fenwick Tree; String Hashing
 Hidden Single (Version 1),https://codeforces.com/problemset/problem/2150/E1,very hard,2600,Codeforces API,Sorting; Probability and Expected Value; Divide and Conquer; Interactive Problems
 Gosha is hunting,https://codeforces.com/problemset/problem/739/E,very hard,3000,Codeforces API,Sorting; Backtracking and Brute Force; Probability and Expected Value; Max Flow and Min Cut
 Power Tower,https://codeforces.com/problemset/problem/906/D,very hard,2700,Codeforces API,Number Theory; Chinese Remainder Theorem
 Buratsuta 3,https://codeforces.com/problemset/problem/2149/G,very hard,2100,Codeforces API,Binary Search; Backtracking and Brute Force; Probability and Expected Value; Divide and Conquer
-Another Sith Tournament,https://codeforces.com/problemset/problem/678/E,very hard,2200,Codeforces API,Bit Manipulation; Probability and Expected Value; Bitmask DP
-Cars,https://codeforces.com/problemset/problem/1635/E,very hard,2200,Codeforces API,Sorting; Union-Find; Minimum Spanning Tree; Greedy; Constructive Algorithms; 2-SAT
+Another Sith Tournament,https://codeforces.com/problemset/problem/678/E,very hard,2200,Codeforces API,Bit Manipulation; Probability and Expected Value
+Cars,https://codeforces.com/problemset/problem/1635/E,very hard,2200,Codeforces API,Sorting; Graph Traversal; Union-Find; Greedy; Constructive Algorithms; 2-SAT
 In Search of Truth (Easy Version),https://codeforces.com/problemset/problem/1840/G1,very hard,2200,Codeforces API,Probability and Expected Value; Constructive Algorithms; Meet in the Middle; Interactive Problems
 Diadrash (Easy Version),https://codeforces.com/problemset/problem/2163/D1,very hard,2100,Codeforces API,Binary Search; Backtracking and Brute Force; Simulation and Implementation; Divide and Conquer; Interactive Problems
 Pattern Matching,https://codeforces.com/problemset/problem/1476/E,very hard,2300,Codeforces API,Sorting; Bit Manipulation; String Hashing
 Mike and Friends,https://codeforces.com/problemset/problem/547/E,very hard,2800,Codeforces API,Suffix Structures
 Control of Randomness,https://codeforces.com/problemset/problem/2040/E,very hard,2100,Codeforces API,Greedy; Combinatorics; Probability and Expected Value; Tree DP
-Steps to One,https://codeforces.com/problemset/problem/1139/D,very hard,2300,Codeforces API,Number Theory; Probability and Expected Value
+Steps to One,https://codeforces.com/problemset/problem/1139/D,very hard,2300,Codeforces API,1-D Dynamic Programming; Number Theory; Probability and Expected Value
 Mocha and Stars,https://codeforces.com/problemset/problem/1559/E,very hard,2200,Codeforces API,Number Theory; Combinatorics; FFT and NTT
-Rain,https://codeforces.com/problemset/problem/1710/B,very hard,2100,Codeforces API,Binary Search; Backtracking and Brute Force; Greedy; Simulation and Implementation; Geometry
+Rain,https://codeforces.com/problemset/problem/1710/B,very hard,2100,Codeforces API,Prefix Sums; Binary Search; Backtracking and Brute Force; Greedy; Simulation and Implementation; Geometry
 Equal Binary Subsequences,https://codeforces.com/problemset/problem/1736/D,very hard,2200,Codeforces API,Greedy; Simulation and Implementation; Geometry; Constructive Algorithms
-Catowice City,https://codeforces.com/problemset/problem/1239/D,very hard,2400,Codeforces API,Bipartite Matching; 2-SAT
+Catowice City,https://codeforces.com/problemset/problem/1239/D,very hard,2400,Codeforces API,Strongly Connected Components and Bridges; Bipartite Matching; 2-SAT
 Kefa and Watch,https://codeforces.com/problemset/problem/580/E,very hard,2500,Codeforces API,String Hashing
 23 Rises Again,https://codeforces.com/problemset/problem/2127/H,very hard,3100,Codeforces API,Backtracking and Brute Force; Greedy; Simulation and Implementation; Probability and Expected Value; Tree DP; Max Flow and Min Cut; Bipartite Matching
 Instant Noodles,https://codeforces.com/problemset/problem/1322/C,very hard,2300,Codeforces API,Number Theory; String Hashing
 Divide Points,https://codeforces.com/problemset/problem/1270/E,very hard,2300,Codeforces API,Geometry; Constructive Algorithms
 String Set Queries,https://codeforces.com/problemset/problem/710/F,very hard,2400,Codeforces API,Backtracking and Brute Force; String Hashing; Suffix Structures; Interactive Problems
-Prefix Function Queries,https://codeforces.com/problemset/problem/1721/E,very hard,2200,Codeforces API,Tree DP; String Hashing; Suffix Structures
+Prefix Function Queries,https://codeforces.com/problemset/problem/1721/E,very hard,2200,Codeforces API,Tree DP; String Hashing; String Matching; Suffix Structures
 Division + LCP (hard version),https://codeforces.com/problemset/problem/1968/G2,very hard,2200,Codeforces API,Binary Search; Backtracking and Brute Force; String Hashing; Suffix Structures
 Red-Black Number,https://codeforces.com/problemset/problem/1593/F,very hard,2100,Codeforces API,Simulation and Implementation; Meet in the Middle
-Game on Sum (Hard Version),https://codeforces.com/problemset/problem/1628/D2,very hard,2400,Codeforces API,Combinatorics; Game Theory
-Serge and Dining Room,https://codeforces.com/problemset/problem/1179/C,very hard,2200,Codeforces API,Binary Search; Greedy; Simulation and Implementation; Bipartite Matching
+Game on Sum (Hard Version),https://codeforces.com/problemset/problem/1628/D2,very hard,2400,Codeforces API,2-D Dynamic Programming; Combinatorics; Game Theory
+Serge and Dining Room,https://codeforces.com/problemset/problem/1179/C,very hard,2200,Codeforces API,Binary Search; Greedy; Simulation and Implementation; Segment Tree and Fenwick Tree; Bipartite Matching
 Divide Square,https://codeforces.com/problemset/problem/1401/E,very hard,2400,Codeforces API,Sorting; Simulation and Implementation; Geometry
-Substrings in a String,https://codeforces.com/problemset/problem/914/F,very hard,3000,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Suffix Structures
-Binary Table,https://codeforces.com/problemset/problem/662/C,very hard,2600,Codeforces API,Backtracking and Brute Force; Bit Manipulation; FFT and NTT; Divide and Conquer; Bitmask DP
+Substrings in a String,https://codeforces.com/problemset/problem/914/F,very hard,3000,Codeforces API,Backtracking and Brute Force; Bit Manipulation; String Matching; Suffix Structures
+Binary Table,https://codeforces.com/problemset/problem/662/C,very hard,2600,Codeforces API,Backtracking and Brute Force; Bit Manipulation; FFT and NTT; Divide and Conquer
 Om Nom and Necklace,https://codeforces.com/problemset/problem/526/D,very hard,2200,Codeforces API,String Hashing; Suffix Structures
 Dr. Agos's Dark Mode,https://codeforces.com/problemset/problem/2264/D,hard,1900,Codeforces API,Backtracking and Brute Force; Chinese Remainder Theorem; Constructive Algorithms
-Star MST,https://codeforces.com/problemset/problem/1657/E,very hard,2200,Codeforces API,Combinatorics; Bipartite Matching
+Star MST,https://codeforces.com/problemset/problem/1657/E,very hard,2200,Codeforces API,Minimum Spanning Tree; 2-D Dynamic Programming; Combinatorics; Bipartite Matching
 Bear and Bowling 4,https://codeforces.com/problemset/problem/660/F,very hard,2500,Codeforces API,Binary Search; Geometry; Divide and Conquer; Ternary Search
 Congruence Equation,https://codeforces.com/problemset/problem/919/E,very hard,2100,Codeforces API,Number Theory; Chinese Remainder Theorem
 Ann and Books,https://codeforces.com/problemset/problem/877/F,very hard,2300,Codeforces API,String Hashing; Max Flow and Min Cut
 Moment of Bloom,https://codeforces.com/problemset/problem/1583/E,very hard,2200,Codeforces API,Greedy; Constructive Algorithms; Bipartite Matching
 Fox And Dinner,https://codeforces.com/problemset/problem/510/E,very hard,2300,Codeforces API,Max Flow and Min Cut
 Bitwise Formula,https://codeforces.com/problemset/problem/778/B,hard,1800,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Simulation and Implementation; Expression Parsing
-William The Oblivious,https://codeforces.com/problemset/problem/1609/E,very hard,2400,Codeforces API,Bit Manipulation; Matrices and Matrix Exponentiation; Bitmask DP
+William The Oblivious,https://codeforces.com/problemset/problem/1609/E,very hard,2400,Codeforces API,Bit Manipulation; Matrices and Matrix Exponentiation; Segment Tree and Fenwick Tree; Bitmask DP
 Maximize Mex,https://codeforces.com/problemset/problem/1139/E,very hard,2400,Codeforces API,Max Flow and Min Cut; Bipartite Matching
 Messenger,https://codeforces.com/problemset/problem/631/D,very hard,2100,Codeforces API,Simulation and Implementation; String Hashing; Suffix Structures
 Make Them Similar,https://codeforces.com/problemset/problem/1257/F,very hard,2400,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Meet in the Middle; String Hashing
 Binary Subsequence Value Sum,https://codeforces.com/problemset/problem/2077/C,very hard,2300,Codeforces API,Combinatorics; Matrices and Matrix Exponentiation; FFT and NTT
-Robots on a Grid,https://codeforces.com/problemset/problem/1335/F,very hard,2200,Codeforces API,Union-Find; Minimum Spanning Tree; Greedy; Matrices and Matrix Exponentiation
+Robots on a Grid,https://codeforces.com/problemset/problem/1335/F,very hard,2200,Codeforces API,Union-Find; Greedy; Matrices and Matrix Exponentiation
 Adventurers,https://codeforces.com/problemset/problem/2046/C,very hard,2100,Codeforces API,Binary Search; Sorting; Greedy; Ternary Search
-Card Game,https://codeforces.com/problemset/problem/2025/E,very hard,2200,Codeforces API,Greedy; Combinatorics; FFT and NTT
+Card Game,https://codeforces.com/problemset/problem/2025/E,very hard,2200,Codeforces API,2-D Dynamic Programming; Greedy; Combinatorics; FFT and NTT
 Tree Parking,https://codeforces.com/problemset/problem/2122/G,very hard,3300,Codeforces API,Combinatorics; FFT and NTT
 National Property,https://codeforces.com/problemset/problem/875/C,very hard,2100,Codeforces API,Simulation and Implementation; 2-SAT
 Swap to Rearrange,https://codeforces.com/problemset/problem/2192/E,very hard,2100,Codeforces API,Greedy; Constructive Algorithms; Bipartite Matching
@@ -1809,7 +1780,7 @@ One-Way Reform,https://codeforces.com/problemset/problem/723/E,very hard,2200,Co
 Two chandeliers,https://codeforces.com/problemset/problem/1500/B,very hard,2200,Codeforces API,Binary Search; Backtracking and Brute Force; Number Theory; Chinese Remainder Theorem
 Super-Short-Polynomial-San,https://codeforces.com/problemset/problem/2159/E,very hard,3500,Codeforces API,Meet in the Middle
 Tree Modification,https://codeforces.com/problemset/problem/1375/G,very hard,2800,Codeforces API,Backtracking and Brute Force; Constructive Algorithms; Bipartite Matching
-(Zero XOR Subset)-less,https://codeforces.com/problemset/problem/1101/G,very hard,2300,Codeforces API,Matrices and Matrix Exponentiation
+(Zero XOR Subset)-less,https://codeforces.com/problemset/problem/1101/G,very hard,2300,Codeforces API,Bit Manipulation; Matrices and Matrix Exponentiation
 Little C Loves 3 II,https://codeforces.com/problemset/problem/1034/B,very hard,2200,Codeforces API,Backtracking and Brute Force; Constructive Algorithms; Max Flow and Min Cut; Bipartite Matching
 Fair Share,https://codeforces.com/problemset/problem/1634/E,very hard,2400,Codeforces API,Constructive Algorithms; Bipartite Matching
 Grouped Carriages,https://codeforces.com/problemset/problem/1866/G,very hard,2100,Codeforces API,Binary Search; Greedy; Max Flow and Min Cut
@@ -1817,29 +1788,29 @@ Solo mid Oracle,https://codeforces.com/problemset/problem/1413/E,very hard,2100,
 PLEASE,https://codeforces.com/problemset/problem/696/C,hard,2000,Codeforces API,Simulation and Implementation; Combinatorics; Matrices and Matrix Exponentiation
 Prime Gift,https://codeforces.com/problemset/problem/912/E,very hard,2400,Codeforces API,Binary Search; Number Theory; Meet in the Middle
 Valuable Paper,https://codeforces.com/problemset/problem/1423/B,hard,1900,Codeforces API,Binary Search; Max Flow and Min Cut; Bipartite Matching
-The Three Little Pigs,https://codeforces.com/problemset/problem/1548/C,very hard,2500,Codeforces API,Combinatorics; FFT and NTT
-Selling Souvenirs,https://codeforces.com/problemset/problem/808/E,very hard,2300,Codeforces API,Binary Search; Greedy; Ternary Search
+The Three Little Pigs,https://codeforces.com/problemset/problem/1548/C,very hard,2500,Codeforces API,2-D Dynamic Programming; Combinatorics; FFT and NTT
+Selling Souvenirs,https://codeforces.com/problemset/problem/808/E,very hard,2300,Codeforces API,Binary Search; 1-D Dynamic Programming; Greedy; Ternary Search
 Max Plus Min Plus Size,https://codeforces.com/problemset/problem/2018/D,very hard,2200,Codeforces API,Sorting; Union-Find; Greedy; Simulation and Implementation; Matrices and Matrix Exponentiation
 Field expansion,https://codeforces.com/problemset/problem/799/D,very hard,2100,Codeforces API,Backtracking and Brute Force; Meet in the Middle
 Down or Right,https://codeforces.com/problemset/problem/1023/E,very hard,2100,Codeforces API,Matrices and Matrix Exponentiation; Constructive Algorithms; Interactive Problems
-Great Grids,https://codeforces.com/problemset/problem/1844/E,very hard,2400,Codeforces API,Union-Find; Minimum Spanning Tree; Constructive Algorithms; 2-SAT
+Great Grids,https://codeforces.com/problemset/problem/1844/E,very hard,2400,Codeforces API,Graph Traversal; Union-Find; Constructive Algorithms; 2-SAT
 A Bit Similar,https://codeforces.com/problemset/problem/1469/E,very hard,2400,Codeforces API,Backtracking and Brute Force; Bit Manipulation; String Hashing; Suffix Structures
 Hyperspace Jump (easy),https://codeforces.com/problemset/problem/958/D1,medium,1400,Codeforces API,Expression Parsing
-Make It Connected,https://codeforces.com/problemset/problem/1761/E,very hard,2400,Codeforces API,Binary Search; Backtracking and Brute Force; Union-Find; Minimum Spanning Tree; Greedy; Matrices and Matrix Exponentiation; Constructive Algorithms
+Make It Connected,https://codeforces.com/problemset/problem/1761/E,very hard,2400,Codeforces API,Binary Search; Backtracking and Brute Force; Union-Find; Greedy; Matrices and Matrix Exponentiation; Constructive Algorithms
 Trails (Medium),https://codeforces.com/problemset/problem/1970/E2,hard,2000,Codeforces API,Matrices and Matrix Exponentiation
 Lizard Era: Beginning,https://codeforces.com/problemset/problem/585/D,very hard,2300,Codeforces API,Meet in the Middle
-Lucky Tickets,https://codeforces.com/problemset/problem/1096/G,very hard,2400,Codeforces API,FFT and NTT; Divide and Conquer
+Lucky Tickets,https://codeforces.com/problemset/problem/1096/G,very hard,2400,Codeforces API,FFT and NTT
 Best Subsequence,https://codeforces.com/problemset/problem/2026/E,very hard,2500,Codeforces API,Bit Manipulation; Max Flow and Min Cut; Bipartite Matching
-String Compression,https://codeforces.com/problemset/problem/825/F,very hard,2400,Codeforces API,String Hashing; Suffix Structures
+String Compression,https://codeforces.com/problemset/problem/825/F,very hard,2400,Codeforces API,1-D Dynamic Programming; String Hashing; String Matching; Suffix Structures
 GukiZ and Binary Operations,https://codeforces.com/problemset/problem/551/D,very hard,2100,Codeforces API,Simulation and Implementation; Number Theory; Combinatorics; Matrices and Matrix Exponentiation
 Addition Robot,https://codeforces.com/problemset/problem/1252/K,very hard,2100,Codeforces API,Matrices and Matrix Exponentiation
-Columns Swaps,https://codeforces.com/problemset/problem/1385/G,very hard,2300,Codeforces API,Union-Find; Minimum Spanning Tree; Simulation and Implementation; 2-SAT
+Columns Swaps,https://codeforces.com/problemset/problem/1385/G,very hard,2300,Codeforces API,Union-Find; Simulation and Implementation; 2-SAT
 T-shirts Distribution,https://codeforces.com/problemset/problem/727/D,hard,1800,Codeforces API,Greedy; Constructive Algorithms; Max Flow and Min Cut
 A Trivial String Problem,https://codeforces.com/problemset/problem/2209/E,very hard,2200,Codeforces API,Backtracking and Brute Force; String Hashing; Suffix Structures
 Helping Hiasat,https://codeforces.com/problemset/problem/1105/E,very hard,2200,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Meet in the Middle; Bitmask DP
 Cross Swapping,https://codeforces.com/problemset/problem/1713/E,very hard,2400,Codeforces API,Union-Find; Greedy; Matrices and Matrix Exponentiation; 2-SAT
-Session in BSU,https://codeforces.com/problemset/problem/1027/F,very hard,2400,Codeforces API,Binary Search; Union-Find; Minimum Spanning Tree; Bipartite Matching
-Bro Thinks He's Him,https://codeforces.com/problemset/problem/2065/H,very hard,2200,Codeforces API,Combinatorics; Matrices and Matrix Exponentiation; Divide and Conquer
+Session in BSU,https://codeforces.com/problemset/problem/1027/F,very hard,2400,Codeforces API,Binary Search; Union-Find; Bipartite Matching
+Bro Thinks He's Him,https://codeforces.com/problemset/problem/2065/H,very hard,2200,Codeforces API,Combinatorics; Matrices and Matrix Exponentiation; Segment Tree and Fenwick Tree
 Goods transportation,https://codeforces.com/problemset/problem/724/E,very hard,2900,Codeforces API,Greedy; Max Flow and Min Cut
 Hamiltonian Spanning Tree,https://codeforces.com/problemset/problem/618/D,very hard,2200,Codeforces API,Greedy; Tree DP; Bipartite Matching
 Level Generation,https://codeforces.com/problemset/problem/818/F,very hard,2100,Codeforces API,Binary Search; Ternary Search
@@ -1848,16 +1819,16 @@ Forbidden Indices,https://codeforces.com/problemset/problem/873/F,very hard,2400
 Monster,https://codeforces.com/problemset/problem/2035/E,very hard,2300,Codeforces API,Binary Search; Backtracking and Brute Force; Greedy; Simulation and Implementation; Constructive Algorithms; Ternary Search
 Kirill and Company,https://codeforces.com/problemset/problem/1741/G,very hard,2200,Codeforces API,Backtracking and Brute Force; Shortest Paths; Bit Manipulation; Bitmask DP; Max Flow and Min Cut
 Digital Village (Easy Version),https://codeforces.com/problemset/problem/2021/E1,very hard,2300,Codeforces API,Backtracking and Brute Force; Union-Find; Minimum Spanning Tree; Greedy; Simulation and Implementation; FFT and NTT; Tree DP
-New Year and Old Subsequence,https://codeforces.com/problemset/problem/750/E,very hard,2600,Codeforces API,Matrices and Matrix Exponentiation; Divide and Conquer
+New Year and Old Subsequence,https://codeforces.com/problemset/problem/750/E,very hard,2600,Codeforces API,Matrices and Matrix Exponentiation; Segment Tree and Fenwick Tree
 Simons and Dividing the Rhythm,https://codeforces.com/problemset/problem/2205/E,very hard,2100,Codeforces API,Union-Find; Combinatorics; Suffix Structures
 Nikita and Order Statistics,https://codeforces.com/problemset/problem/993/E,very hard,2300,Codeforces API,Chinese Remainder Theorem; FFT and NTT
-Number of k-good subarrays,https://codeforces.com/problemset/problem/1982/E,very hard,2300,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Combinatorics; Divide and Conquer; Meet in the Middle; Bitmask DP
-Intersection and Union,https://codeforces.com/problemset/problem/1743/F,very hard,2300,Codeforces API,Probability and Expected Value; Matrices and Matrix Exponentiation
+Number of k-good subarrays,https://codeforces.com/problemset/problem/1982/E,very hard,2300,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Combinatorics; Divide and Conquer; Meet in the Middle
+Intersection and Union,https://codeforces.com/problemset/problem/1743/F,very hard,2300,Codeforces API,2-D Dynamic Programming; Probability and Expected Value; Matrices and Matrix Exponentiation; Segment Tree and Fenwick Tree
 Lanes of Cars,https://codeforces.com/problemset/problem/2120/E,very hard,2300,Codeforces API,Binary Search; Ternary Search
 Git Gud,https://codeforces.com/problemset/problem/2157/F,very hard,2400,Codeforces API,Backtracking and Brute Force; Constructive Algorithms; Divide and Conquer; Ternary Search
 Fake News (hard),https://codeforces.com/problemset/problem/802/G3,very hard,2300,Codeforces API,Suffix Structures
-Replace on Segment,https://codeforces.com/problemset/problem/1922/F,very hard,2500,Codeforces API,Bipartite Matching
-Chain Chips,https://codeforces.com/problemset/problem/1814/E,very hard,2300,Codeforces API,Matrices and Matrix Exponentiation
+Replace on Segment,https://codeforces.com/problemset/problem/1922/F,very hard,2500,Codeforces API,2-D Dynamic Programming; Bipartite Matching
+Chain Chips,https://codeforces.com/problemset/problem/1814/E,very hard,2300,Codeforces API,2-D Dynamic Programming; Matrices and Matrix Exponentiation; Segment Tree and Fenwick Tree
 PermuTree (hard version),https://codeforces.com/problemset/problem/1856/E2,very hard,2700,Codeforces API,Greedy; Bit Manipulation; Simulation and Implementation; FFT and NTT; Tree DP; Bitmask DP
 Bricks,https://codeforces.com/problemset/problem/1404/E,very hard,2800,Codeforces API,Max Flow and Min Cut; Bipartite Matching
 Inversions problem,https://codeforces.com/problemset/problem/513/G1,hard,1800,Codeforces API,Backtracking and Brute Force; Meet in the Middle
@@ -1871,35 +1842,35 @@ Xum,https://codeforces.com/problemset/problem/1427/E,very hard,2500,Codeforces A
 Mastermind,https://codeforces.com/problemset/problem/1381/C,very hard,2500,Codeforces API,Sorting; Greedy; Simulation and Implementation; Constructive Algorithms; Bipartite Matching
 Forensic Examination,https://codeforces.com/problemset/problem/666/E,very hard,3100,Codeforces API,Suffix Structures
 Legen...,https://codeforces.com/problemset/problem/696/D,very hard,2500,Codeforces API,Matrices and Matrix Exponentiation
-Sonya and Informatics,https://codeforces.com/problemset/problem/1151/F,very hard,2300,Codeforces API,Combinatorics; Probability and Expected Value; Matrices and Matrix Exponentiation
+Sonya and Informatics,https://codeforces.com/problemset/problem/1151/F,very hard,2300,Codeforces API,2-D Dynamic Programming; Combinatorics; Probability and Expected Value; Matrices and Matrix Exponentiation
 Card Game,https://codeforces.com/problemset/problem/808/F,very hard,2400,Codeforces API,Binary Search; Max Flow and Min Cut
-Okabe and El Psy Kongroo,https://codeforces.com/problemset/problem/821/E,very hard,2100,Codeforces API,Matrices and Matrix Exponentiation
+Okabe and El Psy Kongroo,https://codeforces.com/problemset/problem/821/E,very hard,2100,Codeforces API,1-D Dynamic Programming; Matrices and Matrix Exponentiation
 Even If the World Turns,https://codeforces.com/problemset/problem/2255/C,very hard,2100,Codeforces API,Greedy; Number Theory; Constructive Algorithms; Interactive Problems; Expression Parsing
 Flights for Regular Customers,https://codeforces.com/problemset/problem/576/D,very hard,2700,Codeforces API,Matrices and Matrix Exponentiation
 Four Points,https://codeforces.com/problemset/problem/1455/E,very hard,2400,Codeforces API,Backtracking and Brute Force; Greedy; Simulation and Implementation; Geometry; Constructive Algorithms; Ternary Search; Max Flow and Min Cut
 Games on a CD,https://codeforces.com/problemset/problem/727/E,very hard,2300,Codeforces API,String Hashing; Suffix Structures
-Rescue Niwen!,https://codeforces.com/problemset/problem/1562/E,very hard,2500,Codeforces API,Greedy; Suffix Structures
+Rescue Niwen!,https://codeforces.com/problemset/problem/1562/E,very hard,2500,Codeforces API,1-D Dynamic Programming; Greedy; Suffix Structures
 Dexterina’s Lab,https://codeforces.com/problemset/problem/717/D,hard,1900,Codeforces API,Probability and Expected Value; Game Theory; Matrices and Matrix Exponentiation
 Dominoes,https://codeforces.com/problemset/problem/1608/D,very hard,2400,Codeforces API,Number Theory; Combinatorics; FFT and NTT
 Almost Permutation,https://codeforces.com/problemset/problem/863/F,very hard,2200,Codeforces API,Max Flow and Min Cut
 The Most Reckless Defense,https://codeforces.com/problemset/problem/1955/H,very hard,2300,Codeforces API,Backtracking and Brute Force; Shortest Paths; Bit Manipulation; Constructive Algorithms; Bitmask DP; Max Flow and Min Cut; Bipartite Matching
-Summoning Minions,https://codeforces.com/problemset/problem/1354/F,very hard,2500,Codeforces API,Sorting; Greedy; Constructive Algorithms; Max Flow and Min Cut; Bipartite Matching
-Stranger Trees,https://codeforces.com/problemset/problem/917/D,very hard,2600,Codeforces API,Matrices and Matrix Exponentiation; Tree DP
+Summoning Minions,https://codeforces.com/problemset/problem/1354/F,very hard,2500,Codeforces API,Sorting; 2-D Dynamic Programming; Greedy; Constructive Algorithms; Max Flow and Min Cut; Bipartite Matching
+Stranger Trees,https://codeforces.com/problemset/problem/917/D,very hard,2600,Codeforces API,Combinatorics; Matrices and Matrix Exponentiation; Tree DP
 Diameter Intersections,https://codeforces.com/problemset/problem/2253/E,very hard,2200,Codeforces API,Backtracking and Brute Force; Simulation and Implementation; FFT and NTT
 April Fools' Problem (medium),https://codeforces.com/problemset/problem/802/M2,very hard,2400,Codeforces API,Binary Search; Max Flow and Min Cut
 Abnormal Permutation Pairs (easy version),https://codeforces.com/problemset/problem/1542/E1,very hard,2400,Codeforces API,Combinatorics; FFT and NTT
 Double Sort II,https://codeforces.com/problemset/problem/1783/F,very hard,2500,Codeforces API,Max Flow and Min Cut; Bipartite Matching
 Cool Slogans,https://codeforces.com/problemset/problem/700/E,very hard,3300,Codeforces API,Suffix Structures
 Yet Another String Matching Problem,https://codeforces.com/problemset/problem/954/I,very hard,2200,Codeforces API,FFT and NTT
-Death DBMS,https://codeforces.com/problemset/problem/1437/G,very hard,2600,Codeforces API,Suffix Structures
+Death DBMS,https://codeforces.com/problemset/problem/1437/G,very hard,2600,Codeforces API,Segment Tree and Fenwick Tree; String Matching; Suffix Structures
 Clusterization Counting,https://codeforces.com/problemset/problem/1408/G,very hard,2700,Codeforces API,Union-Find; Minimum Spanning Tree; Combinatorics; FFT and NTT; Tree DP
 Matrix Problem,https://codeforces.com/problemset/problem/1913/E,very hard,2400,Codeforces API,Max Flow and Min Cut
-Security,https://codeforces.com/problemset/problem/1037/H,very hard,3200,Codeforces API,Suffix Structures
+Security,https://codeforces.com/problemset/problem/1037/H,very hard,3200,Codeforces API,Segment Tree and Fenwick Tree; Suffix Structures
 Canteen (Hard Version),https://codeforces.com/problemset/problem/2089/B2,very hard,2300,Codeforces API,Binary Search; Greedy; Max Flow and Min Cut
 Rectangle Painting 2,https://codeforces.com/problemset/problem/1198/E,very hard,2500,Codeforces API,Max Flow and Min Cut; Bipartite Matching
-Indie Album,https://codeforces.com/problemset/problem/1207/G,very hard,2700,Codeforces API,String Hashing; Suffix Structures
+Indie Album,https://codeforces.com/problemset/problem/1207/G,very hard,2700,Codeforces API,Tree Traversal; String Hashing; String Matching; Suffix Structures
 Algebra Flash,https://codeforces.com/problemset/problem/1767/E,very hard,2500,Codeforces API,Backtracking and Brute Force; Bit Manipulation; Meet in the Middle; Tree DP; Bitmask DP
 Running Competition,https://codeforces.com/problemset/problem/1398/G,very hard,2600,Codeforces API,Bit Manipulation; Number Theory; FFT and NTT
-x-prime Substrings,https://codeforces.com/problemset/problem/1400/F,very hard,2800,Codeforces API,Backtracking and Brute Force; Suffix Structures
-Palindrome Partition,https://codeforces.com/problemset/problem/932/G,very hard,2900,Codeforces API,Suffix Structures
+x-prime Substrings,https://codeforces.com/problemset/problem/1400/F,very hard,2800,Codeforces API,Backtracking and Brute Force; 2-D Dynamic Programming; String Matching; Suffix Structures
+Palindrome Partition,https://codeforces.com/problemset/problem/932/G,very hard,2900,Codeforces API,1-D Dynamic Programming; Suffix Structures
 Paper task,https://codeforces.com/problemset/problem/653/F,very hard,2600,Codeforces API,Suffix Structures
