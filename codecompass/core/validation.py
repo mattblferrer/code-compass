@@ -132,6 +132,13 @@ def format_minutes(seconds):
     return str(int(minutes)) if minutes == int(minutes) else str(minutes)
 
 
+def format_clock(seconds):
+    """Time taken as the timer shows it, minutes:seconds (for example 46:22 or 75:03)."""
+    if seconds is None:
+        return ""
+    return f"{seconds // 60}:{seconds % 60:02d}"
+
+
 PREFERENCES = ("target", "mastered")
 
 

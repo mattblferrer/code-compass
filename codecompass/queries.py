@@ -252,3 +252,43 @@ def restore_deleted(conn, item_id):
             row["id"] = new_id
         conn.execute("DELETE FROM deleted_items WHERE id = ?", (item_id,))
     return item["kind"], row
+
+
+def all_attempts(conn):
+    """Every attempt in logged order (R-19)."""
+    return [dict(r) for r in conn.execute("SELECT * FROM attempts ORDER BY id")]
+
+
+def problems_by_id(conn, ids=None):
+    """{id: {title, link, difficulty, rating, patterns}} for the given ids, or for every problem."""
+    rows = conn.execute("SELECT id, title, link, difficulty, rating FROM problems").fetchall()
+    wanted = set(ids) if ids is not None else None
+    result = {r["id"]: {**dict(r), "patterns": []} for r in rows if wanted is None or r["id"] in wanted}
+    for r in conn.execute(
+        """SELECT pp.problem_id, pt.name FROM problem_patterns pp JOIN patterns pt ON pt.id = pp.pattern_id
+           ORDER BY pt.list_position"""
+    ):
+        if r["problem_id"] in result:
+            result[r["problem_id"]]["patterns"].append(r["name"])
+    return result
+
+
+def apply_import(conn, plan):
+    """Create the planned custom problems and add the planned attempts, all in one transaction (R-19)."""
+    ids = {}
+    with conn:
+        for p in plan["new_problems"]:
+            ids[p["key"]] = conn.execute(
+                "INSERT INTO problems (title, link, difficulty, source, is_custom) VALUES (?, ?, ?, 'custom', 1)",
+                (p["title"], p["link"], p["difficulty"]),
+            ).lastrowid
+            conn.executemany(
+                "INSERT INTO problem_patterns (problem_id, pattern_id) SELECT ?, id FROM patterns WHERE name = ?",
+                [(ids[p["key"]], name) for name in p["patterns"]],
+            )
+        conn.executemany(
+            """INSERT INTO attempts (problem_id, date, outcome, time_seconds, notes, entry_method, review_of_problem_id)
+               VALUES (?, ?, ?, ?, ?, 'csv', ?)""",
+            [(ids.get(a["problem"], a["problem"]), a["date"], a["outcome"], a["time_seconds"], a["notes"],
+              ids.get(a["review_of"], a["review_of"])) for a in plan["attempts"]],
+        )

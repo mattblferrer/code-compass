@@ -20,6 +20,8 @@ def create_app(test_config=None):
     # Only used to sign the flash-message cookie on this local app.
     app.config["SECRET_KEY"] = os.environ.get("CODECOMPASS_SECRET_KEY") or os.urandom(16).hex()
     app.config["PATTERNS_PATH"] = str(catalog.DATA_DIR / "patterns.csv")
+    # Largest accepted upload, for CSV import (R-19).
+    app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
     app.config["CATALOG_PATH"] = str(catalog.DATA_DIR / "catalog.csv")
     # The unreviewed Codeforces reserve (R-37).
     reserve = catalog.DATA_DIR / "reserve.csv"

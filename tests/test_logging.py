@@ -223,3 +223,17 @@ def test_hint_forces_lower_outcome_once(client, app):
     assert MESSAGES["outcome_hint"] in response.get_data(as_text=True)
     assert post_attempt(client, outcome=c.SOLVED_WITH_HINTS).status_code == 302
     assert post_attempt(client, outcome=c.SOLVED_ALONE, date="2026-01-06").status_code == 302
+
+
+@pytest.mark.parametrize("seconds, shown", [(None, ""), (5, "0:05"), (60, "1:00"), (2782, "46:22"), (4503, "75:03")])
+def test_time_shown_like_the_timer(seconds, shown):
+    from codecompass.core.validation import format_clock
+    assert format_clock(seconds) == shown
+
+
+def test_history_and_problem_pages_show_minutes_and_seconds(client, app):
+    post_attempt(client, time_minutes="46.3667")
+    history = client.get("/history").get_data(as_text=True)
+    assert "<th>Time</th>" in history and "<td>46:22</td>" in history
+    page = client.get(f"/problems/{problem_id(app, 'Two Sum')}").get_data(as_text=True)
+    assert "<td>46:22</td>" in page

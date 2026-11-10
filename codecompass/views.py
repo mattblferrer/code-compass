@@ -1,9 +1,12 @@
+import csv
+import io
 from datetime import date
 
 from flask import Blueprint, Response, abort, flash, jsonify, redirect, render_template, request, url_for
 
 from . import picker, queries
 from .core.problem_refs import ID_HINTS, SITES
+from .core.exchange import COLUMNS, export_rows, plan_import
 from .core.recommend import active_interview
 from .core.reviews import ics
 from .core.sites import FILTER_SITES, KINDS
@@ -12,6 +15,7 @@ from .core import constants as c
 from .core.validation import (
     OUTCOME_DEFINITIONS,
     OUTCOME_LABELS,
+    format_clock,
     format_minutes,
     validate_attempt,
     validate_interview,
@@ -28,9 +32,9 @@ def today():
     return date.today().isoformat()
 
 
-@bp.app_template_filter("minutes")
-def minutes_filter(seconds):
-    return format_minutes(seconds)
+@bp.app_template_filter("clock")
+def clock_filter(seconds):
+    return format_clock(seconds)
 
 
 @bp.app_template_filter("outcome")
@@ -419,3 +423,49 @@ def undo_delete(item_id):
         return redirect(url_for("main.problem", problem_id=row["problem_id"]))
     flash(f"Interview with {row['company']} restored.")
     return redirect(url_for("main.interviews"))
+
+
+@bp.route("/attempts.csv")
+def export_csv():
+    """All attempts as CSV, in logged order (R-19)."""
+    conn = get_db()
+    attempts = queries.all_attempts(conn)
+    problems = queries.problems_by_id(
+        conn, {a["problem_id"] for a in attempts} | {a["review_of_problem_id"] for a in attempts if a["review_of_problem_id"]}
+    )
+    out = io.StringIO()
+    writer = csv.DictWriter(out, fieldnames=COLUMNS, lineterminator="\n")
+    writer.writeheader()
+    writer.writerows(export_rows(attempts, problems))
+    # A byte-order mark lets spreadsheet apps read the file as UTF-8.
+    return Response("\ufeff" + out.getvalue(), mimetype="text/csv",
+                    headers={"Content-Disposition": f'attachment; filename="codecompass-attempts-{today()}.csv"'})
+
+
+@bp.route("/import", methods=["GET", "POST"])
+def import_csv():
+    """Import attempts from a CSV file and report skipped rows (R-19, R-20)."""
+    if request.method == "GET":
+        return render_template("import.html", result=None, columns=COLUMNS)
+    upload = request.files.get("file")
+    error = None
+    if upload is None or not upload.filename:
+        error = "Choose a CSV file to import."
+    else:
+        try:
+            text = upload.read().decode("utf-8-sig")
+        except UnicodeDecodeError:
+            error = "The file is not UTF-8 text. Save it from your spreadsheet as CSV UTF-8."
+    if error:
+        return render_template("import.html", result={"error": error}, columns=COLUMNS), 400
+    conn = get_db()
+    reader = csv.DictReader(io.StringIO(text))
+    rows = list(reader)
+    plan = plan_import(rows, reader.fieldnames, queries.problems_by_id(conn), queries.all_attempts(conn),
+                       [p["name"] for p in queries.patterns(conn)], today())
+    if plan["error"]:
+        return render_template("import.html", result={"error": plan["error"]}, columns=COLUMNS), 400
+    queries.apply_import(conn, plan)
+    result = {"error": None, "rows": len(rows), "imported": len(plan["attempts"]),
+              "created": [p["title"] for p in plan["new_problems"]], "skipped": plan["skipped"]}
+    return render_template("import.html", result=result, columns=COLUMNS)
