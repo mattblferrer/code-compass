@@ -1874,3 +1874,302 @@ Running Competition,https://codeforces.com/problemset/problem/1398/G,very hard,2
 x-prime Substrings,https://codeforces.com/problemset/problem/1400/F,very hard,2800,Codeforces API,Backtracking and Brute Force; 2-D Dynamic Programming; String Matching; Suffix Structures
 Palindrome Partition,https://codeforces.com/problemset/problem/932/G,very hard,2900,Codeforces API,1-D Dynamic Programming; Suffix Structures
 Paper task,https://codeforces.com/problemset/problem/653/F,very hard,2600,Codeforces API,Suffix Structures
+Frog 1,https://atcoder.jp/contests/dp/tasks/dp_a,easy,,AtCoder Educational DP Contest,1-D Dynamic Programming
+Frog 2,https://atcoder.jp/contests/dp/tasks/dp_b,easy,,AtCoder Educational DP Contest,1-D Dynamic Programming
+Vacation,https://atcoder.jp/contests/dp/tasks/dp_c,easy,,AtCoder Educational DP Contest,2-D Dynamic Programming
+Knapsack 1,https://atcoder.jp/contests/dp/tasks/dp_d,easy,,AtCoder Educational DP Contest,2-D Dynamic Programming
+Knapsack 2,https://atcoder.jp/contests/dp/tasks/dp_e,easy,,AtCoder Educational DP Contest,2-D Dynamic Programming
+LCS,https://atcoder.jp/contests/dp/tasks/dp_f,easy,,AtCoder Educational DP Contest,2-D Dynamic Programming; Strings
+Longest Path,https://atcoder.jp/contests/dp/tasks/dp_g,easy,,AtCoder Educational DP Contest,Topological Sort; 1-D Dynamic Programming
+Grid 1,https://atcoder.jp/contests/dp/tasks/dp_h,easy,,AtCoder Educational DP Contest,2-D Dynamic Programming
+Coins,https://atcoder.jp/contests/dp/tasks/dp_i,easy,,AtCoder Educational DP Contest,2-D Dynamic Programming; Probability and Expected Value
+Sushi,https://atcoder.jp/contests/dp/tasks/dp_j,medium,,AtCoder Educational DP Contest,2-D Dynamic Programming; Probability and Expected Value
+Stones,https://atcoder.jp/contests/dp/tasks/dp_k,easy,,AtCoder Educational DP Contest,1-D Dynamic Programming; Game Theory
+Deque,https://atcoder.jp/contests/dp/tasks/dp_l,easy,,AtCoder Educational DP Contest,2-D Dynamic Programming; Game Theory
+Candies,https://atcoder.jp/contests/dp/tasks/dp_m,medium,,AtCoder Educational DP Contest,Prefix Sums; 2-D Dynamic Programming
+Slimes,https://atcoder.jp/contests/dp/tasks/dp_n,medium,,AtCoder Educational DP Contest,Prefix Sums; 2-D Dynamic Programming
+Matching,https://atcoder.jp/contests/dp/tasks/dp_o,medium,,AtCoder Educational DP Contest,Bitmask DP
+Independent Set,https://atcoder.jp/contests/dp/tasks/dp_p,medium,,AtCoder Educational DP Contest,Tree DP
+Flowers,https://atcoder.jp/contests/dp/tasks/dp_q,medium,,AtCoder Educational DP Contest,1-D Dynamic Programming; Segment Tree and Fenwick Tree
+Walk,https://atcoder.jp/contests/dp/tasks/dp_r,medium,,AtCoder Educational DP Contest,Matrices and Matrix Exponentiation
+Digit Sum,https://atcoder.jp/contests/dp/tasks/dp_s,medium,,AtCoder Educational DP Contest,2-D Dynamic Programming
+Permutation,https://atcoder.jp/contests/dp/tasks/dp_t,medium,,AtCoder Educational DP Contest,Prefix Sums; 2-D Dynamic Programming
+Grouping,https://atcoder.jp/contests/dp/tasks/dp_u,medium,,AtCoder Educational DP Contest,Bitmask DP
+Subtree,https://atcoder.jp/contests/dp/tasks/dp_v,medium,,AtCoder Educational DP Contest,Tree DP
+Intervals,https://atcoder.jp/contests/dp/tasks/dp_w,hard,,AtCoder Educational DP Contest,1-D Dynamic Programming; Segment Tree and Fenwick Tree
+Tower,https://atcoder.jp/contests/dp/tasks/dp_x,hard,,AtCoder Educational DP Contest,Sorting; 2-D Dynamic Programming; Greedy
+Grid 2,https://atcoder.jp/contests/dp/tasks/dp_y,hard,,AtCoder Educational DP Contest,Sorting; 1-D Dynamic Programming; Combinatorics
+Frog 3,https://atcoder.jp/contests/dp/tasks/dp_z,hard,,AtCoder Educational DP Contest,1-D Dynamic Programming; Geometry
+Disjoint Set Union,https://atcoder.jp/contests/practice2/tasks/practice2_a,medium,,AtCoder Library Practice Contest,Union-Find
+Fenwick Tree,https://atcoder.jp/contests/practice2/tasks/practice2_b,hard,,AtCoder Library Practice Contest,Segment Tree and Fenwick Tree
+Floor Sum,https://atcoder.jp/contests/practice2/tasks/practice2_c,hard,,AtCoder Library Practice Contest,Math; Number Theory
+Maxflow,https://atcoder.jp/contests/practice2/tasks/practice2_d,hard,,AtCoder Library Practice Contest,Max Flow and Min Cut; Bipartite Matching
+MinCostFlow,https://atcoder.jp/contests/practice2/tasks/practice2_e,very hard,,AtCoder Library Practice Contest,Max Flow and Min Cut
+Convolution,https://atcoder.jp/contests/practice2/tasks/practice2_f,hard,,AtCoder Library Practice Contest,FFT and NTT
+SCC,https://atcoder.jp/contests/practice2/tasks/practice2_g,hard,,AtCoder Library Practice Contest,Strongly Connected Components and Bridges
+Two SAT,https://atcoder.jp/contests/practice2/tasks/practice2_h,very hard,,AtCoder Library Practice Contest,2-SAT
+Number of Substrings,https://atcoder.jp/contests/practice2/tasks/practice2_i,very hard,,AtCoder Library Practice Contest,Suffix Structures
+Segment Tree,https://atcoder.jp/contests/practice2/tasks/practice2_j,hard,,AtCoder Library Practice Contest,Segment Tree and Fenwick Tree
+Range Affine Range Sum,https://atcoder.jp/contests/practice2/tasks/practice2_k,hard,,AtCoder Library Practice Contest,Segment Tree and Fenwick Tree
+Lazy Segment Tree,https://atcoder.jp/contests/practice2/tasks/practice2_l,very hard,,AtCoder Library Practice Contest,Segment Tree and Fenwick Tree
+Yokan Party,https://atcoder.jp/contests/typical90/tasks/typical90_a,medium,,AtCoder Typical 90,Binary Search; Greedy
+Encyclopedia of Parentheses,https://atcoder.jp/contests/typical90/tasks/typical90_b,medium,,AtCoder Typical 90,Backtracking and Brute Force; Bit Manipulation
+Longest Circular Road,https://atcoder.jp/contests/typical90/tasks/typical90_c,medium,,AtCoder Typical 90,Tree Traversal
+Cross Sum,https://atcoder.jp/contests/typical90/tasks/typical90_d,easy,,AtCoder Typical 90,Prefix Sums
+Restricted Digits,https://atcoder.jp/contests/typical90/tasks/typical90_e,very hard,,AtCoder Typical 90,2-D Dynamic Programming; Matrices and Matrix Exponentiation
+Smallest Subsequence,https://atcoder.jp/contests/typical90/tasks/typical90_f,hard,,AtCoder Typical 90,Greedy; Strings
+CP Classes,https://atcoder.jp/contests/typical90/tasks/typical90_g,medium,,AtCoder Typical 90,Binary Search; Sorting
+AtCounter,https://atcoder.jp/contests/typical90/tasks/typical90_h,medium,,AtCoder Typical 90,2-D Dynamic Programming; Strings
+Three Point Angle,https://atcoder.jp/contests/typical90/tasks/typical90_i,hard,,AtCoder Typical 90,Binary Search; Sorting; Geometry
+Score Sum Queries,https://atcoder.jp/contests/typical90/tasks/typical90_j,easy,,AtCoder Typical 90,Prefix Sums
+Gravy Jobs,https://atcoder.jp/contests/typical90/tasks/typical90_k,hard,,AtCoder Typical 90,Sorting; 2-D Dynamic Programming
+Red Painting,https://atcoder.jp/contests/typical90/tasks/typical90_l,medium,,AtCoder Typical 90,Union-Find
+Passing,https://atcoder.jp/contests/typical90/tasks/typical90_m,hard,,AtCoder Typical 90,Shortest Paths
+We Used to Sing a Song Together,https://atcoder.jp/contests/typical90/tasks/typical90_n,medium,,AtCoder Typical 90,Sorting; Greedy
+Don't be too close,https://atcoder.jp/contests/typical90/tasks/typical90_o,hard,,AtCoder Typical 90,Combinatorics
+Minimum Coins,https://atcoder.jp/contests/typical90/tasks/typical90_p,medium,,AtCoder Typical 90,Backtracking and Brute Force
+Crossing Segments,https://atcoder.jp/contests/typical90/tasks/typical90_q,very hard,,AtCoder Typical 90,Sorting; Segment Tree and Fenwick Tree
+Statue of Chokudai,https://atcoder.jp/contests/typical90/tasks/typical90_r,medium,,AtCoder Typical 90,Math; Geometry
+Pick Two,https://atcoder.jp/contests/typical90/tasks/typical90_s,hard,,AtCoder Typical 90,2-D Dynamic Programming
+Log Inequality,https://atcoder.jp/contests/typical90/tasks/typical90_t,medium,,AtCoder Typical 90,Math
+Come Back in One Piece,https://atcoder.jp/contests/typical90/tasks/typical90_u,hard,,AtCoder Typical 90,Strongly Connected Components and Bridges
+Cubic Cake,https://atcoder.jp/contests/typical90/tasks/typical90_v,easy,,AtCoder Typical 90,Number Theory
+Avoid War,https://atcoder.jp/contests/typical90/tasks/typical90_w,very hard,,AtCoder Typical 90,Bitmask DP
+Select +／- One,https://atcoder.jp/contests/typical90/tasks/typical90_x,easy,,AtCoder Typical 90,Math
+Digit Product Equation,https://atcoder.jp/contests/typical90/tasks/typical90_y,hard,,AtCoder Typical 90,Backtracking and Brute Force; Math
+Independent Set on a Tree,https://atcoder.jp/contests/typical90/tasks/typical90_z,medium,,AtCoder Typical 90,Tree Traversal
+Sign Up Requests,https://atcoder.jp/contests/typical90/tasks/typical90_aa,easy,,AtCoder Typical 90,Arrays and Hashing
+Cluttered Paper,https://atcoder.jp/contests/typical90/tasks/typical90_ab,medium,,AtCoder Typical 90,Prefix Sums
+Long Bricks,https://atcoder.jp/contests/typical90/tasks/typical90_ac,hard,,AtCoder Typical 90,Sorting; Segment Tree and Fenwick Tree
+K Factors,https://atcoder.jp/contests/typical90/tasks/typical90_ad,hard,,AtCoder Typical 90,Number Theory
+VS AtCoder,https://atcoder.jp/contests/typical90/tasks/typical90_ae,hard,,AtCoder Typical 90,Game Theory
+AtCoder Ekiden,https://atcoder.jp/contests/typical90/tasks/typical90_af,medium,,AtCoder Typical 90,Backtracking and Brute Force
+Not Too Bright,https://atcoder.jp/contests/typical90/tasks/typical90_ag,easy,,AtCoder Typical 90,Math
+There are few types of elements,https://atcoder.jp/contests/typical90/tasks/typical90_ah,medium,,AtCoder Typical 90,Arrays and Hashing; Sliding Window
+Preserve Connectivity,https://atcoder.jp/contests/typical90/tasks/typical90_ai,very hard,,AtCoder Typical 90,Sorting; Lowest Common Ancestor and Tree Queries
+Max Manhattan Distance,https://atcoder.jp/contests/typical90/tasks/typical90_aj,hard,,AtCoder Typical 90,Math; Geometry
+Don't Leave the Spice,https://atcoder.jp/contests/typical90/tasks/typical90_ak,hard,,AtCoder Typical 90,2-D Dynamic Programming; Segment Tree and Fenwick Tree
+Large LCM,https://atcoder.jp/contests/typical90/tasks/typical90_al,medium,,AtCoder Typical 90,Number Theory
+Tree Distance,https://atcoder.jp/contests/typical90/tasks/typical90_am,hard,,AtCoder Typical 90,Tree Traversal
+Get More Money,https://atcoder.jp/contests/typical90/tasks/typical90_an,very hard,,AtCoder Typical 90,Max Flow and Min Cut
+Piles in AtCoder Farm,https://atcoder.jp/contests/typical90/tasks/typical90_ao,very hard,,AtCoder Typical 90,Number Theory; Geometry
+Multiple of 9,https://atcoder.jp/contests/typical90/tasks/typical90_ap,medium,,AtCoder Typical 90,1-D Dynamic Programming
+Maze Challenge with Lack of Sleep,https://atcoder.jp/contests/typical90/tasks/typical90_aq,medium,,AtCoder Typical 90,Graph Traversal; Shortest Paths
+Shift and Swapping,https://atcoder.jp/contests/typical90/tasks/typical90_ar,medium,,AtCoder Typical 90,Simulation and Implementation
+Simple Grouping,https://atcoder.jp/contests/typical90/tasks/typical90_as,hard,,AtCoder Typical 90,Bitmask DP
+I Love 46,https://atcoder.jp/contests/typical90/tasks/typical90_at,medium,,AtCoder Typical 90,Arrays and Hashing; Math
+Monochromatic Diagonal,https://atcoder.jp/contests/typical90/tasks/typical90_au,very hard,,AtCoder Typical 90,String Hashing
+I will not drop out,https://atcoder.jp/contests/typical90/tasks/typical90_av,medium,,AtCoder Typical 90,Sorting; Greedy
+Flip Digits 2,https://atcoder.jp/contests/typical90/tasks/typical90_aw,hard,,AtCoder Typical 90,Union-Find; Minimum Spanning Tree
+Stair Jump,https://atcoder.jp/contests/typical90/tasks/typical90_ax,medium,,AtCoder Typical 90,1-D Dynamic Programming
+Typical Shop,https://atcoder.jp/contests/typical90/tasks/typical90_ay,hard,,AtCoder Typical 90,Binary Search; Sorting; Meet in the Middle
+Dice Product,https://atcoder.jp/contests/typical90/tasks/typical90_az,medium,,AtCoder Typical 90,Math
+Discrete Dowsing,https://atcoder.jp/contests/typical90/tasks/typical90_ba,very hard,,AtCoder Typical 90,Ternary Search; Interactive Problems
+Takahashi Number,https://atcoder.jp/contests/typical90/tasks/typical90_bb,hard,,AtCoder Typical 90,Graph Traversal
+Select 5,https://atcoder.jp/contests/typical90/tasks/typical90_bc,easy,,AtCoder Typical 90,Backtracking and Brute Force
+Lucky Bag,https://atcoder.jp/contests/typical90/tasks/typical90_bd,hard,,AtCoder Typical 90,2-D Dynamic Programming
+Flip Flap,https://atcoder.jp/contests/typical90/tasks/typical90_be,hard,,AtCoder Typical 90,Bit Manipulation; Matrices and Matrix Exponentiation
+Original Calculator,https://atcoder.jp/contests/typical90/tasks/typical90_bf,medium,,AtCoder Typical 90,Arrays and Hashing; Simulation and Implementation
+Many Graph Queries,https://atcoder.jp/contests/typical90/tasks/typical90_bg,hard,,AtCoder Typical 90,Graph Traversal; 1-D Dynamic Programming; Bit Manipulation
+Chimera,https://atcoder.jp/contests/typical90/tasks/typical90_bh,hard,,AtCoder Typical 90,Binary Search; 1-D Dynamic Programming
+Deck,https://atcoder.jp/contests/typical90/tasks/typical90_bi,easy,,AtCoder Typical 90,Simulation and Implementation
+Paint All,https://atcoder.jp/contests/typical90/tasks/typical90_bj,hard,,AtCoder Typical 90,Graph Traversal
+Monochromatic Subgrid,https://atcoder.jp/contests/typical90/tasks/typical90_bk,medium,,AtCoder Typical 90,Arrays and Hashing; Backtracking and Brute Force; Bit Manipulation
+Uplift,https://atcoder.jp/contests/typical90/tasks/typical90_bl,medium,,AtCoder Typical 90,Prefix Sums
+RGB Balls 2,https://atcoder.jp/contests/typical90/tasks/typical90_bm,very hard,,AtCoder Typical 90,Combinatorics; FFT and NTT
+Various Arrays,https://atcoder.jp/contests/typical90/tasks/typical90_bn,hard,,AtCoder Typical 90,Probability and Expected Value
+Base 8 to 9,https://atcoder.jp/contests/typical90/tasks/typical90_bo,easy,,AtCoder Typical 90,Math; Simulation and Implementation
+Paired Information,https://atcoder.jp/contests/typical90/tasks/typical90_bp,hard,,AtCoder Typical 90,Sorting; Union-Find
+Colorful Blocks 2,https://atcoder.jp/contests/typical90/tasks/typical90_bq,medium,,AtCoder Typical 90,Number Theory
+Plant Planning,https://atcoder.jp/contests/typical90/tasks/typical90_br,medium,,AtCoder Typical 90,Sorting; Math
+Fuzzy Priority,https://atcoder.jp/contests/typical90/tasks/typical90_bs,hard,,AtCoder Typical 90,Backtracking and Brute Force; Graph Traversal; Topological Sort
+Loop Railway Plan,https://atcoder.jp/contests/typical90/tasks/typical90_bt,medium,,AtCoder Typical 90,Backtracking and Brute Force
+We Need Both a and b,https://atcoder.jp/contests/typical90/tasks/typical90_bu,hard,,AtCoder Typical 90,Tree DP
+ABC String 2,https://atcoder.jp/contests/typical90/tasks/typical90_bv,hard,,AtCoder Typical 90,Math
+Magic For Balls,https://atcoder.jp/contests/typical90/tasks/typical90_bw,medium,,AtCoder Typical 90,Number Theory
+Cake Cut,https://atcoder.jp/contests/typical90/tasks/typical90_bx,medium,,AtCoder Typical 90,Prefix Sums; Two Pointers
+Planes on a 2D Plane,https://atcoder.jp/contests/typical90/tasks/typical90_by,very hard,,AtCoder Typical 90,Bipartite Matching
+Easy Graph Problem,https://atcoder.jp/contests/typical90/tasks/typical90_bz,easy,,AtCoder Typical 90,Arrays and Hashing
+Two by Two,https://atcoder.jp/contests/typical90/tasks/typical90_ca,medium,,AtCoder Typical 90,Greedy
+Let's Share Bit,https://atcoder.jp/contests/typical90/tasks/typical90_cb,hard,,AtCoder Typical 90,Bit Manipulation; Combinatorics
+Friendly Group,https://atcoder.jp/contests/typical90/tasks/typical90_cc,hard,,AtCoder Typical 90,Prefix Sums
+Counting Numbers,https://atcoder.jp/contests/typical90/tasks/typical90_cd,medium,,AtCoder Typical 90,Math
+Colorful Graph,https://atcoder.jp/contests/typical90/tasks/typical90_ce,hard,,AtCoder Typical 90,Data Structure Design
+There are two types of characters,https://atcoder.jp/contests/typical90/tasks/typical90_cf,medium,,AtCoder Typical 90,Two Pointers; Strings
+Multiplication 085,https://atcoder.jp/contests/typical90/tasks/typical90_cg,medium,,AtCoder Typical 90,Number Theory
+Snuke's Favorite Arrays,https://atcoder.jp/contests/typical90/tasks/typical90_ch,hard,,AtCoder Typical 90,Backtracking and Brute Force; Bit Manipulation
+Chokudai's Demand,https://atcoder.jp/contests/typical90/tasks/typical90_ci,hard,,AtCoder Typical 90,Binary Search; Shortest Paths
+Similar but Different Ways,https://atcoder.jp/contests/typical90/tasks/typical90_cj,hard,,AtCoder Typical 90,Backtracking and Brute Force; 1-D Dynamic Programming
+Partitions and Inversions,https://atcoder.jp/contests/typical90/tasks/typical90_ck,very hard,,AtCoder Typical 90,Two Pointers; 1-D Dynamic Programming; Segment Tree and Fenwick Tree
+Tenkei90's Last Problem,https://atcoder.jp/contests/typical90/tasks/typical90_cl,very hard,,AtCoder Typical 90,2-D Dynamic Programming; FFT and NTT
+16:9,https://atcoder.jp/contests/abc463/tasks/abc463_a,easy,-914,AtCoder Beginner Contest,Math
+Nine or Nein,https://atcoder.jp/contests/abc471/tasks/abc471_a,easy,-817,AtCoder Beginner Contest,Simulation and Implementation
+Secret Numbers,https://atcoder.jp/contests/abc462/tasks/abc462_a,easy,-973,AtCoder Beginner Contest,Simulation and Implementation
+Second Half Sum,https://atcoder.jp/contests/abc473/tasks/abc473_a,easy,-982,AtCoder Beginner Contest,Simulation and Implementation
+Train Reservation,https://atcoder.jp/contests/abc463/tasks/abc463_b,easy,-630,AtCoder Beginner Contest,Strings; Simulation and Implementation
+mnclr,https://atcoder.jp/contests/abc475/tasks/abc475_a,easy,-839,AtCoder Beginner Contest,Strings
+Corridor Watch,https://atcoder.jp/contests/abc468/tasks/abc468_b,easy,-388,AtCoder Beginner Contest,Simulation and Implementation
+Old Maid,https://atcoder.jp/contests/abc473/tasks/abc473_b,easy,-621,AtCoder Beginner Contest,Arrays and Hashing
+Survey Tabulation,https://atcoder.jp/contests/abc471/tasks/abc471_b,easy,-451,AtCoder Beginner Contest,Arrays and Hashing
+Break a Stick,https://atcoder.jp/contests/abc472/tasks/abc472_b,easy,-521,AtCoder Beginner Contest,Backtracking and Brute Force
+Traffic Light,https://atcoder.jp/contests/abc477/tasks/abc477_a,easy,-870,AtCoder Beginner Contest,Simulation and Implementation
+Grapes,https://atcoder.jp/contests/abc478/tasks/abc478_a,easy,-835,AtCoder Beginner Contest,Math
+ADjacent,https://atcoder.jp/contests/abc480/tasks/abc480_a,easy,-569,AtCoder Beginner Contest,Strings
+Chokutter Addiction,https://atcoder.jp/contests/abc443/tasks/abc443_c,easy,8,AtCoder Beginner Contest,Simulation and Implementation
+Change,https://atcoder.jp/contests/abc475/tasks/abc475_b,easy,-267,AtCoder Beginner Contest,Math
+Standing Outliers,https://atcoder.jp/contests/abc477/tasks/abc477_b,easy,-249,AtCoder Beginner Contest,Backtracking and Brute Force
+Digits of A+B,https://atcoder.jp/contests/abc481/tasks/abc481_a,easy,-867,AtCoder Beginner Contest,Math
+Topping,https://atcoder.jp/contests/abc478/tasks/abc478_b,easy,-197,AtCoder Beginner Contest,Backtracking and Brute Force
+Between P and Q,https://atcoder.jp/contests/abc468/tasks/abc468_c,easy,282,AtCoder Beginner Contest,Backtracking and Brute Force
+Spiral Galaxy,https://atcoder.jp/contests/abc455/tasks/abc455_b,easy,96,AtCoder Beginner Contest,Backtracking and Brute Force
+Wild Card,https://atcoder.jp/contests/abc476/tasks/abc476_b,easy,-664,AtCoder Beginner Contest,Strings
+Odd Index Sum,https://atcoder.jp/contests/abc479/tasks/abc479_a,easy,-995,AtCoder Beginner Contest,Simulation and Implementation
+Polyline,https://atcoder.jp/contests/abc481/tasks/abc481_b,easy,-252,AtCoder Beginner Contest,Simulation and Implementation
+Invalid Vote,https://atcoder.jp/contests/abc480/tasks/abc480_b,easy,124,AtCoder Beginner Contest,Arrays and Hashing
+Double-Sided Printing,https://atcoder.jp/contests/abc483/tasks/abc483_a,easy,-899,AtCoder Beginner Contest,Math
+Bank Accounts,https://atcoder.jp/contests/abc481/tasks/abc481_c,easy,96,AtCoder Beginner Contest,Arrays and Hashing
+Third Largest Number,https://atcoder.jp/contests/abc476/tasks/abc476_c,easy,47,AtCoder Beginner Contest,Sorting
+Longest Rainy Streak,https://atcoder.jp/contests/abc479/tasks/abc479_b,easy,-593,AtCoder Beginner Contest,Strings; Simulation and Implementation
+Nigiri,https://atcoder.jp/contests/abc482/tasks/abc482_a,easy,-995,AtCoder Beginner Contest,Math
+Flip Card Stack,https://atcoder.jp/contests/abc483/tasks/abc483_b,easy,-269,AtCoder Beginner Contest,Simulation and Implementation
+Exit Order,https://atcoder.jp/contests/abc474/tasks/abc474_b,easy,-328,AtCoder Beginner Contest,Math
+Blank Bingo,https://atcoder.jp/contests/abc482/tasks/abc482_b,easy,-325,AtCoder Beginner Contest,Backtracking and Brute Force
+Bento Packing,https://atcoder.jp/contests/abc479/tasks/abc479_c,easy,251,AtCoder Beginner Contest,Backtracking and Brute Force; Bit Manipulation
+Outweigh,https://atcoder.jp/contests/abc474/tasks/abc474_d,easy,389,AtCoder Beginner Contest,Greedy; Math
+Cantrip,https://atcoder.jp/contests/abc469/tasks/abc469_c,medium,475,AtCoder Beginner Contest,Strings; Simulation and Implementation
+Placing Rooks,https://atcoder.jp/contests/abc466/tasks/abc466_d,medium,494,AtCoder Beginner Contest,Arrays and Hashing; Simulation and Implementation
+Take ABC 2,https://atcoder.jp/contests/abc447/tasks/abc447_d,medium,430,AtCoder Beginner Contest,Greedy; Strings
+Drop Blocks,https://atcoder.jp/contests/abc459/tasks/abc459_c,medium,659,AtCoder Beginner Contest,Arrays and Hashing; Simulation and Implementation
+Sort Subarray,https://atcoder.jp/contests/abc478/tasks/abc478_c,medium,426,AtCoder Beginner Contest,Sorting
+Range Search Query,https://atcoder.jp/contests/abc477/tasks/abc477_c,medium,456,AtCoder Beginner Contest,Prefix Sums; Strings
+Chargers,https://atcoder.jp/contests/abc471/tasks/abc471_d,medium,570,AtCoder Beginner Contest,Sorting; Heap
+Bomber Mad,https://atcoder.jp/contests/abc472/tasks/abc472_d,medium,605,AtCoder Beginner Contest,Graph Traversal
+"Match, Mod, Minimize 2",https://atcoder.jp/contests/abc416/tasks/abc416_d,medium,682,AtCoder Beginner Contest,Two Pointers; Sorting; Greedy
+Walk the Line,https://atcoder.jp/contests/abc475/tasks/abc475_c,medium,549,AtCoder Beginner Contest,Two Pointers
+Adjacent Distinct String,https://atcoder.jp/contests/abc459/tasks/abc459_d,medium,701,AtCoder Beginner Contest,Greedy; Strings
+Self-Stopping Shower,https://atcoder.jp/contests/abc480/tasks/abc480_c,medium,625,AtCoder Beginner Contest,Sorting; Math
+Accomplice,https://atcoder.jp/contests/abc462/tasks/abc462_d,medium,798,AtCoder Beginner Contest,Prefix Sums
+Pawn Line,https://atcoder.jp/contests/abc443/tasks/abc443_d,medium,738,AtCoder Beginner Contest,Greedy
+Inverse and Swap,https://atcoder.jp/contests/abc470/tasks/abc470_d,medium,777,AtCoder Beginner Contest,Arrays and Hashing; Simulation and Implementation
+Card Pile Query,https://atcoder.jp/contests/abc455/tasks/abc455_d,medium,796,AtCoder Beginner Contest,Linked List; Simulation and Implementation
+Maximize the Gap,https://atcoder.jp/contests/abc463/tasks/abc463_d,medium,838,AtCoder Beginner Contest,Binary Search; Sorting; Greedy
+Alphametic Prime,https://atcoder.jp/contests/abc475/tasks/abc475_d,medium,741,AtCoder Beginner Contest,Backtracking and Brute Force; Number Theory
+"Inc, Dec, Xor",https://atcoder.jp/contests/abc470/tasks/abc470_c,medium,1006,AtCoder Beginner Contest,Bit Manipulation; Math
+Autopilot,https://atcoder.jp/contests/abc481/tasks/abc481_d,medium,581,AtCoder Beginner Contest,Shortest Paths
+Range Set Insertion Query,https://atcoder.jp/contests/abc478/tasks/abc478_d,medium,729,AtCoder Beginner Contest,Arrays and Hashing; Sorting
+Back and Forth Distance,https://atcoder.jp/contests/abc479/tasks/abc479_d,medium,563,AtCoder Beginner Contest,Greedy; Math
+Concatenation of Prefixes,https://atcoder.jp/contests/abc480/tasks/abc480_d,medium,864,AtCoder Beginner Contest,Prefix Sums; Binary Search
+Masking Tape,https://atcoder.jp/contests/abc477/tasks/abc477_d,medium,946,AtCoder Beginner Contest,Simulation and Implementation; Data Structure Design
+Forbidden Difference,https://atcoder.jp/contests/abc403/tasks/abc403_d,medium,1052,AtCoder Beginner Contest,1-D Dynamic Programming
+Band Count,https://atcoder.jp/contests/abc482/tasks/abc482_c,medium,486,AtCoder Beginner Contest,Prefix Sums
+Sum of Square of Sum,https://atcoder.jp/contests/abc471/tasks/abc471_e,medium,990,AtCoder Beginner Contest,Combinatorics; Probability and Expected Value
+Sum of Average,https://atcoder.jp/contests/abc468/tasks/abc468_e,medium,1038,AtCoder Beginner Contest,Math
+Odd Cycle,https://atcoder.jp/contests/abc472/tasks/abc472_e,medium,1029,AtCoder Beginner Contest,Graph Traversal
+Second Choice Election,https://atcoder.jp/contests/abc483/tasks/abc483_c,medium,770,AtCoder Beginner Contest,Arrays and Hashing; Simulation and Implementation
+Fill-Rect Query,https://atcoder.jp/contests/abc464/tasks/abc464_e,medium,1075,AtCoder Beginner Contest,Prefix Sums
+Min-Max Swap,https://atcoder.jp/contests/abc476/tasks/abc476_e,medium,964,AtCoder Beginner Contest,Segment Tree and Fenwick Tree
+Wannabe Zombie,https://atcoder.jp/contests/abc482/tasks/abc482_d,medium,766,AtCoder Beginner Contest,Greedy; Math
+Cut and Add,https://atcoder.jp/contests/abc479/tasks/abc479_e,medium,1000,AtCoder Beginner Contest,Tree Traversal
+Glitchy Robot,https://atcoder.jp/contests/abc483/tasks/abc483_d,medium,965,AtCoder Beginner Contest,Prefix Sums
+Sum of Subarrays,https://atcoder.jp/contests/abc423/tasks/abc423_e,medium,1183,AtCoder Beginner Contest,Prefix Sums; Math
+One Time Coupon,https://atcoder.jp/contests/abc474/tasks/abc474_e,medium,1153,AtCoder Beginner Contest,Sorting; Greedy
+Endless Holidays,https://atcoder.jp/contests/abc456/tasks/abc456_e,hard,1214,AtCoder Beginner Contest,Graph Traversal
+Wheel Distance,https://atcoder.jp/contests/abc477/tasks/abc477_e,hard,1235,AtCoder Beginner Contest,Prefix Sums; Shortest Paths
+Climbing Silver,https://atcoder.jp/contests/abc443/tasks/abc443_e,hard,1301,AtCoder Beginner Contest,2-D Dynamic Programming
+Distance Queries on a Tree,https://atcoder.jp/contests/abc294/tasks/abc294_g,hard,1702,AtCoder Beginner Contest,Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries
+Crossing Table Cloth,https://atcoder.jp/contests/abc457/tasks/abc457_e,hard,1428,AtCoder Beginner Contest,Binary Search; Sorting
+E-liter,https://atcoder.jp/contests/abc461/tasks/abc461_e,hard,1431,AtCoder Beginner Contest,Arrays and Hashing
+sqrt(n²+n+X),https://atcoder.jp/contests/abc420/tasks/abc420_g,hard,1427,AtCoder Beginner Contest,Number Theory
+Product-Bounded Arithmetic Sequences,https://atcoder.jp/contests/abc480/tasks/abc480_e,hard,1355,AtCoder Beginner Contest,Binary Search; Backtracking and Brute Force
+Team Division,https://atcoder.jp/contests/abc453/tasks/abc453_e,hard,1513,AtCoder Beginner Contest,Prefix Sums; Combinatorics
+Triangle,https://atcoder.jp/contests/abc258/tasks/abc258_g,hard,1944,AtCoder Beginner Contest,Bit Manipulation
+lt and le,https://atcoder.jp/contests/abc478/tasks/abc478_e,hard,1376,AtCoder Beginner Contest,Topological Sort
+Triple Index,https://atcoder.jp/contests/abc293/tasks/abc293_g,hard,1753,AtCoder Beginner Contest,Arrays and Hashing; Sorting
+Range Pairing Query,https://atcoder.jp/contests/abc242/tasks/abc242_g,hard,1828,AtCoder Beginner Contest,Arrays and Hashing; Sorting
+Most Brilliant Starry Sky,https://atcoder.jp/contests/abc481/tasks/abc481_e,hard,1326,AtCoder Beginner Contest,Two Pointers; Geometry
+Must Buy,https://atcoder.jp/contests/abc441/tasks/abc441_f,hard,1455,AtCoder Beginner Contest,2-D Dynamic Programming
+Cookies,https://atcoder.jp/contests/abc440/tasks/abc440_e,hard,1603,AtCoder Beginner Contest,Sorting; Heap
+Centipede Graph,https://atcoder.jp/contests/abc447/tasks/abc447_f,hard,1480,AtCoder Beginner Contest,Tree DP
+Smaller Sum,https://atcoder.jp/contests/abc339/tasks/abc339_g,hard,1792,AtCoder Beginner Contest,Binary Search; Segment Tree and Fenwick Tree
+Count Substring Query,https://atcoder.jp/contests/abc362/tasks/abc362_g,hard,1625,AtCoder Beginner Contest,Binary Search; Suffix Structures
+AtCoder Tour,https://atcoder.jp/contests/abc358/tasks/abc358_g,hard,1737,AtCoder Beginner Contest,2-D Dynamic Programming; Greedy
+Avoid Straight Line,https://atcoder.jp/contests/abc312/tasks/abc312_g,hard,1819,AtCoder Beginner Contest,Tree Traversal; Combinatorics
+GCD Maximum Spanning Tree,https://atcoder.jp/contests/abc469/tasks/abc469_f,hard,1567,AtCoder Beginner Contest,Union-Find; Minimum Spanning Tree; Number Theory
+01Sequence,https://atcoder.jp/contests/abc216/tasks/abc216_g,hard,1963,AtCoder Beginner Contest,Shortest Paths
+Big Banned Grid,https://atcoder.jp/contests/abc413/tasks/abc413_g,hard,1723,AtCoder Beginner Contest,Graph Traversal; Union-Find
+Interval Inversion Count,https://atcoder.jp/contests/abc452/tasks/abc452_f,hard,1630,AtCoder Beginner Contest,Two Pointers; Segment Tree and Fenwick Tree
+Merchant Takahashi,https://atcoder.jp/contests/abc353/tasks/abc353_g,hard,1765,AtCoder Beginner Contest,1-D Dynamic Programming; Segment Tree and Fenwick Tree
+Exactly K Steps 2,https://atcoder.jp/contests/abc445/tasks/abc445_f,hard,1514,AtCoder Beginner Contest,Matrices and Matrix Exponentiation
+Chmax,https://atcoder.jp/contests/abc468/tasks/abc468_f,hard,1693,AtCoder Beginner Contest,2-D Dynamic Programming; Segment Tree and Fenwick Tree
+Inserting Process,https://atcoder.jp/contests/abc425/tasks/abc425_f,hard,1831,AtCoder Beginner Contest,Strings; Bitmask DP
+Add and Multiply Queries,https://atcoder.jp/contests/abc368/tasks/abc368_g,hard,1841,AtCoder Beginner Contest,Greedy; Segment Tree and Fenwick Tree
+Not Adjacent,https://atcoder.jp/contests/abc427/tasks/abc427_f,hard,1605,AtCoder Beginner Contest,Bit Manipulation; Meet in the Middle
+Constrained Nim 2,https://atcoder.jp/contests/abc297/tasks/abc297_g,hard,1834,AtCoder Beginner Contest,Game Theory
+Count Cells in a Window,https://atcoder.jp/contests/abc477/tasks/abc477_f,hard,1629,AtCoder Beginner Contest,Sliding Window
+"Suddenly, A Tempest",https://atcoder.jp/contests/abc432/tasks/abc432_d,hard,1745,AtCoder Beginner Contest,Union-Find; Simulation and Implementation
+Min-First Search,https://atcoder.jp/contests/abc478/tasks/abc478_f,hard,1588,AtCoder Beginner Contest,Heap; Tree Traversal
+Adjacent Sums (hard),https://atcoder.jp/contests/abc467/tasks/abc467_e,hard,1694,AtCoder Beginner Contest,Sorting; Math
+Fine Triplets,https://atcoder.jp/contests/abc392/tasks/abc392_g,hard,1817,AtCoder Beginner Contest,FFT and NTT
+Wind Cleaning,https://atcoder.jp/contests/abc427/tasks/abc427_e,hard,1734,AtCoder Beginner Contest,Graph Traversal
+Typo Pairs,https://atcoder.jp/contests/abc483/tasks/abc483_e,hard,1473,AtCoder Beginner Contest,Arrays and Hashing; Combinatorics
+Edit to Match,https://atcoder.jp/contests/abc377/tasks/abc377_g,hard,1782,AtCoder Beginner Contest,Trie
+Quiz Competition: Qualifiers,https://atcoder.jp/contests/abc475/tasks/abc475_e,hard,1737,AtCoder Beginner Contest,Trie
+Evil Shortest Path,https://atcoder.jp/contests/abc481/tasks/abc481_f,hard,1621,AtCoder Beginner Contest,Graph Traversal; Shortest Paths
+Sjeltzer?,https://atcoder.jp/contests/abc465/tasks/abc465_f,hard,1754,AtCoder Beginner Contest,Prefix Sums; Combinatorics
+Specified Range Sums,https://atcoder.jp/contests/abc404/tasks/abc404_g,hard,1894,AtCoder Beginner Contest,Prefix Sums; Shortest Paths
+Many Mod Calculation,https://atcoder.jp/contests/abc466/tasks/abc466_f,hard,1887,AtCoder Beginner Contest,Heap; Math
+Sort from 1 to 4,https://atcoder.jp/contests/abc302/tasks/abc302_g,hard,1891,AtCoder Beginner Contest,Greedy
+Centroid of a Slice,https://atcoder.jp/contests/abc472/tasks/abc472_f,hard,1707,AtCoder Beginner Contest,Prefix Sums; Geometry
+Copy Query,https://atcoder.jp/contests/abc453/tasks/abc453_g,hard,1735,AtCoder Beginner Contest,Segment Tree and Fenwick Tree
+Diameter Endpoint Colors,https://atcoder.jp/contests/abc482/tasks/abc482_e,hard,1531,AtCoder Beginner Contest,Tree Traversal; Combinatorics
+Suitable Edit for LIS,https://atcoder.jp/contests/abc360/tasks/abc360_g,hard,1982,AtCoder Beginner Contest,Binary Search; 1-D Dynamic Programming
+Yet Another RGB Sequence,https://atcoder.jp/contests/abc266/tasks/abc266_g,very hard,2045,AtCoder Beginner Contest,Combinatorics
+Groups,https://atcoder.jp/contests/abc217/tasks/abc217_g,very hard,2047,AtCoder Beginner Contest,2-D Dynamic Programming; Combinatorics
+Sum of Tree Distance,https://atcoder.jp/contests/abc359/tasks/abc359_g,very hard,2099,AtCoder Beginner Contest,Tree Traversal; Divide and Conquer
+Retroactive Range Chmax,https://atcoder.jp/contests/abc342/tasks/abc342_g,very hard,2107,AtCoder Beginner Contest,Heap; Segment Tree and Fenwick Tree
+Road Blocked 2,https://atcoder.jp/contests/abc375/tasks/abc375_g,very hard,2014,AtCoder Beginner Contest,Shortest Paths; Strongly Connected Components and Bridges
+Minimum Permutation,https://atcoder.jp/contests/abc299/tasks/abc299_g,very hard,2066,AtCoder Beginner Contest,Heap; Greedy; Segment Tree and Fenwick Tree
+Range Sort Query,https://atcoder.jp/contests/abc237/tasks/abc237_g,very hard,2088,AtCoder Beginner Contest,Binary Search; Segment Tree and Fenwick Tree
+Simultaneous Kagamimochi 2,https://atcoder.jp/contests/abc388/tasks/abc388_g,very hard,2001,AtCoder Beginner Contest,Binary Search; Segment Tree and Fenwick Tree
+Cubic?,https://atcoder.jp/contests/abc238/tasks/abc238_g,very hard,2254,AtCoder Beginner Contest,Prefix Sums; Number Theory; String Hashing
+Typical Path Problem,https://atcoder.jp/contests/abc318/tasks/abc318_g,very hard,2260,AtCoder Beginner Contest,Max Flow and Min Cut
+Prefix Concatenation,https://atcoder.jp/contests/abc257/tasks/abc257_g,very hard,2078,AtCoder Beginner Contest,1-D Dynamic Programming; String Matching
+Alone,https://atcoder.jp/contests/abc346/tasks/abc346_g,very hard,2166,AtCoder Beginner Contest,Geometry; Segment Tree and Fenwick Tree
+Power Pair,https://atcoder.jp/contests/abc212/tasks/abc212_g,very hard,2150,AtCoder Beginner Contest,Number Theory
+Compress Strings,https://atcoder.jp/contests/abc343/tasks/abc343_g,very hard,2114,AtCoder Beginner Contest,Bitmask DP; String Matching
+Game on Tree 2,https://atcoder.jp/contests/abc218/tasks/abc218_g,very hard,2217,AtCoder Beginner Contest,Game Theory; Segment Tree and Fenwick Tree; Tree DP
+Minimum Reachable City,https://atcoder.jp/contests/abc295/tasks/abc295_g,very hard,2091,AtCoder Beginner Contest,Union-Find; Strongly Connected Components and Bridges
+Dense Buildings,https://atcoder.jp/contests/abc394/tasks/abc394_g,very hard,2031,AtCoder Beginner Contest,Union-Find; Minimum Spanning Tree; Lowest Common Ancestor and Tree Queries
+Tree Inversion,https://atcoder.jp/contests/abc337/tasks/abc337_g,very hard,2080,AtCoder Beginner Contest,Tree Traversal; Segment Tree and Fenwick Tree
+Divisors of Binomial Coefficient,https://atcoder.jp/contests/abc227/tasks/abc227_g,very hard,2207,AtCoder Beginner Contest,Number Theory
+222,https://atcoder.jp/contests/abc222/tasks/abc222_g,very hard,2242,AtCoder Beginner Contest,Number Theory
+P-smooth number,https://atcoder.jp/contests/abc300/tasks/abc300_g,very hard,2343,AtCoder Beginner Contest,Number Theory; Meet in the Middle
+Builder Takahashi,https://atcoder.jp/contests/abc239/tasks/abc239_g,very hard,2215,AtCoder Beginner Contest,Max Flow and Min Cut
+Cut and Reorder,https://atcoder.jp/contests/abc328/tasks/abc328_g,very hard,2193,AtCoder Beginner Contest,Bitmask DP
+Ex. Yet Another Path Counting,https://atcoder.jp/contests/abc259/tasks/abc259_h,very hard,2406,AtCoder Beginner Contest,2-D Dynamic Programming; Combinatorics
+Balance Update Query,https://atcoder.jp/contests/abc287/tasks/abc287_g,very hard,2180,AtCoder Beginner Contest,Binary Search; Segment Tree and Fenwick Tree
+Yet Another mod M,https://atcoder.jp/contests/abc272/tasks/abc272_g,very hard,2187,AtCoder Beginner Contest,Number Theory; Probability and Expected Value
+Push Simultaneously,https://atcoder.jp/contests/abc401/tasks/abc401_g,very hard,2022,AtCoder Beginner Contest,Binary Search; Bipartite Matching
+"Ai + Bj + Ck = X (1 <= i, j, k <= N)",https://atcoder.jp/contests/abc315/tasks/abc315_g,very hard,2315,AtCoder Beginner Contest,Number Theory
+Leaf Color,https://atcoder.jp/contests/abc340/tasks/abc340_g,very hard,2401,AtCoder Beginner Contest,Tree DP; Lowest Common Ancestor and Tree Queries
+Range Knapsack Query,https://atcoder.jp/contests/abc426/tasks/abc426_g,very hard,2119,AtCoder Beginner Contest,2-D Dynamic Programming; Divide and Conquer
+Paint Tree 2,https://atcoder.jp/contests/abc416/tasks/abc416_f,very hard,2115,AtCoder Beginner Contest,Tree DP
+Dream Team,https://atcoder.jp/contests/abc247/tasks/abc247_g,very hard,2159,AtCoder Beginner Contest,Max Flow and Min Cut; Bipartite Matching
+Colorful Candies 2,https://atcoder.jp/contests/abc215/tasks/abc215_g,very hard,2276,AtCoder Beginner Contest,Combinatorics; Probability and Expected Value
+Odd Position Sum Query,https://atcoder.jp/contests/abc403/tasks/abc403_g,very hard,2028,AtCoder Beginner Contest,Segment Tree and Fenwick Tree
+Farthest City,https://atcoder.jp/contests/abc281/tasks/abc281_g,very hard,2304,AtCoder Beginner Contest,2-D Dynamic Programming; Combinatorics
+Count Sequences,https://atcoder.jp/contests/abc276/tasks/abc276_g,very hard,2278,AtCoder Beginner Contest,Prefix Sums; Combinatorics
+Shopping in AtCoder store,https://atcoder.jp/contests/abc289/tasks/abc289_g,very hard,2109,AtCoder Beginner Contest,Sorting; Geometry
+Game on Tree 3,https://atcoder.jp/contests/abc246/tasks/abc246_g,very hard,2313,AtCoder Beginner Contest,Binary Search; Game Theory; Tree DP
+Highest Ratio,https://atcoder.jp/contests/abc341/tasks/abc341_g,very hard,2208,AtCoder Beginner Contest,Prefix Sums; Monotonic Stack and Queue; Geometry
+Connectivity 2,https://atcoder.jp/contests/abc213/tasks/abc213_g,very hard,2663,AtCoder Beginner Contest,Combinatorics; Bitmask DP
+Concentration,https://atcoder.jp/contests/abc470/tasks/abc470_e,very hard,2096,AtCoder Beginner Contest,Probability and Expected Value; Bitmask DP
+Ex. Rating Estimator,https://atcoder.jp/contests/abc292/tasks/abc292_h,very hard,2248,AtCoder Beginner Contest,Binary Search; Segment Tree and Fenwick Tree
+Partial Xor Enumeration,https://atcoder.jp/contests/abc283/tasks/abc283_g,very hard,2173,AtCoder Beginner Contest,Bit Manipulation; Matrices and Matrix Exponentiation
+Count Cycles,https://atcoder.jp/contests/abc411/tasks/abc411_g,very hard,2093,AtCoder Beginner Contest,Combinatorics; Bitmask DP
+Construct Good Path,https://atcoder.jp/contests/abc244/tasks/abc244_g,very hard,2117,AtCoder Beginner Contest,Tree Traversal; Constructive Algorithms
+Teleporting Takahashi,https://atcoder.jp/contests/abc240/tasks/abc240_g,very hard,2462,AtCoder Beginner Contest,Combinatorics
+Vertex Deletion,https://atcoder.jp/contests/abc223/tasks/abc223_g,very hard,2351,AtCoder Beginner Contest,Tree DP; Bipartite Matching
+Ex. Balanced Tree,https://atcoder.jp/contests/abc291/tasks/abc291_h,very hard,2097,AtCoder Beginner Contest,Divide and Conquer
+Christmas Color Grid 2,https://atcoder.jp/contests/abc334/tasks/abc334_g,very hard,2242,AtCoder Beginner Contest,Strongly Connected Components and Bridges
+Good Vertices,https://atcoder.jp/contests/abc236/tasks/abc236_g,very hard,2438,AtCoder Beginner Contest,Shortest Paths; Matrices and Matrix Exponentiation

@@ -275,6 +275,10 @@ The catalog is built once, before release, from these sources. A problem is iden
 | 5 | NeetCode All | Every problem | 450 |
 | 6 | CSES problem set | Every problem | 400 |
 | 7 | Codeforces API | Picked per pattern (see below) | 980 after merging duplicates |
+| 8 | AtCoder Educational DP Contest | Every problem | 26 |
+| 9 | AtCoder Library Practice Contest | Every problem | 12 |
+| 10 | AtCoder Typical 90 | Every problem | 90 |
+| 11 | AtCoder Beginner Contest | Picked per level (see below) | 171 |
 
 The five LeetCode lists give 515 unique problems. The 20 that any list marks as needing LeetCode Premium are left out, because the user could not open them, leaving 495. The 495 include NeetCode All's 30 JavaScript exercises, which are tagged with the advanced JavaScript pattern, so they appear only for users who turn it on. The lists are read from where they are published (NeetCode's and Sean Prashad's data files on GitHub, the Grind 169 site, and cses.fi), never from LeetCode itself (R-03). LeetCode's own Top Interview 150 and LeetCode 75 are not used for the same reason.
 
@@ -295,6 +299,13 @@ Some patterns get no automatic picks:
 - **Unreliable tag pairs:** Minimum Spanning Tree and Bitmask DP have no tags, because the pairs `graphs` with `dsu` and `bitmasks` with `dp` matched the technique in only 21% and 43% of editorials (`docs/patterns.md`). A problem that the old pair would have picked (steps 1 to 4 with the pair as the pattern's tags) is still picked when its editorial confirms the technique.
 
 This gives 30 patterns with picks, 1,213 picks in all and 980 problems after merging, from the API on 2026-11-10. Most patterns take 50. Those with small pools or only confirmed picks take fewer: Minimum Spanning Tree 6, Bitmask DP 9, Expression Parsing 9, Chinese Remainder Theorem 13, 2-SAT 18, Meet in the Middle 20, FFT and NTT 26, Bipartite Matching 37, Suffix Structures 38, Ternary Search 40, Matrices and Matrix Exponentiation 48, and Max Flow and Min Cut 49.
+
+### AtCoder problems
+
+AtCoder has no tags, so every AtCoder entry's patterns come from a source that names the technique. The lists come from AtCoder Problems' `merged-problems.json` and `problem-models.json` on 2026-11-10.
+
+- **Curated sets.** The Educational DP Contest, the AtCoder Library Practice Contest, and Typical 90 are each built around one technique per problem, so their patterns come from the problem itself or, for Typical 90, the set's sample solution. They have no difficulty estimate, so their levels come from elsewhere: Typical 90 by the author's star rating (★2 easy, ★3 to ★4 medium, ★5 to ★6 hard, ★7 very hard), and the other two by the number of AtCoder users who solved the problem (20,000 or more easy, 5,000 to 19,999 medium, 1,500 to 4,999 hard, fewer otherwise very hard). As with CSES, a problem that would be very hard but has only core patterns is labeled hard.
+- **Beginner Contest picks.** From contests ABC 212 and later (the current format), take problems with a usable difficulty estimate, sort each level by the number of users who solved them, and take the 50 most solved per level. Patterns are read from each problem's official editorial. A very hard problem is taken only if its patterns include an advanced one, so core-only very hard problems are skipped in favor of the next. On 2026-11-10 this gave 34 easy and 37 medium problems (all of the usable ones, since most A and B problems have no estimate or an experimental one), 50 hard, and 50 very hard.
 
 ### Codeforces reserve (R-37)
 
@@ -362,7 +373,7 @@ The shares come from the page on 2026-11-10 (400 problems). A solver count is no
 - **Core patterns:** catalog problems in core patterns stop below the very hard level (2099 on Codeforces, 1999 on AtCoder), so very hard problems enter the catalog only through advanced patterns. A CSES problem with only core patterns and under 700 solvers is kept and labeled hard. A catalog problem with both core and advanced patterns follows the advanced limit.
 - **Other sites:** problems from LeetCode and other sites keep their own labels, so a LeetCode Hard stays hard by default. The catalog reviewer can mark an individual problem as very hard during review, and a user can choose very hard when adding a custom problem.
 - **Sync and lookup:** a Codeforces or AtCoder problem of any rating is mapped by the tables above (R-33, R-35). The user supplies the level when a problem has no rating.
-- **Unrated problems:** Codeforces problems with no rating, and AtCoder problems with no difficulty value or flagged `is_experimental`, are left out of the catalog. In sync and lookup, the user supplies their level.
+- **Unrated problems:** Codeforces problems with no rating, and AtCoder problems with no difficulty value or flagged `is_experimental`, are left out of the catalog, except the curated AtCoder sets, whose levels come from star ratings or solver counts (see AtCoder problems). In sync and lookup, the user supplies their level.
 - **Stored ratings:** a problem's rating from its source site is stored (`docs/data_model.md`), but no rule other than these tables reads it.
 
 ### Very hard setting (R-32)
@@ -390,7 +401,7 @@ Sources:
 
 ## Site filter (R-36)
 
-In settings, each site with catalog problems (LeetCode, Codeforces, and CSES) has two switches: one for core problems and one for advanced problems. The Codeforces switches also cover the reserve (R-37). All are on by default. A problem's site comes from its link. A problem with at least one advanced pattern is an advanced problem, and any other problem is a core problem.
+In settings, each site with catalog problems (LeetCode, Codeforces, CSES, and AtCoder) has two switches: one for core problems and one for advanced problems. The Codeforces switches also cover the reserve (R-37). All are on by default. A problem's site comes from its link. A problem with at least one advanced pattern is an advanced problem, and any other problem is a core problem.
 
 While a switch is off, that site's problems of that kind:
 
