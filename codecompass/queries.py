@@ -68,8 +68,8 @@ def problem_patterns(conn, problem_id):
 def add_custom_problem(conn, values):
     with conn:
         problem_id = conn.execute(
-            "INSERT INTO problems (title, link, difficulty, source, is_custom) VALUES (?, ?, ?, 'custom', 1)",
-            (values["title"], values["link"], values["difficulty"]),
+            "INSERT INTO problems (title, link, difficulty, rating, source, is_custom) VALUES (?, ?, ?, ?, 'custom', 1)",
+            (values["title"], values["link"], values["difficulty"], values.get("rating")),
         ).lastrowid
         conn.executemany(
             "INSERT INTO problem_patterns (problem_id, pattern_id) SELECT ?, id FROM patterns WHERE name = ?",
@@ -279,8 +279,8 @@ def apply_import(conn, plan):
     with conn:
         for p in plan["new_problems"]:
             ids[p["key"]] = conn.execute(
-                "INSERT INTO problems (title, link, difficulty, source, is_custom) VALUES (?, ?, ?, 'custom', 1)",
-                (p["title"], p["link"], p["difficulty"]),
+                "INSERT INTO problems (title, link, difficulty, rating, source, is_custom) VALUES (?, ?, ?, ?, 'custom', 1)",
+                (p["title"], p["link"], p["difficulty"], p.get("rating")),
             ).lastrowid
             conn.executemany(
                 "INSERT INTO problem_patterns (problem_id, pattern_id) SELECT ?, id FROM patterns WHERE name = ?",

@@ -120,8 +120,8 @@ def plan_import(rows, header, problems, attempts, pattern_names, today):
         patterns = [p.strip() for p in row.get("patterns", "").split(";") if p.strip()]
         if not title or not row.get("difficulty") or not patterns or index.match(title, link)[0] != "none":
             continue
-        problem, problem_errors = validate_problem({"title": title, "link": link, "difficulty": row["difficulty"]},
-                                                   patterns, names)
+        problem, problem_errors = validate_problem({"title": title, "link": link, "difficulty": row["difficulty"],
+                                                    "rating": row.get("rating", "")}, patterns, names)
         if problem_errors or any(p not in names for p in patterns):
             continue
         key = f"new-{len(candidates)}"

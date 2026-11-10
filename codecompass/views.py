@@ -4,8 +4,8 @@ from datetime import date
 
 from flask import Blueprint, Response, abort, flash, jsonify, redirect, render_template, request, url_for
 
-from . import picker, queries
-from .core.problem_refs import ID_HINTS, SITES
+from . import picker, queries, remote
+from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
 from .core.exchange import COLUMNS, export_rows, plan_import
 from .core.recommend import active_interview
 from .core.reviews import ics
@@ -308,7 +308,11 @@ def new_problem():
         form = {"link": request.args.get("link", ""), "title": request.args.get("title", "")}
         if request.args.get("difficulty") in c.LEVELS:
             form["difficulty"] = request.args["difficulty"]
-        return render_template("problem_new.html", form=form, chosen=[], errors={}, patterns=patterns, levels=c.LEVELS)
+        chosen, lookup = [], {"site": request.args.get("site", ""), "ref": request.args.get("ref", "") or form["link"]}
+        if request.args.get("lookup"):
+            form, chosen, lookup = run_lookup(conn, form, lookup, [p["name"] for p in patterns])
+        return render_template("problem_new.html", form=form, chosen=chosen, errors={}, patterns=patterns,
+                               levels=c.LEVELS, lookup=lookup)
 
     form = request.form.to_dict()
     chosen = request.form.getlist("patterns")
@@ -319,11 +323,50 @@ def new_problem():
         return redirect(url_for("main.log_attempt", problem=existing["id"]))
     if errors:
         return render_template(
-            "problem_new.html", form=form, chosen=chosen, errors=errors, patterns=patterns, levels=c.LEVELS
+            "problem_new.html", form=form, chosen=chosen, errors=errors, patterns=patterns, levels=c.LEVELS,
+            lookup={"site": "", "ref": form.get("link", "")},
         ), 400
     problem_id = queries.add_custom_problem(conn, values)
     flash("Problem added. Log your attempt below.")
     return redirect(url_for("main.log_attempt", problem=problem_id))
+
+
+LOOKUP_SITES = {"codeforces": "Codeforces", "atcoder": "AtCoder"}
+LOOKUP_MESSAGES = {
+    "unrecognized": "Enter a Codeforces or AtCoder problem ID, such as 1520A or abc300_a, or paste its link.",
+    "not_found": "{site} has no problem with that ID. Check it, or enter the details by hand.",
+    "refused": "{site} refused the request, so the lookup stopped. Try again later, or enter the details by hand.",
+    "failed": "Could not reach {site}. Check your connection, or enter the details by hand.",
+}
+
+
+def run_lookup(conn, form, lookup, pattern_names):
+    """Fill the custom-problem form from a Codeforces or AtCoder lookup (R-35). Saves nothing.
+
+    Returns (form, chosen patterns, lookup state with a message and, for a problem
+    already in CodeCompass, that problem).
+    """
+    site, ref = lookup["site"], lookup["ref"].strip()
+    link = from_id(site, ref) if site in LOOKUP_SITES else None
+    found = from_link(link) if link else None
+    if not found or found[0] not in LOOKUP_SITES:
+        return form, [], {**lookup, "message": LOOKUP_MESSAGES["unrecognized"]}
+    site, link = found
+    existing = queries.problem_by_link(conn, link)
+    if existing:
+        # No request is needed: the problem is already here, so it is shown instead of a duplicate.
+        return {**form, "link": link}, [], {**lookup, "site": site, "existing": dict(existing)}
+    try:
+        details = remote.lookup(site, link, pattern_names)
+    except remote.LookupFailed as error:
+        message = LOOKUP_MESSAGES[error.kind].format(site=error.site)
+        return {**form, "link": link}, [], {**lookup, "site": site, "message": message}
+    filled = {"title": details["title"], "link": details["link"], "difficulty": details["difficulty"],
+              "rating": "" if details["rating"] is None else str(details["rating"])}
+    missing = [name for name, value in (("level", details["difficulty"]), ("patterns", details["patterns"])) if not value]
+    note = f"Filled in from {details['site']}. Check the details"
+    note += f", choose the {' and '.join(missing)}," if missing else ","
+    return filled, details["patterns"], {**lookup, "site": site, "message": note + " then add the problem.", "ok": True}
 
 
 @bp.route("/settings", methods=["GET", "POST"])

@@ -120,7 +120,13 @@ def validate_problem(data, patterns, pattern_names):
         # A link to a known site is stored in that site's form, so it can be found by ID (R-38).
         found = from_link(link)
         link = found[1] if found else link
-    values = {"title": title, "difficulty": difficulty, "patterns": chosen, "link": link or None}
+    # A rating comes only from a lookup (R-35); AtCoder estimates can be negative.
+    rating_text = _text(data, "rating")
+    try:
+        rating = int(rating_text) if rating_text else None
+    except ValueError:
+        rating = None
+    values = {"title": title, "difficulty": difficulty, "patterns": chosen, "link": link or None, "rating": rating}
     return values, errors
 
 

@@ -1,0 +1,63 @@
+{
+ "status": "OK",
+ "result": {
+  "problems": [
+   {
+    "contestId": 2284,
+    "index": "F",
+    "name": "Fun Times",
+    "type": "PROGRAMMING",
+    "points": 2750.0,
+    "tags": [
+     "combinatorics",
+     "data structures",
+     "dp",
+     "math",
+     "matrices"
+    ]
+   },
+   {
+    "contestId": 2268,
+    "index": "E",
+    "name": "Kia Kio and Tree of Life",
+    "type": "PROGRAMMING",
+    "points": 2750.0,
+    "rating": 2700,
+    "tags": [
+     "data structures",
+     "fft",
+     "math",
+     "trees"
+    ]
+   },
+   {
+    "contestId": 1520,
+    "index": "A",
+    "name": "Do Not Be Distracted!",
+    "type": "PROGRAMMING",
+    "rating": 800,
+    "tags": [
+     "brute force",
+     "implementation"
+    ]
+   }
+  ],
+  "problemStatistics": [
+   {
+    "contestId": 2284,
+    "index": "F",
+    "solvedCount": 122
+   },
+   {
+    "contestId": 2268,
+    "index": "E",
+    "solvedCount": 432
+   },
+   {
+    "contestId": 1520,
+    "index": "A",
+    "solvedCount": 60262
+   }
+  ]
+ }
+}
