@@ -22,9 +22,10 @@ MESSAGES = {
     "ambiguous": "Several problems have that title. Choose one from the list, or find it by site and ID.",
     "other": "Problems from other sites are logged as custom problems.",
     "not_found": "That problem is not in CodeCompass yet.",
-    # A Codeforces problem with no rating or no mappable tag, so not in the reserve (R-37).
-    "unmapped": "That Codeforces problem is not in CodeCompass yet, because its tags or rating do not map "
-                "to a pattern or level. Add it as a custom problem; the details Codeforces gives are filled in.",
+    # A Codeforces or AtCoder problem whose tags, editorial, or rating give no pattern or
+    # level, so it is not in the reserve (R-37).
+    "unmapped": "That problem is not in CodeCompass yet, because its tags, editorial, or rating do not map "
+                "to a pattern or level. Add it as a custom problem; the details the site gives are filled in.",
 }
 
 

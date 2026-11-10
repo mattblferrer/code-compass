@@ -24,8 +24,8 @@ def create_app(test_config=None):
     # The unreviewed Codeforces reserve (R-37).
     reserve = catalog.DATA_DIR / "reserve.csv"
     app.config["RESERVE_PATH"] = str(reserve) if reserve.exists() else None
-    # Codeforces problems the reserve cannot hold, read only to fill in the custom-problem form.
-    unmapped = catalog.DATA_DIR / "codeforces_unmapped.csv"
+    # Codeforces and AtCoder problems the reserve cannot hold, read only to fill in the custom-problem form.
+    unmapped = catalog.DATA_DIR / "reserve_unmapped.csv"
     app.config["UNMAPPED_PATH"] = str(unmapped) if unmapped.exists() else None
     if test_config:
         app.config.update(test_config)

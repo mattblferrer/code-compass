@@ -151,7 +151,7 @@ def test_unmapped_codeforces_problem_fills_in_the_custom_form(rclient, reserve_a
     expected = f"/problems/new?link={link}&title=Untagged+Puzzle&difficulty=hard"
     found = rclient.get("/problems/find?site=codeforces&ref=4B").get_json()
     assert found["problem"] is None
-    assert "tags or rating do not map" in found["message"]
+    assert "do not map to a pattern or level" in found["message"]
     assert found["custom_url"] == expected
     # The same offer for the ID typed into the form, the exact title, or a pasted link.
     for fields in ({"problem": "", "site": "codeforces", "ref": "4B"}, {"problem": "untagged puzzle"},

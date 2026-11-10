@@ -4,10 +4,11 @@ Takes the already-parsed `problemset.problems` result, so nothing here contacts
 the site. See "Codeforces reserve" in docs/rules.md.
 """
 from .codeforces_tags import reserve_patterns
-from .levels import codeforces_level
+from .levels import atcoder_level, codeforces_level
 from .problem_refs import codeforces_link
 
 SOURCE = "Codeforces API"
+ATCODER_SOURCE = "AtCoder"
 UNMAPPED_HEADER = ["title", "link", "difficulty"]
 
 
@@ -25,13 +26,39 @@ def corrected(names, correction, pattern_order):
     return [name for name in pattern_order if name in found]
 
 
-def reserve_rows(result, pattern_order, corrections=None):
+def atcoder_rows(source_rows, pattern_order):
+    """Reserve rows for AtCoder problems from the editorial-derived source file.
+
+    Each source row has link, title, rating (AtCoder Problems' difficulty
+    estimate), solvers, and patterns ("; "-separated, possibly empty). Rows with
+    no pattern are left out; atcoder_unmapped lists them instead.
+    """
+    rows = []
+    for s in source_rows:
+        names = [n for n in pattern_order if n in {p.strip() for p in s["patterns"].split(";")}]
+        if not names:
+            continue
+        rating = int(s["rating"])
+        rows.append({"title": s["title"], "link": s["link"], "difficulty": atcoder_level(rating), "rating": rating,
+                     "source": ATCODER_SOURCE, "patterns": "; ".join(names),
+                     "_key": (-int(s["solvers"] or 0), 1, s["link"])})
+    return rows
+
+
+def atcoder_unmapped(source_rows):
+    """Unmapped-list rows for AtCoder problems whose editorial gave no pattern."""
+    return [{"title": s["title"], "link": s["link"], "difficulty": atcoder_level(int(s["rating"]))}
+            for s in source_rows if not s["patterns"].strip()]
+
+
+def reserve_rows(result, pattern_order, corrections=None, extra_rows=()):
     """Catalog-file rows for every usable problem, most-solved first.
 
     A problem is left out if it is not a programming problem, is tagged
     `*special`, has no rating, or has no tag that maps to a pattern, even
     through the broad-tag fallback. `corrections` maps a problem link to the
     patterns its editorial or accepted code adds or removes (docs/rules.md).
+    `extra_rows` (from atcoder_rows) join the same most-solved-first order.
     """
     corrections = corrections or {}
     solved = {(s["contestId"], s["index"]): s.get("solvedCount", 0) for s in result.get("problemStatistics", [])}
@@ -52,6 +79,7 @@ def reserve_rows(result, pattern_order, corrections=None):
             "patterns": "; ".join(names),
             "_key": (-solved.get((p["contestId"], p["index"]), 0), -p["contestId"], p["index"]),
         })
+    rows += [dict(r) for r in extra_rows]
     rows.sort(key=lambda r: r["_key"])
     seen, unique = set(), []
     for r in rows:

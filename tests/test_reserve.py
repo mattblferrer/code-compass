@@ -139,6 +139,28 @@ def test_corrections_add_and_remove_patterns(tmp_path):
     assert catalog.read_corrections(tmp_path / "missing.csv") == {}
 
 
+def test_atcoder_rows_join_the_reserve_by_solver_count(tmp_path):
+    from codecompass.core.reserve import atcoder_rows, atcoder_unmapped
+    source = [
+        {"link": "https://atcoder.jp/contests/abc300/tasks/abc300_d", "title": "AABCC", "rating": "1100",
+         "solvers": "6000", "patterns": "Number Theory; Two Pointers"},
+        {"link": "https://atcoder.jp/contests/abc300/tasks/abc300_a", "title": "N-choice question", "rating": "-900",
+         "solvers": "12000", "patterns": ""},
+    ]
+    result = {"problems": [problem(1, "A", "Popular", 800, ["greedy"]), problem(2, "B", "Rare", 1500, ["greedy"])],
+              "problemStatistics": [{"contestId": 1, "index": "A", "solvedCount": 9000},
+                                    {"contestId": 2, "index": "B", "solvedCount": 100}]}
+    out = reserve_rows(result, ORDER, extra_rows=atcoder_rows(source, ORDER))
+    assert [r["title"] for r in out] == ["Popular", "AABCC", "Rare"]
+    assert out[1] == {"title": "AABCC", "link": "https://atcoder.jp/contests/abc300/tasks/abc300_d",
+                      "difficulty": "medium", "rating": 1100, "source": "AtCoder",
+                      "patterns": "Two Pointers; Number Theory"}
+    # A problem whose editorial gave no pattern goes to the unmapped list instead.
+    assert atcoder_unmapped(source) == [{"title": "N-choice question",
+                                         "link": "https://atcoder.jp/contests/abc300/tasks/abc300_a",
+                                         "difficulty": "easy"}]
+
+
 def test_unmapped_rows_keep_what_the_reserve_cannot_hold():
     result = {"problems": [
         problem(1, "A", "In reserve", 800, ["greedy"]),

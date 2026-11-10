@@ -7,7 +7,7 @@ from pathlib import Path
 import click
 
 from .core.catalog_rows import parse_catalog, parse_patterns
-from .core.reserve import UNMAPPED_HEADER, reserve_rows, unmapped_rows
+from .core.reserve import UNMAPPED_HEADER, atcoder_rows, atcoder_unmapped, reserve_rows, unmapped_rows
 from .db import connect
 
 DATA_DIR = Path(__file__).with_name("data")
@@ -139,23 +139,26 @@ def read_corrections(path):
     return {r["link"]: {"add": split(r["add"]), "remove": split(r["remove"])} for r in read_rows(path)}
 
 
-def write_reserve(problemset_path, patterns_path, out_path, unmapped_path=None, corrections_path=None):
+def write_reserve(problemset_path, patterns_path, out_path, unmapped_path=None, corrections_path=None,
+                  atcoder_path=None):
     """Write the reserve file, and optionally the unmapped list, from a saved
-    `problemset.problems` response. Returns (reserve rows, unmapped rows)."""
+    `problemset.problems` response and, if given, the AtCoder reserve source
+    file. Returns (reserve rows, unmapped rows)."""
     data = json.loads(Path(problemset_path).read_text(encoding="utf-8"))
     if data.get("status") != "OK":
         raise click.ClickException("The file is not a successful problemset.problems response.")
     order = [p["name"] for p in parse_patterns(read_rows(patterns_path), Path(patterns_path).name)]
-    rows = reserve_rows(data["result"], order, read_corrections(corrections_path))
+    atcoder = read_rows(atcoder_path) if atcoder_path and Path(atcoder_path).exists() else []
+    rows = reserve_rows(data["result"], order, read_corrections(corrections_path), atcoder_rows(atcoder, order))
     _write_csv(out_path, HEADER, rows)
-    unmapped = unmapped_rows(data["result"], order)
+    unmapped = unmapped_rows(data["result"], order) + atcoder_unmapped(atcoder)
     if unmapped_path:
         _write_csv(unmapped_path, UNMAPPED_HEADER, unmapped)
     return len(rows), len(unmapped)
 
 
 def find_unmapped(path, link=None, title=None):
-    """The unmapped Codeforces problem with this link, or the only one with this
+    """The unmapped reserve problem with this link, or the only one with this
     title (ignoring case), as a dict; None if there is none or no file."""
     if not path or not Path(path).exists():
         return None
@@ -171,16 +174,18 @@ def find_unmapped(path, link=None, title=None):
 @click.command("build-reserve")
 @click.argument("problemset", type=click.Path(exists=True, dir_okay=False))
 def build_reserve_command(problemset):
-    """Build data/reserve.csv and data/codeforces_unmapped.csv from a saved
-    Codeforces problemset.problems response.
+    """Build data/reserve.csv and data/reserve_unmapped.csv from a saved
+    Codeforces problemset.problems response, plus data/atcoder_reserve_source.csv
+    (AtCoder problems tagged from their editorials) if it exists.
 
     Download it yourself first, for example with
     curl -o problemset.json https://codeforces.com/api/problemset.problems
     """
     count, unmapped = write_reserve(problemset, DATA_DIR / "patterns.csv", DATA_DIR / "reserve.csv",
-                                    DATA_DIR / "codeforces_unmapped.csv", DATA_DIR / "reserve_corrections.csv")
+                                    DATA_DIR / "reserve_unmapped.csv", DATA_DIR / "reserve_corrections.csv",
+                                    DATA_DIR / "atcoder_reserve_source.csv")
     click.echo(f"Wrote {count} problems to {DATA_DIR / 'reserve.csv'} and {unmapped} problems the reserve "
-               f"cannot hold to {DATA_DIR / 'codeforces_unmapped.csv'}.")
+               f"cannot hold to {DATA_DIR / 'reserve_unmapped.csv'}.")
 
 
 def init_app(app):
