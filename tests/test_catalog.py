@@ -67,7 +67,7 @@ def test_schema_and_load_are_rerunnable(db_path):
     create_app({"TESTING": True, "DATABASE": db_path})
     create_app({"TESTING": True, "DATABASE": db_path})
     conn = connect(db_path)
-    assert conn.execute("SELECT count(*) FROM patterns").fetchone()[0] == 53
+    assert conn.execute("SELECT count(*) FROM patterns").fetchone()[0] == 54
     conn.close()
 
 

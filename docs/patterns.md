@@ -66,6 +66,7 @@ The last two columns show where each pattern comes from. "Interview lists" names
 | 51 | 2-SAT | Narrow | Graphs | Express either-or constraints as a graph on true and false choices. | - | 2-sat |
 | 52 | Interactive Problems | Normal | Implementation and design | Ask the judge questions and narrow down the answer within a query limit. | - | interactive |
 | 53 | Expression Parsing | Normal | Implementation and design | Evaluate or process nested expressions according to their structure. | - | expression parsing |
+| 54 | JavaScript | Normal | Implementation and design | Use closures, promises, and prototypes to build small utilities in JavaScript. | NeetCode: JavaScript | - |
 
 ## Codeforces tags that need care
 

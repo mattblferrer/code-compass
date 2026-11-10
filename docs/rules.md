@@ -276,7 +276,7 @@ The catalog is built once, before release, from these sources. A problem is iden
 | 6 | CSES problem set | Every problem | 400 |
 | 7 | Codeforces API | Picked per pattern (see below) | 1,009 after merging duplicates |
 
-The five LeetCode lists give 515 unique problems. The 15 that need LeetCode Premium are left out, because the user could not open them, leaving 500. The lists are read from where they are published (NeetCode's and Sean Prashad's data files on GitHub, the Grind 169 site, and cses.fi), never from LeetCode itself (R-03). LeetCode's own Top Interview 150 and LeetCode 75 are not used for the same reason.
+The five LeetCode lists give 515 unique problems. The 20 that any list marks as needing LeetCode Premium are left out, because the user could not open them, leaving 495. The 495 include NeetCode All's 30 JavaScript exercises, which are tagged with the advanced JavaScript pattern, so they appear only for users who turn it on. The lists are read from where they are published (NeetCode's and Sean Prashad's data files on GitHub, the Grind 169 site, and cses.fi), never from LeetCode itself (R-03). LeetCode's own Top Interview 150 and LeetCode 75 are not used for the same reason.
 
 ### Picking Codeforces problems
 

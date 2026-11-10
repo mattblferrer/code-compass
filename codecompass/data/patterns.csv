@@ -52,3 +52,4 @@ Bipartite Matching,advanced,narrow,Graphs,Pair items from two groups so as many 
 2-SAT,advanced,narrow,Graphs,Express either-or constraints as a graph on true and false choices.
 Interactive Problems,advanced,normal,Implementation and design,Ask the judge questions and narrow down the answer within a query limit.
 Expression Parsing,advanced,normal,Implementation and design,Evaluate or process nested expressions according to their structure.
+JavaScript,advanced,normal,Implementation and design,"Use closures, promises, and prototypes to build small utilities in JavaScript."
