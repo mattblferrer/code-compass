@@ -1,0 +1,288 @@
+{
+  "note": "Site filter (R-36) reference history. Expected lists approved by the author on 2026-11-10. Each case starts from a fresh database; the steps of a case run in order on the same database, so a sibling reserved in one step carries into the next. 'review:A>B' is the due review of A shown as B.",
+  "today": "2026-11-10",
+  "settings": {
+    "starting_difficulty": "easy",
+    "advanced_on": "1",
+    "very_hard_on": "0"
+  },
+  "catalog": [
+    {
+      "title": "LC-Stack-1",
+      "link": "https://leetcode.com/problems/lc-stack-1/",
+      "difficulty": "easy",
+      "patterns": [
+        "Stack"
+      ]
+    },
+    {
+      "title": "CF-Stack-1",
+      "link": "https://codeforces.com/problemset/problem/9001/A",
+      "difficulty": "easy",
+      "patterns": [
+        "Stack"
+      ]
+    },
+    {
+      "title": "CSES-Stack-1",
+      "link": "https://cses.fi/problemset/task/9101",
+      "difficulty": "easy",
+      "patterns": [
+        "Stack"
+      ]
+    },
+    {
+      "title": "LC-Sort-1",
+      "link": "https://leetcode.com/problems/lc-sort-1/",
+      "difficulty": "easy",
+      "patterns": [
+        "Sorting"
+      ]
+    },
+    {
+      "title": "CF-Sort-1",
+      "link": "https://codeforces.com/problemset/problem/9002/A",
+      "difficulty": "easy",
+      "patterns": [
+        "Sorting"
+      ]
+    },
+    {
+      "title": "CF-Greedy-1",
+      "link": "https://codeforces.com/problemset/problem/9003/A",
+      "difficulty": "easy",
+      "patterns": [
+        "Greedy"
+      ]
+    },
+    {
+      "title": "LC-Seg-1",
+      "link": "https://leetcode.com/problems/lc-seg-1/",
+      "difficulty": "easy",
+      "patterns": [
+        "Segment Tree and Fenwick Tree"
+      ]
+    },
+    {
+      "title": "CSES-StackSeg-1",
+      "link": "https://cses.fi/problemset/task/9102",
+      "difficulty": "easy",
+      "patterns": [
+        "Stack",
+        "Segment Tree and Fenwick Tree"
+      ]
+    },
+    {
+      "title": "CF-Seg-1",
+      "link": "https://codeforces.com/problemset/problem/9004/A",
+      "difficulty": "easy",
+      "patterns": [
+        "Segment Tree and Fenwick Tree"
+      ]
+    },
+    {
+      "title": "LC-Stack-0",
+      "link": "https://leetcode.com/problems/lc-stack-0/",
+      "difficulty": "easy",
+      "patterns": [
+        "Stack"
+      ]
+    },
+    {
+      "title": "CSES-Sort-0",
+      "link": "https://cses.fi/problemset/task/9103",
+      "difficulty": "easy",
+      "patterns": [
+        "Sorting"
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "problem": "LC-Stack-0",
+      "date": "2026-11-05",
+      "outcome": "solved_with_hints"
+    },
+    {
+      "problem": "CSES-Sort-0",
+      "date": "2026-11-03",
+      "outcome": "not_solved"
+    }
+  ],
+  "due_dates": {
+    "LC-Stack-0": "2026-11-15",
+    "CSES-Sort-0": "2026-11-10"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "why": "Nothing hidden.",
+      "steps": [
+        {
+          "hidden": [],
+          "expected": [
+            "review:CSES-Sort-0>LC-Sort-1",
+            "new:LC-Stack-1",
+            "new:CF-Sort-1",
+            "new:CF-Greedy-1",
+            "new:LC-Seg-1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "core_hidden",
+      "why": "Codeforces core problems are gone, its advanced problem still appears, and Greedy and Sorting with nothing left pass their slots on.",
+      "steps": [
+        {
+          "hidden": [
+            [
+              "codeforces",
+              "core"
+            ]
+          ],
+          "expected": [
+            "review:CSES-Sort-0>LC-Sort-1",
+            "new:LC-Stack-1",
+            "new:LC-Seg-1",
+            "new:CSES-Stack-1",
+            "new:CF-Seg-1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "advanced_hidden",
+      "why": "The reverse: LeetCode core problems stay, Segment Tree comes from Codeforces.",
+      "steps": [
+        {
+          "hidden": [
+            [
+              "leetcode",
+              "advanced"
+            ]
+          ],
+          "expected": [
+            "review:CSES-Sort-0>LC-Sort-1",
+            "new:LC-Stack-1",
+            "new:CF-Sort-1",
+            "new:CF-Greedy-1",
+            "new:CF-Seg-1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "review_from_hidden_site",
+      "why": "A due review from a hidden site still appears; with no sibling left, the original is shown.",
+      "steps": [
+        {
+          "hidden": [
+            [
+              "cses",
+              "core"
+            ],
+            [
+              "leetcode",
+              "core"
+            ],
+            [
+              "codeforces",
+              "core"
+            ]
+          ],
+          "expected": [
+            "review:CSES-Sort-0>CSES-Sort-0",
+            "new:CSES-StackSeg-1",
+            "new:LC-Seg-1",
+            "new:CF-Seg-1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reserved_sibling_replaced",
+      "why": "A reserved sibling from a newly hidden site is replaced; the replacement stays when the site is shown again, and the first sibling, not dismissed, returns as a new problem.",
+      "steps": [
+        {
+          "hidden": [],
+          "expected": [
+            "review:CSES-Sort-0>LC-Sort-1",
+            "new:LC-Stack-1",
+            "new:CF-Sort-1",
+            "new:CF-Greedy-1",
+            "new:LC-Seg-1"
+          ]
+        },
+        {
+          "hidden": [
+            [
+              "leetcode",
+              "core"
+            ]
+          ],
+          "expected": [
+            "review:CSES-Sort-0>CF-Sort-1",
+            "new:CF-Stack-1",
+            "new:CF-Greedy-1",
+            "new:LC-Seg-1",
+            "new:CSES-Stack-1"
+          ]
+        },
+        {
+          "hidden": [],
+          "expected": [
+            "review:CSES-Sort-0>CF-Sort-1",
+            "new:LC-Stack-1",
+            "new:LC-Sort-1",
+            "new:CF-Greedy-1",
+            "new:LC-Seg-1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "target_slot",
+      "why": "A target slot works normally.",
+      "steps": [
+        {
+          "hidden": [],
+          "targets": [
+            "Greedy"
+          ],
+          "expected": [
+            "review:CSES-Sort-0>LC-Sort-1",
+            "new:CF-Greedy-1",
+            "new:LC-Stack-1",
+            "new:CF-Sort-1",
+            "new:LC-Seg-1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "target_slot_hidden",
+      "why": "A target slot gets no exception from the filter, so it passes on.",
+      "steps": [
+        {
+          "hidden": [
+            [
+              "codeforces",
+              "core"
+            ]
+          ],
+          "targets": [
+            "Greedy"
+          ],
+          "expected": [
+            "review:CSES-Sort-0>LC-Sort-1",
+            "new:LC-Stack-1",
+            "new:LC-Seg-1",
+            "new:CSES-Stack-1",
+            "new:CF-Seg-1"
+          ]
+        }
+      ]
+    }
+  ]
+}
