@@ -54,6 +54,13 @@ RESERVE = [
 ]
 
 
+# Codeforces problems the reserve cannot hold (no mappable tag, or no rating).
+UNMAPPED = [
+    ["Untagged Puzzle", "https://codeforces.com/problemset/problem/4/B", "hard"],
+    ["Brand New", "https://codeforces.com/problemset/problem/5/C", ""],
+]
+
+
 @pytest.fixture
 def reserve_app(db_path, catalog_path, tmp_path):
     path = tmp_path / "reserve.csv"
@@ -61,8 +68,13 @@ def reserve_app(db_path, catalog_path, tmp_path):
         writer = csv.writer(f)
         writer.writerow(["title", "link", "difficulty", "rating", "source", "patterns"])
         writer.writerows(RESERVE)
+    unmapped = tmp_path / "unmapped.csv"
+    with open(unmapped, "w", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["title", "link", "difficulty"])
+        writer.writerows(UNMAPPED)
     return create_app({"TESTING": True, "DATABASE": db_path, "CATALOG_PATH": catalog_path,
-                       "RESERVE_PATH": str(path)})
+                       "RESERVE_PATH": str(path), "UNMAPPED_PATH": str(unmapped)})
 
 
 @pytest.fixture
@@ -132,6 +144,33 @@ def test_unknown_id_offers_custom_problem_with_link(rclient, reserve_app):
     assert "not in CodeCompass yet" in page
     assert "/problems/new?link=https%3A%2F%2Fcodeforces.com%2Fproblemset%2Fproblem%2F9999%2FZ" in page
     assert logged(reserve_app) == []
+
+
+def test_unmapped_codeforces_problem_fills_in_the_custom_form(rclient, reserve_app):
+    link = quote("https://codeforces.com/problemset/problem/4/B", safe="")
+    expected = f"/problems/new?link={link}&title=Untagged+Puzzle&difficulty=hard"
+    found = rclient.get("/problems/find?site=codeforces&ref=4B").get_json()
+    assert found["problem"] is None
+    assert "tags or rating do not map" in found["message"]
+    assert found["custom_url"] == expected
+    # The same offer for the ID typed into the form, the exact title, or a pasted link.
+    for fields in ({"problem": "", "site": "codeforces", "ref": "4B"}, {"problem": "untagged puzzle"},
+                   {"problem": "https://codeforces.com/contest/4/problem/B"}):
+        page = log(rclient, **fields).get_data(as_text=True)
+        assert expected.replace("&", "&amp;") in page, fields
+    assert logged(reserve_app) == []
+
+
+def test_unrated_unmapped_problem_leaves_the_level_blank(rclient):
+    found = rclient.get("/problems/find?site=codeforces&ref=5C").get_json()
+    assert found["custom_url"].endswith("&title=Brand+New")
+    page = rclient.get(found["custom_url"]).get_data(as_text=True)
+    assert 'value="Brand New"' in page and "selected" not in page
+
+
+def test_custom_form_prefills_a_valid_level_only(rclient):
+    assert '<option value="hard" selected>' in rclient.get("/problems/new?difficulty=hard").get_data(as_text=True)
+    assert "selected" not in rclient.get("/problems/new?difficulty=impossible").get_data(as_text=True)
 
 
 def test_badly_formed_id_names_the_expected_form(rclient):

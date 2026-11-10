@@ -7,8 +7,8 @@ import pytest
 
 from codecompass import catalog
 from codecompass.core.catalog_rows import DataFileError
-from codecompass.core.codeforces_tags import BROAD, DIRECT, PAIRS, patterns_for
-from codecompass.core.reserve import reserve_rows
+from codecompass.core.codeforces_tags import BROAD, BROAD_FALLBACK, DIRECT, PAIRS, patterns_for, reserve_patterns
+from codecompass.core.reserve import reserve_rows, unmapped_rows
 from codecompass.db import connect, init_db
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -51,7 +51,10 @@ def test_mapping_matches_patterns_doc():
         assert tag in listed[name], (tag, name)
     for pair, name in PAIRS.items():
         assert pair <= listed[name], (pair, name)
+    for tag, name in BROAD_FALLBACK.items():
+        assert tag in listed[name], (tag, name)
     assert not BROAD & set(DIRECT)
+    assert set(BROAD_FALLBACK) == BROAD
 
 
 @pytest.mark.parametrize("tags, expected", [
@@ -65,6 +68,20 @@ def test_mapping_matches_patterns_doc():
 ])
 def test_patterns_for(tags, expected):
     assert patterns_for(tags, ORDER) == expected
+
+
+@pytest.mark.parametrize("tags, expected", [
+    # Broad tags count only when nothing else maps.
+    (["math", "dp", "data structures"], ["Data Structure Design", "1-D Dynamic Programming", "Math"]),
+    (["graphs", "dfs and similar", "trees"], ["Tree Traversal", "Graph Traversal"]),
+    (["strings", "two pointers"], ["Two Pointers", "Strings"]),
+    (["fft", "math"], ["FFT and NTT"]),
+    (["trees", "dp"], ["Tree DP"]),
+    (["communication"], []),
+    ([], []),
+])
+def test_reserve_patterns_fall_back_on_broad_tags(tags, expected):
+    assert reserve_patterns(tags, ORDER) == [n for n in ORDER if n in expected]
 
 
 # --- Building the reserve file ---
@@ -94,7 +111,9 @@ def test_reserve_rows_filters_and_orders():
         ],
     }
     out = reserve_rows(result, ORDER)
-    assert [r["title"] for r in out] == ["Less popular", "Popular", "Easy version"]
+    # "Only broad" has no statistics, so it counts as solved by no one and comes last.
+    assert [r["title"] for r in out] == ["Less popular", "Popular", "Easy version", "Only broad"]
+    assert out[3]["patterns"] == "1-D Dynamic Programming; Math"
     assert out[0] == {
         "title": "Less popular", "link": "https://codeforces.com/problemset/problem/2/B",
         "difficulty": "very hard", "rating": 2400, "source": "Codeforces API", "patterns": "Tree DP",
@@ -103,14 +122,34 @@ def test_reserve_rows_filters_and_orders():
     assert out[2]["difficulty"] == "medium"
 
 
+def test_unmapped_rows_keep_what_the_reserve_cannot_hold():
+    result = {"problems": [
+        problem(1, "A", "In reserve", 800, ["greedy"]),
+        problem(2, "B", "No tags", 1400),
+        problem(3, "C", "Unrated", None, ["greedy"]),
+        problem(4, "D", "Special", None, ["*special"]),
+        problem(5, "E", "Question", None, kind="QUESTION"),
+        problem(6, "F", "Only communication", 1900, ["communication"]),
+    ]}
+    assert unmapped_rows(result, ORDER) == [
+        {"title": "No tags", "link": "https://codeforces.com/problemset/problem/2/B", "difficulty": "medium"},
+        {"title": "Unrated", "link": "https://codeforces.com/problemset/problem/3/C", "difficulty": ""},
+        {"title": "Only communication", "link": "https://codeforces.com/problemset/problem/6/F",
+         "difficulty": "hard"},
+    ]
+
+
 def test_write_reserve_from_saved_response(tmp_path):
     saved = tmp_path / "problemset.json"
     saved.write_text('{"status": "OK", "result": {"problems": [{"contestId": 1, "index": "A", "name": "X",'
-                     ' "type": "PROGRAMMING", "rating": 900, "tags": ["greedy"]}], "problemStatistics": []}}',
+                     ' "type": "PROGRAMMING", "rating": 900, "tags": ["greedy"]}, {"contestId": 2, "index": "B",'
+                     ' "name": "Y", "type": "PROGRAMMING", "tags": []}], "problemStatistics": []}}',
                      encoding="utf-8")
-    out = tmp_path / "reserve.csv"
-    assert catalog.write_reserve(saved, catalog.DATA_DIR / "patterns.csv", out) == 1
+    out, unmapped = tmp_path / "reserve.csv", tmp_path / "unmapped.csv"
+    assert catalog.write_reserve(saved, catalog.DATA_DIR / "patterns.csv", out, unmapped) == (1, 1)
     assert catalog.read_rows(out)[0]["patterns"] == "Greedy"
+    assert catalog.read_rows(unmapped) == [
+        {"title": "Y", "link": "https://codeforces.com/problemset/problem/2/B", "difficulty": ""}]
 
 
 # --- Loading ---

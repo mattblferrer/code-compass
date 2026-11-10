@@ -7,7 +7,7 @@ from pathlib import Path
 import click
 
 from .core.catalog_rows import parse_catalog, parse_patterns
-from .core.reserve import reserve_rows
+from .core.reserve import UNMAPPED_HEADER, reserve_rows, unmapped_rows
 from .db import connect
 
 DATA_DIR = Path(__file__).with_name("data")
@@ -124,30 +124,55 @@ def load_if_changed(conn, patterns_path, catalog_path, reserve_path=None):
     return True
 
 
-def write_reserve(problemset_path, patterns_path, out_path):
-    """Write the reserve file from a saved `problemset.problems` response. Returns the row count."""
+def _write_csv(path, header, rows):
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=header)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def write_reserve(problemset_path, patterns_path, out_path, unmapped_path=None):
+    """Write the reserve file, and optionally the unmapped list, from a saved
+    `problemset.problems` response. Returns (reserve rows, unmapped rows)."""
     data = json.loads(Path(problemset_path).read_text(encoding="utf-8"))
     if data.get("status") != "OK":
         raise click.ClickException("The file is not a successful problemset.problems response.")
     order = [p["name"] for p in parse_patterns(read_rows(patterns_path), Path(patterns_path).name)]
     rows = reserve_rows(data["result"], order)
-    with open(out_path, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=HEADER)
-        writer.writeheader()
-        writer.writerows(rows)
-    return len(rows)
+    _write_csv(out_path, HEADER, rows)
+    unmapped = unmapped_rows(data["result"], order)
+    if unmapped_path:
+        _write_csv(unmapped_path, UNMAPPED_HEADER, unmapped)
+    return len(rows), len(unmapped)
+
+
+def find_unmapped(path, link=None, title=None):
+    """The unmapped Codeforces problem with this link, or the only one with this
+    title (ignoring case), as a dict; None if there is none or no file."""
+    if not path or not Path(path).exists():
+        return None
+    rows = read_rows(path)
+    if link:
+        return next((r for r in rows if r["link"] == link), None)
+    if title:
+        matches = [r for r in rows if r["title"].lower() == title.lower()]
+        return matches[0] if len(matches) == 1 else None
+    return None
 
 
 @click.command("build-reserve")
 @click.argument("problemset", type=click.Path(exists=True, dir_okay=False))
 def build_reserve_command(problemset):
-    """Build data/reserve.csv from a saved Codeforces problemset.problems response.
+    """Build data/reserve.csv and data/codeforces_unmapped.csv from a saved
+    Codeforces problemset.problems response.
 
     Download it yourself first, for example with
     curl -o problemset.json https://codeforces.com/api/problemset.problems
     """
-    count = write_reserve(problemset, DATA_DIR / "patterns.csv", DATA_DIR / "reserve.csv")
-    click.echo(f"Wrote {count} problems to {DATA_DIR / 'reserve.csv'}.")
+    count, unmapped = write_reserve(problemset, DATA_DIR / "patterns.csv", DATA_DIR / "reserve.csv",
+                                    DATA_DIR / "codeforces_unmapped.csv")
+    click.echo(f"Wrote {count} problems to {DATA_DIR / 'reserve.csv'} and {unmapped} problems the reserve "
+               f"cannot hold to {DATA_DIR / 'codeforces_unmapped.csv'}.")
 
 
 def init_app(app):

@@ -2,7 +2,8 @@
 
 Used for the unreviewed reserve (R-37). Tags on the "too broad" list in
 docs/patterns.md map to nothing on their own, and a tag listed for more than one
-pattern maps only to the first, except through the tag pairs.
+pattern maps only to the first, except through the tag pairs. In the reserve
+only, a problem with nothing but broad tags falls back to BROAD_FALLBACK.
 """
 
 # Tags too broad to map on their own (docs/patterns.md).
@@ -53,6 +54,19 @@ PAIRS = {
 }
 
 
+# The reserve's default pattern for each broad tag, used only when no other tag maps.
+BROAD_FALLBACK = {
+    "math": "Math",
+    "dp": "1-D Dynamic Programming",
+    "strings": "Strings",
+    "graphs": "Graph Traversal",
+    "dfs and similar": "Graph Traversal",
+    "trees": "Tree Traversal",
+    "data structures": "Data Structure Design",
+    "two pointers": "Two Pointers",
+}
+
+
 def patterns_for(tags, order):
     """Pattern names for a problem's tags, in pattern-list order.
 
@@ -61,4 +75,13 @@ def patterns_for(tags, order):
     tags = set(tags) - IGNORED
     found = {DIRECT[t] for t in tags if t in DIRECT}
     found |= {name for pair, name in PAIRS.items() if pair <= tags}
+    return [name for name in order if name in found]
+
+
+def reserve_patterns(tags, order):
+    """Like patterns_for, but a problem with only broad tags gets their defaults (R-37)."""
+    names = patterns_for(tags, order)
+    if names:
+        return names
+    found = {BROAD_FALLBACK[t] for t in tags if t in BROAD_FALLBACK}
     return [name for name in order if name in found]

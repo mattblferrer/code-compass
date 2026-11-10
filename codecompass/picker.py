@@ -5,9 +5,9 @@ The form sends the typed text in "problem", the id chosen from the search list
 """
 from urllib.parse import urlencode
 
-from flask import url_for
+from flask import current_app, url_for
 
-from . import queries
+from . import catalog, queries
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link, short_id
 from .core.validation import MESSAGES as VALIDATION_MESSAGES
 
@@ -22,6 +22,9 @@ MESSAGES = {
     "ambiguous": "Several problems have that title. Choose one from the list, or find it by site and ID.",
     "other": "Problems from other sites are logged as custom problems.",
     "not_found": "That problem is not in CodeCompass yet.",
+    # A Codeforces problem with no rating or no mappable tag, so not in the reserve (R-37).
+    "unmapped": "That Codeforces problem is not in CodeCompass yet, because its tags or rating do not map "
+                "to a pattern or level. Add it as a custom problem; the details Codeforces gives are filled in.",
 }
 
 
@@ -39,29 +42,45 @@ def label_for(conn, problem_id):
     return label(row) if row else ""
 
 
-def custom_url(link=None):
-    """Where to add a custom problem, with the link filled in."""
-    query = urlencode({"link": link}) if link else ""
+def custom_url(link=None, title=None, difficulty=None):
+    """Where to add a custom problem, with whatever details are known filled in."""
+    values = {key: value for key, value in (("link", link), ("title", title), ("difficulty", difficulty)) if value}
+    query = urlencode(values)
     return url_for("main.new_problem") + (f"?{query}" if query else "")
 
 
+def unmapped(link=None, title=None):
+    """The unmapped Codeforces problem for this link or title, or None."""
+    return catalog.find_unmapped(current_app.config.get("UNMAPPED_PATH"), link=link, title=title)
+
+
 def find_by_ref(conn, site, ref):
-    """{"row", "link", "message"} for a site and an ID or link."""
+    """{"row", "link", "message", "known"} for a site and an ID or link. `known`
+    holds the details of an unmapped Codeforces problem, for the custom form."""
     if site == OTHER:
-        return {"row": None, "link": None, "message": MESSAGES["other"]}
+        return {"row": None, "link": None, "message": MESSAGES["other"], "known": None}
     if site not in SITES:
         found = from_link(ref)
         if not found:
-            return {"row": None, "link": None, "message": "Choose the site, then enter the problem ID."}
+            return {"row": None, "link": None, "message": "Choose the site, then enter the problem ID.",
+                    "known": None}
         site, link = found
     else:
         link = from_id(site, ref)
     if not link:
-        return {"row": None, "link": None, "message": f"Enter {ID_HINTS[site]}, or paste the problem's link."}
+        return {"row": None, "link": None, "message": f"Enter {ID_HINTS[site]}, or paste the problem's link.",
+                "known": None}
     row = queries.problem_by_link(conn, link)
     if not row:
-        return {"row": None, "link": link, "message": MESSAGES["not_found"]}
-    return {"row": queries.picker_row(conn, row["id"]), "link": link, "message": None}
+        known = unmapped(link=link)
+        return {"row": None, "link": link, "message": MESSAGES["unmapped" if known else "not_found"], "known": known}
+    return {"row": queries.picker_row(conn, row["id"]), "link": link, "message": None, "known": None}
+
+
+def custom_url_for(found):
+    """The custom-problem link for a find_by_ref result that matched nothing."""
+    known = found.get("known") or {}
+    return custom_url(found["link"], known.get("title"), known.get("difficulty"))
 
 
 def resolve(conn, form):
@@ -74,7 +93,7 @@ def resolve(conn, form):
         if found["row"]:
             return found["row"]["id"], None
         show_custom = site == OTHER or found["link"] is not None
-        return None, {"message": found["message"], "custom_url": custom_url(found["link"]) if show_custom else None}
+        return None, {"message": found["message"], "custom_url": custom_url_for(found) if show_custom else None}
 
     text = (form.get("problem") or "").strip()
     chosen = form.get("problem_id", "")
@@ -85,9 +104,9 @@ def resolve(conn, form):
     if not text:
         return None, {"message": MESSAGES["none"]}
 
-    if "/" in text and "." in text:
-        found = from_link(text)
-        row = found and queries.problem_by_link(conn, found[1])
+    pasted = from_link(text) if "/" in text and "." in text else None
+    if pasted:
+        row = queries.problem_by_link(conn, pasted[1])
         if row:
             return row["id"], None
 
@@ -99,7 +118,11 @@ def resolve(conn, form):
         return by_title[0]["id"], None
     if len(by_label) > 1 or len(by_title) > 1:
         return None, {"message": MESSAGES["ambiguous"]}
-    return None, {"message": MESSAGES["unknown"], "custom_url": custom_url()}
+    known = unmapped(link=pasted[1]) if pasted else unmapped(title=text)
+    if known:
+        return None, {"message": MESSAGES["unmapped"],
+                      "custom_url": custom_url(known["link"], known["title"], known["difficulty"])}
+    return None, {"message": MESSAGES["unknown"], "custom_url": custom_url(pasted[1] if pasted else None)}
 
 
 def search(conn, text):

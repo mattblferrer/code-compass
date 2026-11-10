@@ -76,7 +76,7 @@ def find_problem():
     return jsonify({
         "problem": picker.as_result(found["row"]) if found["row"] else None,
         "message": found["message"],
-        "custom_url": picker.custom_url(found["link"]) if show_custom and not found["row"] else None,
+        "custom_url": picker.custom_url_for(found) if show_custom and not found["row"] else None,
     })
 
 
@@ -297,6 +297,8 @@ def new_problem():
     patterns = queries.patterns(conn)
     if request.method == "GET":
         form = {"link": request.args.get("link", ""), "title": request.args.get("title", "")}
+        if request.args.get("difficulty") in c.LEVELS:
+            form["difficulty"] = request.args["difficulty"]
         return render_template("problem_new.html", form=form, chosen=[], errors={}, patterns=patterns, levels=c.LEVELS)
 
     form = request.form.to_dict()

@@ -71,5 +71,5 @@ The last two columns show where each pattern comes from. "Interview lists" names
 ## Codeforces tags that need care
 
 - **Not mapped:** `*special` and `communication`, which describe the problem format or contest rather than a technique.
-- **Too broad to map automatically:** `data structures`, `graphs`, `dfs and similar`, `math`, `trees`, `strings`, `dp`, and `two pointers` each match more than one pattern, so these problems need a person to choose the pattern.
+- **Too broad to map automatically:** `data structures`, `graphs`, `dfs and similar`, `math`, `trees`, `strings`, `dp`, and `two pointers` each match more than one pattern, so these problems need a person to choose the pattern. The unreviewed reserve (R-37) is the exception: there, a problem with only broad tags gets a default pattern for each, as listed in `docs/rules.md`.
 - **Pairs:** when picking catalog problems, Tree DP, Bitmask DP, and Minimum Spanning Tree need both of their listed tags at once. `docs/rules.md` (Catalog sources) gives the full picking rule, including which pattern a shared tag is picked for.
