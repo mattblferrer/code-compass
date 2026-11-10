@@ -130,3 +130,37 @@ def format_minutes(seconds):
         return ""
     minutes = round(seconds / 60, 4)
     return str(int(minutes)) if minutes == int(minutes) else str(minutes)
+
+
+PREFERENCES = ("target", "mastered")
+
+
+def validate_settings(data, pattern_names, sites, kinds):
+    """Check the settings form (R-13, R-32, R-36).
+
+    `data` has "starting_difficulty", "advanced_on" and "very_hard_on" (present
+    when checked), "pref:<pattern>" set to "", "target", or "mastered" for each
+    pattern, and "show:<site>:<kind>" present for each site switch left on.
+    A pattern has one preference field, so it cannot be both a target and
+    mastered. Returns (values, errors).
+    """
+    errors = {}
+    level = _text(data, "starting_difficulty")
+    if level not in c.LEVELS:
+        errors["starting_difficulty"] = "Choose a starting difficulty."
+    preferences = {}
+    for name in pattern_names:
+        choice = _text(data, f"pref:{name}")
+        if choice and choice not in PREFERENCES:
+            errors["preferences"] = "Choose target, mastered, or neither for each pattern."
+        elif choice:
+            preferences[name] = choice
+    hidden = {(site, kind) for site in sites for kind in kinds if not data.get(f"show:{site}:{kind}")}
+    values = {
+        "starting_difficulty": level,
+        "advanced_on": "1" if data.get("advanced_on") else "0",
+        "very_hard_on": "1" if data.get("very_hard_on") else "0",
+        "preferences": preferences,
+        "hidden": hidden,
+    }
+    return values, errors

@@ -128,3 +128,35 @@ def recent_attempts(conn, limit=50):
            ORDER BY a.date DESC, a.id DESC LIMIT ?""",
         (limit,),
     ).fetchall()
+
+
+def read_settings(conn):
+    """Saved settings as {"settings": {key: value}, "preferences": {pattern: pref}, "hidden": {(site, kind)}}.
+
+    Settings that were never saved are missing; the caller supplies defaults.
+    """
+    return {
+        "settings": {r["key"]: r["value"] for r in conn.execute("SELECT key, value FROM settings")},
+        "preferences": {r["name"]: r["preference"] for r in conn.execute(
+            "SELECT pt.name, pp.preference FROM pattern_preferences pp JOIN patterns pt ON pt.id = pp.pattern_id"
+        )},
+        "hidden": {(r["site"], r["category"]) for r in conn.execute("SELECT site, category FROM hidden_sites")},
+    }
+
+
+def save_settings(conn, values):
+    """Replace all settings, pattern preferences, and hidden sites in one transaction (R-13, R-32, R-36)."""
+    pattern_ids = {r["name"]: r["id"] for r in conn.execute("SELECT id, name FROM patterns")}
+    with conn:
+        for key in ("starting_difficulty", "advanced_on", "very_hard_on"):
+            conn.execute(
+                "INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value",
+                (key, values[key]),
+            )
+        conn.execute("DELETE FROM pattern_preferences")
+        conn.executemany(
+            "INSERT INTO pattern_preferences (pattern_id, preference) VALUES (?, ?)",
+            [(pattern_ids[name], pref) for name, pref in values["preferences"].items()],
+        )
+        conn.execute("DELETE FROM hidden_sites")
+        conn.executemany("INSERT INTO hidden_sites (site, category) VALUES (?, ?)", sorted(values["hidden"]))

@@ -67,6 +67,12 @@ CREATE TABLE IF NOT EXISTS interview_patterns (
     PRIMARY KEY (interview_id, pattern_id)
 );
 
+CREATE TABLE IF NOT EXISTS hidden_sites (
+    site TEXT NOT NULL CHECK (site IN ('leetcode', 'codeforces', 'cses', 'atcoder')),
+    category TEXT NOT NULL CHECK (category IN ('core', 'advanced')),
+    PRIMARY KEY (site, category)
+);
+
 CREATE TABLE IF NOT EXISTS pattern_preferences (
     pattern_id INTEGER PRIMARY KEY REFERENCES patterns (id),
     preference TEXT NOT NULL CHECK (preference IN ('target', 'mastered'))

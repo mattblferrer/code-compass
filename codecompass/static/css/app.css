@@ -1274,3 +1274,30 @@ details.hint[open] > summary {
 #messages :focus-visible {
   outline-color: var(--bg);
 }
+
+/* Settings (R-13, R-32, R-36) */
+form.settings {
+  max-width: 44rem;
+}
+
+form.settings .table-wrap {
+  margin: 0.5rem 0 1rem;
+}
+
+table.goals td,
+table.sites td {
+  padding: 0.35rem 0.9rem;
+}
+
+table.goals select {
+  width: 100%;
+  min-width: 8rem;
+}
+
+table.sites label {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0;
+  font-weight: 400;
+}

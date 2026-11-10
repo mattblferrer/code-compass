@@ -80,7 +80,7 @@ The two columns together are the primary key.
 
 | Column | Type | Notes |
 | --- | --- | --- |
-| `site` | Text | `leetcode`, `codeforces`, or `cses` |
+| `site` | Text | `leetcode`, `codeforces`, `cses`, or `atcoder` |
 | `category` | Text | `core` or `advanced` |
 
 The two columns together are the primary key. A row means that site is hidden for that kind of problem, so an empty table shows every site. A problem's site is found from its link, so it is not stored.

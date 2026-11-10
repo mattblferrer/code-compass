@@ -10,6 +10,7 @@ from .core.reasons import hint_eligible, reason
 from .core.recommend import REVIEW, active_interview, recommend
 from .core.reviews import activity, due_dates, schedules, streak_days
 from .core.siblings import choose_sibling
+from .core.sites import is_hidden
 from .core.streak import review_streak
 
 DEFAULT_SETTINGS = {"starting_difficulty": "easy", "advanced_on": "0", "very_hard_on": "0"}
@@ -43,6 +44,7 @@ class Snapshot:
         self.advanced_on = self.settings["advanced_on"] == "1"
         self.very_hard_on = self.settings["very_hard_on"] == "1"
         self.advanced = {p["name"] for p in self.patterns if p["category"] == "advanced"}
+        self.hidden_sites = {(r["site"], r["category"]) for r in conn.execute("SELECT site, category FROM hidden_sites")}
 
         interviews = []
         for r in conn.execute("SELECT * FROM interviews ORDER BY date, id"):
@@ -160,9 +162,23 @@ class Snapshot:
             return []
         return [s for s in self._suggestions if s["due_problem_id"] == due_problem_id and s["date"] >= due]
 
+    def hidden(self, problem_id):
+        """Whether the site filter hides this problem from new problems and siblings (R-36)."""
+        if not self.hidden_sites:
+            return False
+        cache = self.__dict__.setdefault("_hidden_cache", {})
+        if problem_id not in cache:
+            p = self.problems[problem_id]
+            cache[problem_id] = not p["is_custom"] and is_hidden(p["link"], p["patterns"], self.advanced,
+                                                                  self.hidden_sites)
+        return cache[problem_id]
+
     def active_suggestion(self, due_problem_id):
+        # A sibling from a site hidden since it was suggested is passed over, so a
+        # new one is chosen; this does not count as a dismissal (R-36).
         for s in reversed(self._current(due_problem_id)):
-            if s["status"] == "active" and s["sibling_problem_id"] not in self.attempted:
+            if (s["status"] == "active" and s["sibling_problem_id"] not in self.attempted
+                    and not self.hidden(s["sibling_problem_id"])):
                 return s
         return None
 
@@ -204,6 +220,7 @@ class Snapshot:
                 }
                 for p in (self.problems[pid] for pid in sharing)
                 if p[position_key] is not None and not p["is_custom"] and p["id"] != due_problem_id
+                and not self.hidden(p["id"])
             ]
 
         # The reserve supplies a sibling only when no catalog problem qualifies (R-37).
@@ -258,7 +275,7 @@ class Snapshot:
             return [
                 {"id": p["id"], "position": p[position_key], "difficulty": p["difficulty"], "patterns": p["patterns"]}
                 for p in self.problems.values()
-                if p[position_key] is not None and not p["is_custom"]
+                if p[position_key] is not None and not p["is_custom"] and not self.hidden(p["id"])
             ]
 
         catalog, reserve = pool("catalog_position"), pool("reserve_position")

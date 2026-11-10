@@ -5,7 +5,8 @@ from flask import Blueprint, Response, abort, flash, jsonify, redirect, render_t
 from . import picker, queries
 from .core.problem_refs import ID_HINTS, SITES
 from .core.reviews import ics
-from .state import Snapshot
+from .core.sites import FILTER_SITES, KINDS
+from .state import DEFAULT_SETTINGS, Snapshot
 from .core import constants as c
 from .core.validation import (
     OUTCOME_DEFINITIONS,
@@ -13,6 +14,7 @@ from .core.validation import (
     format_minutes,
     validate_attempt,
     validate_problem,
+    validate_settings,
 )
 from .db import get_db
 
@@ -315,3 +317,28 @@ def new_problem():
     problem_id = queries.add_custom_problem(conn, values)
     flash("Problem added. Log your attempt below.")
     return redirect(url_for("main.log_attempt", problem=problem_id))
+
+
+@bp.route("/settings", methods=["GET", "POST"])
+def settings():
+    """Starting difficulty, advanced and very hard switches, pattern targets and
+    mastered patterns, and the site filter (R-13, R-32, R-36)."""
+    conn = get_db()
+    patterns = queries.patterns(conn)
+    if request.method == "POST":
+        values, errors = validate_settings(request.form, [p["name"] for p in patterns], FILTER_SITES, KINDS)
+        if not errors:
+            queries.save_settings(conn, values)
+            flash("Settings saved.")
+            return redirect(url_for("main.settings"))
+        current = values
+        status = 400
+    else:
+        saved = queries.read_settings(conn)
+        current = {**DEFAULT_SETTINGS, **saved["settings"], "preferences": saved["preferences"],
+                   "hidden": saved["hidden"]}
+        errors, status = {}, 200
+    return render_template(
+        "settings.html", current=current, errors=errors, patterns=patterns, levels=c.LEVELS,
+        sites=[(site, SITES[site]) for site in FILTER_SITES], kinds=KINDS,
+    ), status

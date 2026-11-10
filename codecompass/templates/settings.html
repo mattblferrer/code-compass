@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Settings - CodeCompass{% endblock %}
+{% macro error(field) %}
+  {% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}
+{% endmacro %}
+{% macro goal_rows(rows) %}
+  {% for p in rows %}
+    {% set chosen = current.preferences.get(p['name'], '') %}
+    <tr>
+      <th scope="row">{{ p['name'] }}</th>
+      <td>
+        <select name="pref:{{ p['name'] }}" aria-label="Goal for {{ p['name'] }}">
+          <option value="" {% if not chosen %}selected{% endif %}>Neither</option>
+          <option value="target" {% if chosen == 'target' %}selected{% endif %}>Target</option>
+          <option value="mastered" {% if chosen == 'mastered' %}selected{% endif %}>Mastered</option>
+        </select>
+      </td>
+    </tr>
+  {% endfor %}
+{% endmacro %}
+{% block content %}
+  <h1>Settings</h1>
+  <form method="post" class="sheet settings" novalidate>
+    <fieldset>
+      <legend>Recommendations</legend>
+      <label>
+        Starting difficulty
+        <select name="starting_difficulty" {% if errors.get('starting_difficulty') %}aria-invalid="true" aria-describedby="starting_difficulty-error"{% endif %}>
+          {% for level in levels %}
+            <option value="{{ level }}" {% if current.starting_difficulty == level %}selected{% endif %}>{{ level|capitalize }}</option>
+          {% endfor %}
+        </select>
+        <small>Used until you have logged attempts; after that, your level follows your recent results.</small>
+        {{ error("starting_difficulty") }}
+      </label>
+      <label class="choice">
+        <input type="checkbox" name="advanced_on" value="1" {% if current.advanced_on == '1' %}checked{% endif %}>
+        <span>
+          Advanced patterns
+          <small>Recommend problems from all advanced patterns, such as segment trees and flows. When off, an advanced pattern is still used if you mark it as a target, and your attempts on any pattern always count.</small>
+        </span>
+      </label>
+      <label class="choice">
+        <input type="checkbox" name="very_hard_on" value="1" {% if current.very_hard_on == '1' %}checked{% endif %}>
+        <span>
+          Very hard problems
+          <small>Include very hard problems in recommendations. When off, they appear only when a target pattern has nothing easier. Logging and scores are unaffected.</small>
+        </span>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Pattern goals</legend>
+      <p class="small">A target pattern gets up to 2 recommendation slots after due reviews. A mastered pattern is offered new problems only when no other pattern has any. Neither changes a score, and due reviews are unaffected.</p>
+      {{ error("preferences") }}
+      <div class="table-wrap">
+        <table class="goals">
+          <thead><tr><th scope="col">Core pattern</th><th scope="col">Goal</th></tr></thead>
+          <tbody>{{ goal_rows(patterns|selectattr('category', 'equalto', 'core')) }}</tbody>
+        </table>
+      </div>
+      {% set advanced = patterns|selectattr('category', 'equalto', 'advanced')|list %}
+      <details {% if current.advanced_on == '1' or advanced|selectattr('name', 'in', current.preferences)|list %}open{% endif %}>
+        <summary>Advanced patterns</summary>
+        <div class="table-wrap">
+          <table class="goals">
+            <thead><tr><th scope="col">Advanced pattern</th><th scope="col">Goal</th></tr></thead>
+            <tbody>{{ goal_rows(advanced) }}</tbody>
+          </table>
+        </div>
+      </details>
+    </fieldset>
+
+    <fieldset>
+      <legend>Sites</legend>
+      <p class="small">Choose which sites recommendations may use, separately for core and advanced problems. A problem with any advanced pattern counts as advanced. Hidden sites still keep their due reviews, scores, and logging.</p>
+      <div class="table-wrap">
+        <table class="sites">
+          <thead><tr><th scope="col">Site</th>{% for kind in kinds %}<th scope="col">{{ kind|capitalize }} problems</th>{% endfor %}</tr></thead>
+          <tbody>
+            {% for site, label in sites %}
+              <tr>
+                <th scope="row">{{ label }}</th>
+                {% for kind in kinds %}
+                  <td>
+                    <label>
+                      <input type="checkbox" name="show:{{ site }}:{{ kind }}" value="1" {% if (site, kind) not in current.hidden %}checked{% endif %}>
+                      <span class="visually-hidden">Show {{ label }} {{ kind }} problems</span>
+                      Shown
+                    </label>
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+
+    <button type="submit">Save settings</button>
+  </form>
+{% endblock %}
