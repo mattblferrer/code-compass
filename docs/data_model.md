@@ -29,7 +29,7 @@ Mastery scores, due dates, the current difficulty level, and the review streak a
 | `link` | Text | Unique when present; optional for custom problems |
 | `difficulty` | Text | `easy`, `medium`, `hard`, or `very hard` |
 | `rating` | Integer | The rating from the site the problem came from; blank if it has none |
-| `source` | Text | The public list, API, or site it came from |
+| `source` | Text | The public list, API, or site it came from. A catalog problem on several lists names the first one in the order in `docs/rules.md` |
 | `is_custom` | Integer | 1 for a custom problem |
 | `catalog_position` | Integer | Catalog order; blank for custom problems |
 
@@ -63,6 +63,15 @@ The two columns together are the primary key.
 | --- | --- | --- |
 | `key` | Text | Primary key: `starting_difficulty`, `advanced_on`, `very_hard_on` |
 | `value` | Text | |
+
+### `hidden_sites` (R-36)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `site` | Text | `leetcode`, `codeforces`, or `cses` |
+| `category` | Text | `core` or `advanced` |
+
+The two columns together are the primary key. A row means that site is hidden for that kind of problem, so an empty table shows every site. A problem's site is found from its link, so it is not stored.
 
 ### `interviews` (R-15)
 

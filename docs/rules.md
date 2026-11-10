@@ -138,6 +138,7 @@ A problem can be a sibling only if it meets all of these:
 - It is not reserved by another open review.
 - It has not been dismissed for this review, and is not within a 7-day "not now" period (R-29).
 - It meets the very hard setting (see Difficulty levels).
+- Its site is shown by the site filter (R-36).
 - Its difficulty is the same as the due problem's, or one level away.
 
 Rank the problems that qualify by these, in order:
@@ -210,6 +211,7 @@ A problem can be offered as new only if it meets all of these:
 - It has no inactive advanced pattern (R-32).
 - It is not already on the list.
 - It meets the very hard setting (see Difficulty levels).
+- Its site is shown by the site filter (R-36). Unlike the very hard setting, a target slot has no exception.
 - Its difficulty is the user's current level, or one level away. For a target slot, any difficulty qualifies, because choosing a target is an explicit request.
 
 Rank the problems that qualify by these, in order:
@@ -260,6 +262,43 @@ Within Greedy, suppose the qualifying problems are:
 
 Problem 31 fills slot 4.
 
+## Catalog sources (R-01)
+
+The catalog is built once, before release, from these sources. A problem is identified by its link, so a problem on several lists is one entry. Its `source` is the first source in this table that includes it.
+
+| Order | Source | What is taken | Problems on 2026-11-10 |
+| --- | --- | --- | --- |
+| 1 | Blind 75 | Every problem | 75 |
+| 2 | NeetCode 150 | Every problem | 150 |
+| 3 | Grind 169 | Every problem | 169 |
+| 4 | LeetCode Patterns (Sean Prashad) | Every problem | 179 |
+| 5 | NeetCode All | Every problem | 450 |
+| 6 | CSES problem set | Every problem | 400 |
+| 7 | Codeforces API | Picked per pattern (see below) | 1,009 after merging duplicates |
+
+The five LeetCode lists give 515 unique problems. The 15 that need LeetCode Premium are left out, because the user could not open them, leaving 500. The lists are read from where they are published (NeetCode's and Sean Prashad's data files on GitHub, the Grind 169 site, and cses.fi), never from LeetCode itself (R-03). LeetCode's own Top Interview 150 and LeetCode 75 are not used for the same reason.
+
+### Picking Codeforces problems
+
+Codeforces problems add a different style from LeetCode and CSES, often relying more on an observation than on a known technique, so each pattern with a matching tag takes a fixed share of them.
+
+1. **Pool.** For each pattern, the pool is the rated Codeforces problems with the pattern's tag from `docs/patterns.md`, leaving out `*special` problems. Tree DP, Bitmask DP, and Minimum Spanning Tree need both of their tags (`trees` and `dp`, `bitmasks` and `dp`, `graphs` and `dsu`). For a core pattern, the pool stops below very hard (see What counts).
+2. **Cutoffs.** Leave out problems solved by fewer than 1,000 users (`solvedCount` from `problemset.problems`) and problems from contests that started before 2015 (`startTimeSeconds` from `contest.list`), so obscure and old problems stay out.
+3. **Count.** N = the smaller of 50 and 75% of the pool after the cutoffs, rounded down.
+4. **Spread.** Take problems in rounds over the levels the pattern allows, easy first: one easy, one medium, one hard, and for an advanced pattern one very hard, then repeat until N are taken. Within a level, the problem solved by the most users comes first. A level that runs out is skipped.
+5. **Merge.** Patterns are picked independently. A problem picked for two patterns is one entry and counts toward both.
+
+Some patterns get no automatic picks:
+
+- **No tag or only broad tags:** patterns whose Codeforces tags are all on the "too broad" list in `docs/patterns.md`, or that have none, such as Stack, Heap, Linked List, Tree Traversal, and 1-D Dynamic Programming. The reviewer can still add these patterns to a picked problem.
+- **Shared tags:** a tag listed for more than one pattern is picked alone only for the first: `greedy` for Greedy, `sortings` for Sorting, `dsu` for Union-Find, and `bitmasks` for Bit Manipulation (the tag pairs above are separate). Intervals, whose tags are `greedy` and `sortings`, gets no automatic picks.
+
+This gives 30 patterns with picks, 1,298 picks in all and 1,009 problems after merging, from the API on 2026-11-10. Most patterns take 50. Those with small pools take fewer: Expression Parsing 9, Chinese Remainder Theorem 13, 2-SAT 18, Meet in the Middle 20, FFT and NTT 26, Bipartite Matching 37, Suffix Structures 38, Ternary Search 40, Matrices and Matrix Exponentiation 48, and Max Flow and Min Cut 49.
+
+### Drafting entries
+
+Entries are drafted by AI from the source's title, link, difficulty or rating, and tags, then reviewed by the author (R-01). No problem statement is copied. A Codeforces problem's patterns start from its tags as mapped in `docs/patterns.md`, and the reviewer decides any that come from broad tags.
+
 ## Difficulty levels (R-01)
 
 Every problem has one of four levels: easy, medium, hard, or very hard.
@@ -288,9 +327,22 @@ AtCoder has no official problem rating, so these use the `difficulty` value from
 
 The shares come from the file on 2026-11-07 (4,401 usable problems out of 5,201). The positions are from the median difficulty at each position in contests numbered 212 and above.
 
+### CSES solver counts
+
+CSES has no problem rating, so these use the number of users who solved the problem, shown on the CSES problem set page. More solvers means an easier level.
+
+| Users who solved it | Level | Share of CSES problems |
+| --- | --- | --- |
+| 20,000 or more | Easy | 24% |
+| 3,000 to 19,999 | Medium | 28% |
+| 700 to 2,999 | Hard | 27% |
+| Under 700 | Very hard | 21% |
+
+The shares come from the page on 2026-11-10 (400 problems). A solver count is not a rating, so `rating` is left blank for CSES problems. The level is set once, when the catalog is built, and is not updated as counts grow.
+
 ### What counts
 
-- **Core patterns:** catalog problems in core patterns stop below the very hard level (2099 on Codeforces, 1999 on AtCoder), so very hard problems enter the catalog only through advanced patterns. A catalog problem with both core and advanced patterns follows the advanced limit.
+- **Core patterns:** catalog problems in core patterns stop below the very hard level (2099 on Codeforces, 1999 on AtCoder), so very hard problems enter the catalog only through advanced patterns. A CSES problem with only core patterns and under 700 solvers is kept and labeled hard. A catalog problem with both core and advanced patterns follows the advanced limit.
 - **Other sites:** problems from LeetCode and other sites keep their own labels, so a LeetCode Hard stays hard by default. The catalog reviewer can mark an individual problem as very hard during review, and a user can choose very hard when adding a custom problem.
 - **Sync and lookup:** a Codeforces or AtCoder problem of any rating is mapped by the tables above (R-33, R-35). The user supplies the level when a problem has no rating.
 - **Unrated problems:** Codeforces problems with no rating, and AtCoder problems with no difficulty value or flagged `is_experimental`, are left out of the catalog. In sync and lookup, the user supplies their level.
@@ -308,7 +360,7 @@ The setting never affects logging, sync, due dates, or scores. Turning on advanc
 
 ### Why these values
 
-No official conversion between Codeforces ratings and LeetCode levels was found. The lower cutoffs follow Codeforces rank boundaries: below Pupil is easy, Pupil and Specialist are medium, and Expert and Candidate Master are hard. Informal forum estimates place LeetCode's hardest problems at about 2000 or below, so the very hard level starts just above that. No reliable conversion between Codeforces and AtCoder was found, so the AtCoder cutoffs are set so that each contest position falls clearly in one level. These values are provisional.
+No official conversion between Codeforces ratings and LeetCode levels was found. The lower cutoffs follow Codeforces rank boundaries: below Pupil is easy, Pupil and Specialist are medium, and Expert and Candidate Master are hard. Informal forum estimates place LeetCode's hardest problems at about 2000 or below, so the very hard level starts just above that. No reliable conversion between Codeforces and AtCoder was found, so the AtCoder cutoffs are set so that each contest position falls clearly in one level. The CSES cutoffs split the problem set into roughly equal quarters. Solver counts measure difficulty only roughly: users probably work through CSES in page order, so early sections have more solvers, and the sections added in 2025 (such as Counting, Construction, and Additional Problems) have had less time to collect solvers. These values are provisional.
 
 Sources:
 
@@ -317,6 +369,19 @@ Sources:
 - [Forum thread on LeetCode hards](https://mirror.codeforces.com/topic/87680/en2)
 - [AtCoder Problems difficulty estimates](https://kenkoooo.com/atcoder/resources/problem-models.json)
 - [Forum post comparing Codeforces and AtCoder ratings](https://codeforces.com/blog/entry/93069)
+- [CSES problem set](https://cses.fi/problemset/)
+
+## Site filter (R-36)
+
+In settings, each site with catalog problems (LeetCode, Codeforces, and CSES) has two switches: one for core problems and one for advanced problems. All are on by default. A problem's site comes from its link. A problem with at least one advanced pattern is an advanced problem, and any other problem is a core problem.
+
+While a switch is off, that site's problems of that kind:
+
+- are not offered as new problems, including in target slots and while an interview is in focus. A pattern with no other qualifying problem is skipped, and its slot passes to the next pattern.
+- are not suggested as siblings. If no other sibling qualifies, the original problem is suggested, as in R-28.
+- are replaced if already suggested as a sibling, the next time the review is shown. The replacement does not count as a dismissal.
+
+The filter never affects due reviews, scores, due dates, logging, sync, lookup, or custom problems. A due review of a problem from a hidden site still appears.
 
 ## Interview focus (R-15)
 
