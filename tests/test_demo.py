@@ -3,7 +3,7 @@ from datetime import date
 
 import pytest
 
-from codecompass import catalog, create_app, demo
+from codecompass import create_app, demo
 from codecompass.db import connect
 
 
@@ -13,7 +13,7 @@ def demo_app(tmp_path):
         "TESTING": True,
         "DEMO": True,
         "DATABASE": str(tmp_path / "demo.sqlite"),
-        "CATALOG_PATH": str(catalog.DATA_DIR / "demo_catalog.csv"),
+        "RESERVE_PATH": None,
     })
 
 

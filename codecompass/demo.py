@@ -1,8 +1,8 @@
-"""Demo dataset (R-25): 8 weeks of made-up practice history.
+"""Demo dataset (R-25): 8 weeks of made-up practice history on the real catalog.
 
 Build it with `flask --app codecompass demo`, then run the app with the
 environment variable CODECOMPASS_DEMO=1 to use it. The demo has its own
-database and its own catalog of made-up problems, so it never touches real data.
+database, so it never touches real data.
 """
 import random
 
@@ -123,24 +123,35 @@ def simulate(problems, today, seed=SEED):
 
 
 def build(conn, today, seed=SEED):
-    """Replace all practice data in `conn` with the demo history."""
+    """Replace all practice data in `conn` with the demo history.
+
+    The made-up user has no advanced patterns turned on, so like the app
+    (R-32) they only meet catalog problems whose patterns are all core.
+    """
+    patterns = {}
+    for row in conn.execute(
+        """SELECT pp.problem_id, pt.name, pt.category FROM problem_patterns pp
+           JOIN patterns pt ON pt.id = pp.pattern_id ORDER BY pt.list_position"""
+    ):
+        patterns.setdefault(row["problem_id"], []).append((row["name"], row["category"]))
     problems = []
     rows = conn.execute(
         "SELECT id, catalog_position, difficulty FROM problems WHERE catalog_position IS NOT NULL"
     ).fetchall()
     for row in rows:
-        names = [r["name"] for r in conn.execute(
-            """SELECT pt.name FROM problem_patterns pp JOIN patterns pt ON pt.id = pp.pattern_id
-               WHERE pp.problem_id = ? ORDER BY pt.list_position""",
-            (row["id"],),
-        )]
+        tagged = patterns.get(row["id"], [])
+        if not tagged or any(category != "core" for _, category in tagged):
+            continue
         problems.append({"id": row["id"], "position": row["catalog_position"],
-                         "difficulty": row["difficulty"], "patterns": names})
+                         "difficulty": row["difficulty"], "patterns": [name for name, _ in tagged]})
     attempts = simulate(problems, today, seed)
     with conn:
         for table in ("attempts", "sibling_suggestions", "not_now", "hint_reveals", "pattern_preferences"):
             conn.execute(f"DELETE FROM {table}")
         conn.execute("DELETE FROM problems WHERE is_custom = 1")
+        # Problems kept only because earlier demo attempts used them, such as
+        # the placeholder problems of older versions.
+        conn.execute("DELETE FROM problems WHERE catalog_position IS NULL AND reserve_position IS NULL")
         conn.executemany(
             """INSERT INTO attempts (problem_id, date, outcome, time_seconds, notes, entry_method, review_of_problem_id)
                VALUES (:problem_id, :date, :outcome, :time_seconds, :notes, 'manual', :review_of_problem_id)""",

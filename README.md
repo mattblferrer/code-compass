@@ -20,7 +20,7 @@ Then open http://127.0.0.1:5000. To reach the app from a phone on the same trust
 
 ## Demo
 
-The demo (R-25) uses its own database and a catalog of made-up problems, so it never touches your data. In PowerShell:
+The demo (R-25) uses its own database, with made-up practice history on the real catalog, so it never touches your data. In PowerShell:
 
 ```
 $env:CODECOMPASS_DEMO = "1"
