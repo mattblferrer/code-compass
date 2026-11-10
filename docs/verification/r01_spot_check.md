@@ -38,3 +38,12 @@ For each entry, the check confirms that the problem is on the source it names, t
 ## Beyond the sample
 
 The same checks were also run over all 2,174 entries. The first run found one entry whose title did not match its source: "Fruits into Basket" (NeetCode's spelling) is listed by its source, LeetCode Patterns, as "Fruit Into Baskets". Titles are now taken from the list named as the source, which corrected that entry and six other LeetCode titles that differed only in capitalization or a trailing space. After the fix, all 2,174 entries pass.
+
+## Reserve
+
+R-01 covers the catalog only, but the same checks were run on the unreviewed reserve (R-37), `codecompass/data/reserve.csv`, on 2026-11-10.
+
+- **Validation:** `tests/test_catalog.py::test_shipped_reserve_is_valid` runs the validator in reserve mode over the real file. All 12,444 entries pass (10,661 from the Codeforces API, 1,783 from AtCoder). Reserve mode differs from the catalog in one way set by `docs/rules.md`: a very hard reserve problem may have only core patterns.
+- **Source comparison:** every reserve entry, not just a sample, was compared with the saved Codeforces API problem set or AtCoder Problems data: the problem exists, its title and link match, its stored rating equals the source's rating or difficulty estimate, and its difficulty follows the Codeforces or AtCoder table. No entry failed. A 20-entry sample drawn with the same seed passed 20 of 20 (by chance all from Codeforces).
+
+These checks confirm that reserve entries match their sources. They do not review the reserve's patterns, which are unreviewed by design.

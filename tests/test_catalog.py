@@ -183,3 +183,20 @@ def test_shipped_catalog_is_valid():
         assert row["title"] and row["link"] and row["source"]
         assert row["difficulty"] in {"easy", "medium", "hard", "very hard"}
         assert row["patterns"] and set(row["patterns"]) <= set(categories)
+
+
+def test_shipped_reserve_is_valid():
+    """The real reserve file passes the validator in reserve mode (R-37).
+
+    Every entry has all five fields and only documented patterns. Unlike the
+    catalog, a very hard reserve problem may have only core patterns.
+    """
+    patterns = catalog.read_rows(catalog.DATA_DIR / "patterns.csv")
+    categories = {p["name"]: p["category"] for p in patterns}
+    rows = parse_catalog(catalog.read_rows(catalog.DATA_DIR / "reserve.csv"), categories, "reserve.csv",
+                         reserve=True)
+    assert {row["source"] for row in rows} == {"Codeforces API", "AtCoder"}
+    for row in rows:
+        assert row["title"] and row["link"] and row["rating"] is not None
+        assert row["difficulty"] in {"easy", "medium", "hard", "very hard"}
+        assert row["patterns"] and set(row["patterns"]) <= set(categories)
