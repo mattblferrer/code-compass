@@ -6,6 +6,7 @@ returns (values, errors), where errors maps a field name to a message.
 from datetime import date
 
 from . import constants as c
+from .problem_refs import from_link
 
 OUTCOME_LABELS = {
     c.SOLVED_ALONE: "Solved alone",
@@ -115,6 +116,10 @@ def validate_problem(data, patterns, pattern_names):
     link = _text(data, "link")
     if link and not link.lower().startswith(("http://", "https://")):
         errors["link"] = MESSAGES["link"]
+    elif link:
+        # A link to a known site is stored in that site's form, so it can be found by ID (R-38).
+        found = from_link(link)
+        link = found[1] if found else link
     values = {"title": title, "difficulty": difficulty, "patterns": chosen, "link": link or None}
     return values, errors
 

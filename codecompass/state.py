@@ -166,6 +166,15 @@ class Snapshot:
                 return s
         return None
 
+    def _problems_with(self, name):
+        """Ids of problems with this pattern, indexed on first use."""
+        if not hasattr(self, "_pattern_index"):
+            self._pattern_index = {}
+            for p in self.problems.values():
+                for pattern in p["patterns"]:
+                    self._pattern_index.setdefault(pattern, []).append(p["id"])
+        return self._pattern_index.get(name, [])
+
     def reserved(self):
         result = set()
         for pid in self.due_now:
@@ -182,18 +191,25 @@ class Snapshot:
         original = self.problems[due_problem_id]
         dismissed = {s["sibling_problem_id"] for s in self._current(due_problem_id) if s["status"] == "dismissed"}
         reserved = self.reserved()
-        candidates = [
-            {
-                "id": p["id"], "position": p["catalog_position"], "difficulty": p["difficulty"],
-                "patterns": p["patterns"], "attempted": p["id"] in self.attempted,
-                "reserved": p["id"] in reserved, "dismissed": p["id"] in dismissed,
-                "not_now": p["id"] in self.not_now,
-            }
-            for p in self.problems.values()
-            if p["catalog_position"] is not None and not p["is_custom"] and p["id"] != due_problem_id
-        ]
         inactive = {name for name in self.advanced if not self.active(name)}
-        chosen = choose_sibling(original, candidates, inactive, self.very_hard_on)
+        sharing = {pid for name in original["patterns"] for pid in self._problems_with(name)}
+
+        def candidates(position_key):
+            return [
+                {
+                    "id": p["id"], "position": p[position_key], "difficulty": p["difficulty"],
+                    "patterns": p["patterns"], "attempted": p["id"] in self.attempted,
+                    "reserved": p["id"] in reserved, "dismissed": p["id"] in dismissed,
+                    "not_now": p["id"] in self.not_now,
+                }
+                for p in (self.problems[pid] for pid in sharing)
+                if p[position_key] is not None and not p["is_custom"] and p["id"] != due_problem_id
+            ]
+
+        # The reserve supplies a sibling only when no catalog problem qualifies (R-37).
+        chosen = choose_sibling(original, candidates("catalog_position"), inactive, self.very_hard_on)
+        if chosen is None:
+            chosen = choose_sibling(original, candidates("reserve_position"), inactive, self.very_hard_on)
         if chosen is None:
             return None
         with self.conn:
@@ -228,15 +244,27 @@ class Snapshot:
         return [{"name": n, "description": self.pattern_info[n]["description"]}
                 for n in self.problems[problem_id]["patterns"]]
 
+    @staticmethod
+    def order_position(problem):
+        """Catalog order, then reserve problems most-solved first, then custom problems as added."""
+        if problem["catalog_position"] is not None:
+            return problem["catalog_position"]
+        if problem["reserve_position"] is not None:
+            return 10**8 + problem["reserve_position"]
+        return 10**9 + problem["id"]
+
     def recommendations(self):
-        catalog = [
-            {"id": p["id"], "position": p["catalog_position"], "difficulty": p["difficulty"], "patterns": p["patterns"]}
-            for p in self.problems.values()
-            if p["catalog_position"] is not None and not p["is_custom"]
-        ]
+        def pool(position_key):
+            return [
+                {"id": p["id"], "position": p[position_key], "difficulty": p["difficulty"], "patterns": p["patterns"]}
+                for p in self.problems.values()
+                if p[position_key] is not None and not p["is_custom"]
+            ]
+
+        catalog, reserve = pool("catalog_position"), pool("reserve_position")
         due = [
             {"problem": pid, "patterns": self.problems[pid]["patterns"], "due": day,
-             "position": self.problems[pid]["catalog_position"] or 10**9 + pid}
+             "position": self.order_position(self.problems[pid])}
             for pid, day in self.due_now.items()
         ]
         counts = {n: self.counts[n] for n in self.counts if n not in self.scores}
@@ -246,6 +274,7 @@ class Snapshot:
                 "patterns": [p["name"] for p in self.patterns],
                 "advanced": self.advanced,
                 "catalog": catalog,
+                "reserve": reserve,
                 "scores": self.scores,
                 "unscored_attempts": counts,
                 "due": due,

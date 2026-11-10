@@ -21,6 +21,9 @@ def create_app(test_config=None):
     app.config["SECRET_KEY"] = os.environ.get("CODECOMPASS_SECRET_KEY") or os.urandom(16).hex()
     app.config["PATTERNS_PATH"] = str(catalog.DATA_DIR / "patterns.csv")
     app.config["CATALOG_PATH"] = str(catalog.DATA_DIR / ("demo_catalog.csv" if app.config["DEMO"] else "catalog.csv"))
+    # The unreviewed Codeforces reserve (R-37). The demo's made-up catalog has none.
+    reserve = catalog.DATA_DIR / "reserve.csv"
+    app.config["RESERVE_PATH"] = str(reserve) if reserve.exists() and not app.config["DEMO"] else None
     if test_config:
         app.config.update(test_config)
 

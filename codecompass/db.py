@@ -29,6 +29,7 @@ def close_db(_exc=None):
 # does not add them to an existing database, so they are added here.
 ADDED_COLUMNS = [
     ("patterns", "family", "TEXT NOT NULL DEFAULT ''"),
+    ("problems", "reserve_position", "INTEGER"),
 ]
 
 

@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 .pytest_cache/
 instance/
+# Saved Codeforces API response used by `flask --app codecompass build-reserve`.
+problemset.json

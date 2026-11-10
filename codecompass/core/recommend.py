@@ -35,6 +35,15 @@ def active_interview(interviews, today):
     }
 
 
+def index_by_pattern(problems):
+    """{pattern: problems with that pattern}, so a pick scans one pattern's problems."""
+    index = {}
+    for problem in problems:
+        for name in problem["patterns"]:
+            index.setdefault(name, []).append(problem)
+    return index
+
+
 def recommend(state):
     """Build the list.
 
@@ -42,6 +51,8 @@ def recommend(state):
       patterns: pattern names in pattern-list order
       advanced: names of advanced patterns
       catalog: problems with "id", "position", "difficulty", "patterns"
+      reserve: unreviewed problems in the same form, used only when the
+        catalog has no qualifying problem for a pattern (R-37); optional
       scores: {pattern: {"score", "last"}} for scored patterns
       unscored_attempts: {pattern: attempt count} for unscored patterns
       due: due reviews with "problem", "patterns", "due", "position"
@@ -103,12 +114,11 @@ def recommend(state):
         for r in reviews[: c.MAX_REVIEW_SLOTS]
     ]
     chosen_ids = set()
+    pools = (index_by_pattern(state["catalog"]), index_by_pattern(state.get("reserve", ())))
 
-    def pick(pattern, is_target):
+    def pick_from(pool, pattern, is_target):
         options = []
-        for problem in state["catalog"]:
-            if pattern not in problem["patterns"]:
-                continue
+        for problem in pool.get(pattern, ()):
             if problem["id"] in excluded or problem["id"] in chosen_ids:
                 continue
             if not all(active(p) for p in problem["patterns"]):
@@ -127,6 +137,14 @@ def recommend(state):
             key=lambda o: ((abs(o[1]), o[1] > 0), len(o[0]["patterns"]) - 1, o[0]["position"]),
         )
         return problem
+
+    def pick(pattern, is_target):
+        # The reserve is used only when the catalog has nothing that qualifies (R-37).
+        for pool in pools:
+            problem = pick_from(pool, pattern, is_target)
+            if problem:
+                return problem
+        return None
 
     supplied = set()
 

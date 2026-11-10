@@ -1,8 +1,9 @@
 from datetime import date
 
-from flask import Blueprint, Response, abort, flash, redirect, render_template, request, url_for
+from flask import Blueprint, Response, abort, flash, jsonify, redirect, render_template, request, url_for
 
-from . import queries
+from . import picker, queries
+from .core.problem_refs import ID_HINTS, SITES
 from .core.reviews import ics
 from .state import Snapshot
 from .core import constants as c
@@ -33,39 +34,50 @@ def outcome_filter(outcome):
     return OUTCOME_LABELS.get(outcome, outcome)
 
 
-def problem_labels(conn):
-    """Map each label shown in the problem picker to its problem id."""
-    rows = queries.problem_choices(conn)
-    counts = {}
-    for row in rows:
-        base = f"{row['title']} ({row['source']})"
-        counts[base] = counts.get(base, 0) + 1
-    labels = {}
-    for row in rows:
-        base = f"{row['title']} ({row['source']})"
-        labels[base if counts[base] == 1 else f"{base} #{row['id']}"] = row["id"]
-    return labels
-
-
-def label_for(labels, problem_id):
-    for label, pid in labels.items():
-        if pid == problem_id:
-            return label
-    return ""
-
-
-def attempt_form(template, form, errors, labels, **extra):
+def attempt_form(template, form, errors, picked=None, **extra):
     return render_template(
         template,
         form=form,
         errors=errors,
-        labels=labels,
+        picked=picked,
+        sites=SITES,
+        id_hints=ID_HINTS,
         outcomes=c.OUTCOMES,
         outcome_labels=OUTCOME_LABELS,
         outcome_definitions=OUTCOME_DEFINITIONS,
         today=today(),
         **extra,
     ), (400 if errors else 200)
+
+
+def checked_attempt(conn, form, hint_check=True):
+    """Resolve the problem and validate the attempt. Returns (values, errors, picker error)."""
+    problem_id, picked = picker.resolve(conn, form)
+    hint = hint_check and problem_id is not None and queries.unused_hint(conn, problem_id)
+    values, errors = validate_attempt(form, today(), problem_id, hint)
+    if picked:
+        errors["problem"] = picked["message"]
+    return values, errors, picked
+
+
+@bp.route("/problems/search")
+def search_problems():
+    """Title search for the problem picker (R-38). Reads only the local database."""
+    return jsonify(picker.search(get_db(), request.args.get("q", "")))
+
+
+@bp.route("/problems/find")
+def find_problem():
+    """Site and ID lookup for the problem picker (R-38). Reads only the local database."""
+    conn = get_db()
+    site = request.args.get("site", "")
+    found = picker.find_by_ref(conn, site, request.args.get("ref", ""))
+    show_custom = site == picker.OTHER or found["link"] is not None
+    return jsonify({
+        "problem": picker.as_result(found["row"]) if found["row"] else None,
+        "message": found["message"],
+        "custom_url": picker.custom_url(found["link"]) if show_custom and not found["row"] else None,
+    })
 
 
 @bp.route("/")
@@ -201,20 +213,19 @@ def reviews_calendar():
 @bp.route("/log", methods=["GET", "POST"])
 def log_attempt():
     conn = get_db()
-    labels = problem_labels(conn)
     if request.method == "GET":
         form = {"date": today()}
         chosen = request.args.get("problem", type=int)
-        if chosen:
-            form["problem"] = label_for(labels, chosen)
-        return attempt_form("log.html", form, {}, labels)
+        if chosen and queries.get_problem(conn, chosen):
+            form["problem"] = picker.label_for(conn, chosen)
+            form["problem_id"] = str(chosen)
+        return attempt_form("log.html", form, {})
 
     form = request.form.to_dict()
-    problem_id = labels.get((form.get("problem") or "").strip())
-    hint = problem_id is not None and queries.unused_hint(conn, problem_id)
-    values, errors = validate_attempt(form, today(), problem_id, hint)
+    values, errors, picked = checked_attempt(conn, form)
     if errors:
-        return attempt_form("log.html", form, errors, labels)
+        return attempt_form("log.html", form, errors, picked)
+    problem_id = values["problem_id"]
     values["review_of_problem_id"] = Snapshot(conn, today()).review_of(problem_id, values["date"])
     queries.add_attempt(conn, values)
     flash("Attempt saved.")
@@ -225,23 +236,23 @@ def log_attempt():
 def edit_attempt(attempt_id):
     conn = get_db()
     attempt = queries.get_attempt(conn, attempt_id) or abort(404)
-    labels = problem_labels(conn)
     if request.method == "GET":
         form = {
-            "problem": label_for(labels, attempt["problem_id"]),
+            "problem": picker.label_for(conn, attempt["problem_id"]),
+            "problem_id": str(attempt["problem_id"]),
             "date": attempt["date"],
             "outcome": attempt["outcome"],
             "time_minutes": format_minutes(attempt["time_seconds"]),
             "time_seconds": attempt["time_seconds"] or "",
             "notes": attempt["notes"] or "",
         }
-        return attempt_form("log.html", form, {}, labels, attempt=attempt)
+        return attempt_form("log.html", form, {}, attempt=attempt)
 
     form = request.form.to_dict()
-    problem_id = labels.get((form.get("problem") or "").strip())
-    values, errors = validate_attempt(form, today(), problem_id)
+    values, errors, picked = checked_attempt(conn, form, hint_check=False)
     if errors:
-        return attempt_form("log.html", form, errors, labels, attempt=attempt)
+        return attempt_form("log.html", form, errors, picked, attempt=attempt)
+    problem_id = values["problem_id"]
     # A sibling attempt moved to another problem no longer completes that review.
     same = problem_id == attempt["problem_id"]
     values["review_of_problem_id"] = attempt["review_of_problem_id"] if same else None
@@ -285,7 +296,8 @@ def new_problem():
     conn = get_db()
     patterns = queries.patterns(conn)
     if request.method == "GET":
-        return render_template("problem_new.html", form={}, chosen=[], errors={}, patterns=patterns, levels=c.LEVELS)
+        form = {"link": request.args.get("link", ""), "title": request.args.get("title", "")}
+        return render_template("problem_new.html", form=form, chosen=[], errors={}, patterns=patterns, levels=c.LEVELS)
 
     form = request.form.to_dict()
     chosen = request.form.getlist("patterns")

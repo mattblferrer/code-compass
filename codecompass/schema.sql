@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS problems (
     rating INTEGER,
     source TEXT NOT NULL,
     is_custom INTEGER NOT NULL DEFAULT 0 CHECK (is_custom IN (0, 1)),
-    catalog_position INTEGER
+    catalog_position INTEGER,
+    reserve_position INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS problem_patterns (

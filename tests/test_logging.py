@@ -105,7 +105,8 @@ def post_attempt(client, **fields):
 def test_log_form_shows_outcome_definitions(client):
     page = client.get("/log").get_data(as_text=True)
     assert "AI chat" in page and "AI-written code" in page
-    assert TWO_SUM in page
+    # The picker no longer lists every problem on the page (R-38); the search finds it.
+    assert TWO_SUM in [r["label"] for r in client.get("/problems/search?q=two").get_json()]
 
 
 def test_twenty_reference_attempts_reload(client, app):

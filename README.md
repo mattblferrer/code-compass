@@ -30,6 +30,15 @@ flask --app codecompass run
 
 `flask --app codecompass demo` rebuilds 8 weeks of practice history ending today. Run it again to refresh the dates.
 
+## Rebuild the Codeforces reserve
+
+The unreviewed reserve (R-37) in `codecompass/data/reserve.csv` is built from a saved copy of the Codeforces problem set. The app itself never downloads it. To refresh it:
+
+```
+curl -o problemset.json https://codeforces.com/api/problemset.problems
+flask --app codecompass build-reserve problemset.json
+```
+
 ## Test
 
 ```
@@ -42,7 +51,8 @@ pytest
 - `codecompass/state.py`: reads the database and runs the rules for the dashboard
 - `codecompass/views.py`: routes
 - `codecompass/db.py` and `codecompass/schema.sql`: SQLite connection and tables
-- `codecompass/catalog.py` and `codecompass/data/`: the pattern list and catalog, loaded at each start
+- `codecompass/catalog.py` and `codecompass/data/`: the pattern list, catalog, and reserve, loaded at each start when they change
+- `codecompass/picker.py`: finding a problem to log by title, or by site and ID
 - `codecompass/demo.py`: the demo dataset
 - `codecompass/templates/`: Jinja templates
 - `codecompass/static/css/app.css`: the stylesheet, using system fonts so the app works offline

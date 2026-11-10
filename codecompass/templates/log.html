@@ -9,18 +9,47 @@
     <p class="field-error" role="alert">Fix the fields marked below, then save again.</p>
   {% endif %}
   <form method="post" class="sheet" novalidate>
-    <label>
-      Problem
-      <input name="problem" list="problem-list" value="{{ form.get('problem', '') }}" autocomplete="off"
-             placeholder="Start typing a title" {% if errors.get('problem') %}aria-invalid="true" aria-describedby="problem-error"{% endif %}>
-      <datalist id="problem-list">
-        {% for label in labels %}<option value="{{ label }}"></option>{% endfor %}
-      </datalist>
+    <fieldset class="picker" data-search-url="{{ url_for('main.search_problems') }}"
+              data-find-url="{{ url_for('main.find_problem') }}" data-hints="{{ id_hints|tojson|forceescape }}">
+      <legend>Problem</legend>
+      <div class="picker-search">
+        <input name="problem" id="problem-search" value="{{ form.get('problem', '') }}" autocomplete="off"
+               aria-label="Search problems by title" placeholder="Search by title, or paste a link"
+               role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="problem-results"
+               {% if errors.get('problem') %}aria-invalid="true" aria-describedby="problem-error"{% endif %}>
+        <ul id="problem-results" class="picker-results" role="listbox" aria-label="Matching problems" hidden></ul>
+      </div>
+      <input type="hidden" name="problem_id" id="problem-id" value="{{ form.get('problem_id', '') }}">
+
+      <details class="picker-ref" {% if form.get('site') or form.get('ref') %}open{% endif %}>
+        <summary>Or find it by site and ID</summary>
+        <div class="picker-ref-row">
+          <label>
+            Site
+            <select name="site" id="problem-site">
+              <option value="">Choose a site</option>
+              {% for key, name in sites.items() %}
+                <option value="{{ key }}" {% if form.get('site') == key %}selected{% endif %}>{{ name }}</option>
+              {% endfor %}
+              <option value="other" {% if form.get('site') == 'other' %}selected{% endif %}>Other</option>
+            </select>
+          </label>
+          <label class="picker-ref-id">
+            Problem ID or link
+            <input name="ref" id="problem-ref" value="{{ form.get('ref', '') }}" autocomplete="off" spellcheck="false">
+            <small id="problem-ref-hint">{{ id_hints.get(form.get('site', ''), 'Choose a site first, or paste a link.') }}</small>
+          </label>
+        </div>
+        <p class="picker-status" id="problem-status" aria-live="polite"></p>
+      </details>
+
       {{ error("problem") }}
-      {% if not attempt %}
-        <small>Not listed? <a href="{{ url_for('main.new_problem') }}">Add a custom problem</a>.</small>
+      {% if picked and picked.get('custom_url') %}
+        <small><a href="{{ picked['custom_url'] }}">Add it as a custom problem</a>.</small>
+      {% elif not attempt %}
+        <small class="picker-note">Not listed? <a href="{{ url_for('main.new_problem') }}">Add a custom problem</a>.</small>
       {% endif %}
-    </label>
+    </fieldset>
 
     <label>
       Date
@@ -71,4 +100,5 @@
 {% endblock %}
 {% block scripts %}
   <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/picker.js') }}"></script>
 {% endblock %}

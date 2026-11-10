@@ -29,7 +29,7 @@ def catalog_path(tmp_path):
 
 @pytest.fixture
 def app(db_path, catalog_path):
-    return create_app({"TESTING": True, "DATABASE": db_path, "CATALOG_PATH": catalog_path})
+    return create_app({"TESTING": True, "DATABASE": db_path, "CATALOG_PATH": catalog_path, "RESERVE_PATH": None})
 
 
 @pytest.fixture

@@ -5,11 +5,42 @@ def patterns(conn):
     return conn.execute("SELECT id, name, category, tier, description FROM patterns ORDER BY list_position").fetchall()
 
 
-def problem_choices(conn):
+PICKER_COLUMNS = "id, title, source, difficulty, link, catalog_position, reserve_position, is_custom"
+
+# Catalog first, then custom problems, then the reserve, then problems kept only for their attempts.
+PICKER_ORDER = """CASE WHEN catalog_position IS NOT NULL THEN 0 WHEN is_custom = 1 THEN 1
+                       WHEN reserve_position IS NOT NULL THEN 2 ELSE 3 END,
+                  coalesce(catalog_position, reserve_position, id)"""
+
+
+def problems_titled(conn, title):
+    """Problems whose title matches, ignoring case."""
     return conn.execute(
-        """SELECT id, title, source, difficulty FROM problems
-           ORDER BY is_custom, catalog_position IS NULL, catalog_position, title"""
+        f"SELECT {PICKER_COLUMNS} FROM problems WHERE lower(title) = lower(?) ORDER BY {PICKER_ORDER}", (title,)
     ).fetchall()
+
+
+def problems_titled_prefix(conn, text):
+    """Problems whose title starts `text`, for matching a label like "Title (Source)"."""
+    return conn.execute(
+        f"""SELECT {PICKER_COLUMNS} FROM problems
+            WHERE substr(lower(?), 1, length(title)) = lower(title) ORDER BY {PICKER_ORDER}""",
+        (text,),
+    ).fetchall()
+
+
+def search_problems(conn, text, limit):
+    """Problems whose title contains `text`, titles starting with it first."""
+    pattern = "%" + text.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
+    return conn.execute(
+        f"""SELECT {PICKER_COLUMNS} FROM problems WHERE title LIKE ? ESCAPE '\\'
+            ORDER BY substr(lower(title), 1, length(?)) != lower(?), {PICKER_ORDER} LIMIT ?""",
+        (pattern, text, text, limit),
+    ).fetchall()
+
+
+def picker_row(conn, problem_id):
+    return conn.execute(f"SELECT {PICKER_COLUMNS} FROM problems WHERE id = ?", (problem_id,)).fetchone()
 
 
 def get_problem(conn, problem_id):

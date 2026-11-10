@@ -148,7 +148,7 @@ Rank the problems that qualify by these, in order:
 3. **Fewest extra patterns** that the due problem does not have.
 4. **Catalog order.**
 
-The first-ranked problem is suggested. If none qualifies, the original problem is suggested.
+The first-ranked problem is suggested. If no catalog problem qualifies, the same conditions and ranking are applied to the reserve (R-37), with reserve order in place of catalog order. If none qualifies there either, the original problem is suggested.
 
 ### Reservation
 
@@ -220,11 +220,11 @@ Rank the problems that qualify by these, in order:
 2. **Fewest extra patterns** besides the pattern it was chosen for.
 3. **Catalog order.**
 
-A pattern with no qualifying problem is skipped, and its slot passes to the next pattern.
+If no catalog problem qualifies for the pattern, the same conditions and ranking are applied to the reserve (R-37), with reserve order in place of catalog order. For a target slot, the catalog is used up first, including its very hard problems, before the reserve is tried. A pattern with no qualifying problem in either is skipped, and its slot passes to the next pattern.
 
 ### Due reviews on the same date
 
-Compare each problem's weakest pattern and take the weaker one first. A pattern showing "not enough data" counts as weaker than any score. Then use catalog order, with custom problems after catalog problems in the order they were added.
+Compare each problem's weakest pattern and take the weaker one first. A pattern showing "not enough data" counts as weaker than any score. Then use catalog order, with reserve problems after catalog problems in reserve order, and custom problems last in the order they were added.
 
 ### Worked example
 
@@ -294,6 +294,16 @@ Some patterns get no automatic picks:
 - **Shared tags:** a tag listed for more than one pattern is picked alone only for the first: `greedy` for Greedy, `sortings` for Sorting, `dsu` for Union-Find, and `bitmasks` for Bit Manipulation (the tag pairs above are separate). Intervals, whose tags are `greedy` and `sortings`, gets no automatic picks.
 
 This gives 30 patterns with picks, 1,298 picks in all and 1,009 problems after merging, from the API on 2026-11-10. Most patterns take 50. Those with small pools take fewer: Expression Parsing 9, Chinese Remainder Theorem 13, 2-SAT 18, Meet in the Middle 20, FFT and NTT 26, Bipartite Matching 37, Suffix Structures 38, Ternary Search 40, Matrices and Matrix Exponentiation 48, and Max Flow and Min Cut 49.
+
+### Codeforces reserve (R-37)
+
+Besides the reviewed catalog, the app keeps an unreviewed reserve of Codeforces problems, built automatically from the same `problemset.problems` response with `flask --app codecompass build-reserve`. It lets the user log any of these problems without typing their details, and it supplies new problems and siblings when the catalog runs out for a pattern.
+
+- **What is in it:** every rated programming problem that is not tagged `*special` and has at least one tag that maps to a pattern. The cutoffs above (1,000 solvers, 2015) do not apply. On 2026-11-10 this was 9,762 problems.
+- **Patterns:** from the tags alone, with no review: each tag in the "Codeforces tags" column of `docs/patterns.md` that is not too broad, a shared tag only for the first pattern listed above, and the three tag pairs. Broad tags add nothing, so these patterns are rougher than the catalog's.
+- **Difficulty:** from the rating by the Codeforces table below. Unlike the catalog, a reserve problem with only core patterns can be very hard, as in sync and lookup.
+- **Order:** most solved first. This order replaces catalog order in every tie-break that uses it.
+- **Overlap:** a problem in both the catalog and the reserve is a catalog problem.
 
 ### Drafting entries
 
@@ -373,7 +383,7 @@ Sources:
 
 ## Site filter (R-36)
 
-In settings, each site with catalog problems (LeetCode, Codeforces, and CSES) has two switches: one for core problems and one for advanced problems. All are on by default. A problem's site comes from its link. A problem with at least one advanced pattern is an advanced problem, and any other problem is a core problem.
+In settings, each site with catalog problems (LeetCode, Codeforces, and CSES) has two switches: one for core problems and one for advanced problems. The Codeforces switches also cover the reserve (R-37). All are on by default. A problem's site comes from its link. A problem with at least one advanced pattern is an advanced problem, and any other problem is a core problem.
 
 While a switch is off, that site's problems of that kind:
 

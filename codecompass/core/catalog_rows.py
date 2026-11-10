@@ -52,10 +52,12 @@ def parse_patterns(rows, filename="patterns.csv"):
     return patterns
 
 
-def parse_catalog(rows, categories, filename="catalog.csv"):
+def parse_catalog(rows, categories, filename="catalog.csv", reserve=False):
     """Return problem dicts with "title", "link", "difficulty", "rating", "source", "patterns".
 
-    `categories` maps each known pattern name to "core" or "advanced".
+    `categories` maps each known pattern name to "core" or "advanced". The
+    reserve (R-37) maps any rating like sync and lookup do, so a very hard
+    reserve problem may have only core patterns.
     """
     problems, errors, links = [], [], set()
     for number, row in enumerate(rows, start=2):
@@ -87,7 +89,7 @@ def parse_catalog(rows, categories, filename="catalog.csv"):
         unknown = [n for n in names if n not in categories]
         if unknown:
             found.append("unknown pattern: " + ", ".join(unknown))
-        elif difficulty == c.VERY_HARD and names and all(categories[n] == "core" for n in names):
+        elif not reserve and difficulty == c.VERY_HARD and names and all(categories[n] == "core" for n in names):
             found.append("very hard problems need at least one advanced pattern")
         if found:
             errors.append(f"row {number}: " + "; ".join(found))

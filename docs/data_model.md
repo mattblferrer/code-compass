@@ -26,12 +26,24 @@ Mastery scores, due dates, the current difficulty level, and the review streak a
 | --- | --- | --- |
 | `id` | Integer | Primary key |
 | `title` | Text | Required |
-| `link` | Text | Unique when present; optional for custom problems |
+| `link` | Text | Unique when present; optional for custom problems. Links to known sites are stored in one form (see below) |
 | `difficulty` | Text | `easy`, `medium`, `hard`, or `very hard` |
 | `rating` | Integer | The rating from the site the problem came from; blank if it has none |
 | `source` | Text | The public list, API, or site it came from. A catalog problem on several lists names the first one in the order in `docs/rules.md` |
 | `is_custom` | Integer | 1 for a custom problem |
-| `catalog_position` | Integer | Catalog order; blank for custom problems |
+| `catalog_position` | Integer | Catalog order; blank for custom and reserve problems |
+| `reserve_position` | Integer | Reserve order, most solved first (R-37); blank for catalog and custom problems |
+
+A problem with neither position and `is_custom` 0 was removed from the data files but kept for its attempts.
+
+Links to these sites are stored in one form, so a problem can be found by its ID however the link was typed (R-38):
+
+| Site | Stored link |
+| --- | --- |
+| LeetCode | `https://leetcode.com/problems/<slug>/` |
+| Codeforces | `https://codeforces.com/problemset/problem/<contest>/<index>` |
+| CSES | `https://cses.fi/problemset/task/<number>` |
+| AtCoder | `https://atcoder.jp/contests/<contest>/tasks/<task>` |
 
 Ratings use each site's own scale, so they are only comparable within one source. AtCoder values come from an unofficial estimate and can be negative. A rating is used only to set `difficulty`, by the rule in `docs/rules.md`. No other rule reads it.
 
@@ -166,7 +178,7 @@ The two columns `site` and `username` together are the primary key.
 
 ## Catalog and pattern files
 
-The catalog and pattern list are kept as reviewed CSV files, `codecompass/data/catalog.csv` and `codecompass/data/patterns.csv`. The app loads them at each start, adding or updating catalog problems by link and patterns by name. Loading leaves attempts and custom problems alone, and a problem removed from the file stays in the database if it has attempts.
+The catalog and pattern list are kept as reviewed CSV files, `codecompass/data/catalog.csv` and `codecompass/data/patterns.csv`. The unreviewed reserve (R-37) is `codecompass/data/reserve.csv`, in the same columns, built with `flask --app codecompass build-reserve` from a saved `problemset.problems` response. The app loads the files at each start, adding or updating problems by link and patterns by name, and skips the load when the files are unchanged since the last one. A reserve row whose link is in the catalog is ignored. Loading leaves attempts and custom problems alone, and a problem removed from the files stays in the database if it has attempts.
 
 `patterns.csv` is copied from `docs/patterns.md`.
 
