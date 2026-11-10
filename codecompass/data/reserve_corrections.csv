@@ -1,0 +1,1255 @@
+link,add,remove,source
+https://codeforces.com/problemset/problem/1869/A,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1669/F,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1872/D,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1915/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1195/C,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1618/C,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1676/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/550/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1968/B,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1350/B,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1469/B,Prefix Sums; 2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/816/B,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1708/B,Number Theory,,editorial
+https://codeforces.com/problemset/problem/893/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1829/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/630/C,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/977/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1979/B,Bipartite Matching,,editorial
+https://codeforces.com/problemset/problem/1709/B,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1598/A,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1582/C,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1861/A,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1453/A,Binary Search,,editorial
+https://codeforces.com/problemset/problem/2051/D,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1837/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1915/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1992/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1555/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1981/A,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1758/B,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1519/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1878/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1405/B,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1807/G1,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1922/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1982/C,Two Pointers; 1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1436/B,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1106/D,Heap,,editorial
+https://codeforces.com/problemset/problem/1891/A,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1528/A,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1844/B,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1633/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1497/C2,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1795/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1673/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1686/B,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1355/D,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1478/B,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1466/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2033/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/427/C,Strongly Connected Components and Bridges,,accepted code
+https://codeforces.com/problemset/problem/1615/B,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1373/D,Prefix Sums; 2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1427/A,Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/1324/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1167/B,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1426/D,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1418/B,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1706/B,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1513/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1311/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/2032/C,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1736/C1,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1829/G,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1509/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1706/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/2063/C,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1637/B,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1527/C,Prefix Sums; 1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2050/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1041/B,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1342/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1779/C,Heap,,editorial
+https://codeforces.com/problemset/problem/1983/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1381/A2,Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/2027/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/2008/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1994/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1625/C,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/706/D,Trie,,accepted code
+https://codeforces.com/problemset/problem/1676/H2,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1333/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1343/D,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1777/C,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1455/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2001/C,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1328/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1398/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1437/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1861/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1355/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1700/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/52/C,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/1957/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1969/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1132/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1971/G,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/2050/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1548/B,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1105/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1983/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1829/H,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2043/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1879/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1249/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1061/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/607/A,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1760/G,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1525/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1189/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1528/B,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1557/C,2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1207/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1354/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1401/D,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1833/F,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1253/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1221/D,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1213/G,Combinatorics,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/2061/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2028/C,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1739/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1200/E,String Matching,,editorial
+https://codeforces.com/problemset/problem/191/C,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1692/H,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1881/F,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/742/B,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1110/C,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1805/D,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/855/B,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1385/E,Topological Sort,,editorial
+https://codeforces.com/problemset/problem/1338/B,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/869/A,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1096/D,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/711/C,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/922/B,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1517/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/932/B,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1130/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1476/D,Graph Traversal; 1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1841/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/519/E,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1637/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1000/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1109/A,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1987/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1955/F,2-D Dynamic Programming; Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1527/B2,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1285/D,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1452/D,Number Theory,,editorial
+https://codeforces.com/problemset/problem/786/B,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1731/D,Prefix Sums; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1535/D,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1954/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1332/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/999/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1365/E,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1728/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1244/D,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/837/D,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1051/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1296/E1,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1155/D,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1312/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2025/D,Prefix Sums; 1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/920/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1475/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/659/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1095/F,Minimum Spanning Tree,,editorial
+https://codeforces.com/problemset/problem/796/D,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1064/B,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1691/D,Prefix Sums,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1353/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1851/F,Trie,,editorial
+https://codeforces.com/problemset/problem/1004/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1721/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1042/D,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/923/B,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1363/E,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1279/D,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1316/C,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1479/B1,1-D Dynamic Programming; Number Theory,,editorial
+https://codeforces.com/problemset/problem/1547/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/2023/B,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1678/B2,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1000/E,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1895/D,Trie,,editorial
+https://codeforces.com/problemset/problem/833/B,2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1137/B,String Matching,,editorial
+https://codeforces.com/problemset/problem/1700/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1096/C,Number Theory,,editorial
+https://codeforces.com/problemset/problem/2027/D1,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1175/D,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1214/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1734/D,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1968/F,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1635/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1986/F,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/817/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1867/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1433/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1468/J,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/914/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1920/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1400/E,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/2001/D,Heap,,editorial
+https://codeforces.com/problemset/problem/1009/D,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1133/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1739/D,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/1856/E1,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1918/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/833/A,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1950/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1630/B,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1843/F1,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1426/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/983/B,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1981/C,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1702/G2,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1208/C,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1304/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/2032/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/888/G,Trie,,editorial
+https://codeforces.com/problemset/problem/1490/G,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/2026/D,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1716/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1379/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1799/D1,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1932/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1355/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1955/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1083/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1902/E,Trie,,editorial
+https://codeforces.com/problemset/problem/1217/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/2040/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1162/B,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1472/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1316/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1475/F,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1613/E,Game Theory,,editorial
+https://codeforces.com/problemset/problem/1976/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1249/D2,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/2035/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1904/D2,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1391/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1450/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1286/B,Tree Traversal; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1117/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/868/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1857/G,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1494/C,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1647/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/734/E,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1077/F1,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1796/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2057/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1601/B,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/909/C,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1753/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/933/A,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1783/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1921/F,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/869/C,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1817/B,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1000/F,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1416/C,Trie,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1420/C2,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1409/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1000/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1110/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1487/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1156/D,Tree Traversal,Divide and Conquer; Tree DP,editorial
+https://codeforces.com/problemset/problem/986/B,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1891/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1311/F,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/766/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1016/D,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1237/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/777/E,1-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/946/D,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/939/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/835/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/923/C,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1175/E,Tree Traversal,Divide and Conquer; Tree DP,editorial
+https://codeforces.com/problemset/problem/1081/D,Minimum Spanning Tree,,editorial
+https://codeforces.com/problemset/problem/1515/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1555/E,Two Pointers; Binary Search; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/992/C,Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/832/D,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/983/A,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1618/F,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1256/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1141/F2,Union-Find,,editorial
+https://codeforces.com/problemset/problem/842/D,Trie; Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/846/A,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1794/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/767/C,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/1978/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1951/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1551/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1077/F2,2-D Dynamic Programming; Segment Tree and Fenwick Tree,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1614/D1,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/756/B,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1729/F,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1479/B2,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1237/C2,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/940/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1223/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/862/C,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1667/B,Prefix Sums; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/613/D,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1299/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1709/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/932/F,Tree DP,,editorial
+https://codeforces.com/problemset/problem/2062/E1,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1567/E,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1005/E1,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1680/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1332/E,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1156/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1913/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1032/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1606/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1884/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1582/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1726/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1076/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1458/B,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/703/D,Bit Manipulation; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1288/E,Prefix Sums; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1446/C,Tree Traversal,Divide and Conquer; Tree DP,editorial
+https://codeforces.com/problemset/problem/1790/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1706/E,Minimum Spanning Tree; Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1393/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/808/G,2-D Dynamic Programming; String Matching,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1142/B,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/911/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1467/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/817/E,Trie,,editorial
+https://codeforces.com/problemset/problem/766/D,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1482/E,1-D Dynamic Programming; Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1051/F,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/917/B,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/786/C,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1774/E,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/741/D,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1889/C1,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1775/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1073/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1012/C,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1997/E,Prefix Sums; Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1856/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1198/D,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1628/D1,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1354/E,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1108/F,Minimum Spanning Tree; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/666/A,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1547/G,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/550/D,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1183/H,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1738/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1353/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1860/D,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1238/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/766/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/932/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1215/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1316/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1936/B,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1731/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1142/A,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1920/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/981/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1203/F2,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/817/F,Bit Manipulation; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1788/E,Prefix Sums; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/960/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1271/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1338/C,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1154/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1942/D,Heap; 1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1552/F,1-D Dynamic Programming; Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1320/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1924/B,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/1204/D2,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/813/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1630/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1648/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1303/E,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1097/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/555/E,Strongly Connected Components and Bridges,,accepted code
+https://codeforces.com/problemset/problem/1863/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1114/E,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1216/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1204/D1,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1858/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/494/B,String Matching,,accepted code
+https://codeforces.com/problemset/problem/1185/G1,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1234/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/796/C,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1442/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1799/D2,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1527/E,2-D Dynamic Programming; Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1658/D2,Trie,,accepted code
+https://codeforces.com/problemset/problem/1067/A,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1767/C,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1253/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1557/D,2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1535/E,Tree Traversal; Lowest Common Ancestor and Tree Queries,Tree DP,editorial
+https://codeforces.com/problemset/problem/1404/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1528/C,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/725/D,Binary Search,,editorial
+https://codeforces.com/problemset/problem/780/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/487/E,Lowest Common Ancestor and Tree Queries; Strongly Connected Components and Bridges,,accepted code
+https://codeforces.com/problemset/problem/1280/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1870/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1147/B,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1654/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1202/E,Trie; String Matching,,editorial
+https://codeforces.com/problemset/problem/1234/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1418/G,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/830/B,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1044/A,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1415/E,Heap,,editorial
+https://codeforces.com/problemset/problem/1881/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1175/F,Bit Manipulation,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1107/E,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/846/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1674/G,Topological Sort,,editorial
+https://codeforces.com/problemset/problem/1031/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1032/D,Shortest Paths,,editorial
+https://codeforces.com/problemset/problem/788/B,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1511/E,1-D Dynamic Programming; Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/1627/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1746/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1761/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1641/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1635/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/571/B,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/988/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/2040/E,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1139/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1396/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1100/E,Topological Sort,,editorial
+https://codeforces.com/problemset/problem/1710/B,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/765/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1239/D,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/2057/E1,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/908/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/986/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1896/E,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/1821/E,Tree DP,,editorial
+https://codeforces.com/problemset/problem/1202/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1408/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1839/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1721/E,String Matching,,editorial
+https://codeforces.com/problemset/problem/1704/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/818/E,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1628/D2,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1190/D,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1179/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/981/E,1-D Dynamic Programming; Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/914/F,String Matching,,editorial
+https://codeforces.com/problemset/problem/1326/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1428/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1832/E,Prefix Sums; 1-D Dynamic Programming; FFT and NTT,,editorial
+https://codeforces.com/problemset/problem/893/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1553/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1114/F,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1811/G1,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1903/E,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1949/C,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1010/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1989/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2066/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1657/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1152/D,Bipartite Matching,,editorial
+https://codeforces.com/problemset/problem/875/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/660/F,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1491/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1681/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1609/E,2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1638/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1348/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1777/E,Topological Sort; Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1481/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/615/C,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1144/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/631/D,String Matching,,accepted code
+https://codeforces.com/problemset/problem/1257/F,Trie,,editorial
+https://codeforces.com/problemset/problem/1485/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/990/G,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1358/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/2063/E,Combinatorics; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1102/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1795/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1054/D,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1380/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1176/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1715/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/869/E,Probability and Expected Value; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1027/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2025/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/623/B,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2039/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1272/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/231/E,Lowest Common Ancestor and Tree Queries; Strongly Connected Components and Bridges,,accepted code
+https://codeforces.com/problemset/problem/911/F,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/960/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/930/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1887/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1204/E,Prefix Sums; 1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1967/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1625/D,Trie; Tree DP,,editorial
+https://codeforces.com/problemset/problem/949/C,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1070/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1849/E,Monotonic Stack and Queue,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1178/F1,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1603/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1101/G,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1811/F,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/689/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1223/F,1-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1066/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/845/G,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1158/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/855/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1928/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1843/F2,Tree Traversal,Divide and Conquer; Tree DP,editorial
+https://codeforces.com/problemset/problem/1720/D2,Trie,,accepted code
+https://codeforces.com/problemset/problem/979/D,Tree Traversal; Trie,Tree DP,editorial
+https://codeforces.com/problemset/problem/1548/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/916/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/808/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1572/B,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1844/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/2057/E2,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1582/F2,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1140/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1811/G2,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1110/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1615/D,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/837/E,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1543/D2,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1848/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1675/G,Prefix Sums; 2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1327/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1926/F,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1132/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1840/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1096/G,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1062/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/825/F,1-D Dynamic Programming; String Matching,,editorial
+https://codeforces.com/problemset/problem/573/E,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1927/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2006/C,Prefix Sums; Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1917/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/603/C,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1217/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1630/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1861/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1534/E,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/914/E,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/1227/F1,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/932/D,Tree Traversal; Lowest Common Ancestor and Tree Queries,Tree DP,editorial
+https://codeforces.com/problemset/problem/965/E,Trie,,editorial
+https://codeforces.com/problemset/problem/2030/E,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/1304/F1,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1618/G,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1468/A,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1285/E,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1344/C,Topological Sort,,editorial
+https://codeforces.com/problemset/problem/850/C,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1367/F2,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1401/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1407/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1260/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1784/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1969/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1444/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1242/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1707/C,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/1805/E,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/803/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1497/E2,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/804/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/2027/D2,1-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1626/E,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/1838/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1550/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/811/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1895/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1399/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1743/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1886/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1914/G2,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1743/F,2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1718/C,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/1665/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/2043/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1304/F2,Monotonic Stack and Queue; 2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/997/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1922/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1156/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1814/E,2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/992/E,Prefix Sums; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1363/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1980/G,Trie; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1227/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1572/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1827/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1585/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1771/F,Trie,,editorial
+https://codeforces.com/problemset/problem/1497/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1463/E,Topological Sort,,editorial
+https://codeforces.com/problemset/problem/1797/E,Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1276/C,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1819/C,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/908/G,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1149/C,Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1437/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1845/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/176/E,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1499/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/793/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1750/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1151/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1044/B,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/962/F,Union-Find,,editorial
+https://codeforces.com/problemset/problem/821/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1140/F,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1710/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1163/D,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1793/F,1-D Dynamic Programming; Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/848/C,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1598/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1005/E2,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/771/D,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1808/E1,1-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1562/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1003/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/743/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1983/F,Trie,,editorial
+https://codeforces.com/problemset/problem/603/E,Minimum Spanning Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1792/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1264/D1,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/724/G,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1866/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1039/C,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1334/F,2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/700/C,Max Flow and Min Cut,,accepted code
+https://codeforces.com/problemset/problem/1313/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2063/F1,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1526/E,Prefix Sums; Suffix Structures,,editorial
+https://codeforces.com/problemset/problem/1902/F,Bit Manipulation,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1955/H,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2001/E1,Heap,,editorial
+https://codeforces.com/problemset/problem/1921/G,Prefix Sums,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1295/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1641/D,Trie,,editorial
+https://codeforces.com/problemset/problem/1015/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1766/E,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1354/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/915/G,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1619/H,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1654/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1163/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/2066/D1,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1097/F,FFT and NTT,,editorial
+https://codeforces.com/problemset/problem/1777/F,Trie,,editorial
+https://codeforces.com/problemset/problem/1739/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/917/D,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1584/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1878/G,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/756/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1736/C2,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1823/E,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1438/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1623/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1768/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/898/F,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1697/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1685/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1716/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1372/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1781/E,Heap,,editorial
+https://codeforces.com/problemset/problem/708/E,2-D Dynamic Programming; Probability and Expected Value,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1479/D,Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/2004/F,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1093/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1065/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1628/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/2032/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1422/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/713/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/900/E,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1554/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1987/F2,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1781/F,Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/1784/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1946/F,1-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1982/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1699/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1680/D,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1701/E,String Matching,,editorial
+https://codeforces.com/problemset/problem/835/E,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1887/D,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/733/F,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1137/C,1-D Dynamic Programming; Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1437/G,Segment Tree and Fenwick Tree; String Matching,,editorial
+https://codeforces.com/problemset/problem/1279/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1245/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1716/E,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1704/F,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1037/H,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1793/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1096/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2048/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1623/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1981/E,Minimum Spanning Tree,,editorial
+https://codeforces.com/problemset/problem/835/F,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1207/G,Graph Traversal; String Matching,,editorial
+https://codeforces.com/problemset/problem/1997/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1905/E,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1858/E2,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1051/E,1-D Dynamic Programming; String Matching,,editorial
+https://codeforces.com/problemset/problem/1670/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/870/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1004/E,Two Pointers; Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1194/F,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1844/G,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1132/G,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/870/D,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/2005/D,Suffix Structures,,accepted code
+https://codeforces.com/problemset/problem/1400/F,2-D Dynamic Programming; Number Theory; String Matching,,editorial
+https://codeforces.com/problemset/problem/1451/F,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/749/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1806/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1221/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1750/F,Prefix Sums; 2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/575/B,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1205/C,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/813/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1136/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1684/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/983/E,Graph Traversal; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/891/E,2-D Dynamic Programming; Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/914/G,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1566/F,Binary Search; 2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/938/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1788/F,Graph Traversal; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/932/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1044/D,Bit Manipulation; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/822/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1282/E,Geometry,,editorial
+https://codeforces.com/problemset/problem/1889/C2,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1476/F,1-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1701/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1392/H,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/894/D,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1111/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1149/D,Shortest Paths; Minimum Spanning Tree,,editorial
+https://codeforces.com/problemset/problem/1620/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/888/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1804/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1625/E1,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1693/D,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1083/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1584/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1580/D,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/838/B,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1111/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1342/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1063/F,Binary Search; 1-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1661/E,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1383/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1312/G,Trie; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1740/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1558/D,Binary Search; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1152/F2,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1555/F,Bit Manipulation; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/859/D,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/755/G,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1146/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1799/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1895/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1469/F,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1146/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1903/D2,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1178/F2,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/754/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1539/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/818/G,Shortest Paths,,editorial
+https://codeforces.com/problemset/problem/1534/G,Heap; 2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1780/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1420/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1648/D,1-D Dynamic Programming; Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1466/G,String Matching,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/837/F,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1361/E,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/1312/F,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1681/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1453/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1539/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1179/D,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1430/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1617/E,Tree Traversal; Lowest Common Ancestor and Tree Queries,Tree DP,editorial
+https://codeforces.com/problemset/problem/837/G,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/878/C,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1814/D,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/839/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1163/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1085/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1017/F,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1814/F,Graph Traversal,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1270/H,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/778/C,Trie,,editorial
+https://codeforces.com/problemset/problem/1976/F,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1874/D,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/690/C3,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1898/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/2006/D,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/995/E,Graph Traversal,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1734/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1080/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1903/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1948/G,Minimum Spanning Tree,,editorial
+https://codeforces.com/problemset/problem/983/C,2-D Dynamic Programming; Combinatorics,,editorial
+https://codeforces.com/problemset/problem/533/F,String Matching,,editorial
+https://codeforces.com/problemset/problem/1185/G2,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1680/F,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/1117/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1809/F,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1614/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1603/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1519/E,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/1608/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1673/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1622/F,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1511/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1316/F,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1550/F,Minimum Spanning Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1208/G,Geometry,,editorial
+https://codeforces.com/problemset/problem/1348/F,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1500/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/986/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1119/H,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/995/D,Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/30/E,String Matching,,accepted code
+https://codeforces.com/problemset/problem/1373/G,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1763/F,Lowest Common Ancestor and Tree Queries; Strongly Connected Components and Bridges,,accepted code
+https://codeforces.com/problemset/problem/979/E,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1667/E,Tree DP,,editorial
+https://codeforces.com/problemset/problem/1430/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1025/F,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1268/D,Strongly Connected Components and Bridges,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/2042/F,2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1380/F,1-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1175/G,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/815/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/809/C,2-D Dynamic Programming; Bit Manipulation,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1366/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1626/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2043/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1553/H,Trie,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/2038/D,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/620/F,Trie,,accepted code
+https://codeforces.com/problemset/problem/1849/F,Trie; Minimum Spanning Tree,,editorial
+https://codeforces.com/problemset/problem/1613/F,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1775/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2003/E1,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1621/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1322/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/997/D,1-D Dynamic Programming; FFT and NTT,,editorial
+https://codeforces.com/problemset/problem/1486/F,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1149/E,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/786/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1866/L,Number Theory,,editorial
+https://codeforces.com/problemset/problem/850/F,Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/1808/E2,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1463/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1567/F,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1667/D,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1519/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1033/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1045/C,Lowest Common Ancestor and Tree Queries; Strongly Connected Components and Bridges,,accepted code
+https://codeforces.com/problemset/problem/1657/F,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/845/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/772/D,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1679/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1428/G2,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1795/G,Graph Traversal; Topological Sort,,editorial
+https://codeforces.com/problemset/problem/993/D,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2003/F,1-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/946/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1656/H,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1340/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/913/F,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1534/F2,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1442/E,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1620/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1730/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1381/D,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/954/H,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1606/F,Heap; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1540/C1,Prefix Sums; 2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/889/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/873/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/852/I,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1574/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1905/F,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/903/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1000/G,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1730/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1575/H,String Matching,,accepted code
+https://codeforces.com/problemset/problem/1765/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1874/E,2-D Dynamic Programming; Combinatorics; FFT and NTT,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1076/G,2-D Dynamic Programming; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1310/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1146/H,2-D Dynamic Programming; Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1368/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1186/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1801/E,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/780/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1392/G,1-D Dynamic Programming; Number Theory,,editorial
+https://codeforces.com/problemset/problem/1313/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1307/F,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/796/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1076/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1369/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/903/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/2021/E3,Minimum Spanning Tree,,editorial
+https://codeforces.com/problemset/problem/1633/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1677/E,Monotonic Stack and Queue; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1217/F,Graph Traversal,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1612/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/856/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1286/E,String Matching,,editorial
+https://codeforces.com/problemset/problem/1371/F,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/571/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1487/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1067/D,Binary Search; 1-D Dynamic Programming; Geometry,,editorial
+https://codeforces.com/problemset/problem/1957/F2,Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1957/F1,Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1835/D,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1625/E2,Tree DP,,editorial
+https://codeforces.com/problemset/problem/1028/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1056/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1326/F2,2-D Dynamic Programming; Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1044/F,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/1139/F,Prefix Sums,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1936/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1187/G,Shortest Paths,,editorial
+https://codeforces.com/problemset/problem/1709/F,Trie,,editorial
+https://codeforces.com/problemset/problem/1070/B,Trie,,editorial
+https://codeforces.com/problemset/problem/853/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1225/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1765/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1118/F2,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1774/G,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1184/E3,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1920/F2,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1055/F,Trie; Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/703/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/771/E,Prefix Sums; 2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1904/F,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1142/D,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1290/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/933/C,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1970/A3,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1603/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1739/F,2-D Dynamic Programming; String Matching,,editorial
+https://codeforces.com/problemset/problem/1344/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/2066/D2,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1061/E,Shortest Paths,,editorial
+https://codeforces.com/problemset/problem/607/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1349/F1,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1809/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1916/H2,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1461/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1913/F,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1260/F,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1749/F,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/938/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/946/F,2-D Dynamic Programming; String Matching,,editorial
+https://codeforces.com/problemset/problem/1178/G,Geometry,,editorial
+https://codeforces.com/problemset/problem/1511/F,Trie; Graph Traversal; 2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/226/E,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1879/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1028/F,Number Theory,,editorial
+https://codeforces.com/problemset/problem/2003/E2,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/567/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1601/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1137/E,Geometry,,editorial
+https://codeforces.com/problemset/problem/1808/E3,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1109/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1783/G,Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1548/E,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1468/I,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1366/G,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1142/E,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1787/G,Heap; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1067/E,Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/1083/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/923/E,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1989/F,Topological Sort; Strongly Connected Components and Bridges,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/855/D,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1725/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/763/E,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1648/E,Minimum Spanning Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1310/B,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1028/H,2-D Dynamic Programming; Number Theory,,editorial
+https://codeforces.com/problemset/problem/856/D,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/639/F,Lowest Common Ancestor and Tree Queries; Strongly Connected Components and Bridges,,accepted code
+https://codeforces.com/problemset/problem/1327/G,2-D Dynamic Programming; String Matching,,editorial
+https://codeforces.com/problemset/problem/1746/E2,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1415/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1228/F,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/2023/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/477/D,Suffix Structures,,accepted code
+https://codeforces.com/problemset/problem/1558/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1540/C2,Prefix Sums; 2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1572/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/773/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1209/G2,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1379/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1065/G,Trie; String Matching,,editorial
+https://codeforces.com/problemset/problem/1854/E,Combinatorics; Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/1038/F,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1155/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1389/G,Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/983/D,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1870/F,Tree Traversal; Trie,,editorial
+https://codeforces.com/problemset/problem/1091/H,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1310/E,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1103/D,2-D Dynamic Programming; Number Theory; Bipartite Matching,,editorial
+https://codeforces.com/problemset/problem/1792/F2,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/2046/D,Strongly Connected Components and Bridges,,accepted code
+https://codeforces.com/problemset/problem/793/G,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1949/J,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1131/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/850/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/798/E,Topological Sort,,editorial
+https://codeforces.com/problemset/problem/2028/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1693/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/2009/G3,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/1010/F,Tree DP,,editorial
+https://codeforces.com/problemset/problem/868/E,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1393/E2,Two Pointers; 2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/536/E,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/930/E,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/2061/G,Bipartite Matching,,editorial
+https://codeforces.com/problemset/problem/1695/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1358/F,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1416/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1656/G,Union-Find,,editorial
+https://codeforces.com/problemset/problem/671/E,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/2042/E,Lowest Common Ancestor and Tree Queries,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1523/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1487/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1799/H,Tree DP,,editorial
+https://codeforces.com/problemset/problem/1205/E,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1651/F,Prefix Sums; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/2039/F1,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1019/E,Geometry,,editorial
+https://codeforces.com/problemset/problem/1776/M,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1784/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1712/F,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1455/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1261/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1214/H,Tree DP,,editorial
+https://codeforces.com/problemset/problem/1569/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/842/E,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1583/H,Union-Find; Lowest Common Ancestor and Tree Queries,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1493/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1458/F,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/960/H,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1671/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/747/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1525/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1874/F,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1543/E,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1750/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1928/F,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/2032/F,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1610/I,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/832/C,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1765/G,String Matching,,editorial
+https://codeforces.com/problemset/problem/1740/H,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/848/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/472/G,Suffix Structures,,accepted code
+https://codeforces.com/problemset/problem/1334/G,String Matching,,editorial
+https://codeforces.com/problemset/problem/917/C,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1806/F2,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1083/F,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1615/H,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1279/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2062/E2,Tree Traversal; Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1012/D,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1954/F,1-D Dynamic Programming; Number Theory,,editorial
+https://codeforces.com/problemset/problem/2066/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/2040/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2004/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1835/F,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/796/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1616/G,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/919/F,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1210/E,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1523/H,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1787/I,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1086/F,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1168/E,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/924/F,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1743/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2026/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1696/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1292/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/838/C,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/778/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1464/F,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1396/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1266/F,Divide and Conquer,,editorial
+https://codeforces.com/problemset/problem/788/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1515/I,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1010/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1605/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1870/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/776/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1969/F,1-D Dynamic Programming; Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1500/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/713/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1270/I,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1951/H,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/1832/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1408/I,Trie; Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/822/F,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1456/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1572/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/773/F,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1210/G,2-D Dynamic Programming; Ternary Search,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1553/I,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1819/E,Minimum Spanning Tree,,editorial
+https://codeforces.com/problemset/problem/1893/E,1-D Dynamic Programming; Bit Manipulation; Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/721/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1450/H2,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1425/B,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1197/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1194/G,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1876/E,Tree Traversal,Tree DP,editorial
+https://codeforces.com/problemset/problem/869/D,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1515/H,Trie,,editorial
+https://codeforces.com/problemset/problem/1983/G,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1482/G,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2059/E2,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1835/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1423/G,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/1761/F1,2-D Dynamic Programming,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1109/C,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1970/D2,Suffix Structures,,editorial
+https://codeforces.com/problemset/problem/1585/G,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1434/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/933/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1906/I,Union-Find,,accepted code
+https://codeforces.com/problemset/problem/833/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1208/H,Binary Search,,editorial
+https://codeforces.com/problemset/problem/756/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1608/G,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/859/G,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1039/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1740/I,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1876/G,Heap; Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/2001/E2,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/913/H,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2039/F2,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/862/F,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1336/F,Tree Traversal; Segment Tree and Fenwick Tree; Lowest Common Ancestor and Tree Queries,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/819/C,Geometry,,editorial
+https://codeforces.com/problemset/problem/2048/H,Prefix Sums; 2-D Dynamic Programming; Segment Tree and Fenwick Tree,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/1638/F,Two Pointers,,editorial
+https://codeforces.com/problemset/problem/1425/I,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/859/F,Max Flow and Min Cut,,editorial
+https://codeforces.com/problemset/problem/1804/H,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1672/I,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/2020/F,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1012/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1097/H,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1758/F,Prefix Sums; Binary Search; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1091/G,Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/1987/G2,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1310/F,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/739/D,Max Flow and Min Cut,,editorial
+https://codeforces.com/problemset/problem/1503/F,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/980/F,Tree Traversal; Strongly Connected Components and Bridges,Tree DP,editorial
+https://codeforces.com/problemset/problem/2025/G,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1045/J,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1819/F,Trie,,editorial
+https://codeforces.com/problemset/problem/1305/H,Max Flow and Min Cut,,editorial
+https://codeforces.com/problemset/problem/1776/K,Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/2062/H,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1685/E,Prefix Sums,,editorial
+https://codeforces.com/problemset/problem/1179/E,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1648/F,Segment Tree and Fenwick Tree; Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/868/G,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1023/G,Tree DP,,editorial
+https://codeforces.com/problemset/problem/917/E,Tree Traversal; Trie; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/786/D,Binary Search; Trie,,editorial
+https://codeforces.com/problemset/problem/1889/E,Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1707/F,1-D Dynamic Programming; Divide and Conquer,,editorial
+https://codeforces.com/problemset/problem/1566/H,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/2006/F,Topological Sort,,editorial
+https://codeforces.com/problemset/problem/1936/F,Probability and Expected Value,,editorial
+https://codeforces.com/problemset/problem/1677/F,2-D Dynamic Programming; Combinatorics,1-D Dynamic Programming,editorial
+https://codeforces.com/problemset/problem/2035/G1,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1320/F,Graph Traversal,,editorial
+https://codeforces.com/problemset/problem/1970/D3,Suffix Structures,,editorial
+https://codeforces.com/problemset/problem/1656/I,Tree Traversal,,editorial
+https://codeforces.com/problemset/problem/1470/F,Segment Tree and Fenwick Tree,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/207/C3,Suffix Structures,,accepted code
+https://codeforces.com/problemset/problem/2061/F2,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1936/E,2-D Dynamic Programming,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/2023/F,Prefix Sums; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1761/G,Tree Traversal; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/923/F,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1621/I,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1545/F,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2061/I,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1120/E,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1868/F,Geometry,,editorial
+https://codeforces.com/problemset/problem/1540/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1776/E,Graph Traversal; Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1081/H,Number Theory,,editorial
+https://codeforces.com/problemset/problem/1868/E,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1870/H,Lowest Common Ancestor and Tree Queries,,accepted code
+https://codeforces.com/problemset/problem/1750/H,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/1276/E,Number Theory,,editorial
+https://codeforces.com/problemset/problem/2041/K,Strongly Connected Components and Bridges,,accepted code
+https://codeforces.com/problemset/problem/1349/E,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/765/G,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/2035/G2,1-D Dynamic Programming; Lowest Common Ancestor and Tree Queries,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1863/H,Trie; Lowest Common Ancestor and Tree Queries,,editorial
+https://codeforces.com/problemset/problem/1930/I,FFT and NTT,,accepted code
+https://codeforces.com/problemset/problem/1687/F,Combinatorics,,editorial
+https://codeforces.com/problemset/problem/1654/H,,Divide and Conquer,editorial
+https://codeforces.com/problemset/problem/1491/I,Binary Search,,editorial
+https://codeforces.com/problemset/problem/2046/F2,Segment Tree and Fenwick Tree,,accepted code
+https://codeforces.com/problemset/problem/1864/I,Graph Traversal; Union-Find; Strongly Connected Components and Bridges,,editorial
+https://codeforces.com/problemset/problem/1078/E,Bit Manipulation,,editorial
+https://codeforces.com/problemset/problem/1967/F,Binary Search,,editorial
+https://codeforces.com/problemset/problem/1776/N,1-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1517/H,2-D Dynamic Programming,,editorial
+https://codeforces.com/problemset/problem/1427/H,String Matching,,editorial
+https://codeforces.com/problemset/problem/2039/G,Prefix Sums; FFT and NTT,,editorial
+https://codeforces.com/problemset/problem/853/E,Segment Tree and Fenwick Tree,,editorial
+https://codeforces.com/problemset/problem/2066/F,2-D Dynamic Programming,,editorial

@@ -123,6 +123,22 @@ def test_reserve_rows_filters_and_orders():
     assert out[2]["difficulty"] == "medium"
 
 
+def test_corrections_add_and_remove_patterns(tmp_path):
+    result = {"problems": [
+        problem(1, "A", "Tagged loosely", 1900, ["divide and conquer", "dp"]),
+        problem(2, "B", "Untouched", 900, ["greedy"]),
+    ]}
+    corrections = tmp_path / "corrections.csv"
+    corrections.write_text("link,add,remove,source\n"
+                           "https://codeforces.com/problemset/problem/1/A,Segment Tree and Fenwick Tree; "
+                           "2-D Dynamic Programming,Divide and Conquer,editorial\n", encoding="utf-8")
+    out = reserve_rows(result, ORDER, catalog.read_corrections(corrections))
+    by_title = {r["title"]: r["patterns"] for r in out}
+    assert by_title == {"Tagged loosely": "2-D Dynamic Programming; Segment Tree and Fenwick Tree",
+                        "Untouched": "Greedy"}
+    assert catalog.read_corrections(tmp_path / "missing.csv") == {}
+
+
 def test_unmapped_rows_keep_what_the_reserve_cannot_hold():
     result = {"problems": [
         problem(1, "A", "In reserve", 800, ["greedy"]),

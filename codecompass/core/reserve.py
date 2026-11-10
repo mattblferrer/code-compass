@@ -17,24 +17,35 @@ def _usable(p):
             and "contestId" in p)
 
 
-def reserve_rows(result, pattern_order):
+def corrected(names, correction, pattern_order):
+    """Apply one correction ({"add": [...], "remove": [...]}) to tag-derived names."""
+    if not correction:
+        return names
+    found = (set(names) - set(correction.get("remove", []))) | set(correction.get("add", []))
+    return [name for name in pattern_order if name in found]
+
+
+def reserve_rows(result, pattern_order, corrections=None):
     """Catalog-file rows for every usable problem, most-solved first.
 
     A problem is left out if it is not a programming problem, is tagged
     `*special`, has no rating, or has no tag that maps to a pattern, even
-    through the broad-tag fallback.
+    through the broad-tag fallback. `corrections` maps a problem link to the
+    patterns its editorial or accepted code adds or removes (docs/rules.md).
     """
+    corrections = corrections or {}
     solved = {(s["contestId"], s["index"]): s.get("solvedCount", 0) for s in result.get("problemStatistics", [])}
     rows = []
     for p in result["problems"]:
         if not _usable(p) or not p.get("rating"):
             continue
-        names = reserve_patterns(p.get("tags", []), pattern_order)
+        link = codeforces_link(p["contestId"], p["index"])
+        names = corrected(reserve_patterns(p.get("tags", []), pattern_order), corrections.get(link), pattern_order)
         if not names:
             continue
         rows.append({
             "title": p["name"].strip(),
-            "link": codeforces_link(p["contestId"], p["index"]),
+            "link": link,
             "difficulty": codeforces_level(p["rating"]),
             "rating": p["rating"],
             "source": SOURCE,

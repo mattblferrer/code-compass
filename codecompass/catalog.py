@@ -131,14 +131,22 @@ def _write_csv(path, header, rows):
         writer.writerows(rows)
 
 
-def write_reserve(problemset_path, patterns_path, out_path, unmapped_path=None):
+def read_corrections(path):
+    """{link: {"add": [...], "remove": [...]}} from a reserve corrections file, or {}."""
+    if not path or not Path(path).exists():
+        return {}
+    split = lambda text: [p.strip() for p in text.split(";") if p.strip()]  # noqa: E731
+    return {r["link"]: {"add": split(r["add"]), "remove": split(r["remove"])} for r in read_rows(path)}
+
+
+def write_reserve(problemset_path, patterns_path, out_path, unmapped_path=None, corrections_path=None):
     """Write the reserve file, and optionally the unmapped list, from a saved
     `problemset.problems` response. Returns (reserve rows, unmapped rows)."""
     data = json.loads(Path(problemset_path).read_text(encoding="utf-8"))
     if data.get("status") != "OK":
         raise click.ClickException("The file is not a successful problemset.problems response.")
     order = [p["name"] for p in parse_patterns(read_rows(patterns_path), Path(patterns_path).name)]
-    rows = reserve_rows(data["result"], order)
+    rows = reserve_rows(data["result"], order, read_corrections(corrections_path))
     _write_csv(out_path, HEADER, rows)
     unmapped = unmapped_rows(data["result"], order)
     if unmapped_path:
@@ -170,7 +178,7 @@ def build_reserve_command(problemset):
     curl -o problemset.json https://codeforces.com/api/problemset.problems
     """
     count, unmapped = write_reserve(problemset, DATA_DIR / "patterns.csv", DATA_DIR / "reserve.csv",
-                                    DATA_DIR / "codeforces_unmapped.csv")
+                                    DATA_DIR / "codeforces_unmapped.csv", DATA_DIR / "reserve_corrections.csv")
     click.echo(f"Wrote {count} problems to {DATA_DIR / 'reserve.csv'} and {unmapped} problems the reserve "
                f"cannot hold to {DATA_DIR / 'codeforces_unmapped.csv'}.")
 

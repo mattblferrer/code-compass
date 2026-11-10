@@ -32,7 +32,7 @@ flask --app codecompass run
 
 ## Rebuild the Codeforces reserve
 
-The unreviewed reserve (R-37) in `codecompass/data/reserve.csv` is built from a saved copy of the Codeforces problem set, along with `codecompass/data/codeforces_unmapped.csv`, which lists the problems the reserve cannot hold so the custom-problem form can be filled in for them. The app itself never downloads either. To refresh them:
+The unreviewed reserve (R-37) in `codecompass/data/reserve.csv` is built from a saved copy of the Codeforces problem set, along with `codecompass/data/codeforces_unmapped.csv`, which lists the problems the reserve cannot hold so the custom-problem form can be filled in for them. If `codecompass/data/reserve_corrections.csv` exists, its pattern corrections (drawn from editorials and accepted code, see `docs/rules.md`) are applied. The app itself never downloads any of these. To refresh them:
 
 ```
 curl -o problemset.json https://codeforces.com/api/problemset.problems
