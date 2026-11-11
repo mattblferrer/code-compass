@@ -176,6 +176,24 @@ def test_score_history_on_pattern_page(client):
     assert "Score over time" not in page(client, "/patterns/Trie")
 
 
+def test_score_chart_carries_each_weeks_change_for_the_details_box(client):
+    """The score chart shows the same details box as the rating history: old → new (+delta)."""
+    import html as markup
+    import json
+
+    for days in (30, 25, 20, 2):
+        log(client, PARENS, days)
+    html = page(client, "/patterns/Stack")
+    data = html.split("data-points='", 1)[1].split("'", 1)[0]
+    dots = json.loads(markup.unescape(data))
+    assert dots[0]["old"] is None and dots[0]["change"] is None
+    for before, after in zip(dots, dots[1:]):
+        assert after["old"] == before["shown"] and after["change"] == after["shown"] - before["shown"]
+    # Every attempt is counted in the week it falls in; the first two come before the first score.
+    assert sum(d["attempts"] for d in dots) == 2
+    assert html.index("js/chart_tip.js") < html.index("js/score_chart.js")
+
+
 def test_undo_not_now_for_a_new_problem(client, app):
     two_sum = pid(app, "Two Sum")
     html = client.post(f"/problems/{two_sum}/not-now", follow_redirects=True).get_data(as_text=True)

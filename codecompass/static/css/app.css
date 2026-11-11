@@ -1727,11 +1727,13 @@ table.ratings .number {
   color: var(--due);
 }
 
-figure.rating-chart {
+figure.rating-chart,
+figure.score-chart {
   position: relative;
 }
 
-.rating-chart svg:focus-visible {
+.rating-chart svg:focus-visible,
+.score-chart svg:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }

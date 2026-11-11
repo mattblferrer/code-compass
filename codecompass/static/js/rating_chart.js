@@ -106,14 +106,9 @@
     figure.insertBefore(hint, svg);
     var caption = figure.querySelector("figcaption span") || figure.appendChild(document.createElement("figcaption"));
 
-    // Details for the contest under the pointer, or chosen with the arrow keys.
-    var tip = document.createElement("div");
-    tip.className = "chart-tip";
-    tip.hidden = true;
-    tip.setAttribute("role", "status");
-    figure.appendChild(tip);
-    var visible = [], yOf = null, focusDot = null, selected = null;
-    svg.setAttribute("tabindex", "0");
+    // Details for the contest under the pointer, or chosen with the arrow keys (chart_tip.js).
+    var tip = window.ChartTip.create(figure, svg, W, H);
+    var visible = [], yOf = null, selected = null;
 
     function clamp(from, to) {
       var span = Math.min(Math.max(to - from, MIN_SPAN), full[1] - full[0]);
@@ -177,7 +172,7 @@
       inView.forEach(function (p) {
         make("circle", { "class": "dot", cx: x(p.t).toFixed(1), cy: y(p.rating).toFixed(1), r: radius }, plotted);
       });
-      focusDot = make("circle", { "class": "dot focus", r: 5, visibility: "hidden" }, svg);
+      tip.attach();
       visible = inView;
       yOf = y;
       show(visible.indexOf(selected) >= 0 ? selected : null);
@@ -193,62 +188,22 @@
       later.disabled = view[1] >= full[1];
     }
 
-    function changeText(p) {
-      if (p.old === null || p.old === undefined) return String(p.rating);
-      var sign = p.change > 0 ? "+" + p.change : p.change < 0 ? "−" + (-p.change) : "0";
-      return p.old + " → " + p.rating + " (" + sign + ")";
-    }
-
     function show(p) {
       selected = p;
-      if (!p) {
-        tip.hidden = true;
-        if (focusDot) focusDot.setAttribute("visibility", "hidden");
-        return;
-      }
-      var sx = x(p.t), sy = yOf(p.rating);
-      focusDot.setAttribute("cx", sx.toFixed(1));
-      focusDot.setAttribute("cy", sy.toFixed(1));
-      focusDot.setAttribute("visibility", "visible");
-      tip.textContent = "";
-      var name = document.createElement("strong");
-      name.textContent = p.contest;
-      var when = document.createElement("span");
-      when.textContent = p.date;
-      var rating = document.createElement("span");
-      rating.className = "tip-change" + (p.change > 0 ? " up" : p.change < 0 ? " down" : "");
-      rating.textContent = changeText(p);
-      tip.appendChild(name);
-      tip.appendChild(when);
-      tip.appendChild(rating);
-      tip.hidden = false;
-      // Place it beside the point, flipping to the left near the right edge.
-      var box = svg.getBoundingClientRect(), outer = figure.getBoundingClientRect();
-      var px = box.left - outer.left + sx * box.width / W;
-      var py = box.top - outer.top + sy * box.height / H;
-      var flip = px + tip.offsetWidth + 16 > outer.width;
-      tip.style.left = Math.max(4, flip ? px - tip.offsetWidth - 12 : px + 12) + "px";
-      tip.style.top = Math.max(4, py - tip.offsetHeight / 2) + "px";
+      if (!p) { tip.hide(); return; }
+      tip.show(x(p.t), yOf(p.rating), { title: p.contest, note: p.date, old: p.old, value: p.rating, change: p.change });
     }
 
     function nearest(clientX) {
-      var rect = svg.getBoundingClientRect();
-      var sx = (clientX - rect.left) * W / rect.width;
-      var best = null, gap = 24;  // Within 24 chart units of the pointer, about a dot's spacing.
-      visible.forEach(function (p) {
-        var d = Math.abs(x(p.t) - sx);
-        if (d < gap) { gap = d; best = p; }
-      });
-      return best;
+      return tip.nearest(clientX, visible, function (p) { return x(p.t); });
     }
 
     svg.addEventListener("pointerleave", function () { if (!Object.keys(pointers).length) show(null); });
     svg.addEventListener("keydown", function (event) {
-      var key = event.key, i = visible.indexOf(selected);
+      var key = event.key;
       if (key === "ArrowLeft" || key === "ArrowRight") {
         if (!visible.length) return;
-        i = i < 0 ? (key === "ArrowLeft" ? visible.length - 1 : 0) : Math.max(0, Math.min(visible.length - 1, i + (key === "ArrowLeft" ? -1 : 1)));
-        show(visible[i]);
+        show(tip.step(key, visible, selected));
       } else if (key === "+" || key === "=") {
         zoom(0.5, selected ? selected.t : undefined);
       } else if (key === "-") {

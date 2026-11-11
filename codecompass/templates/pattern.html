@@ -15,16 +15,17 @@
 
   {% if chart %}
     <h2>Score over time</h2>
-    <figure class="history">
+    {# Without JavaScript each dot has a title; js/score_chart.js adds the details box used by the rating history. #}
+    <figure class="history score-chart" data-points='{{ chart['dots']|tojson }}'>
       <svg viewBox="0 0 {{ chart['width'] }} {{ chart['height'] }}" role="img"
-           aria-label="Score from {{ chart['first'] }} to {{ chart['last'] }}, ending at {{ '%.0f'|format(chart['dots'][-1]['score']) }}">
+           aria-label="Score from {{ chart['first'] }} to {{ chart['last'] }}, ending at {{ chart['dots'][-1]['shown'] }}">
         {% for g in chart['guides'] %}
           <line class="guide{{ ' band' if g['value'] in (40, 70) }}" x1="{{ chart['left'] }}" x2="{{ chart['right'] }}" y1="{{ g['y'] }}" y2="{{ g['y'] }}"></line>
           <text class="guide-label" x="{{ chart['left'] - 6 }}" y="{{ g['y'] + 4 }}" text-anchor="end">{{ g['value'] }}</text>
         {% endfor %}
         <polyline class="line" points="{{ chart['line'] }}"></polyline>
         {% for d in chart['dots'] %}
-          <circle class="dot" cx="{{ d['x'] }}" cy="{{ d['y'] }}" r="3.5"><title>{{ d['date'] }}: {{ '%.0f'|format(d['score']) }}</title></circle>
+          <circle class="dot" cx="{{ d['x'] }}" cy="{{ d['y'] }}" r="3.5"><title>{{ d['date'] }}: {{ d['shown'] }}{% if d['change'] is not none %} ({{ d['change']|signed }}){% endif %}</title></circle>
         {% endfor %}
       </svg>
       <figcaption>
@@ -54,5 +55,11 @@
     </div>
   {% else %}
     <p class="empty">No attempts in this pattern yet.</p>
+  {% endif %}
+{% endblock %}
+{% block scripts %}
+  {% if chart %}
+    <script src="{{ url_for('static', filename='js/chart_tip.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/score_chart.js') }}"></script>
   {% endif %}
 {% endblock %}

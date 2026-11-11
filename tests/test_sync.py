@@ -528,7 +528,7 @@ def test_rating_chart_page_carries_the_points_for_zooming(client, sites):
     sync(client)
     page = profile(client)
     assert "data-points='[" in page and '"date": "2026-09-14"' in page
-    assert "js/rating_chart.js" in page
+    assert page.index("js/chart_tip.js") < page.index("js/rating_chart.js")  # The shared details box loads first.
     assert "Rating history" not in sync(client) and "data-points" not in sync(client)
 
 

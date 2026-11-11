@@ -151,6 +151,7 @@ class Snapshot:
 
         Each point is calculated with the same rule as today's score, using only
         the attempts made by that date. Points before the third attempt have no score.
+        `attempts` counts the attempts after the previous point (`since`), for the chart's details.
         """
         rows = self.by_pattern[name]
         if not rows:
@@ -159,10 +160,12 @@ class Snapshot:
         days = [rows[0]["date"]]
         while days[-1] < self.today:
             days.append(min(add_days(days[-1], step_days), self.today))
-        points = []
+        points, previous = [], None
         for day in days:
             earlier = [r for r in rows if r["date"] <= day]
-            points.append({"date": day, "score": pattern_score(earlier, tier, day)})
+            new = sum(1 for r in earlier if previous is None or r["date"] > previous)
+            points.append({"date": day, "score": pattern_score(earlier, tier, day), "attempts": new, "since": previous})
+            previous = day
         return points
 
     def activity(self, days=56):

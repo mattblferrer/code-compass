@@ -165,7 +165,13 @@ def history_chart(points, width=640, height=180, pad=28):
     def y(score):
         return round(height - pad - (height - 2 * pad) * score / 100, 1)
 
-    dots = [{"x": x(i), "y": y(p["score"]), "date": p["date"], "score": p["score"]} for i, p in scored]
+    dots, before = [], None
+    for i, p in scored:
+        shown = round(p["score"])
+        dots.append({"x": x(i), "y": y(p["score"]), "date": p["date"], "score": p["score"], "shown": shown,
+                     "old": before, "change": None if before is None else shown - before,
+                     "attempts": p.get("attempts", 0), "since": p.get("since")})
+        before = shown
     return {
         "width": width,
         "height": height,

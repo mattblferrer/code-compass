@@ -72,5 +72,6 @@
   {% endfor %}
 {% endblock %}
 {% block scripts %}
+  <script src="{{ url_for('static', filename='js/chart_tip.js') }}"></script>
   <script src="{{ url_for('static', filename='js/rating_chart.js') }}"></script>
 {% endblock %}
