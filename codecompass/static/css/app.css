@@ -3372,3 +3372,84 @@ table.sortable th[aria-sort="descending"] .sort-arrow::after {
 .verdict.wa {
   color: var(--due);
 }
+
+/* Filter bars (History, Sync): small labelled fields in a row that wraps. */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.6rem 0.9rem;
+  margin: 0 0 0.75rem;
+  padding: 0.75rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.filters label {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  font-size: var(--step--1);
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.filters select,
+.filters input[type="date"] {
+  min-width: 0;
+  max-width: 13rem;
+  padding: 0.3rem 0.45rem;
+  font-size: var(--step--1);
+}
+
+.filters label.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-bottom: 0.35rem;
+  color: var(--text);
+}
+
+.filters label.check input {
+  margin: 0;
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.3rem;
+  font-size: var(--step--1);
+}
+
+.filter-actions button[hidden] {
+  display: none;
+}
+
+.filter-count {
+  margin: 0 0 0.75rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+/* On a phone the filters sit two to a row, so the bar stays short. */
+@media (max-width: 40rem) {
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 0.6rem;
+    padding: 0.6rem 0.7rem;
+  }
+
+  .filters select,
+  .filters input[type="date"] {
+    width: 100%;
+    max-width: none;
+  }
+
+  .filters label.check,
+  .filters .filter-actions {
+    grid-column: 1 / -1;
+  }
+}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "_page.html" import page_head %}
+{% import "_filters.html" as pick %}
 {% block title %}Sync - CodeCompass{% endblock %}
 {% block content %}
   {% set leetcode_shown = accounts|selectattr(0, 'equalto', 'leetcode')|list or items|selectattr('site', 'equalto', 'leetcode')|list %}
@@ -37,12 +38,29 @@
   {% endif %}
 
   <h2>Waiting for an outcome</h2>
-  {% if items %}
+  {% if waiting %}
     <p class="small">Sites show that you submitted, not how much help you had. Choose what happened for each one, or select several and choose once; "Had external help" covers hints, AI chat, discussion posts, or a full solution.</p>
 
+    <form method="get" action="{{ url_for('main.sync_page') }}#filters" class="filters" id="filters" aria-label="Filter waiting submissions">
+      {{ pick.choose("verdict", "Verdict", options.verdict, filters.get("verdict")) }}
+      {{ pick.choose("difficulty", "Difficulty", options.difficulty, filters.get("difficulty")) }}
+      {{ pick.choose("site", "Site", options.site, filters.get("site")) }}
+      {{ pick.choose("pattern", "Pattern", options.pattern, filters.get("pattern")) }}
+      {{ pick.choose("new", "In CodeCompass", options.new, filters.get("new")) }}
+      {{ pick.choose("needs", "Details", options.needs, filters.get("needs")) }}
+      {{ pick.date_range(filters) }}
+      {{ pick.bar_end(filters, url_for('main.sync_page') ~ '#filters') }}
+    </form>
+    {% if filters %}
+      <p class="filter-count" role="status">{{ items|length }} of {{ waiting }} waiting {{ "submission matches" if waiting == 1 else "submissions match" }}. Select all and the batch actions use only these.</p>
+    {% endif %}
+    {% if not items %}
+      <p class="empty">No waiting submissions match these filters. <a href="{{ url_for('main.sync_page') }}#filters">Clear filters</a></p>
+    {% else %}
     {# The checkboxes on each item belong to this form through their form attribute, since
        each item has its own forms too. js/sync_batch.js adds Select all and the count. #}
     <form method="post" action="{{ url_for('main.batch_sync_items') }}" id="batch-form" class="batch-bar" aria-label="Selected items">
+      <input type="hidden" name="next" value="{{ back }}">
       <div class="batch-pick">
         <label class="select-all" hidden><input type="checkbox" id="select-all"> Select all</label>
         <span class="batch-count" id="batch-count" aria-live="polite">Select items to save several at once.</span>
@@ -92,6 +110,7 @@
               <a class="button" href="{{ url_for('main.sync_item', item_id=item['id']) }}">Choose the {{ "level and patterns" if not item.details.difficulty and not item.details.patterns else ("level" if not item.details.difficulty else "patterns") }}</a>
             {% else %}
               <form method="post" action="{{ url_for('main.sync_item', item_id=item['id']) }}" class="sync-outcomes">
+                <input type="hidden" name="next" value="{{ back }}">
                 {% if not item.hint %}
                   <button type="submit" name="outcome" value="solved_alone" title="{{ outcome_definitions['solved_alone'] }}">Solved alone</button>
                 {% endif %}
@@ -113,12 +132,14 @@
               </form>
             {% endif %}
             <form method="post" action="{{ url_for('main.dismiss_sync_item', item_id=item['id']) }}" class="inline">
+              <input type="hidden" name="next" value="{{ back }}">
               <button type="submit" class="text">Dismiss</button>
             </form>
           </div>
         </li>
       {% endfor %}
     </ul>
+    {% endif %}
   {% else %}
     <p class="empty">Nothing is waiting. {% if accounts %}Press Sync now to check for new submissions.{% endif %}</p>
   {% endif %}
@@ -127,4 +148,5 @@
 {% block scripts %}
   {% if accounts %}<script src="{{ url_for('static', filename='js/sync_progress.js') }}"></script>{% endif %}
   {% if items %}<script src="{{ url_for('static', filename='js/sync_batch.js') }}"></script>{% endif %}
+  {% if waiting %}<script src="{{ url_for('static', filename='js/filters.js') }}"></script>{% endif %}
 {% endblock %}

@@ -1,4 +1,5 @@
 import csv
+import re
 import io
 import time
 from datetime import date, datetime
@@ -12,7 +13,7 @@ from . import sync as syncing
 from .core.sync import LEETCODE_NOTICE, PROFILE_URLS, new_problem_details, outcome_choices, rating_changes
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
 from .core.exchange import COLUMNS, export_rows, plan_import, references
-from .core import ordering, progress
+from .core import filters, ordering, progress
 from .core.dates import friendly_date, full_date, short_date
 from .core.mastery import expected_level_index
 from .core.recommend import active_interview
@@ -369,7 +370,8 @@ def history():
     grouped by day, newest first, with reviews marked (R-12).
 
     `year` picks a calendar year for the calendar instead of the past 12 months; `until`
-    starts the list at an earlier day, which is where a day in the calendar links.
+    starts the list at an earlier day, which is where a day in the calendar links. The
+    list can be filtered (core/filters.py); the calendar always shows every attempt.
     """
     conn = get_db()
     now = today()
@@ -381,8 +383,17 @@ def history():
     first, last, label = progress.period(year, now)
     until = request.args.get("until", "")
     until = until if progress.is_date(until) else None
-    attempts = queries.recent_attempts(conn, limit=HISTORY_LIMIT, until=until)
-    reviews = Snapshot(conn, today()).review_attempts()
+    snap = Snapshot(conn, now)
+    reviews = snap.review_attempts()
+    rows = [{**dict(a), "review": a["id"] in reviews, "site": site_label(a["link"]),
+             "patterns": snap.problem(a["problem_id"])["patterns"]}
+            for a in queries.recent_attempts(conn, limit=-1, until=until)]
+    sites = sorted({r["site"] for r in rows})
+    present = {name for r in rows for name in r["patterns"]}
+    pattern_names = [p["name"] for p in snap.patterns if p["name"] in present]
+    chosen = filters.read_history(request.args, set(sites), set(pattern_names))
+    matched = [r for r in rows if filters.history_match(r, chosen)]
+    attempts = matched[:HISTORY_LIMIT]
     days, week = [], None
     for a in attempts:
         if not days or days[-1]["date"] != a["date"]:
@@ -391,14 +402,19 @@ def history():
             week = day.isocalendar()[:2]
             days.append({"date": a["date"], "label": friendly_date(a["date"], now, within=1), "attempts": [],
                          "week_start": starts_week})
-        days[-1]["attempts"].append({**dict(a), "review": a["id"] in reviews, "site": site_label(a["link"])})
+        days[-1]["attempts"].append(a)
     calendar = {
         "label": label, "year": year, "years": years, "first": first, "last": last,
         "weeks": progress.weeks(first, last, totals, now), "stats": progress.stats(totals, first, last),
         "shades": c.CALENDAR_SHADES,
     }
+    options = {"outcome": [(o, OUTCOME_LABELS[o]) for o in c.OUTCOMES],
+               "difficulty": [(level, level.capitalize()) for level in c.LEVELS],
+               "site": [(s, s) for s in sites], "pattern": [(n, n) for n in pattern_names],
+               "method": list(filters.METHODS.items())}
     return render_template("history.html", days=days, attempts=attempts, calendar=calendar, until=until,
-                           listed={d["date"] for d in days}, outcome_labels=OUTCOME_LABELS)
+                           listed={d["date"] for d in days}, outcome_labels=OUTCOME_LABELS,
+                           filters=chosen, options=options, matched=len(matched), total=len(rows))
 
 
 @bp.app_template_filter("day_label")
@@ -764,13 +780,32 @@ def sync_page():
     if job:
         flash_sync_results(job.take_results() or [])
     accounts = syncing.accounts(conn)
-    items = syncing.pending_items(conn)
+    waiting = syncing.pending_items(conn)
     pattern_names = [p["name"] for p in queries.patterns(conn)]
-    for item in items:
+    for item in waiting:
         item["choices"] = outcome_choices(item["accepted"])
         item["hint"] = bool(item["problem_id"]) and queries.unused_hint(conn, item["problem_id"])
-        if not item["problem_id"]:
+        if item["problem_id"]:
+            known = queries.get_problem(conn, item["problem_id"])
+            item["match"] = {"difficulty": known["difficulty"],
+                             "patterns": queries.problem_patterns(conn, item["problem_id"]), "new": False,
+                             "needs": False}
+        else:
             item["details"] = new_problem_details(item["site"], item, pattern_names)
+            d = item["details"]
+            item["match"] = {"difficulty": d["difficulty"], "patterns": d["patterns"], "new": True,
+                             "needs": not d["difficulty"] or not d["patterns"]}
+        item["match"].update({"accepted": bool(item["accepted"]), "site": SITES[item["site"]], "date": item["date"]})
+    present_sites = sorted({i["match"]["site"] for i in waiting})
+    present = {name for i in waiting for name in i["match"]["patterns"]}
+    shown_patterns = [n for n in pattern_names if n in present]
+    chosen = filters.read_sync(request.args, set(present_sites), set(shown_patterns))
+    items = [i for i in waiting if filters.sync_match(i["match"], chosen)]
+    options = {"verdict": [("ac", "Accepted"), ("wa", "No accepted submission")],
+               "difficulty": [(level, level.capitalize()) for level in c.LEVELS],
+               "site": [(s, s) for s in present_sites], "pattern": [(n, n) for n in shown_patterns],
+               "new": [("new", "New to CodeCompass"), ("known", "Already in CodeCompass")],
+               "needs": [("yes", "Needs a level or patterns"), ("no", "Ready to save")]}
     return render_template(
         "sync.html",
         accounts=[(site, SITES[site], accounts[site]) for site in syncing.SYNC_SITES if site in accounts],
@@ -778,7 +813,18 @@ def sync_page():
         items=items, outcome_labels=OUTCOME_LABELS, outcome_definitions=OUTCOME_DEFINITIONS,
         leetcode_notice=LEETCODE_NOTICE, sites=SITES,
         progress=job.progress() if job and not job.done else None,
+        filters=chosen, options=options, waiting=len(waiting), back=request.query_string.decode(),
     )
+
+
+SAFE_QUERY = re.compile(r"^[\w%=&.+\-]*$")
+
+
+def back_to_sync():
+    """The sync page with the filters it was opened with (the form's "next"), so saving
+    or dismissing keeps the same view. Only a plain query string is accepted."""
+    query = request.form.get("next", "")
+    return redirect(url_for("main.sync_page") + ("?" + query if query and SAFE_QUERY.match(query) else ""))
 
 
 @bp.route("/profile")
@@ -872,7 +918,7 @@ def dismiss_sync_item(item_id):
     pending_item(conn, item_id)
     syncing.set_status(conn, item_id, "dismissed")
     flash("Item dismissed.")
-    return redirect(url_for("main.sync_page"))
+    return back_to_sync()
 
 
 @bp.route("/sync/items/<int:item_id>", methods=["GET", "POST"])
@@ -904,7 +950,7 @@ def sync_item(item_id):
     if errors:
         return sync_item_page(item, details, patterns, hint, chosen, form, errors, 400)
     flash(f"Saved {item['title']} on {item['date']} as {OUTCOME_LABELS[form['outcome']].lower()}.")
-    return redirect(url_for("main.sync_page"))
+    return back_to_sync()
 
 
 def confirm_sync_item(conn, item, outcome, details, difficulty, chosen, names, hint, reviews=None):
@@ -970,10 +1016,10 @@ def batch_sync_items():
     picked = sorted((shown[i] for i in ids if i in shown), key=lambda it: (it["date"], it["id"]))
     if not picked:
         flash("Select one or more items first.")
-        return redirect(url_for("main.sync_page"))
+        return back_to_sync()
     if action not in BATCH_ACTIONS:
         flash("Choose what happened for the selected items.")
-        return redirect(url_for("main.sync_page"))
+        return back_to_sync()
 
     names = {p["name"] for p in queries.patterns(conn)}
     # A sibling review can only be completed while a suggestion is active, so the history
@@ -1035,7 +1081,7 @@ def batch_sync_items():
         if skipped["accepted"]:
             reasons.append(f"{skipped['accepted']} with an accepted submission, which cannot be not solved")
         flash(f"Left {left} on the list: " + "; ".join(reasons) + ".")
-    return redirect(url_for("main.sync_page"))
+    return back_to_sync()
 
 
 @bp.post("/sync/batches/<int:batch_id>/undo")

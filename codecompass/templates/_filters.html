@@ -1,0 +1,23 @@
+{# Filter bars for the History and Sync lists. Filters live in the page's address;
+   js/filters.js applies each change at once, and without it Apply does. #}
+{% macro choose(name, label, options, value) %}
+  <label>
+    <span>{{ label }}</span>
+    <select name="{{ name }}">
+      <option value="">Any</option>
+      {% for v, text in options %}<option value="{{ v }}" {% if value == v %}selected{% endif %}>{{ text }}</option>{% endfor %}
+    </select>
+  </label>
+{% endmacro %}
+
+{% macro date_range(f) %}
+  <label><span>From</span><input type="date" name="start" value="{{ f.get('start', '') }}"></label>
+  <label><span>To</span><input type="date" name="end" value="{{ f.get('end', '') }}"></label>
+{% endmacro %}
+
+{% macro bar_end(f, clear_url) %}
+  <div class="filter-actions">
+    <button type="submit" class="small quiet">Apply</button>
+    {% if f %}<a href="{{ clear_url }}">Clear filters</a>{% endif %}
+  </div>
+{% endmacro %}

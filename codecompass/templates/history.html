@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "_page.html" import page_head %}
+{% import "_filters.html" as pick %}
 {% block title %}History - CodeCompass{% endblock %}
 {% macro day_tip(d) %}
   {%- set t = d.totals -%}
@@ -66,7 +67,7 @@
                     <td><a class="cell s{{ d.shade }}" title="{{ day_tip(d)|trim }}"
                            data-tip-title="{{ d.date|day_label }}" data-tip-note="{{ day_breakdown(d.totals) }}"
                            data-tip-value="{{ d.solved }} solved"
-                           href="{{ '#day-' ~ d.date if d.date in listed else url_for('main.history', year=cal.year, until=d.date) ~ '#day-' ~ d.date }}"><span class="visually-hidden">{{ day_tip(d)|trim }}</span></a></td>
+                           href="{{ '#day-' ~ d.date if d.date in listed else url_for('main.history', year=cal.year, until=d.date, **filters) ~ '#day-' ~ d.date }}"><span class="visually-hidden">{{ day_tip(d)|trim }}</span></a></td>
                   {% else %}
                     <td><span class="cell s0{{ ' future' if d.future }}" title="{{ d.date|day_label }}"
                               data-tip-title="{{ d.date|day_label }}" data-tip-note="{{ 'Still to come' if d.future else 'Nothing logged' }}"></span></td>
@@ -97,10 +98,30 @@
     </p>
   </section>
 
-  {% if until %}
-    <p class="list-note">Showing attempts up to {{ until|day_label }}. <a href="{{ url_for('main.history', year=cal.year) }}">Show the latest</a></p>
+  {% if total %}
+    {# Filters apply to the list below; the calendar always shows every attempt. #}
+    <form method="get" action="{{ url_for('main.history') }}#filters" class="filters" id="filters" aria-label="Filter attempts">
+      {% if cal.year %}<input type="hidden" name="year" value="{{ cal.year }}">{% endif %}
+      {% if until %}<input type="hidden" name="until" value="{{ until }}">{% endif %}
+      {{ pick.choose("outcome", "Outcome", options.outcome, filters.get("outcome")) }}
+      {{ pick.choose("difficulty", "Difficulty", options.difficulty, filters.get("difficulty")) }}
+      {{ pick.choose("site", "Source", options.site, filters.get("site")) }}
+      {{ pick.choose("pattern", "Pattern", options.pattern, filters.get("pattern")) }}
+      {{ pick.choose("method", "Logged", options.method, filters.get("method")) }}
+      {{ pick.date_range(filters) }}
+      <label class="check"><input type="checkbox" name="reviews" value="1" {% if filters.get("reviews") %}checked{% endif %}><span>Reviews only</span></label>
+      {{ pick.bar_end(filters, url_for('main.history', year=cal.year, until=until) ~ '#filters') }}
+    </form>
+    {% if filters %}
+      <p class="filter-count" role="status">{{ matched }} of {{ total }} {{ "attempt matches" if total == 1 else "attempts match" }}{% if matched > attempts|length %}; showing the latest {{ attempts|length }}{% endif %}.</p>
+    {% endif %}
   {% endif %}
-  {% if days %}
+  {% if until %}
+    <p class="list-note">Showing attempts up to {{ until|day_label }}. <a href="{{ url_for('main.history', year=cal.year, **filters) }}#filters">Show the latest</a></p>
+  {% endif %}
+  {% if filters and not days %}
+    <p class="empty">No attempts match these filters. <a href="{{ url_for('main.history', year=cal.year) }}#filters">Clear filters</a></p>
+  {% elif days %}
     {# One table, a row group per day, so the columns stay aligned and screen readers
        hear each day as a group. The marks repeat the outcome in shape and colour. #}
     <div class="table-wrap log">
@@ -139,4 +160,5 @@
 {% block scripts %}
   <script src="{{ url_for('static', filename='js/chart_tip.js') }}"></script>
   <script src="{{ url_for('static', filename='js/history.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/filters.js') }}"></script>
 {% endblock %}

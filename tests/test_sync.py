@@ -828,3 +828,41 @@ def test_auto_classify_leaves_a_hinted_accepted_item(client, app, sites):
     assert "Saved 1 item: 1 as not solved." in page
     assert "Left 1 on the list: 1 with a revealed hint, which cannot be solved alone." in page
     assert ("4/A", "2026-10-18") in items(app)
+
+
+# --- Filtering the waiting list ---
+
+def listed_links(page):
+    body = page.split('<ul class="sync-items">', 1)[1] if '<ul class="sync-items">' in page else ""
+    return sorted(part.split('"', 1)[0].rsplit("/problem/", 1)[-1]
+                  for part in body.split('<a href="https://codeforces.com/problemset/problem/')[1:])
+
+
+def test_sync_list_filters_by_verdict_new_needs_and_difficulty(client, app, sites):
+    link(client, codeforces="practice_user")
+    sync(client)
+    page = client.get("/sync").get_data(as_text=True)
+    assert 'name="verdict"' in page and "js/filters.js" in page
+    wa = client.get("/sync?verdict=wa").get_data(as_text=True)
+    assert listed_links(wa) == ["4/A"] and "1 of 5 waiting submissions match" in wa
+    needs = client.get("/sync?needs=yes").get_data(as_text=True)
+    assert listed_links(needs) == ["2284/F", "71/A"]  # No rating, and no mapped pattern.
+    ready = client.get("/sync?needs=no&verdict=ac").get_data(as_text=True)
+    assert listed_links(ready) == ["1520/A", "4/A"]
+    assert listed_links(client.get("/sync?new=known").get_data(as_text=True)) == []
+    # 71A's rating (800) makes it easy, though it still needs patterns.
+    assert listed_links(client.get("/sync?difficulty=easy").get_data(as_text=True)) == ["1520/A", "4/A", "4/A", "71/A"]
+    none = client.get("/sync?difficulty=very hard").get_data(as_text=True)
+    assert "No waiting submissions match these filters." in none and "Clear filters" in none
+
+
+def test_saving_from_a_filtered_list_returns_to_it(client, app, sites):
+    link(client, codeforces="practice_user")
+    sync(client)
+    page = client.get("/sync?verdict=wa").get_data(as_text=True)
+    assert 'name="next" value="verdict=wa"' in page
+    wa = next(r["id"] for (key, day), r in items(app).items() if key == "4/A" and day == "2026-10-20")
+    response = client.post(f"/sync/items/{wa}", data={"outcome": c.NOT_SOLVED, "next": "verdict=wa"})
+    assert response.headers["Location"] == "/sync?verdict=wa"
+    response = client.post("/sync/items/batch", data={"action": "dismiss", "item": [], "next": "//evil.example"})
+    assert response.headers["Location"] == "/sync"  # Anything but a plain query is ignored.
