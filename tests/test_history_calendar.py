@@ -127,3 +127,24 @@ def test_calendar_days_carry_the_charts_details_card(client):
             in page) and 'data-tip-value="1 solved"' in page
     assert 'data-tip-note="Nothing logged"' in page
     assert page.index("js/chart_tip.js") < page.index("js/history.js")
+
+
+def test_site_label():
+    from codecompass.core.sites import site_label
+
+    assert site_label("https://leetcode.com/problems/two-sum/") == "LeetCode"
+    assert site_label("https://codeforces.com/problemset/problem/4/A") == "Codeforces"
+    assert site_label("https://atcoder.jp/contests/abc300/tasks/abc300_a") == "AtCoder"
+    assert site_label("https://cses.fi/problemset/task/1068") == "CSES"
+    assert site_label("https://www.hackerrank.com/challenges/x") == "hackerrank.com"
+    assert site_label(None) == "Custom" and site_label("") == "Custom"
+
+
+def test_history_shows_each_problems_source_and_difficulty(client):
+    log(client, "Course Schedule (Codeforces)", date.today().isoformat())
+    page = client.get("/history").get_data(as_text=True)
+    assert "<th>Source</th><th>Difficulty</th>" in page
+    row = page.split('<td class="problem-cell">', 1)[1].split("</tr>", 1)[0]
+    # The test catalog links to example.com; its level shows in the dashboard's pill.
+    assert '<td class="source-cell">example.com</td>' in row
+    assert '<span class="mark level-medium">Medium</span>' in row

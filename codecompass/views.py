@@ -17,7 +17,7 @@ from .core.dates import friendly_date, full_date, short_date
 from .core.mastery import expected_level_index
 from .core.recommend import active_interview
 from .core.reviews import ics
-from .core.sites import FILTER_SITES, KINDS
+from .core.sites import FILTER_SITES, KINDS, site_label
 from .state import Snapshot
 from .core import constants as c
 from .core.validation import MESSAGES as VALIDATION_MESSAGES
@@ -379,7 +379,7 @@ def history():
             week = day.isocalendar()[:2]
             days.append({"date": a["date"], "label": friendly_date(a["date"], now, within=1), "attempts": [],
                          "week_start": starts_week})
-        days[-1]["attempts"].append({**dict(a), "review": a["id"] in reviews})
+        days[-1]["attempts"].append({**dict(a), "review": a["id"] in reviews, "site": site_label(a["link"])})
     calendar = {
         "label": label, "year": year, "years": years, "first": first, "last": last,
         "weeks": progress.weeks(first, last, totals, now), "stats": progress.stats(totals, first, last),

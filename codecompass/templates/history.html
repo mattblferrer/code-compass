@@ -105,11 +105,11 @@
        hear each day as a group. The marks repeat the outcome in shape and colour. #}
     <div class="table-wrap log">
       <table>
-        <thead><tr><th>Problem</th><th>Outcome</th><th>Time</th><th><span class="visually-hidden">Edit</span></th></tr></thead>
+        <thead><tr><th>Problem</th><th>Source</th><th>Difficulty</th><th>Outcome</th><th>Time</th><th><span class="visually-hidden">Edit</span></th></tr></thead>
         {% for day in days %}
           <tbody class="day{{ ' week-start' if day.week_start }}" id="day-{{ day.date }}">
             <tr class="day-head">
-              <th scope="rowgroup" colspan="4">
+              <th scope="rowgroup" colspan="6">
                 <time datetime="{{ day.date }}">{{ day.label }}</time>
                 <span class="day-count">{{ day.attempts|length }} {{ "attempt" if day.attempts|length == 1 else "attempts" }}</span>
               </th>
@@ -120,6 +120,9 @@
                   <a href="{{ url_for('main.problem', problem_id=a['problem_id']) }}">{{ a['title'] }}</a>
                   {% if a.review %}<span class="tag review-tag">Review</span>{% endif %}
                 </td>
+                <td class="source-cell">{{ a.site }}</td>
+                {# The same coloured pill as Practice next on the dashboard. #}
+                <td><span class="mark level-{{ a['difficulty']|replace(' ', '-') }}">{{ a['difficulty']|capitalize }}</span></td>
                 <td class="outcome-cell"><span class="o-mark o-{{ a['outcome'] }}" aria-hidden="true"></span>{{ a['outcome']|outcome }}</td>
                 <td>{{ a['time_seconds']|clock }}</td>
                 <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
