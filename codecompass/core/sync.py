@@ -18,9 +18,9 @@ LEETCODE_NOTICE = ("LeetCode data comes from an undocumented source, so it may b
 
 
 def sync_since(last_synced, now):
-    """Unix seconds to sync from: FIRST_SYNC_DAYS back on a first sync, else the previous sync less the overlap."""
+    """Unix seconds to sync from: the whole history (0) on a first sync, else the previous sync less the overlap."""
     if last_synced is None:
-        return now - c.FIRST_SYNC_DAYS * 86400
+        return 0
     return last_synced - c.SYNC_OVERLAP_HOURS * 3600
 
 

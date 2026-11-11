@@ -90,10 +90,10 @@ def add_problem(client, title, link, patterns=("Greedy",)):
 
 # --- Codeforces: listing ---
 
-def test_first_sync_lists_the_last_30_days_once_per_problem_and_day(client, app, sites):
+def test_first_sync_lists_the_whole_history_once_per_problem_and_day(client, app, sites):
     link(client, codeforces="practice_user")
     page = sync(client)
-    assert "Codeforces: 4 new submissions to confirm." in page
+    assert "Codeforces: 5 new submissions to confirm." in page
     listed = items(app)
     # 1520A had a wrong answer then an accepted one that day: one item, accepted. Its wrong
     # answer the day before folds into that solve too.
@@ -103,8 +103,10 @@ def test_first_sync_lists_the_last_30_days_once_per_problem_and_day(client, app,
     assert listed[("4/A", "2026-10-20")]["accepted"] == 0
     assert listed[("4/A", "2026-10-18")]["accepted"] == 1
     assert ("2284/F", "2026-10-25") in listed
-    # 71A is from 41 days ago, and gym contests are skipped.
-    assert len(listed) == 4
+    # 71A is from 41 days ago and still listed, since a first sync reads the whole history.
+    # Gym contests are skipped.
+    assert listed[("71/A", "2026-09-20")]["accepted"] == 1
+    assert len(listed) == 5
     assert rows(app, "SELECT count(*) AS n FROM attempts")[0]["n"] == 0  # Nothing saved before an outcome.
     status_url = sites.requests[0][0]
     assert parse_qs(urlparse(status_url).query)["handle"] == ["practice_user"]
@@ -127,7 +129,7 @@ def test_second_sync_adds_nothing_and_reaches_back_only_to_the_last_sync(client,
     sites.now = NOW + 3 * DAY
     sites.requests.clear()
     assert "Codeforces: no new submissions." in sync(client)
-    assert len(items(app)) == 4
+    assert len(items(app)) == 5
     # The status list is newest first, so one page reaching past the last sync is enough.
     assert sum("user.status" in url for url, _ in sites.requests) == 1
 
@@ -297,6 +299,37 @@ def test_atcoder_sync_uses_titles_and_estimates_for_new_problems(client, app, si
     assert "Choose the patterns" in page
 
 
+def test_first_sync_reads_every_page_of_a_long_history(client, app, sites, monkeypatch):
+    """Codeforces pages back until its history runs out; AtCoder pages forward until a page is short."""
+    monkeypatch.setattr(remote, "CODEFORCES_PAGE", 2)
+    monkeypatch.setattr(remote, "ATCODER_PAGE", 2)
+    pages = {"codeforces": 0, "atcoder": 0}
+    status = json.loads((DATA / "codeforces_status.json").read_text(encoding="utf-8"))["result"]
+    atcoder = json.loads((DATA / "atcoder_submissions.json").read_text(encoding="utf-8"))
+    real = remote.fetch
+
+    def paged(url, data=None):
+        query = parse_qs(urlparse(url).query)
+        if "user.status" in url:
+            pages["codeforces"] += 1
+            start, count = int(query["from"][0]), int(query["count"][0])
+            return json.dumps({"status": "OK", "result": status[start - 1:start - 1 + count]}).encode()
+        if "user/submissions" in url:
+            pages["atcoder"] += 1
+            since = int(query["from_second"][0])
+            later = sorted((s for s in atcoder if s["epoch_second"] >= since), key=lambda s: s["epoch_second"])
+            return json.dumps(later[:2]).encode()
+        return real(url, data)
+
+    monkeypatch.setattr(remote, "fetch", paged)
+    link(client, codeforces="practice_user", atcoder="practice_user")
+    page = sync(client)
+    assert pages["codeforces"] == len(status) // 2 + 1
+    assert pages["atcoder"] == len(atcoder) // 2 + 1
+    assert "Codeforces: 5 new submissions to confirm." in page
+    assert "AtCoder: 2 new submissions to confirm." in page
+
+
 def test_atcoder_problems_already_here_need_no_extra_requests(client, app, sites):
     add_problem(client, "N-choice", "https://atcoder.jp/contests/abc300/tasks/abc300_a")
     add_problem(client, "Same Map", "https://atcoder.jp/contests/abc300/tasks/abc300_b")
@@ -308,7 +341,8 @@ def test_atcoder_problems_already_here_need_no_extra_requests(client, app, sites
 def test_leetcode_sync_reads_recent_accepted_submissions(client, app, sites):
     link(client, leetcode="practice_user")
     page = sync(client)
-    assert "LeetCode: 2 new submissions to confirm." in page  # Two Sum twice on one day; Climbing Stairs is too old.
+    # Two Sum twice on one day is one item; Climbing Stairs, from two months ago, is listed too.
+    assert "LeetCode: 3 new submissions to confirm." in page
     url, body = next((u, d) for u, d in sites.requests if "leetcode" in u)
     assert url == remote.LEETCODE_GRAPHQL
     assert json.loads(body)["variables"] == {"username": "practice_user"}
@@ -458,7 +492,7 @@ def test_validate_accounts():
 # --- Plain rules ---
 
 def test_sync_since():
-    assert rules.sync_since(None, NOW) == NOW - c.FIRST_SYNC_DAYS * DAY
+    assert rules.sync_since(None, NOW) == 0  # A first sync reads the whole history.
     assert rules.sync_since(NOW, NOW + 5 * DAY) == NOW - c.SYNC_OVERLAP_HOURS * 3600
 
 

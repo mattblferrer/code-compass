@@ -17,7 +17,7 @@
       <form method="post" action="{{ url_for('main.run_sync') }}">
         <button type="submit">Sync now</button>
       </form>
-      <p class="small">Fetches submissions since the last sync (the last 30 days on a first sync) and the rating history. Nothing becomes an attempt until you choose an outcome. Ratings are on your <a href="{{ url_for('main.profile') }}">profile</a>. <a href="{{ url_for('main.settings') }}#accounts">Change usernames</a></p>
+      <p class="small">Fetches submissions since the last sync (your whole history on a first sync) and the rating history. Nothing becomes an attempt until you choose an outcome. Ratings are on your <a href="{{ url_for('main.profile') }}">profile</a>. <a href="{{ url_for('main.settings') }}#accounts">Change usernames</a></p>
     </section>
   {% else %}
     <p class="empty">No account is linked. <a href="{{ url_for('main.settings') }}#accounts">Link a Codeforces, AtCoder, or LeetCode username in settings</a> to sync your submissions and ratings.</p>

@@ -48,7 +48,6 @@ LEETCODE_QUERY = """query sync($username: String!) {
 SPACING = {"codeforces.com": 2.0, "kenkoooo.com": 1.1, "atcoder.jp": 1.0, "leetcode.com": 2.0}
 CODEFORCES_PAGE = 200
 ATCODER_PAGE = 500  # AtCoder Problems returns at most this many submissions per request.
-MAX_PAGES = 20
 
 # Replaced in tests, so pacing is checked without waiting.
 sleep = time.sleep
@@ -182,26 +181,31 @@ def sync(site, username, since, known_links=frozenset()):
     """
     user = quote(username, safe="")
     if site == "codeforces":
-        submissions = []
-        for page in range(MAX_PAGES):
-            result = _codeforces(CODEFORCES_STATUS.format(user=user, start=1 + page * CODEFORCES_PAGE,
-                                                          count=CODEFORCES_PAGE))
+        # Pages until the history runs out or reaches back past `since`. The list is
+        # newest first, so a later sync usually needs one page and a first sync reads all.
+        submissions, start = [], 1
+        while True:
+            result = _codeforces(CODEFORCES_STATUS.format(user=user, start=start, count=CODEFORCES_PAGE))
             submissions += parse.codeforces_submissions(result, since)
-            # Newest first, so a page reaching back past `since` is the last one needed.
             if len(result) < CODEFORCES_PAGE or result[-1].get("creationTimeSeconds", 0) < since:
                 break
+            start += CODEFORCES_PAGE
         return submissions, parse.codeforces_ratings(_codeforces(CODEFORCES_RATING.format(user=user)))
 
     if site == "atcoder":
         history = _json(_get(ATCODER_HISTORY.format(user=user), "AtCoder", missing="no_user"), "AtCoder")
+        # Oldest first from `since`, a page at a time, until a page comes back short.
         raw, start = [], since
-        for page in range(MAX_PAGES):
+        while True:
             result = _json(_get(ATCODER_SUBMISSIONS.format(user=user, since=start), "AtCoder Problems"),
                            "AtCoder Problems")
             raw += result
             if len(result) < ATCODER_PAGE:
                 break
-            start = max(s["epoch_second"] for s in result) + 1
+            following = max(s["epoch_second"] for s in result) + 1
+            if following <= start:
+                raise RequestFailed("failed", "AtCoder Problems")  # A page that does not move forward.
+            start = following
         titles, estimates = _atcoder_details(raw, known_links)
         submissions = parse.atcoder_submissions(raw, since, titles, estimates)
         return submissions, parse.atcoder_ratings(history, lambda text: int(datetime.fromisoformat(text).timestamp()))

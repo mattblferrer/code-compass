@@ -454,7 +454,7 @@ CodeCompass contacts only these sources, and only when the user starts a sync or
 
 ### Sync items (R-33)
 
-- **First sync:** submissions from the last 30 days. A changed username starts with a first sync again.
+- **First sync:** the whole submission history, read a page at a time until the source has no more. For LeetCode this is the roughly 20 recent submissions it shows. A changed username starts with a first sync again.
 - **Later syncs:** submissions since the previous sync, less 24 hours, so submissions a source records late are still found. An item already listed, confirmed, or dismissed is never listed again.
 - **One item per problem per day,** by the user's local date. It counts as accepted if any submission that day was accepted.
 - **Failed tries before a solve:** a day with no accepted submission is dropped when the problem was accepted on a later day, so the failed tries and the solve are one item, dated the day of the solve. This also removes such an item still waiting for an outcome when a later sync finds the solve; one already confirmed or dismissed stays as it is.
