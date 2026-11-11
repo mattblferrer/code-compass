@@ -2392,8 +2392,13 @@ dialog.confirm-dialog[open] {
 .select-all {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
+  margin: 0;  /* Labels elsewhere keep space below for the next field; this one sits in the bar's row. */
   font-weight: 600;
+}
+
+.select-all input {
+  margin: 0;
 }
 
 .select-all[hidden] {
