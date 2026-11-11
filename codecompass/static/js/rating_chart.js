@@ -191,7 +191,7 @@
     function show(p) {
       selected = p;
       if (!p) { tip.hide(); return; }
-      tip.show(x(p.t), yOf(p.rating), { title: p.contest, note: p.date, old: p.old, value: p.rating, change: p.change });
+      tip.show(x(p.t), yOf(p.rating), { title: p.contest, note: window.ChartTip.dayLabel(p.date), old: p.old, value: p.rating, change: p.change });
     }
 
     function nearest(clientX) {

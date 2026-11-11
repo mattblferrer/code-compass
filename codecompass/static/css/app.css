@@ -3284,3 +3284,13 @@ a.cell:focus-visible {
 .score-chart figcaption span:last-child {
   white-space: nowrap;
 }
+
+/* The calendar shares the charts' details card; the card sits in the panel, by the day. */
+.progress-panel {
+  position: relative;
+}
+
+.year-grid .cell.tipped {
+  outline: 2px solid var(--text);
+  outline-offset: 1px;
+}

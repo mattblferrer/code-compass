@@ -1,8 +1,18 @@
-// Shared details box for the line charts (the rating history and a pattern's score
-// over time): a highlighted point and a box beside it with a title, a muted line, and
-// the change as old → new (+delta). Each chart decides which point is chosen.
+// Shared details card for the charts: the rating history, a pattern's score over time,
+// and the History calendar. The card has a title, a muted line, and a value line (for
+// the line charts, the change as old → new (+delta)). Each chart decides which point
+// is chosen; the line charts also get a highlighted dot, the calendar its square.
 window.ChartTip = (function () {
   var NS = "http://www.w3.org/2000/svg";
+  var DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  // "2026-11-10" as "Tue 10 Nov 2026", as pages write dates in full.
+  function dayLabel(text) {
+    var p = text.split("-");
+    var d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
+    return DAYS[d.getUTCDay()] + " " + d.getUTCDate() + " " + MONTHS[d.getUTCMonth()] + " " + d.getUTCFullYear();
+  }
 
   // "1602 → 1764 (+162)", or just the value when there is nothing before it.
   function changeText(old, value, change) {
@@ -11,13 +21,46 @@ window.ChartTip = (function () {
     return old + " → " + value + " (" + sign + ")";
   }
 
-  // `width` and `height` are the SVG's viewBox size, to place the box over the drawing.
-  function create(figure, svg, width, height) {
+  function card(container) {
     var tip = document.createElement("div");
     tip.className = "chart-tip";
     tip.hidden = true;
     tip.setAttribute("role", "status");
-    figure.appendChild(tip);
+    container.appendChild(tip);
+    return tip;
+  }
+
+  // `detail` is { title, note, value, old, change, prefix }; the value line is left out without a value.
+  function fill(tip, detail) {
+    tip.textContent = "";
+    var title = document.createElement("strong");
+    title.textContent = detail.title;
+    tip.appendChild(title);
+    if (detail.note) {
+      var note = document.createElement("span");
+      note.textContent = detail.note;
+      tip.appendChild(note);
+    }
+    if (detail.value !== undefined && detail.value !== null && detail.value !== "") {
+      var change = document.createElement("span");
+      change.className = "tip-change" + (detail.change > 0 ? " up" : detail.change < 0 ? " down" : "");
+      change.textContent = (detail.prefix || "") + changeText(detail.old, detail.value, detail.change);
+      tip.appendChild(change);
+    }
+    tip.hidden = false;
+  }
+
+  // Beside the point at (px, py) within `container`, flipping to the left near the right edge.
+  function place(tip, container, px, py, gap) {
+    var width = container.getBoundingClientRect().width;
+    var flip = px + gap + tip.offsetWidth + 4 > width;
+    tip.style.left = Math.max(4, flip ? px - gap - tip.offsetWidth : px + gap) + "px";
+    tip.style.top = Math.max(4, py - tip.offsetHeight / 2) + "px";
+  }
+
+  // For a line chart drawn in `svg`, whose viewBox is `width` by `height`.
+  function create(figure, svg, width, height) {
+    var tip = card(figure);
     var dot = null;
     svg.setAttribute("tabindex", "0");
 
@@ -35,31 +78,15 @@ window.ChartTip = (function () {
       if (dot) dot.setAttribute("visibility", "hidden");
     }
 
-    // `detail` is { title, note, old, value, change } at chart position (sx, sy).
     function show(sx, sy, detail) {
       if (!dot || !dot.parentNode) attach();
       dot.setAttribute("cx", sx.toFixed(1));
       dot.setAttribute("cy", sy.toFixed(1));
       dot.setAttribute("visibility", "visible");
-      tip.textContent = "";
-      var title = document.createElement("strong");
-      title.textContent = detail.title;
-      var note = document.createElement("span");
-      note.textContent = detail.note;
-      var change = document.createElement("span");
-      change.className = "tip-change" + (detail.change > 0 ? " up" : detail.change < 0 ? " down" : "");
-      change.textContent = (detail.prefix || "") + changeText(detail.old, detail.value, detail.change);
-      tip.appendChild(title);
-      tip.appendChild(note);
-      tip.appendChild(change);
-      tip.hidden = false;
-      // Beside the point, flipping to the left near the right edge.
+      fill(tip, detail);
       var box = svg.getBoundingClientRect(), outer = figure.getBoundingClientRect();
-      var px = box.left - outer.left + sx * box.width / width;
-      var py = box.top - outer.top + sy * box.height / height;
-      var flip = px + tip.offsetWidth + 16 > outer.width;
-      tip.style.left = Math.max(4, flip ? px - tip.offsetWidth - 12 : px + 12) + "px";
-      tip.style.top = Math.max(4, py - tip.offsetHeight / 2) + "px";
+      place(tip, figure, box.left - outer.left + sx * box.width / width,
+            box.top - outer.top + sy * box.height / height, 12);
     }
 
     // The point nearest the pointer across, within about a dot's spacing, or null.
@@ -85,5 +112,32 @@ window.ChartTip = (function () {
     return { attach: attach, show: show, hide: hide, nearest: nearest, step: step };
   }
 
-  return { create: create, changeText: changeText };
+  // For a chart built from elements, such as the calendar's squares: the card sits
+  // beside the element pointed at or focused, within `container`.
+  function forCells(container) {
+    var tip = card(container);
+    var current = null;
+
+    function hide() {
+      tip.hidden = true;
+      if (current) current.classList.remove("tipped");
+      current = null;
+    }
+
+    function show(element, detail) {
+      if (current && current !== element) current.classList.remove("tipped");
+      current = element;
+      element.classList.add("tipped");
+      fill(tip, detail);
+      // Right of the element, or left of it when there is no room on the right.
+      var box = element.getBoundingClientRect(), outer = container.getBoundingClientRect();
+      var right = box.right - outer.left + 8, left = box.left - outer.left - 8 - tip.offsetWidth;
+      tip.style.left = Math.max(4, right + tip.offsetWidth + 4 > outer.width ? left : right) + "px";
+      tip.style.top = Math.max(4, box.top - outer.top + box.height / 2 - tip.offsetHeight / 2) + "px";
+    }
+
+    return { show: show, hide: hide };
+  }
+
+  return { create: create, forCells: forCells, changeText: changeText, dayLabel: dayLabel };
 })();

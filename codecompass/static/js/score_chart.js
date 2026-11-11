@@ -20,13 +20,13 @@
     // Attempts since the point before, which is a week back except at today's point.
     function attempts(p) {
       var n = p.attempts === 0 ? "No attempts" : p.attempts === 1 ? "1 attempt" : p.attempts + " attempts";
-      return p.since ? n + " since " + p.since : n;
+      return p.since ? n + " since " + window.ChartTip.dayLabel(p.since) : n;
     }
 
     function show(p) {
       selected = p;
       if (!p) { tip.hide(); return; }
-      tip.show(p.x, p.y, { title: p.date, note: attempts(p), prefix: "Score ",
+      tip.show(p.x, p.y, { title: window.ChartTip.dayLabel(p.date), note: attempts(p), prefix: "Score ",
                            old: p.old, value: p.shown, change: p.change });
     }
 

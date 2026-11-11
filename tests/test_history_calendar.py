@@ -113,3 +113,17 @@ def test_a_calendar_year_and_an_earlier_day(client):
     # A year without attempts, or a malformed day, falls back to the default view.
     assert "Problems solved, past 12 months" in client.get("/history?year=1999").get_data(as_text=True)
     assert "Showing attempts up to" not in client.get("/history?until=soon").get_data(as_text=True)
+
+
+def test_calendar_days_carry_the_charts_details_card(client):
+    """Each day gives the shared details card its date, outcome breakdown, and solves."""
+    today = date.today()
+    log(client, PARENS, today.isoformat())
+    log(client, TWO_SUM, today.isoformat(), c.NOT_SOLVED)
+    page = client.get("/history").get_data(as_text=True)
+    from codecompass.core.dates import full_date
+
+    assert (f'data-tip-title="{full_date(today.isoformat())}" data-tip-note="1 alone, 1 not solved"\n'
+            in page) and 'data-tip-value="1 solved"' in page
+    assert 'data-tip-note="Nothing logged"' in page
+    assert page.index("js/chart_tip.js") < page.index("js/history.js")

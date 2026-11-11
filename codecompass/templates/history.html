@@ -14,6 +14,15 @@
     {%- if t.not_solved %}, {{ t.not_solved }} not solved{% endif -%}
   {%- endif -%}
 {% endmacro %}
+{# How a day went, by outcome, for the calendar's details card. #}
+{% macro day_breakdown(t) %}
+  {%- set parts = [] -%}
+  {%- if t.solved_alone %}{% set _ = parts.append(t.solved_alone ~ " alone") %}{% endif -%}
+  {%- if t.solved_with_hints %}{% set _ = parts.append(t.solved_with_hints ~ " with hints") %}{% endif -%}
+  {%- if t.solved_after_solution %}{% set _ = parts.append(t.solved_after_solution ~ " after the solution") %}{% endif -%}
+  {%- if t.not_solved %}{% set _ = parts.append(t.not_solved ~ " not solved") %}{% endif -%}
+  {{ parts|join(", ") }}
+{%- endmacro %}
 {% block content %}
   {% call page_head("History", "Every attempt you have logged, and how your practice has gone over the year.") %}
     <a class="button quiet small" href="{{ url_for('main.export_csv') }}">Export to CSV</a>
@@ -55,9 +64,12 @@
                     <td></td>
                   {% elif d.totals %}
                     <td><a class="cell s{{ d.shade }}" title="{{ day_tip(d)|trim }}"
+                           data-tip-title="{{ d.date|day_label }}" data-tip-note="{{ day_breakdown(d.totals) }}"
+                           data-tip-value="{{ d.solved }} solved"
                            href="{{ '#day-' ~ d.date if d.date in listed else url_for('main.history', year=cal.year, until=d.date) ~ '#day-' ~ d.date }}"><span class="visually-hidden">{{ day_tip(d)|trim }}</span></a></td>
                   {% else %}
-                    <td><span class="cell s0{{ ' future' if d.future }}" title="{{ d.date|day_label }}"></span></td>
+                    <td><span class="cell s0{{ ' future' if d.future }}" title="{{ d.date|day_label }}"
+                              data-tip-title="{{ d.date|day_label }}" data-tip-note="{{ 'Still to come' if d.future else 'Nothing logged' }}"></span></td>
                   {% endif %}
                 {% endfor %}
               </tr>
@@ -122,5 +134,6 @@
   {% endif %}
 {% endblock %}
 {% block scripts %}
+  <script src="{{ url_for('static', filename='js/chart_tip.js') }}"></script>
   <script src="{{ url_for('static', filename='js/history.js') }}"></script>
 {% endblock %}
