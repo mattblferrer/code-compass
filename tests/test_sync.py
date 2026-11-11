@@ -796,3 +796,35 @@ def test_verdicts_are_coloured(client, app, sites):
     page = sync(client)
     assert page.count('<span class="verdict ac">Accepted</span>') == 4
     assert page.count('<span class="verdict wa">No accepted submission</span>') == 1
+
+
+def test_auto_classify_saves_accepted_as_solved_alone_and_the_rest_as_not_solved(client, app, sites):
+    link(client, codeforces="practice_user")
+    sync(client)
+    before = items(app)
+    page = batch(client, "auto", [r["id"] for r in before.values()])
+    assert "Saved 3 items: 2 as solved alone and 1 as not solved." in page
+    assert "Left 2 on the list: 2 new to CodeCompass and needing a level or patterns." in page
+    saved = {(a["date"], a["outcome"]) for a in rows(app, "SELECT date, outcome FROM attempts")}
+    assert saved == {("2026-10-18", c.SOLVED_ALONE), ("2026-10-20", c.NOT_SOLVED), ("2026-10-28", c.SOLVED_ALONE)}
+    # Like any batch, it can be undone.
+    client.post(f"/sync/batches/{undo_batch_id(page)}/undo")
+    assert items(app) == before and rows(app, "SELECT * FROM attempts") == []
+
+
+def test_auto_classify_leaves_a_hinted_accepted_item(client, app, sites):
+    add_problem(client, "Watermelon", "https://codeforces.com/problemset/problem/4/A")
+    link(client, codeforces="practice_user")
+    sync(client)
+    watermelon = rows(app, "SELECT id FROM problems WHERE link LIKE '%/4/A'")[0]["id"]
+    with app.app_context():
+        conn = get_db()
+        with conn:
+            conn.execute("INSERT INTO hint_reveals (problem_id, date) VALUES (?, '2026-10-17')", (watermelon,))
+    ids = [r["id"] for (key, _), r in items(app).items() if key == "4/A"]
+    page = batch(client, "auto", ids)
+    # Oldest first: the solve on 10-18 waits, since the hint rules out solved alone; the failed
+    # day on 10-20 is saved as not solved.
+    assert "Saved 1 item: 1 as not solved." in page
+    assert "Left 1 on the list: 1 with a revealed hint, which cannot be solved alone." in page
+    assert ("4/A", "2026-10-18") in items(app)

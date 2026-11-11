@@ -949,7 +949,8 @@ class _NoReviews:
         return None
 
 
-BATCH_ACTIONS = (c.SOLVED_ALONE, c.SOLVED_WITH_HINTS, c.SOLVED_AFTER_SOLUTION, c.NOT_SOLVED, "dismiss")
+# "auto" saves each item from its verdict: solved alone if accepted, otherwise not solved.
+BATCH_ACTIONS = (c.SOLVED_ALONE, c.SOLVED_WITH_HINTS, c.SOLVED_AFTER_SOLUTION, c.NOT_SOLVED, "dismiss", "auto")
 
 
 @bp.post("/sync/items/batch")
@@ -959,7 +960,8 @@ def batch_sync_items():
     Items are saved oldest first, as they would be one by one. An item the action does
     not fit stays on the list, and the message says why: a new problem that still needs
     its level or patterns, a revealed hint (for solved alone), or an accepted submission
-    (for not solved).
+    (for not solved). Auto-classify ("auto") is the user's choice to save each accepted
+    item as solved alone and each other one as not solved.
     """
     conn = get_db()
     action = request.form.get("action", "")
@@ -979,30 +981,33 @@ def batch_sync_items():
     active = conn.execute("SELECT 1 FROM sibling_suggestions WHERE status = 'active' LIMIT 1").fetchone()
     done = {"items": [], "attempts": [], "problems": [], "hints": []}
     skipped = {"details": 0, "hint": 0, "accepted": 0}
+    saved_as = {}
     for listed in picked:
         item = syncing.get_item(conn, listed["id"])  # An earlier item may have just added its problem.
         if action == "dismiss":
             syncing.set_status(conn, item["id"], "dismissed")
             done["items"].append(item["id"])
             continue
-        if action not in outcome_choices(item["accepted"]):
+        outcome = action if action != "auto" else (c.SOLVED_ALONE if item["accepted"] else c.NOT_SOLVED)
+        if outcome not in outcome_choices(item["accepted"]):
             skipped["accepted"] += 1
             continue
         hint = bool(item["problem_id"]) and queries.unused_hint(conn, item["problem_id"])
-        if hint and action == c.SOLVED_ALONE:
+        if hint and outcome == c.SOLVED_ALONE:
             skipped["hint"] += 1
             continue
         details = None if item["problem_id"] else new_problem_details(item["site"], item, sorted(names))
         if details and (not details["difficulty"] or not details["patterns"]):
             skipped["details"] += 1
             continue
-        added, errors = confirm_sync_item(conn, item, action, details, details["difficulty"] if details else None,
+        added, errors = confirm_sync_item(conn, item, outcome, details, details["difficulty"] if details else None,
                                           details["patterns"] if details else [], names, hint,
                                           None if active else _NoReviews())
         if errors:
             skipped["details"] += 1
             continue
         done["items"].append(item["id"])
+        saved_as[outcome] = saved_as.get(outcome, 0) + 1
         done["attempts"].append(added["attempt"])
         done["hints"] += added["hints"]
         if added["problem"]:
@@ -1012,8 +1017,13 @@ def batch_sync_items():
     if count:
         batch_id = syncing.record_batch(conn, done, today())
         noun = "item" if count == 1 else "items"
-        message = (f"Dismissed {count} {noun}." if action == "dismiss"
-                   else f"Saved {count} {noun} as {OUTCOME_LABELS[action].lower()}.")
+        if action == "dismiss":
+            message = f"Dismissed {count} {noun}."
+        elif action == "auto":
+            parts = [f"{n} as {OUTCOME_LABELS[o].lower()}" for o, n in saved_as.items()]
+            message = f"Saved {count} {noun}: " + " and ".join(parts) + "."
+        else:
+            message = f"Saved {count} {noun} as {OUTCOME_LABELS[action].lower()}."
         flash(message, f"undo-batch:{batch_id}")
     left = sum(skipped.values())
     if left:
