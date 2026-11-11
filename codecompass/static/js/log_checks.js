@@ -45,16 +45,21 @@
     return false;
   }
 
+  // Each check follows validate_attempt (core/validation.py) exactly, so it never stops a
+  // save the server would accept. An empty date is fine: the server takes it as today.
   function checkDate() {
     var value = date.value;
-    if (!value) return report("date", date, date.closest("label"), messages.date_format);
+    if (!value) return report("date", date, date.closest("label"), null);
     var max = date.getAttribute("max");
     return report("date", date, date.closest("label"), max && value > max ? messages.date_future : null);
   }
 
+  // Minutes are read as the server reads them, with Python's float(): "5", "5.", "1e1",
+  // and "1_0" all count, and the number must be positive and finite.
   function checkTime() {
     var text = minutes.value.trim();
-    var ok = !text || (/^\d*\.?\d+$/.test(text) && parseFloat(text) > 0);
+    var n = Number(text.replace(/(\d)_(?=\d)/g, "$1"));
+    var ok = !text || (isFinite(n) && n > 0);
     return report("time", minutes, minutes.closest("label"), ok ? null : messages.time);
   }
 

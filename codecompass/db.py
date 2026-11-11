@@ -51,15 +51,39 @@ def init_db(path):
             if column not in existing:
                 conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {declaration}")
     for table, value in WIDENED_CHECKS:
-        sql = conn.execute("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = ?", (table,)).fetchone()
-        if sql and f"'{value}'" not in sql["sql"]:
-            with conn:
-                conn.execute(f"ALTER TABLE {table} RENAME TO {table}_old")
-            conn.executescript(schema)  # Creates the table again with the current constraint.
-            with conn:
-                conn.execute(f"INSERT INTO {table} SELECT * FROM {table}_old")
-                conn.execute(f"DROP TABLE {table}_old")
+        _widen(conn, schema, table, value)
     conn.close()
+
+
+def _create_statement(schema, table):
+    """The CREATE TABLE statement for `table` in schema.sql."""
+    start = schema.index(f"CREATE TABLE IF NOT EXISTS {table} (")
+    return schema[start:schema.index(");", start) + 2]
+
+
+def _widen(conn, schema, table, value):
+    """Rebuild `table` with its current CHECK constraint, keeping its rows, as one transaction:
+    either all of it happens or none of it does. A copy left by an older, interrupted
+    rebuild is folded back in first."""
+    names = {r["name"] for r in conn.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
+    old = f"{table}_old"
+    sql = conn.execute("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = ?", (table,)).fetchone()
+    needs_rebuild = sql is not None and f"'{value}'" not in sql["sql"]
+    if not needs_rebuild and old not in names:
+        return
+    steps = ["BEGIN"]
+    if needs_rebuild:
+        steps += [f"ALTER TABLE {table} RENAME TO {table}_widening",
+                  _create_statement(schema, table),
+                  f"INSERT INTO {table} SELECT * FROM {table}_widening",
+                  f"DROP TABLE {table}_widening"]
+    if old in names:
+        steps += [f"INSERT OR IGNORE INTO {table} SELECT * FROM {old}", f"DROP TABLE {old}"]
+    try:
+        conn.executescript(";\n".join(steps) + ";\nCOMMIT;")
+    except Exception:
+        conn.rollback()
+        raise
 
 
 def init_app(app):

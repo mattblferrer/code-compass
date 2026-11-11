@@ -384,7 +384,8 @@ def history():
     until = request.args.get("until", "")
     until = until if progress.is_date(until) else None
     snap = Snapshot(conn, now)
-    reviews = snap.review_attempts()
+    # With reviews off (R-41), no attempt is marked as a review and there is no Reviews only filter.
+    reviews = snap.review_attempts() if snap.reviews_on else set()
     rows = [{**dict(a), "review": a["id"] in reviews, "site": site_label(a["link"]),
              "patterns": snap.problem(a["problem_id"])["patterns"]}
             for a in queries.recent_attempts(conn, limit=-1, until=until)]
@@ -392,6 +393,8 @@ def history():
     present = {name for r in rows for name in r["patterns"]}
     pattern_names = [p["name"] for p in snap.patterns if p["name"] in present]
     chosen = filters.read_history(request.args, set(sites), set(pattern_names))
+    if not snap.reviews_on:
+        chosen.pop("reviews", None)
     matched = [r for r in rows if filters.history_match(r, chosen)]
     attempts = matched[:HISTORY_LIMIT]
     days, week = [], None
@@ -414,7 +417,8 @@ def history():
                "method": list(filters.METHODS.items())}
     return render_template("history.html", days=days, attempts=attempts, calendar=calendar, until=until,
                            listed={d["date"] for d in days}, outcome_labels=OUTCOME_LABELS,
-                           filters=chosen, options=options, matched=len(matched), total=len(rows))
+                           filters=chosen, options=options, matched=len(matched), total=len(rows),
+                           reviews_on=snap.reviews_on)
 
 
 @bp.app_template_filter("day_label")

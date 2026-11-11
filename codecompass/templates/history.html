@@ -110,7 +110,7 @@
       {{ pick.choose("pattern", "Pattern", options.pattern, filters.get("pattern")) }}
       {{ pick.choose("method", "Logged", options.method, filters.get("method")) }}
       {{ pick.date_range(filters) }}
-      <label class="check"><input type="checkbox" name="reviews" value="1" {% if filters.get("reviews") %}checked{% endif %}><span>Reviews only</span></label>
+      {% if reviews_on %}<label class="check"><input type="checkbox" name="reviews" value="1" {% if filters.get("reviews") %}checked{% endif %}><span>Reviews only</span></label>{% endif %}
       {{ pick.bar_end(filters, url_for('main.history', year=cal.year, until=until) ~ '#filters') }}
     </form>
     {% endcall %}

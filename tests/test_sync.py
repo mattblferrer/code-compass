@@ -866,3 +866,55 @@ def test_saving_from_a_filtered_list_returns_to_it(client, app, sites):
     assert response.headers["Location"] == "/sync?verdict=wa"
     response = client.post("/sync/items/batch", data={"action": "dismiss", "item": [], "next": "//evil.example"})
     assert response.headers["Location"] == "/sync"  # Anything but a plain query is ignored.
+
+
+# --- Code review fixes ---
+
+
+def test_codeforces_paging_stops_when_a_page_brings_nothing_new(client, app, sites, monkeypatch):
+    """An API that ignored the page offset would otherwise be read forever."""
+    monkeypatch.setattr(remote, "CODEFORCES_PAGE", 2)
+    page = json.loads((DATA / "codeforces_status.json").read_text(encoding="utf-8"))["result"][:2]
+    real = remote.fetch
+
+    def same_page(url, data=None):
+        if "user.status" in url:
+            return json.dumps({"status": "OK", "result": page}).encode()
+        return real(url, data)
+
+    monkeypatch.setattr(remote, "fetch", same_page)
+    link(client, codeforces="practice_user")
+    assert "Could not reach Codeforces, so the Codeforces sync stopped." in sync(client)
+    assert items(app) == {}
+
+
+def test_a_crash_after_one_site_keeps_its_results(client, app, sites, monkeypatch):
+    from codecompass import sync as syncing
+
+    real = remote.sync
+
+    def atcoder_breaks(site, *args, **kwargs):
+        if site == "atcoder":
+            raise KeyError("an unexpected response")
+        return real(site, *args, **kwargs)
+
+    monkeypatch.setattr(remote, "sync", atcoder_breaks)
+    link(client, codeforces="practice_user", atcoder="practice_user")
+    client.post("/sync", headers={"X-Sync-Background": "1"})
+    syncing.current_job(app.config["DATABASE"]).thread.join(10)
+    page = client.get("/sync").get_data(as_text=True)
+    assert "Codeforces: 5 new submissions to confirm." in page
+    assert "Could not reach AtCoder, so the AtCoder sync stopped." in page
+
+
+def test_unseen_results_carry_into_the_next_sync(client, app, sites):
+    from codecompass import sync as syncing
+
+    link(client, codeforces="practice_user")
+    client.post("/sync", headers={"X-Sync-Background": "1"})
+    syncing.current_job(app.config["DATABASE"]).thread.join(10)
+    # Another sync starts before the first one's results were shown.
+    client.post("/sync", headers={"X-Sync-Background": "1"})
+    syncing.current_job(app.config["DATABASE"]).thread.join(10)
+    page = client.get("/sync").get_data(as_text=True)
+    assert "Codeforces: 5 new submissions to confirm." in page and "Codeforces: no new submissions." in page

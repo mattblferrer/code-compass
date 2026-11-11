@@ -105,3 +105,17 @@ def test_filter_bar_folds_behind_a_button_that_counts_the_filters_on(client):
     assert '<summary class="button quiet small">Filters</summary>' in page
     on = client.get(f"/history?outcome={c.NOT_SOLVED}&difficulty=easy").get_data(as_text=True)
     assert 'data-active="2"' in on and "Filters (2 on)</summary>" in on
+
+
+def test_with_reviews_off_history_marks_no_reviews(client):
+    from codecompass.core.sites import FILTER_SITES, KINDS
+
+    log(client, PARENS, 30)
+    client.get("/")  # Chooses its sibling.
+    log(client, PARENS, 0)  # Completes the review.
+    assert 'class="tag review-tag"' in client.get("/history").get_data(as_text=True)
+    client.post("/settings", data={"starting_difficulty": "easy",
+                                   **{f"show:{s}:{k}": "1" for s in FILTER_SITES for k in KINDS}})
+    page, listed = titles(client, "?reviews=1")
+    assert 'class="tag review-tag"' not in page and 'name="reviews"' not in page
+    assert listed == ["Valid Parentheses", "Valid Parentheses"]  # The filter is ignored while reviews are off.

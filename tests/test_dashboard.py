@@ -433,3 +433,46 @@ def test_sort_rules():
     assert ordering.next_order("date", "date", "desc") == "asc"
     assert ordering.next_order("outcome", "date", "desc") == "asc"
 
+
+def test_a_half_done_settings_upgrade_is_finished_on_the_next_start(tmp_path):
+    """An older version could stop between renaming the table and copying it back."""
+    import sqlite3
+
+    from codecompass.db import init_db
+
+    path = str(tmp_path / "half.sqlite")
+    init_db(path)
+    conn = sqlite3.connect(path)
+    conn.execute("CREATE TABLE settings_old (key TEXT PRIMARY KEY, value TEXT NOT NULL)")
+    conn.execute("INSERT INTO settings_old VALUES ('starting_difficulty', 'hard')")
+    conn.commit()
+    conn.close()
+    init_db(path)
+    conn = sqlite3.connect(path)
+    assert list(conn.execute("SELECT key, value FROM settings")) == [("starting_difficulty", "hard")]
+    assert not conn.execute("SELECT 1 FROM sqlite_master WHERE name = 'settings_old'").fetchone()
+    conn.close()
+
+
+def test_a_failed_settings_upgrade_changes_nothing(tmp_path, monkeypatch):
+    import sqlite3
+
+    import pytest as _pytest
+
+    from codecompass import db
+
+    path = str(tmp_path / "old.sqlite")
+    old = sqlite3.connect(path)
+    old.execute("""CREATE TABLE settings (
+        key TEXT PRIMARY KEY CHECK (key IN ('starting_difficulty', 'advanced_on', 'very_hard_on')),
+        value TEXT NOT NULL)""")
+    old.execute("INSERT INTO settings VALUES ('starting_difficulty', 'hard')")
+    old.commit()
+    old.close()
+    monkeypatch.setattr(db, "_create_statement", lambda schema, table: "CREATE TABLE broken (")
+    with _pytest.raises(sqlite3.Error):
+        db.init_db(path)
+    conn = sqlite3.connect(path)
+    assert list(conn.execute("SELECT key, value FROM settings")) == [("starting_difficulty", "hard")]
+    assert [r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE name LIKE 'settings%'")] == ["settings"]
+    conn.close()

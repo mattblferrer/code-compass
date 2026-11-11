@@ -197,10 +197,17 @@ def sync(site, username, since, known_links=frozenset(), report=None):
     if site == "codeforces":
         # Pages until the history runs out or reaches back past `since`. The list is
         # newest first, so a later sync usually needs one page and a first sync reads all.
-        submissions, start = [], 1
+        submissions, start, read_ids = [], 1, set()
         step("submissions")
         while True:
             result = _codeforces(CODEFORCES_STATUS.format(user=user, start=start, count=CODEFORCES_PAGE))
+            # A page with no submission not already read does not reach further back, and
+            # paging on would repeat forever. (A new submission during the sync shifts the
+            # pages by one, so some overlap is normal.)
+            ids = {s.get("id") for s in result}
+            if result and ids <= read_ids:
+                raise RequestFailed("failed", "Codeforces")
+            read_ids |= ids
             submissions += parse.codeforces_submissions(result, since)
             step("submissions", (s.get("creationTimeSeconds", 0) for s in result))
             if len(result) < CODEFORCES_PAGE or result[-1].get("creationTimeSeconds", 0) < since:

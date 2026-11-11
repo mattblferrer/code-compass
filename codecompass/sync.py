@@ -87,8 +87,9 @@ class Job:
     when it is done. Only one runs at a time.
     """
 
-    def __init__(self, sites):
+    def __init__(self, sites, earlier=None):
         self._lock = threading.Lock()
+        self.earlier = earlier or []  # Results of a finished sync not shown yet, shown with these.
         self.sites = {site: {"site": site, "label": rules.SITES[site], "state": "waiting", "step": None,
                              "read": 0, "oldest": None, "newest": None, "first": False, "fraction": None,
                              "added": None} for site in sites}
@@ -111,7 +112,7 @@ class Job:
             if not self.done or self.shown:
                 return None
             self.shown = True
-            return self.results
+            return self.earlier + (self.results or [])
 
 
 _jobs = {}  # By database path.
@@ -137,7 +138,9 @@ def start(database, now, local_date):
             sites = [s for s in SYNC_SITES if s in accounts(conn)]
         finally:
             conn.close()
-        job = Job(sites)
+        # A finished sync whose results were never shown passes them on, so none are lost.
+        unseen = job.take_results() if job is not None else None
+        job = Job(sites, unseen)
         _jobs[database] = job
     job.thread = threading.Thread(target=_work, args=(job, database, now, local_date), daemon=True)
     job.thread.start()
@@ -149,12 +152,17 @@ def _work(job, database, now, local_date):
     try:
         job.results = run(conn, now, local_date, job.report)
     except Exception:  # Never leave the page waiting on a sync that stopped.
-        job.results = [{"site": s, "label": rules.SITES[s], "added": 0, "error": "failed",
-                        "source": rules.SITES[s], "username": ""} for s in job.sites
-                       if job.sites[s]["state"] != "done"]
+        # Sites that finished before the error keep their results; the rest say it failed.
+        results = []
         for s in job.sites:
-            if job.sites[s]["state"] != "done":
+            state = job.sites[s]
+            if state["state"] == "done":
+                results.append({"site": s, "label": rules.SITES[s], "added": state["added"] or 0, "error": None})
+            else:
+                results.append({"site": s, "label": rules.SITES[s], "added": 0, "error": "failed",
+                                "source": rules.SITES[s], "username": ""})
                 job.report(s, {"state": "error"})
+        job.results = results
     finally:
         conn.close()
         job.done = True
