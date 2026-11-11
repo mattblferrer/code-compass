@@ -172,45 +172,67 @@ def lookup(site, link, pattern_order):
     raise ValueError(f"No lookup for {site}")
 
 
-def sync(site, username, since, known_links=frozenset()):
+def sync(site, username, since, known_links=frozenset(), report=None):
     """Submissions at or after `since` (Unix seconds) and the full rating history for a username.
 
     Returns (submissions, ratings) as read by codecompass.core.sync, or raises
     RequestFailed. `known_links` are problems already in CodeCompass, which need
-    no title or difficulty lookup.
+    no title or difficulty lookup. `report`, if given, is called with what has been
+    read so far: the step ("submissions", "details", or "ratings"), how many
+    submissions have been read, and the oldest and newest submission times.
     """
     user = quote(username, safe="")
+    seen = {"read": 0, "oldest": None, "newest": None}
+
+    def step(name, times=()):
+        times = list(times)
+        if times:
+            seen["read"] += len(times)
+            low, high = min(times), max(times)
+            seen["oldest"] = low if seen["oldest"] is None else min(seen["oldest"], low)
+            seen["newest"] = high if seen["newest"] is None else max(seen["newest"], high)
+        if report:
+            report({"step": name, **seen})
+
     if site == "codeforces":
         # Pages until the history runs out or reaches back past `since`. The list is
         # newest first, so a later sync usually needs one page and a first sync reads all.
         submissions, start = [], 1
+        step("submissions")
         while True:
             result = _codeforces(CODEFORCES_STATUS.format(user=user, start=start, count=CODEFORCES_PAGE))
             submissions += parse.codeforces_submissions(result, since)
+            step("submissions", (s.get("creationTimeSeconds", 0) for s in result))
             if len(result) < CODEFORCES_PAGE or result[-1].get("creationTimeSeconds", 0) < since:
                 break
             start += CODEFORCES_PAGE
+        step("ratings")
         return submissions, parse.codeforces_ratings(_codeforces(CODEFORCES_RATING.format(user=user)))
 
     if site == "atcoder":
+        step("ratings")
         history = _json(_get(ATCODER_HISTORY.format(user=user), "AtCoder", missing="no_user"), "AtCoder")
         # Oldest first from `since`, a page at a time, until a page comes back short.
         raw, start = [], since
+        step("submissions")
         while True:
             result = _json(_get(ATCODER_SUBMISSIONS.format(user=user, since=start), "AtCoder Problems"),
                            "AtCoder Problems")
             raw += result
+            step("submissions", (s["epoch_second"] for s in result))
             if len(result) < ATCODER_PAGE:
                 break
             following = max(s["epoch_second"] for s in result) + 1
             if following <= start:
                 raise RequestFailed("failed", "AtCoder Problems")  # A page that does not move forward.
             start = following
+        step("details")
         titles, estimates = _atcoder_details(raw, known_links)
         submissions = parse.atcoder_submissions(raw, since, titles, estimates)
         return submissions, parse.atcoder_ratings(history, lambda text: int(datetime.fromisoformat(text).timestamp()))
 
     if site == "leetcode":
+        step("submissions")
         body = json.dumps({"query": LEETCODE_QUERY, "variables": {"username": username}}).encode()
         reply = _json(_get(LEETCODE_GRAPHQL, "LeetCode", data=body), "LeetCode")
         data = reply.get("data") or {}

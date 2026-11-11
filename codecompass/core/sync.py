@@ -24,6 +24,28 @@ def sync_since(last_synced, now):
     return last_synced - c.SYNC_OVERLAP_HOURS * 3600
 
 
+def sync_fraction(site, since, now, oldest, newest):
+    """How far a site's sync has read, from 0 to 1, or None when that cannot be told yet.
+
+    Codeforces lists submissions newest first back to `since`, so on a first sync
+    (since 0) the end is unknown. AtCoder Problems lists them oldest first from
+    `since`, or from the first submission on a first sync, up to now. LeetCode is
+    one request. `oldest` and `newest` are the times of the submissions read so far.
+    """
+    if oldest is None or newest is None:
+        return None
+    if site == "codeforces":
+        if not since or now <= since:
+            return None
+        return min(1.0, max(0.0, (now - oldest) / (now - since)))
+    if site == "atcoder":
+        start = since or oldest
+        if now <= start:
+            return 1.0
+        return min(1.0, max(0.0, (newest - start) / (now - start)))
+    return None
+
+
 def outcome_choices(accepted):
     """Outcomes offered for a synced item (R-33): "not solved" only without an accepted submission."""
     if accepted:

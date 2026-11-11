@@ -632,8 +632,15 @@ SYNC_MESSAGES = {
 
 @bp.route("/sync")
 def sync_page():
-    """Synced submissions waiting for an outcome (R-33). Rating history is on the profile page."""
+    """Synced submissions waiting for an outcome (R-33). Rating history is on the profile page.
+
+    While a sync runs in the background the page shows its progress; once it ends,
+    the next visit shows its results.
+    """
     conn = get_db()
+    job = syncing.current_job(current_app.config["DATABASE"])
+    if job:
+        flash_sync_results(job.take_results() or [])
     accounts = syncing.accounts(conn)
     items = syncing.pending_items(conn)
     pattern_names = [p["name"] for p in queries.patterns(conn)]
@@ -648,6 +655,7 @@ def sync_page():
         last_synced={site: synced_label(a["last_synced"]) for site, a in accounts.items()},
         items=items, outcome_labels=OUTCOME_LABELS, outcome_definitions=OUTCOME_DEFINITIONS,
         leetcode_notice=LEETCODE_NOTICE, sites=SITES,
+        progress=job.progress() if job and not job.done else None,
     )
 
 
@@ -686,23 +694,46 @@ def synced_label(stamp):
 
 @bp.post("/sync")
 def run_sync():
-    """Run a sync the user started. A refused site stops its own sync and says so (R-03)."""
+    """Run a sync the user started. A refused site stops its own sync and says so (R-03).
+
+    The sync page's script asks for it to run in the background (X-Sync-Background),
+    then shows its progress from /sync/progress. Without the script, the sync runs
+    within this request and the page shows the results when it ends.
+    """
     conn = get_db()
-    accounts = syncing.accounts(conn)
-    if not accounts:
+    database = current_app.config["DATABASE"]
+    if not syncing.accounts(conn):
         flash("Link a username in settings first.")
         return redirect(url_for("main.settings") + "#accounts")
-    for result in syncing.run(conn, now_seconds(), local_date):
+    if request.headers.get("X-Sync-Background") == "1":
+        job = syncing.start(database, now_seconds(), local_date)
+        return jsonify(job.progress()), 202
+    running = syncing.current_job(database)
+    if running and not running.done:
+        flash("A sync is already running.")
+        return redirect(url_for("main.sync_page"))
+    flash_sync_results(syncing.run(conn, now_seconds(), local_date))
+    return redirect(url_for("main.sync_page"))
+
+
+@bp.route("/sync/progress")
+def sync_progress():
+    """What a background sync has read so far, for the progress on the sync page. Local only."""
+    job = syncing.current_job(current_app.config["DATABASE"])
+    return jsonify(job.progress() if job else {"running": False, "done": True, "sites": []})
+
+
+def flash_sync_results(results):
+    for result in results:
         if result["error"]:
             flash(SYNC_MESSAGES[result["error"]].format(
                 label=result["label"], source=result.get("source", result["label"]),
-                username=accounts[result["site"]]["username"]))
+                username=result.get("username", "")))
         elif result["added"]:
             plural = "submission" if result["added"] == 1 else "submissions"
             flash(f"{result['label']}: {result['added']} new {plural} to confirm.")
         else:
             flash(f"{result['label']}: no new submissions.")
-    return redirect(url_for("main.sync_page"))
 
 
 def pending_item(conn, item_id):

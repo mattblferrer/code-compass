@@ -14,9 +14,17 @@
           </li>
         {% endfor %}
       </ul>
-      <form method="post" action="{{ url_for('main.run_sync') }}">
+      <form method="post" action="{{ url_for('main.run_sync') }}" id="sync-form">
         <button type="submit">Sync now</button>
       </form>
+      {# While a sync runs, js/sync_progress.js shows what each site has read so far. #}
+      <div class="sync-progress" id="sync-progress" {% if not progress %}hidden{% endif %}
+           data-progress-url="{{ url_for('main.sync_progress') }}" data-page-url="{{ url_for('main.sync_page') }}"
+           {% if progress %}data-progress='{{ progress|tojson }}'{% endif %}>
+        <p class="sync-progress-status" id="sync-status" role="status">Syncing.</p>
+        <ul class="sync-progress-sites"></ul>
+        <p class="small">Each site limits how often CodeCompass may ask, so a first sync of a long history can take a minute or more. You can leave this page; the results show here when it ends.</p>
+      </div>
       <p class="small">Fetches submissions since the last sync (your whole history on a first sync) and the rating history. Nothing becomes an attempt until you choose an outcome. Ratings are on your <a href="{{ url_for('main.profile') }}">profile</a>. <a href="{{ url_for('main.settings') }}#accounts">Change usernames</a></p>
     </section>
   {% else %}
@@ -115,5 +123,6 @@
 
 {% endblock %}
 {% block scripts %}
+  {% if accounts %}<script src="{{ url_for('static', filename='js/sync_progress.js') }}"></script>{% endif %}
   {% if items %}<script src="{{ url_for('static', filename='js/sync_batch.js') }}"></script>{% endif %}
 {% endblock %}

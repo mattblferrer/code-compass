@@ -479,6 +479,99 @@ def test_batch_undo_expires_after_the_undo_days(client, app, sites, monkeypatch)
     assert "That can no longer be undone." in page and items(app) == {}
 
 
+# --- Progress while syncing ---
+
+def start_background(client, app):
+    from codecompass import sync as syncing
+
+    response = client.post("/sync", headers={"X-Sync-Background": "1"})
+    job = syncing.current_job(app.config["DATABASE"])
+    job.thread.join(10)
+    assert job.done
+    return response
+
+
+def test_each_page_read_is_reported(sites):
+    seen = []
+    remote.sync("codeforces", "practice_user", 0, report=seen.append)
+    status = json.loads((DATA / "codeforces_status.json").read_text(encoding="utf-8"))["result"]
+    times = [s["creationTimeSeconds"] for s in status]
+    assert [s["step"] for s in seen] == ["submissions", "submissions", "ratings"]
+    assert (seen[-1]["read"], seen[-1]["oldest"], seen[-1]["newest"]) == (len(times), min(times), max(times))
+
+    seen.clear()
+    remote.sync("atcoder", "practice_user", 0, report=seen.append)
+    assert [s["step"] for s in seen] == ["ratings", "submissions", "submissions", "details"]
+    assert seen[-1]["read"] == len(json.loads((DATA / "atcoder_submissions.json").read_text(encoding="utf-8")))
+
+
+def test_sync_fraction():
+    day = 86400
+    # Codeforces reads newest first: a later sync knows how far back it has to go.
+    assert rules.sync_fraction("codeforces", NOW - 10 * day, NOW, NOW - 5 * day, NOW) == 0.5
+    assert rules.sync_fraction("codeforces", 0, NOW, NOW - 5 * day, NOW) is None  # A first sync has no known end.
+    # AtCoder reads oldest first, from the first submission on a first sync.
+    assert rules.sync_fraction("atcoder", 0, NOW, NOW - 100 * day, NOW - 75 * day) == 0.25
+    assert rules.sync_fraction("atcoder", NOW - 10 * day, NOW, NOW - 9 * day, NOW - 5 * day) == 0.5
+    assert rules.sync_fraction("leetcode", 0, NOW, NOW - day, NOW) is None
+    assert rules.sync_fraction("codeforces", NOW - 10 * day, NOW, None, None) is None  # Nothing read yet.
+
+
+def test_background_sync_reports_progress_then_shows_results_once(client, app, sites):
+    link(client, codeforces="practice_user", atcoder="practice_user")
+    response = start_background(client, app)
+    assert response.status_code == 202
+    assert [s["site"] for s in response.get_json()["sites"]] == ["codeforces", "atcoder"]
+    progress = client.get("/sync/progress").get_json()
+    assert progress["done"] and not progress["running"]
+    done = {s["site"]: s for s in progress["sites"]}
+    assert done["codeforces"]["state"] == "done" and done["codeforces"]["added"] == 5
+    assert done["codeforces"]["read"] == 9 and done["codeforces"]["fraction"] == 1.0
+    assert done["atcoder"]["added"] == 2
+    page = client.get("/sync").get_data(as_text=True)
+    assert "Codeforces: 5 new submissions to confirm." in page and "AtCoder: 2 new submissions to confirm." in page
+    assert 'id="sync-progress" hidden' in page  # Nothing is running now.
+    assert "new submissions to confirm" not in client.get("/sync").get_data(as_text=True)  # Shown once.
+    assert len(items(app)) == 7
+
+
+def test_a_failed_background_sync_says_so(client, app, sites):
+    link(client, codeforces="practice_user")
+    sites.fail["/api/user.status"] = urllib.error.URLError("offline")
+    start_background(client, app)
+    assert client.get("/sync/progress").get_json()["sites"][0]["state"] == "error"
+    page = client.get("/sync").get_data(as_text=True)
+    assert "Could not reach Codeforces, so the Codeforces sync stopped." in page
+
+
+def test_an_unexpected_error_still_ends_the_background_sync(client, app, sites, monkeypatch):
+    from codecompass import sync as syncing
+
+    def broken(*args, **kwargs):
+        raise RuntimeError("bug")
+
+    monkeypatch.setattr(syncing, "run", broken)
+    link(client, codeforces="practice_user")
+    start_background(client, app)
+    assert "Could not reach Codeforces" in client.get("/sync").get_data(as_text=True)
+
+
+def test_one_sync_runs_at_a_time(client, app, sites, monkeypatch):
+    from codecompass import sync as syncing
+
+    link(client, codeforces="practice_user")
+    running = syncing.Job(["codeforces"])
+    running.report("codeforces", {"state": "running", "step": "submissions", "read": 400})
+    monkeypatch.setitem(syncing._jobs, app.config["DATABASE"], running)
+    response = client.post("/sync", headers={"X-Sync-Background": "1"})
+    assert response.get_json()["sites"][0]["read"] == 400  # The running sync, not a new one.
+    page = client.post("/sync", follow_redirects=True).get_data(as_text=True)
+    assert "A sync is already running." in page
+    # The page opened meanwhile carries on showing it.
+    assert "data-progress='" in page and 'id="sync-progress" hidden' not in page
+    assert not any("user.status" in url for url, _ in sites.requests)
+
+
 # --- Rating history (R-34) ---
 
 def test_rating_history_equals_the_source(client, app, sites):

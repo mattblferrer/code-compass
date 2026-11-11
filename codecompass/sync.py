@@ -4,9 +4,11 @@ remote.py makes the requests and core/sync.py reads them; this module stores the
 results. The current time and the user's local dates come from the route layer.
 """
 import json
+import threading
 from datetime import date, datetime, timedelta, timezone
 
 from . import remote
+from .db import connect
 from .core import constants as c
 from .core import sync as rules
 
@@ -36,28 +38,126 @@ def _seconds(text):
     return int(datetime.fromisoformat(text).timestamp()) if text else None
 
 
-def run(conn, now, local_date):
-    """Sync every linked account. Returns one result per site: its label, items added, and any error kind.
+def run(conn, now, local_date, report=None):
+    """Sync every linked account. Returns one result per site: its label, username, items added,
+    and any error kind.
 
     Each site is stored in its own transaction, and only once all its requests
     succeed, so a failed or refused sync changes nothing and leaves the previous
-    sync time in place.
+    sync time in place. `report`, if given, is called as report(site, fields) as
+    each site starts, reads, and finishes, for the progress shown while syncing.
     """
     results = []
     for site, account in sorted(accounts(conn).items(), key=lambda kv: SYNC_SITES.index(kv[0])):
-        result = {"site": site, "label": rules.SITES[site], "added": 0, "error": None}
+        result = {"site": site, "label": rules.SITES[site], "username": account["username"], "added": 0,
+                  "error": None}
         since = rules.sync_since(_seconds(account["last_synced"]), now)
         known = {row["link"] for row in conn.execute("SELECT link FROM problems WHERE link LIKE ?",
                                                      (f"%{site}.%",))}
+
+        def read(seen, site=site, since=since):
+            if report:
+                report(site, {"state": "running", "step": seen["step"], "read": seen["read"],
+                              "oldest": seen["oldest"], "newest": seen["newest"], "first": since == 0,
+                              "fraction": rules.sync_fraction(site, since, now, seen["oldest"], seen["newest"])})
+
+        if report:
+            report(site, {"state": "running", "step": "submissions", "first": since == 0})
         try:
-            submissions, ratings = remote.sync(site, account["username"], since, known)
+            submissions, ratings = remote.sync(site, account["username"], since, known, read)
         except remote.RequestFailed as error:
             result["error"], result["source"] = error.kind, error.site
             results.append(result)
+            if report:
+                report(site, {"state": "error"})
             continue
+        if report:
+            report(site, {"state": "running", "step": "saving", "fraction": 1.0})
         result["added"] = _store(conn, site, account["username"], submissions, ratings, now, local_date)
         results.append(result)
+        if report:
+            report(site, {"state": "done", "added": result["added"], "fraction": 1.0})
     return results
+
+
+class Job:
+    """A sync running in the background, with what each site has read so far (R-33).
+
+    The sync page asks for its progress while it runs and shows the results once,
+    when it is done. Only one runs at a time.
+    """
+
+    def __init__(self, sites):
+        self._lock = threading.Lock()
+        self.sites = {site: {"site": site, "label": rules.SITES[site], "state": "waiting", "step": None,
+                             "read": 0, "oldest": None, "newest": None, "first": False, "fraction": None,
+                             "added": None} for site in sites}
+        self.results = None
+        self.done = False
+        self.shown = False
+
+    def report(self, site, fields):
+        with self._lock:
+            self.sites[site].update(fields)
+
+    def progress(self):
+        with self._lock:
+            return {"running": not self.done, "done": self.done,
+                    "sites": [dict(self.sites[s]) for s in SYNC_SITES if s in self.sites]}
+
+    def take_results(self):
+        """The results, the first time they are asked for after the sync ends; otherwise None."""
+        with self._lock:
+            if not self.done or self.shown:
+                return None
+            self.shown = True
+            return self.results
+
+
+_jobs = {}  # By database path.
+_jobs_lock = threading.Lock()
+
+
+def current_job(database):
+    return _jobs.get(database)
+
+
+def start(database, now, local_date):
+    """Start syncing every linked account in the background, unless a sync is already running.
+
+    Returns the running job. The sync uses its own database connection, since the
+    request that started it ends right away.
+    """
+    with _jobs_lock:
+        job = _jobs.get(database)
+        if job is not None and not job.done:
+            return job
+        conn = connect(database)
+        try:
+            sites = [s for s in SYNC_SITES if s in accounts(conn)]
+        finally:
+            conn.close()
+        job = Job(sites)
+        _jobs[database] = job
+    job.thread = threading.Thread(target=_work, args=(job, database, now, local_date), daemon=True)
+    job.thread.start()
+    return job
+
+
+def _work(job, database, now, local_date):
+    conn = connect(database)
+    try:
+        job.results = run(conn, now, local_date, job.report)
+    except Exception:  # Never leave the page waiting on a sync that stopped.
+        job.results = [{"site": s, "label": rules.SITES[s], "added": 0, "error": "failed",
+                        "source": rules.SITES[s], "username": ""} for s in job.sites
+                       if job.sites[s]["state"] != "done"]
+        for s in job.sites:
+            if job.sites[s]["state"] != "done":
+                job.report(s, {"state": "error"})
+    finally:
+        conn.close()
+        job.done = True
 
 
 def _store(conn, site, username, submissions, ratings, now, local_date):

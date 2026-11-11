@@ -2467,3 +2467,114 @@ dialog.confirm-dialog[open] {
     font-size: var(--step--1);
   }
 }
+
+/* Sync progress (R-33): one row per site, with what it has read so far. */
+.sync-progress {
+  margin: 0.75rem 0 1rem;
+  padding: 0.8rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--data);
+  border-radius: var(--radius);
+  max-width: 44rem;
+}
+
+.sync-progress[hidden] {
+  display: none;
+}
+
+.sync-progress-status {
+  margin: 0 0 0.6rem;
+  font-weight: 600;
+}
+
+.sync-progress-sites,
+.sync-accounts .sync-progress-sites {
+  flex-wrap: nowrap;
+  list-style: none;
+  margin: 0 0 0.6rem;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.sync-progress-sites li {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 0.2rem 0.8rem;
+  align-items: center;
+}
+
+.sync-progress-sites strong {
+  grid-row: span 2;
+}
+
+.sync-progress-sites .detail {
+  color: var(--muted);
+  font-size: var(--step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+.sync-progress-sites li.error .detail {
+  color: var(--due);
+}
+
+.sync-progress progress {
+  width: 100%;
+  height: 0.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--track);
+  accent-color: var(--data);
+  appearance: none;
+}
+
+.sync-progress progress::-webkit-progress-bar {
+  background: var(--track);
+  border-radius: 999px;
+}
+
+.sync-progress progress::-webkit-progress-value {
+  background: var(--data);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.sync-progress progress::-moz-progress-bar {
+  background: var(--data);
+  border-radius: 999px;
+}
+
+/* No total is known yet: a band sweeps across, so the row still shows it is working. */
+.sync-progress progress:indeterminate {
+  background: linear-gradient(90deg, var(--track) 0%, var(--data-low) 40%, var(--data) 50%, var(--data-low) 60%, var(--track) 100%);
+  background-size: 250% 100%;
+  animation: sweep 1.4s linear infinite;
+}
+
+.sync-progress progress:indeterminate::-webkit-progress-bar {
+  background: transparent;
+}
+
+@keyframes sweep {
+  from { background-position: 100% 0; }
+  to { background-position: -150% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sync-progress progress:indeterminate {
+    animation: none;
+    background: var(--data-low);
+  }
+}
+
+@media (max-width: 40rem) {
+  .sync-progress-sites li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sync-progress-sites strong {
+    grid-row: auto;
+  }
+}
+
