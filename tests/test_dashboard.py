@@ -58,7 +58,8 @@ def test_scores_match_the_rule(client, app):
     assert f"<strong>{expected:.0f}</strong>" in html
     detail = page(client, "/patterns/Stack")
     assert f"{expected:.2f}" in detail
-    assert detail.count(ago(20)) == 1 and detail.count(ago(2)) == 1
+    # Each attempt's date shows once (rows also carry it in data-date, for sorting).
+    assert detail.count(f'datetime="{ago(20)}"') == 1 and detail.count(f'datetime="{ago(2)}"') == 1
     assert "Not enough data" in page(client, "/patterns/Trie")
 
 
@@ -387,3 +388,48 @@ def test_practice_next_shows_where_each_problem_is_from(client, app):
     assert '<span class="source">example.com</span>' in log_page
     card = page(client, f"/problems/{pid(app, 'Two Sum')}/context")
     assert '<span class="source">example.com</span>' in card
+
+
+# --- Sorting a pattern's attempts ---
+
+def stack_rows(client, query=""):
+    html = page(client, "/patterns/Stack" + query)
+    body = html.split('id="pattern-attempts"')[1].split("<tbody>")[1].split("</tbody>")[0]
+    return html, [part.split('"')[0] for part in body.split('data-date="')[1:]]
+
+
+def test_pattern_attempts_list_newest_first_and_sort_by_any_column(client, app):
+    log(client, PARENS, 20, c.SOLVED_WITH_HINTS)  # Valid Parentheses, easy.
+    log(client, TEMPS, 10)  # Daily Temperatures, medium.
+    log(client, PARENS, 2, c.NOT_SOLVED)
+    html, dates = stack_rows(client)
+    assert dates == [ago(2), ago(10), ago(20)]
+    assert '<th scope="col" aria-sort="descending">' in html  # Date, the default.
+    # Clicking Date again sorts oldest first; another column starts in its own first order.
+    assert f'sort=date&amp;order=asc#attempts' in html and f'sort=problem&amp;order=asc#attempts' in html
+    _, by_problem = stack_rows(client, "?sort=problem&order=asc")
+    assert by_problem == [ago(10), ago(2), ago(20)]  # Daily Temperatures, then Valid Parentheses newest first.
+    _, by_outcome = stack_rows(client, "?sort=outcome&order=desc")
+    assert by_outcome == [ago(2), ago(20), ago(10)]  # Not solved, with hints, alone.
+    _, by_level = stack_rows(client, "?sort=difficulty&order=asc")
+    assert by_level == [ago(2), ago(20), ago(10)]  # Easy (newest first), then medium.
+    # Anything unknown falls back to newest first.
+    assert stack_rows(client, "?sort=nonsense&order=sideways")[1] == dates
+
+
+def test_a_patterns_sort_does_not_carry_over_to_another(client, app):
+    log(client, TEMPS, 10)
+    page(client, "/patterns/Stack?sort=problem&order=asc")
+    other = page(client, "/patterns/Monotonic Stack and Queue")
+    assert 'id="pattern-attempts" data-sort="date" data-order="desc"' in other
+    assert "js/sort_table.js" in other
+
+
+def test_sort_rules():
+    from codecompass.core import ordering
+
+    assert ordering.chosen_sort("problem", None) == ("problem", "asc")
+    assert ordering.chosen_sort(None, "asc") == ("date", "desc")
+    assert ordering.next_order("date", "date", "desc") == "asc"
+    assert ordering.next_order("outcome", "date", "desc") == "asc"
+

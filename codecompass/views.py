@@ -12,7 +12,7 @@ from . import sync as syncing
 from .core.sync import LEETCODE_NOTICE, PROFILE_URLS, new_problem_details, outcome_choices, rating_changes
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
 from .core.exchange import COLUMNS, export_rows, plan_import, references
-from .core import progress
+from .core import ordering, progress
 from .core.dates import friendly_date, full_date, short_date
 from .core.mastery import expected_level_index
 from .core.recommend import active_interview
@@ -158,14 +158,26 @@ def dashboard():
 
 @bp.route("/patterns/<name>")
 def pattern(name):
+    """A pattern's score over time and the attempts behind it (R-09, R-10).
+
+    The attempts list newest first; `sort` and `order` pick another column. The sort
+    lives in this page's address, so each pattern keeps its own.
+    """
     snap = Snapshot(get_db(), today())
     info = snap.pattern_info.get(name) or abort(404)
+    key, order = ordering.chosen_sort(request.args.get("sort"), request.args.get("order"))
+    columns = [{"key": k, "label": label, "next": ordering.next_order(k, key, order),
+                "aria": ("ascending" if order == "asc" else "descending") if k == key else "none"}
+               for k, label in (("date", "Date"), ("problem", "Problem"), ("difficulty", "Difficulty"),
+                                ("outcome", "Outcome"))]
     return render_template(
         "pattern.html",
         pattern=info,
         score=snap.scores.get(name, {}).get("score"),
         expected=c.LEVELS[expected_level_index(snap.scores[name]["score"])] if name in snap.scores else None,
-        rows=snap.by_pattern[name],
+        rows=ordering.sort_rows(snap.by_pattern[name], key, order),
+        columns=columns, sort=key, order=order,
+        levels=c.LEVELS, outcomes=c.OUTCOMES,
         min_attempts=c.MIN_ATTEMPTS,
         chart=history_chart(snap.score_history(name)),
     )

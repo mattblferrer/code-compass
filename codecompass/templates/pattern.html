@@ -31,14 +31,25 @@
         </section>
       {% endif %}
 
-      <h2>Attempts behind this score</h2>
+      <h2 id="attempts" class="after-card">Attempts behind this score</h2>
       {% if rows %}
+        {# Newest first. Each header sorts by its column, and again the other way; the sort is
+           kept in this page's address, so other patterns keep their own. js/sort_table.js
+           sorts in place; without it, the links reload the page sorted. #}
         <div class="table-wrap">
-          <table>
-            <thead><tr><th>Date</th><th>Problem</th><th>Difficulty</th><th>Outcome</th></tr></thead>
+          <table class="sortable" id="pattern-attempts" data-sort="{{ sort }}" data-order="{{ order }}">
+            <thead><tr>
+              {% for col in columns %}
+                <th scope="col" aria-sort="{{ col.aria }}">
+                  <a class="sort" data-key="{{ col.key }}"
+                     href="{{ url_for('main.pattern', name=pattern['name'], sort=col.key, order=col.next) }}#attempts">{{ col.label }}<span class="sort-arrow" aria-hidden="true"></span></a>
+                </th>
+              {% endfor %}
+            </tr></thead>
             <tbody>
               {% for r in rows %}
-                <tr>
+                <tr data-date="{{ r['date'] }}" data-id="{{ r['attempt']['id'] }}" data-problem="{{ r['problem']['title']|lower }}"
+                    data-difficulty="{{ levels.index(r['difficulty']) }}" data-outcome="{{ outcomes.index(r['outcome']) }}">
                   <td>{{ r['date']|when }}</td>
                   <td><a href="{{ url_for('main.problem', problem_id=r['problem']['id']) }}">{{ r['problem']['title'] }}</a></td>
                   <td>{{ r['difficulty']|capitalize }}</td>
@@ -74,6 +85,7 @@
   </div>
 {% endblock %}
 {% block scripts %}
+  {% if rows %}<script src="{{ url_for('static', filename='js/sort_table.js') }}"></script>{% endif %}
   {% if chart %}
     <script src="{{ url_for('static', filename='js/chart_tip.js') }}"></script>
     <script src="{{ url_for('static', filename='js/score_chart.js') }}"></script>
