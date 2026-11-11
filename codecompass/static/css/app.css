@@ -570,6 +570,9 @@ details > summary {
 /* --- Tables --- */
 
 .table-wrap {
+  /* Contains absolutely positioned children, such as a visually hidden column label,
+     so they scroll with the table instead of widening the page (R-23). */
+  position: relative;
   overflow-x: auto;
   background: var(--surface);
   border: 1px solid var(--rule);
@@ -1694,4 +1697,18 @@ button.theme-toggle:hover {
 
 .theme-toggle.is-dark .icon-sun {
   display: inline;
+}
+
+/* On a phone the theme button sits beside the name, and the links take the next row (R-23). */
+@media (max-width: 40rem) {
+  button.theme-toggle {
+    order: 1;
+    margin-left: auto;
+  }
+
+  .site-nav {
+    order: 2;
+    width: 100%;
+    margin-left: 0;
+  }
 }
