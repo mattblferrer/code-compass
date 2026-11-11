@@ -125,4 +125,14 @@
     </fieldset>
     <button type="submit">Save linked accounts</button>
   </form>
+
+  {# R-39: asks first, in a dialog (or on its own page without JavaScript), and can be undone. #}
+  <section class="panel settings-card danger-panel" aria-labelledby="delete-all-heading">
+    <h2 id="delete-all-heading">Delete all data</h2>
+    <p class="small">Start over by deleting your attempts, interviews, custom problems, settings, and synced data. The built-in problem list stays. You are asked first, and can undo it until you save something new.</p>
+    <a class="button danger" href="{{ url_for('main.erase_data') }}" data-dialog="erase-dialog">Delete all data…</a>
+  </section>
+  <dialog id="erase-dialog" class="confirm-dialog" aria-labelledby="erase-heading">
+    {% with in_dialog = true %}{% include "_erase_confirm.html" %}{% endwith %}
+  </dialog>
 {% endblock %}

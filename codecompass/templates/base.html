@@ -51,6 +51,15 @@
                   <button type="submit" class="undo">Undo</button>
                 </form>
               </div>
+            {% elif category == "undo-erase" %}
+              {# Losing everything is too much to miss, so this one stays until it is closed. #}
+              <div class="flash has-action stays" role="alert">
+                <span>{{ message }}</span>
+                <form method="post" action="{{ url_for('main.undo_erase') }}" class="inline">
+                  <button type="submit" class="undo">Undo</button>
+                </form>
+                <button type="button" class="undo close-flash" aria-label="Close this message" hidden>Close</button>
+              </div>
             {% else %}
               <p class="flash">{{ message }}</p>
             {% endif %}

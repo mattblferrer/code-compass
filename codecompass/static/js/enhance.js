@@ -94,3 +94,31 @@
     });
   });
 })();
+
+// Links marked data-dialog open that <dialog> as a modal instead of going to their page,
+// which asks the same question without JavaScript. Cancel and Escape close it, and
+// focus returns to the link. A message that stays (deleting all data) gets a Close button.
+(function () {
+  document.querySelectorAll("a[data-dialog]").forEach(function (link) {
+    var dialog = document.getElementById(link.getAttribute("data-dialog"));
+    if (!dialog || typeof dialog.showModal !== "function") return;
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+      dialog.showModal();
+    });
+    dialog.addEventListener("close", function () { link.focus(); });
+    // A click on the dimmed backdrop, outside the dialog's box, cancels too.
+    dialog.addEventListener("click", function (event) {
+      if (event.target !== dialog) return;
+      var box = dialog.getBoundingClientRect();
+      var inside = event.clientX >= box.left && event.clientX <= box.right &&
+                   event.clientY >= box.top && event.clientY <= box.bottom;
+      if (!inside) dialog.close();
+    });
+  });
+
+  document.querySelectorAll(".flash .close-flash").forEach(function (button) {
+    button.hidden = false;
+    button.addEventListener("click", function () { button.closest(".flash").remove(); });
+  });
+})();

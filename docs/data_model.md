@@ -187,6 +187,12 @@ The two columns `site` and `username` together are the primary key.
 
 `site`, `username`, and `contest` together are the primary key. This table holds the user's ratings, which never affect scores, due dates, or recommendations.
 
+## Deleting all data (R-39)
+
+Deleting all data empties every table above that holds the user's data: `attempts`, `interviews`, `interview_patterns`, `settings`, `hidden_sites`, `pattern_preferences`, `sibling_suggestions`, `not_now`, `hint_reveals`, `linked_accounts`, `sync_items`, `rating_history`, and `deleted_items`. It also removes custom problems and any problem kept only because an attempt used it. Patterns and the catalog and reserve problems stay, and settings fall back to their defaults.
+
+Before deleting, the whole database is copied to a file beside it, named after the database with `-erased` added (for example `instance/codecompass.sqlite-erased`), and the `app_meta` table records the day of the deletion under the key `erased_on`. Undo copies the file back over the database, which also removes that key, and then deletes the file. Saving anything new, or a deletion older than one day, removes the file and the key, after which the deletion is final.
+
 ## Catalog and pattern files
 
 The catalog and pattern list are kept as reviewed CSV files, `codecompass/data/catalog.csv` and `codecompass/data/patterns.csv`. The unreviewed reserve (R-37) is `codecompass/data/reserve.csv`, in the same columns, built with `flask --app codecompass build-reserve` from a saved `problemset.problems` response. The app loads the files at each start, adding or updating problems by link and patterns by name, and skips the load when the files are unchanged since the last one. A reserve row whose link is in the catalog is ignored. Loading leaves attempts and custom problems alone, and a problem removed from the files stays in the database if it has attempts.

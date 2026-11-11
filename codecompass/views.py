@@ -4,9 +4,9 @@ import time
 from datetime import date, datetime
 from urllib.parse import quote
 
-from flask import Blueprint, Response, abort, flash, jsonify, redirect, render_template, request, url_for
+from flask import Blueprint, Response, abort, current_app, flash, jsonify, redirect, render_template, request, url_for
 
-from . import picker, queries, remote
+from . import erase, picker, queries, remote
 from . import sync as syncing
 from .core.sync import LEETCODE_NOTICE, PROFILE_URLS, new_problem_details, outcome_choices, rating_changes
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
@@ -40,6 +40,19 @@ def today():
 
 def now_seconds():
     return int(time.time())
+
+
+@bp.before_request
+def end_erase_undo():
+    """Saving anything after deleting all data makes the deletion final, so Undo can never
+    overwrite a fresh start (R-39). The copy also expires after c.UNDO_DAYS."""
+    if request.endpoint in ("main.erase_data", "main.undo_erase"):
+        return
+    conn, database = get_db(), current_app.config["DATABASE"]
+    if not conn.execute("SELECT 1 FROM app_meta WHERE key = ?", (erase.MARK,)).fetchone():
+        return
+    if request.method == "POST" or not erase.can_undo(conn, database, today()):
+        erase.discard(conn, database)
 
 
 def local_date(seconds):
@@ -462,6 +475,28 @@ def link_accounts():
     syncing.link_accounts(conn, values)
     flash("Linked accounts saved." if any(values.values()) else "Linked accounts saved. No site is linked.")
     return redirect(url_for("main.settings") + "#accounts")
+
+
+@bp.route("/settings/erase", methods=["GET", "POST"])
+def erase_data():
+    """Delete all the user's data after they confirm it, with an Undo (R-39).
+
+    The settings page asks in a dialog; this page asks the same without JavaScript.
+    """
+    if request.method == "POST" and request.form.get("confirm") == "erase":
+        erase.erase_all(get_db(), current_app.config["DATABASE"], today())
+        flash("All your data was deleted.", "undo-erase")
+        return redirect(url_for("main.settings"))
+    return render_template("erase.html")
+
+
+@bp.post("/settings/erase/undo")
+def undo_erase():
+    if erase.undo_erase(get_db(), current_app.config["DATABASE"], today()):
+        flash("All your data was restored.")
+    else:
+        flash("That can no longer be undone.")
+    return redirect(url_for("main.settings"))
 
 
 def interview_page(conn, form, chosen, errors, editing=None, status=200):

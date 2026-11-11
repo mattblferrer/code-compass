@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Delete all data - CodeCompass{% endblock %}
+{% block content %}
+  <section class="panel danger-panel erase-page" aria-labelledby="erase-heading">
+    {% with in_dialog = false %}{% include "_erase_confirm.html" %}{% endwith %}
+  </section>
+{% endblock %}

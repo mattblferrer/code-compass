@@ -2276,3 +2276,89 @@ button:active:not(:disabled),
 fieldset.picker > small.field-error {
   color: var(--due);
 }
+
+/* Delete all data (R-39): a red action, asked first in a modal dialog. */
+button.danger,
+.button.danger {
+  background: var(--hard);
+  border-color: var(--hard);
+  color: var(--surface);
+}
+
+.danger-panel {
+  border-top-color: var(--hard);
+  margin-top: 1.5rem;
+}
+
+.danger-panel > h2 {
+  margin-top: 0;
+}
+
+.erase-page {
+  max-width: 36rem;
+}
+
+.erase-list {
+  margin: 0 0 0.75rem;
+  padding-left: 1.25rem;
+}
+
+.small-print {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.erase-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+dialog.confirm-dialog {
+  width: min(32rem, calc(100% - 2rem));
+  padding: 1.25rem 1.4rem;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--hard);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.3);
+}
+
+dialog.confirm-dialog h2 {
+  margin-top: 0;
+}
+
+dialog.confirm-dialog::backdrop {
+  background: rgba(15, 23, 42, 0.45);
+}
+
+/* It grows in from slightly smaller, as a sheet arriving; with reduced motion it only fades. */
+dialog.confirm-dialog[open] {
+  animation: dialog-in 0.18s ease-out;
+}
+
+@keyframes dialog-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes dialog-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* The message after deleting all data stays until it is closed or the page changes. */
+.flash.stays,
+.flash.stays.has-action {
+  animation: toast-in 0.3s ease forwards;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: none; }
+}

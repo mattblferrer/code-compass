@@ -1,0 +1,22 @@
+{# The question asked before deleting all data (R-39), in the settings dialog and on its own page.
+   `in_dialog` makes Cancel close the dialog instead of going back to settings. #}
+<h2 id="erase-heading">Delete all your data?</h2>
+<p>This deletes everything you have entered or synced:</p>
+<ul class="erase-list">
+  <li>Attempts, with their notes and times</li>
+  <li>Interviews</li>
+  <li>Problems you added yourself</li>
+  <li>Settings, pattern goals, and the site filter</li>
+  <li>Linked usernames, sync items, and rating history</li>
+</ul>
+<p>The built-in problem list stays. You can undo this until you save something new, for up to a day.</p>
+<p class="small-print">To keep a copy, <a href="{{ url_for('main.export_csv') }}">download your attempts as CSV</a> first.</p>
+<form method="post" action="{{ url_for('main.erase_data') }}" class="erase-actions">
+  <input type="hidden" name="confirm" value="erase">
+  {% if in_dialog %}
+    <button type="submit" class="quiet" formmethod="dialog" formnovalidate autofocus>Cancel</button>
+  {% else %}
+    <a class="button quiet" href="{{ url_for('main.settings') }}">Cancel</a>
+  {% endif %}
+  <button type="submit" class="danger">Delete everything</button>
+</form>
