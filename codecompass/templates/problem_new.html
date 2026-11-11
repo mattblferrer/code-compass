@@ -9,7 +9,10 @@
 {% block content %}
   <h1>Add a custom problem</h1>
 
-  {# R-35: look up a Codeforces or AtCoder problem instead of typing it. Only this button contacts the site. #}
+  <div class="workbench">
+  {# R-35: look up a Codeforces or AtCoder problem instead of typing it. Only this button contacts the site.
+     It comes first in the page, so it leads on a phone, and sits beside the details on a wide screen. #}
+  <aside class="workbench-side" aria-label="Look up a problem">
   <form method="get" class="sheet lookup" novalidate>
     <input type="hidden" name="lookup" value="1">
     <fieldset>
@@ -40,7 +43,9 @@
       {% endif %}
     </fieldset>
   </form>
+  </aside>
 
+  <div class="workbench-main">
   <form method="post" class="sheet" novalidate>
     <input type="hidden" name="rating" value="{{ form.get('rating', '') }}">
     <label>
@@ -79,4 +84,6 @@
     </fieldset>
     <button type="submit">Add problem</button>
   </form>
+  </div>
+  </div>
 {% endblock %}

@@ -8,17 +8,29 @@
 {% endmacro %}
 {% block content %}
   <h1>Confirm a synced submission</h1>
-  <p>
-    <a href="{{ item['problem_link'] }}" rel="noreferrer" target="_blank"><strong>{{ item['title'] }}</strong></a>
-    <span class="meta">{{ sites[item['site']] }} · {{ item['date'] }} · {{ "Accepted" if item['accepted'] else "No accepted submission" }}</span>
-  </p>
-  {% if item['site'] == 'leetcode' %}<p class="notice" role="note">{{ leetcode_notice }}</p>{% endif %}
 
+  <div class="workbench">
+  <aside class="workbench-side" aria-label="The submission">
+    <section class="panel side" aria-labelledby="submission-heading">
+      <h2 id="submission-heading">The submission</h2>
+      <p class="context-title">
+        <a href="{{ item['problem_link'] }}" rel="noreferrer" target="_blank">{{ item['title'] }}</a>
+      </p>
+      <ul class="context-list">
+        <li><span>Site</span><span>{{ sites[item['site']] }}</span></li>
+        <li><span>Date</span><span>{{ item['date'] }}</span></li>
+        <li><span>Result</span><span>{{ "Accepted" if item['accepted'] else "No accepted submission" }}</span></li>
+        {% if item['rating'] is not none %}<li><span>Rating on {{ sites[item['site']] }}</span><span>{{ item['rating'] }}</span></li>{% endif %}
+      </ul>
+      {% if details %}<p class="context-muted">This problem is new to CodeCompass, so it is added as a custom problem when you confirm.</p>{% endif %}
+      {% if item['site'] == 'leetcode' %}<p class="notice" role="note">{{ leetcode_notice }}</p>{% endif %}
+    </section>
+  </aside>
+
+  <div class="workbench-main">
   <form method="post" class="sheet" novalidate>
     {% if details %}
       <input type="hidden" name="details" value="1">
-      <p class="small">This problem is new to CodeCompass, so it is added as a custom problem when you confirm.
-        {% if item['rating'] is not none %}Its rating on {{ sites[item['site']] }} is {{ item['rating'] }}.{% endif %}</p>
       <label>
         Difficulty
         <select name="difficulty" {% if errors.get('difficulty') %}aria-invalid="true" aria-describedby="difficulty-error"{% endif %}>
@@ -60,4 +72,6 @@
     <button type="submit">Save attempt</button>
     <a class="button quiet" href="{{ url_for('main.sync_page') }}">Back to sync</a>
   </form>
+  </div>
+  </div>
 {% endblock %}

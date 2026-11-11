@@ -57,11 +57,23 @@ def outcome_filter(outcome):
 
 
 def attempt_form(template, form, errors, picked=None, **extra):
+    """The log or edit page: the form, and beside it the chosen problem and, for a new
+    attempt, the recommendations to pick from."""
+    conn = get_db()
+    snap = Snapshot(conn, today())
+    editing = extra.get("attempt") is not None
+    chosen = str(form.get("problem_id", ""))
+    context = snap.problem_context(int(chosen), editing=editing) if chosen.isdigit() else None
+    practice = [] if editing else [
+        {**r, "label": picker.label_for(conn, r["problem"]["id"])} for r in snap.recommendations()
+    ]
     return render_template(
         template,
         form=form,
         errors=errors,
         picked=picked,
+        context=context,
+        practice=practice,
         sites=SITES,
         id_hints=ID_HINTS,
         outcomes=c.OUTCOMES,
@@ -158,6 +170,15 @@ def history_chart(points, width=640, height=180, pad=28):
         "first": points[0]["date"],
         "last": points[-1]["date"],
     }
+
+
+@bp.route("/problems/<int:problem_id>/context")
+def problem_context(problem_id):
+    """The "This problem" card on the log page, fetched when a problem is picked. Local only."""
+    context = Snapshot(get_db(), today()).problem_context(problem_id, editing=bool(request.args.get("editing")))
+    if context is None:
+        abort(404)
+    return render_template("_log_context.html", context=context)
 
 
 @bp.post("/problems/<int:problem_id>/hint")

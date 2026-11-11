@@ -1,0 +1,49 @@
+{# The "This problem" card beside the log form. Rendered with the page, and again by
+   /problems/<id>/context when a problem is picked (js/log_context.js). #}
+{% set p = context.problem %}
+<h2>This problem</h2>
+<p class="context-title">
+  <a href="{{ url_for('main.problem', problem_id=p['id']) }}">{{ p['title'] }}</a>
+  <span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>
+</p>
+{% if context.completes %}
+  <p class="context-note">Logging it completes the review of <strong>{{ context.completes['title'] }}</strong>.</p>
+{% endif %}
+{% if context.hint_used_up %}
+  <p class="context-note">You showed the hint, so this attempt can't be saved as solved alone.</p>
+{% endif %}
+
+<h3>Patterns</h3>
+{% if context.patterns_hidden %}
+  <p class="context-muted">Hidden until you show the hint or log an attempt.</p>
+{% else %}
+  <ul class="context-list">
+    {% for pattern in context.patterns %}
+      <li>
+        <a href="{{ url_for('main.pattern', name=pattern.name) }}">{{ pattern.name }}</a>
+        <span>{{ '%.0f'|format(pattern.score) if pattern.score is not none else 'Not enough data' }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<h3>Your attempts</h3>
+{% if context.attempt_count %}
+  <ul class="context-list">
+    {% for a in context.attempts %}
+      <li><span>{{ a['date'] }}</span><span>{{ a['outcome']|outcome }}</span></li>
+    {% endfor %}
+  </ul>
+  {% if context.attempt_count > context.attempts|length %}
+    <p class="context-muted"><a href="{{ url_for('main.problem', problem_id=p['id']) }}">All {{ context.attempt_count }} attempts</a></p>
+  {% endif %}
+{% else %}
+  <p class="context-muted">None yet. This will be your first.</p>
+{% endif %}
+{% if context.due %}
+  <p class="context-muted">Next review due <time datetime="{{ context.due }}">{{ context.due }}</time></p>
+{% endif %}
+
+{% if p['link'] and p['link'].startswith('http') and p['source'] != 'Demo' %}
+  <p class="context-actions"><a class="button small quiet" href="{{ p['link'] }}" target="_blank" rel="noopener">Open problem</a></p>
+{% endif %}

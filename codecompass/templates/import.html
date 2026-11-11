@@ -2,47 +2,61 @@
 {% block title %}Import attempts - CodeCompass{% endblock %}
 {% block content %}
   <h1>Import attempts</h1>
-  <p>Import attempts from a spreadsheet saved as CSV. Use the same columns as an <a href="{{ url_for('main.export_csv') }}">export</a>: {{ columns|join(', ') }}. Only date, title, and outcome are required.</p>
-  <ul class="small">
-    <li>Each row is matched to a problem by its link, then by its exact title.</li>
-    <li>A row that matches no problem becomes a new custom problem if it has a difficulty and patterns (separated by semicolons).</li>
-    <li>Rows that repeat an attempt already saved are skipped, so importing the same file twice adds nothing.</li>
-    <li>Invalid rows are skipped and listed below; the valid rows are still imported.</li>
-  </ul>
+  <p>Import attempts from a spreadsheet saved as CSV, such as an <a href="{{ url_for('main.export_csv') }}">export</a> from CodeCompass.</p>
 
-  {% if result %}
-    <section class="panel import-result" aria-labelledby="result-heading">
-      <h2 id="result-heading">Result</h2>
-      {% if result.error %}
-        <p class="field-error">{{ result.error }}</p>
-      {% else %}
-        <p>
-          Imported {{ result.imported }} of {{ result.rows }} {{ "row" if result.rows == 1 else "rows" }}.
-          {% if result.created %}Created {{ result.created|length }} custom {{ "problem" if result.created|length == 1 else "problems" }}: {{ result.created|join(', ') }}.{% endif %}
-        </p>
-        {% if result.skipped %}
-          <h3>Skipped rows</h3>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th scope="col">Row</th><th scope="col">Reason</th></tr></thead>
-              <tbody>
-                {% for number, reason in result.skipped %}
-                  <tr><td>{{ number }}</td><td>{{ reason }}</td></tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <p class="small">Row numbers count the header as row 1, as in a spreadsheet.</p>
-        {% endif %}
+  <div class="workbench">
+    <div class="workbench-main">
+      <form method="post" enctype="multipart/form-data" class="sheet">
+        <label>
+          CSV file
+          <input type="file" name="file" accept=".csv,text/csv">
+        </label>
+        <button type="submit">Import</button>
+      </form>
+
+      {% if result %}
+        <section class="panel import-result" aria-labelledby="result-heading">
+          <h2 id="result-heading">Result</h2>
+          {% if result.error %}
+            <p class="field-error">{{ result.error }}</p>
+          {% else %}
+            <p>
+              Imported {{ result.imported }} of {{ result.rows }} {{ "row" if result.rows == 1 else "rows" }}.
+              {% if result.created %}Created {{ result.created|length }} custom {{ "problem" if result.created|length == 1 else "problems" }}: {{ result.created|join(', ') }}.{% endif %}
+            </p>
+            {% if result.skipped %}
+              <h3>Skipped rows</h3>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th scope="col">Row</th><th scope="col">Reason</th></tr></thead>
+                  <tbody>
+                    {% for number, reason in result.skipped %}
+                      <tr><td>{{ number }}</td><td>{{ reason }}</td></tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <p class="small">Row numbers count the header as row 1, as in a spreadsheet.</p>
+            {% endif %}
+          {% endif %}
+        </section>
       {% endif %}
-    </section>
-  {% endif %}
+    </div>
 
-  <form method="post" enctype="multipart/form-data" class="sheet">
-    <label>
-      CSV file
-      <input type="file" name="file" accept=".csv,text/csv">
-    </label>
-    <button type="submit">Import</button>
-  </form>
+    <aside class="workbench-side" aria-label="What the file needs">
+      <section class="panel side" aria-labelledby="columns-heading">
+        <h2 id="columns-heading">What the file needs</h2>
+        <p class="context-muted">The columns of an export, in any order:</p>
+        <p class="column-names">{% for name in columns %}<code>{{ name }}</code>{% endfor %}</p>
+        <p class="context-muted">Only date, title, and outcome are required.</p>
+        <h3>How rows are read</h3>
+        <ul class="guide-list">
+          <li>A row with a link is matched to the problem with that link. A row without one is matched by its exact title.</li>
+          <li>A row that matches no problem becomes a new custom problem if it has a difficulty and patterns, separated by semicolons.</li>
+          <li>Rows that repeat an attempt already saved are skipped, so importing the same file twice adds nothing.</li>
+          <li>Invalid rows are skipped and listed with the result; the valid rows are still imported.</li>
+        </ul>
+      </section>
+    </aside>
+  </div>
 {% endblock %}

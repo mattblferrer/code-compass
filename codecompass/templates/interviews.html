@@ -10,41 +10,11 @@
   <h1>Interviews</h1>
   <p>When your nearest interview is within {{ window }} days, recommendations focus on it: its patterns, or else your 2 weakest patterns, and its target difficulty. Interviews on the same date are combined. Past interviews are kept but no longer count.</p>
 
-  {% if interviews %}
-    <div class="table-wrap">
-      <table class="interviews">
-        <thead>
-          <tr><th scope="col">Company</th><th scope="col">Date</th><th scope="col">Difficulty</th><th scope="col">Patterns</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr>
-        </thead>
-        <tbody>
-          {% for i in interviews %}
-            <tr {% if editing and editing['id'] == i['id'] %}aria-current="true"{% endif %}>
-              <th scope="row">{{ i['company'] }}</th>
-              <td>
-                {{ i['date'] }}
-                {% if i['date'] == focus_date %}<span class="tag">In focus</span>
-                {% elif i['date'] < today %}<span class="tag">Past</span>{% endif %}
-              </td>
-              <td>{{ (i['target_difficulty'] or 'any')|capitalize }}</td>
-              <td>{{ i['patterns']|join(', ') if i['patterns'] else 'Any' }}</td>
-              <td class="actions">
-                <a href="{{ url_for('main.edit_interview', interview_id=i['id']) }}">Edit</a>
-                <form method="post" action="{{ url_for('main.delete_interview', interview_id=i['id']) }}" class="inline">
-                  <button type="submit" class="text">Delete</button>
-                </form>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  {% else %}
-    <p class="empty">No interviews yet.</p>
-  {% endif %}
-
-  <h2>{% if editing %}Edit the interview with {{ editing['company'] }}{% else %}Add an interview{% endif %}</h2>
+  <div class="workbench">
+  <div class="workbench-main">
   <form method="post" class="sheet" novalidate
         action="{{ url_for('main.edit_interview', interview_id=editing['id']) if editing else url_for('main.interviews') }}">
+    <h2>{% if editing %}Edit the interview with {{ editing['company'] }}{% else %}Add an interview{% endif %}</h2>
     <label>
       Company
       <input name="company" value="{{ form.get('company', '') }}" {% if errors.get('company') %}aria-invalid="true" aria-describedby="company-error"{% endif %}>
@@ -82,4 +52,38 @@
     <button type="submit">{% if editing %}Save changes{% else %}Add interview{% endif %}</button>
     {% if editing %}<a href="{{ url_for('main.interviews') }}">Cancel</a>{% endif %}
   </form>
+  </div>
+
+  <aside class="workbench-side" aria-label="Your interviews">
+    <section class="panel side" aria-labelledby="interview-list-heading">
+      <h2 id="interview-list-heading">Your interviews</h2>
+      {% if interviews %}
+        <ul class="interview-list">
+          {% for i in interviews %}
+            <li {% if editing and editing['id'] == i['id'] %}aria-current="true"{% endif %}>
+              <p class="interview-head">
+                <strong>{{ i['company'] }}</strong>
+                <time datetime="{{ i['date'] }}">{{ i['date'] }}</time>
+                {% if i['date'] == focus_date %}<span class="tag">In focus</span>
+                {% elif i['date'] < today %}<span class="tag">Past</span>{% endif %}
+              </p>
+              <p class="context-muted">
+                {{ (i['target_difficulty'] or 'any')|capitalize }} difficulty;
+                {{ i['patterns']|join(', ') if i['patterns'] else 'any patterns' }}
+              </p>
+              <div class="interview-actions">
+                <a href="{{ url_for('main.edit_interview', interview_id=i['id']) }}">Edit</a>
+                <form method="post" action="{{ url_for('main.delete_interview', interview_id=i['id']) }}" class="inline">
+                  <button type="submit" class="text">Delete</button>
+                </form>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="context-muted">No interviews yet. Add one with the form, and recommendations focus on it once it is within {{ window }} days.</p>
+      {% endif %}
+    </section>
+  </aside>
+  </div>
 {% endblock %}

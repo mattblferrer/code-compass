@@ -8,6 +8,8 @@
   {% if errors %}
     <p class="field-error" role="alert">Fix the fields marked below, then save again.</p>
   {% endif %}
+  <div class="workbench">
+  <div class="workbench-main">
   <form method="post" class="sheet" novalidate>
     <fieldset class="picker" data-search-url="{{ url_for('main.search_problems') }}"
               data-find-url="{{ url_for('main.find_problem') }}" data-hints="{{ id_hints|tojson|forceescape }}">
@@ -97,8 +99,49 @@
       <p><button type="submit" class="text">Delete this attempt</button></p>
     </form>
   {% endif %}
+  </div>
+
+  <aside class="workbench-side" aria-label="About the problem">
+    <section class="panel side" id="log-context" aria-live="polite"
+             data-url="{{ url_for('main.problem_context', problem_id=0) }}"
+             data-problem-id="{{ context.problem['id'] if context else '' }}" {% if attempt %}data-editing{% endif %}>
+      {% if context %}
+        {% include "_log_context.html" %}
+      {% else %}
+        <h2>This problem</h2>
+        <p class="context-muted">Pick a problem to see its level, patterns, your past attempts, and when its review is due.</p>
+      {% endif %}
+    </section>
+    <template id="log-context-empty">
+      <h2>This problem</h2>
+      <p class="context-muted">Pick a problem to see its level, patterns, your past attempts, and when its review is due.</p>
+    </template>
+
+    {% if practice %}
+      <section class="panel side" aria-labelledby="practice-heading">
+        <h2 id="practice-heading">Practice next</h2>
+        <ol class="next pick">
+          {% for r in practice %}
+            {% set p = r['problem'] %}
+            <li>
+              <div>
+                <a class="title" href="{{ url_for('main.log_attempt', problem=p['id']) }}"
+                   data-pick-id="{{ p['id'] }}" data-pick-label="{{ r['label'] }}">{{ p['title'] }}</a>
+                {% if r['kind'] == 'review' %}<span class="mark review">Review</span>{% endif %}
+                <span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>
+                <p class="reason">{{ r['reason'] }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ol>
+        <p class="context-muted">Pick one to fill in the form, or search for any problem.</p>
+      </section>
+    {% endif %}
+  </aside>
+  </div>
 {% endblock %}
 {% block scripts %}
   <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
   <script src="{{ url_for('static', filename='js/picker.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/log_context.js') }}"></script>
 {% endblock %}

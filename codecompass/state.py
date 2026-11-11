@@ -276,7 +276,7 @@ class Snapshot:
     # --- Recommendations (R-13 to R-16, R-27, R-29, R-32) ---
 
     def hint_eligible(self, problem_id):
-        return hint_eligible(self.problems[problem_id]["patterns"], self.counts)
+        return hint_eligible(self.problem(problem_id)["patterns"], self.counts)
 
     def hint(self, problem_id):
         """Hint text if one is revealed and unused (R-27), otherwise None."""
@@ -286,7 +286,34 @@ class Snapshot:
         if not revealed:
             return None
         return [{"name": n, "description": self.pattern_info[n]["description"]}
-                for n in self.problems[problem_id]["patterns"]]
+                for n in self.problem(problem_id)["patterns"]]
+
+    def problem_context(self, problem_id, editing=False):
+        """What the log page shows beside the form for one problem, without loading every problem.
+
+        Patterns stay hidden, as on the problem page, while a beginner hint is on offer
+        and neither the hint nor an attempt has revealed them (R-27). When `editing`, the
+        review an attempt would complete and the hint rule are left out, since they apply
+        only to a new attempt.
+        """
+        problem = self.problem(problem_id)
+        if problem is None:
+            return None
+        attempts = [a for a in self.attempts if a["problem_id"] == problem_id]
+        eligible = self.hint_eligible(problem_id)
+        hint = self.hint(problem_id)
+        completes = None if editing else self.review_of(problem_id, self.today)
+        return {
+            "problem": problem,
+            "patterns": [{"name": n, "score": self.scores.get(n, {}).get("score"), "attempts": self.counts.get(n, 0)}
+                         for n in problem["patterns"]],
+            "patterns_hidden": eligible and not hint and not attempts,
+            "attempts": attempts[-3:][::-1],
+            "attempt_count": len(attempts),
+            "due": self.due.get(problem_id),
+            "completes": self.problem(completes) if completes else None,
+            "hint_used_up": bool(hint) and not editing,
+        }
 
     @staticmethod
     def order_position(problem):

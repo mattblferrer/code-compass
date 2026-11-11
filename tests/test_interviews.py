@@ -40,7 +40,8 @@ def test_adding_an_interview(client, app):
 def test_difficulty_and_patterns_are_optional(client, app):
     assert add(client).status_code == 302
     assert stored(app)[0]["target_difficulty"] is None and stored(app)[0]["patterns"] == []
-    assert "<td>Any</td>" in client.get("/interviews").get_data(as_text=True)
+    page = " ".join(client.get("/interviews").get_data(as_text=True).split())
+    assert "Any difficulty; any patterns" in page
 
 
 def test_invalid_interviews_are_not_saved(client, app):

@@ -1312,13 +1312,71 @@ details.hint[open] > summary {
   outline-color: var(--bg);
 }
 
-/* Settings (R-13, R-32, R-36) */
-form.settings {
-  max-width: 44rem;
+/* Settings (R-13, R-32, R-36): a grid of section cards.
+   Recommendations and Sites side by side, pattern goals across both columns. */
+.settings-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
 }
 
-form.settings .table-wrap {
-  margin: 0.5rem 0 1rem;
+@media (min-width: 64rem) {
+  .settings-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .settings-grid > .wide,
+  .settings-grid > .settings-save {
+    grid-column: 1 / -1;
+  }
+}
+
+.settings-card legend {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  margin-bottom: 0.75rem;
+}
+
+.settings-card fieldset {
+  margin: 0;
+}
+
+.settings-card .table-wrap {
+  margin: 0.5rem 0 0;
+}
+
+.goals-pair {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (min-width: 48rem) {
+  .goals-pair {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.settings-save {
+  display: flex;
+  justify-content: flex-end;
+}
+
+form.accounts {
+  margin-top: 1.5rem;
+}
+
+.account-fields {
+  display: grid;
+  gap: 0 1.25rem;
+  align-items: start;
+}
+
+@media (min-width: 48rem) {
+  .account-fields {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 table.goals td,
@@ -1396,10 +1454,6 @@ form.lookup {
 label > small.notice {
   margin-top: 0.4rem;
   font-weight: 400;
-}
-
-form.accounts {
-  margin-top: 1.5rem;
 }
 
 .sync-accounts ul {
@@ -1711,4 +1765,232 @@ button.theme-toggle:hover {
     width: 100%;
     margin-left: 0;
   }
+}
+
+/* --- Workbench: a form with reference cards beside it on wide screens ---
+   The form keeps a comfortable line length on the left; the cards on the right
+   carry what helps fill it in. On a phone they stack in page order. */
+.workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.workbench-main > form.sheet,
+.workbench-main > .sheet {
+  max-width: none;
+}
+
+.workbench-side {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+@media (min-width: 64rem) {
+  .workbench {
+    grid-template-columns: minmax(0, 3fr) minmax(18rem, 2fr);
+  }
+
+  /* The side column is always on the right, whatever its place in the page. */
+  .workbench > .workbench-main {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .workbench > .workbench-side {
+    grid-column: 2;
+    grid-row: 1;
+    position: sticky;
+    top: 1rem;
+  }
+}
+
+/* Side cards are quieter than the dashboard's panels, so the form stays the main thing. */
+.panel.side {
+  border-top-color: var(--data-low);
+}
+
+.panel.side > h2 {
+  font-size: var(--step-0);
+}
+
+.panel.side h3 {
+  font-size: var(--step--1);
+  margin: 1rem 0 0.35rem;
+}
+
+.context-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.6rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.context-note {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.7rem;
+  border-left: 3px solid var(--due);
+  background: var(--due-soft);
+  font-size: var(--step--1);
+}
+
+.context-muted {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.context-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--step--1);
+}
+
+.context-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.context-list li:first-child {
+  border-top: 0;
+}
+
+.context-list li > span:last-child {
+  color: var(--muted);
+  font-family: var(--font-number);
+  text-align: right;
+}
+
+.context-actions {
+  margin: 0.9rem 0 0;
+}
+
+/* The card answers a choice in the form, so it marks the change briefly. */
+@keyframes context-changed {
+  from { background: color-mix(in srgb, var(--data) 12%, var(--surface)); }
+  to { background: var(--surface); }
+}
+
+.panel.side.changed {
+  animation: context-changed 0.7s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel.side.changed {
+    animation: none;
+  }
+}
+
+/* "Practice next" beside the form: the dashboard's ranked list, without its actions. */
+.next.pick > li {
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  padding: 0.6rem 0;
+}
+
+.next.pick > li:first-child {
+  border-top: 0;
+}
+
+.next.pick .reason {
+  font-size: var(--step--1);
+  margin: 0.15rem 0 0;
+}
+
+.next.pick a[aria-current="true"] {
+  color: var(--data);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+/* Interviews beside the form (R-15) */
+.interview-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.interview-list > li {
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.interview-list > li:first-child {
+  border-top: 0;
+  padding-top: 0.2rem;
+}
+
+.interview-list > li[aria-current="true"] {
+  box-shadow: inset 3px 0 0 var(--data);
+  padding-left: 0.7rem;
+}
+
+.interview-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.6rem;
+  margin: 0;
+}
+
+.interview-actions {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  margin: 0.35rem 0 0;
+  font-size: var(--step--1);
+}
+
+/* Import (R-19, R-20): the result follows the upload, the guide sits beside it. */
+.workbench-main > .import-result {
+  margin-top: 1.5rem;
+}
+
+.column-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0;
+}
+
+.column-names code {
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--track);
+  font-size: var(--step--1);
+}
+
+.guide-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: var(--step--1);
+}
+
+.guide-list li + li {
+  margin-top: 0.4rem;
+}
+
+/* Goal rows are many and short, so their dropdowns are compact. */
+table.goals td,
+table.goals th {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+table.goals select {
+  margin-top: 0;
+  padding: 0.25rem 0.5rem;
+}
+
+/* .small also sizes buttons; as a paragraph it only makes the text smaller. */
+p.small {
+  padding: 0;
 }

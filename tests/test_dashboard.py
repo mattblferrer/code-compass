@@ -200,3 +200,39 @@ def test_undo_restores_the_same_sibling(client, app):
     rows = query(app, "SELECT sibling_problem_id, status FROM sibling_suggestions")
     assert rows == [{"sibling_problem_id": temps, "status": "active"}]
     assert "Review of Valid Parentheses" in page(client)
+
+
+# --- The cards beside the log form ---
+
+def test_log_page_shows_the_chosen_problem_and_what_to_practice_next(client, app):
+    log(client, PARENS, 30)  # Due, so Daily Temperatures is suggested as its sibling.
+    page(client)
+    html = page(client, f"/log?problem={pid(app, 'Daily Temperatures')}")
+    assert "This problem" in html and "Logging it completes the review of <strong>Valid Parentheses</strong>" in html
+    # Monotonic Stack and Queue has no attempts yet, so a hint is on offer and the patterns stay hidden (R-27).
+    assert "Hidden until you show the hint or log an attempt." in html and "Monotonic Stack" not in html
+    assert "Practice next" in html and 'data-pick-id="' in html
+    # With nothing chosen, the card says how to use it.
+    assert "Pick a problem to see its level" in page(client, "/log")
+
+
+def test_problem_card_keeps_patterns_hidden_until_the_hint_or_an_attempt(client, app):
+    # R-27: a problem in a pattern with no attempts offers a hint, so its patterns stay hidden.
+    two_sum = pid(app, "Two Sum")
+    card = page(client, f"/problems/{two_sum}/context")
+    assert "Hidden until you show the hint or log an attempt." in card and "Arrays and Hashing" not in card
+    client.post(f"/problems/{two_sum}/hint")
+    card = page(client, f"/problems/{two_sum}/context")
+    assert "Arrays and Hashing" in card
+    assert "You showed the hint, so this attempt can't be saved as solved alone." in card
+    # When editing an attempt, the rules for a new attempt are left out.
+    assert "can't be saved as solved alone" not in page(client, f"/problems/{two_sum}/context?editing=1")
+    assert client.get("/problems/99999/context").status_code == 404
+
+
+def test_edit_page_shows_the_problem_but_not_practice_next(client, app):
+    log(client, PARENS, 3)
+    attempt_id = query(app, "SELECT id FROM attempts")[0]["id"]
+    html = page(client, f"/attempts/{attempt_id}/edit")
+    assert "This problem" in html and "Valid Parentheses" in html
+    assert "Practice next" not in html

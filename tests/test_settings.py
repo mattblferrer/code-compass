@@ -37,8 +37,9 @@ def test_saving_every_setting(client, app):
     assert '<option value="medium" selected>' in page
     assert 'name="show:cses:core" value="1" checked' not in page
     assert 'name="show:cses:advanced" value="1" checked' in page
-    # An advanced target opens the advanced patterns section.
-    assert "<details open>" in page
+    # Advanced goals sit beside the core ones, not in a closed section, so an advanced target shows.
+    goals = page.split("Pattern goals")[1].split("</fieldset>")[0]
+    assert 'name="pref:Tree DP"' in goals and "<details" not in goals
 
 
 def test_saving_again_replaces_earlier_choices(client, app):

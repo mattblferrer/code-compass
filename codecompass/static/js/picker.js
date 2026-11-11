@@ -43,11 +43,20 @@
     active = -1;
   }
 
+  // Tell the page which problem is chosen now (an id, or null), so the log page can show it.
+  function announce() {
+    box.dispatchEvent(new CustomEvent("problem-change", { detail: { id: hidden.value || null } }));
+  }
+
   function choose(item) {
     input.value = item.label;
     hidden.value = item.id;
     close();
+    announce();
   }
+
+  // Another part of the page, such as the "Practice next" card, can choose a problem.
+  box.addEventListener("pick-problem", function (event) { chooseFromList(event.detail); });
 
   function highlight(index) {
     var options = list.querySelectorAll("[role=option]");
@@ -108,7 +117,7 @@
   }
 
   input.addEventListener("input", function () {
-    hidden.value = "";
+    if (hidden.value) { hidden.value = ""; announce(); }
     clearTimeout(timer);
     timer = setTimeout(search, 150);
   });
@@ -166,6 +175,7 @@
           // Clear any problem found earlier, so the title shown matches what will be saved.
           input.value = "";
           hidden.value = "";
+          announce();
           setStatus(data.message, data.custom_url);
         }
       })
