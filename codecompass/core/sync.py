@@ -184,3 +184,62 @@ def rating_changes(site, rows):
         out.append({**row, "old_rating": before, "change": change})
         before = row["rating"]
     return out
+
+
+# --- Several items at once (R-33) ---
+# Why a batch leaves an item listed, in the order the message gives the reasons.
+SKIP_REASONS = {
+    "details": "new to CodeCompass and needing a level or patterns",
+    "hint": "with a revealed hint, which cannot be solved alone",
+    "accepted": "with an accepted submission, which cannot be not solved",
+}
+
+
+def batch_outcome(action, accepted):
+    """The outcome a batch action saves for an item. Auto-classify, which the user chooses,
+    saves an accepted item as solved alone and any other as not solved."""
+    if action == "auto":
+        return c.SOLVED_ALONE if accepted else c.NOT_SOLVED
+    return action
+
+
+def batch_skip(outcome, accepted, hint, needs_details):
+    """Why a batch leaves an item listed (a key of SKIP_REASONS), or None to save it.
+
+    "Not solved" does not fit an accepted submission, a revealed hint rules out "solved
+    alone" (R-27), and a problem new to CodeCompass needs its level and patterns first.
+    """
+    if outcome not in outcome_choices(accepted):
+        return "accepted"
+    if hint and outcome == c.SOLVED_ALONE:
+        return "hint"
+    if needs_details:
+        return "details"
+    return None
+
+
+def batch_message(action, saved_as, labels):
+    """What a batch did, such as "Saved 3 items: 2 as solved alone and 1 as not solved."
+
+    `saved_as` counts the items saved with each outcome, in the order first saved;
+    `labels` names each outcome.
+    """
+    count = sum(saved_as.values())
+    noun = "item" if count == 1 else "items"
+    if action == "dismiss":
+        return f"Dismissed {count} {noun}."
+    if action == "auto":
+        return f"Saved {count} {noun}: " + " and ".join(
+            f"{n} as {labels[o].lower()}" for o, n in saved_as.items()) + "."
+    return f"Saved {count} {noun} as {labels[action].lower()}."
+
+
+def skip_message(skipped):
+    """Why items were left listed, such as "Left 2 on the list: 2 with a revealed hint, ...";
+    None when none were. `skipped` counts items by reason."""
+    left = sum(skipped.values())
+    if not left:
+        return None
+    reasons = [f"{skipped[key]} {text}" for key, text in SKIP_REASONS.items() if skipped.get(key)]
+    return f"Left {left} on the list: " + "; ".join(reasons) + "."
+

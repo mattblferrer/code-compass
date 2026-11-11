@@ -434,6 +434,7 @@ def test_sort_rules():
     assert ordering.next_order("outcome", "date", "desc") == "asc"
 
 
+
 def test_a_half_done_settings_upgrade_is_finished_on_the_next_start(tmp_path):
     """An older version could stop between renaming the table and copying it back."""
     import sqlite3
@@ -476,3 +477,12 @@ def test_a_failed_settings_upgrade_changes_nothing(tmp_path, monkeypatch):
     assert list(conn.execute("SELECT key, value FROM settings")) == [("starting_difficulty", "hard")]
     assert [r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE name LIKE 'settings%'")] == ["settings"]
     conn.close()
+
+
+def test_interview_countdown_and_undo_cutoff():
+    from codecompass.core.dates import countdown, undo_cutoff
+
+    assert countdown("2026-11-11", "2026-11-17", 14) == {"days": 6, "past": False, "focus_in": 0, "focus_share": 1}
+    assert countdown("2026-11-11", "2026-12-09", 14) == {"days": 28, "past": False, "focus_in": 14, "focus_share": 0.5}
+    assert countdown("2026-11-11", "2026-11-08", 14)["past"]
+    assert undo_cutoff("2026-03-01") == "2026-02-28"

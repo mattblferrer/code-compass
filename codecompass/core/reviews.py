@@ -37,6 +37,12 @@ def due_dates(all_schedules):
     return {pid: rows[-1]["due"] for pid, (_, rows) in all_schedules.items()}
 
 
+def review_attempt_ids(all_schedules):
+    """Ids of attempts that completed a review, on the problem itself or as its sibling (R-12, R-28)."""
+    return {attempt["id"] for own, rows in all_schedules.values()
+            for attempt, row in zip(own, rows) if row["kind"] == REVIEW}
+
+
 def last_attempts(all_schedules):
     """{problem_id: date of the latest attempt in its schedule}, sibling reviews included."""
     return {pid: own[-1]["date"] for pid, (own, _) in all_schedules.items()}

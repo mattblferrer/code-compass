@@ -1,6 +1,8 @@
 """Date helpers for YYYY-MM-DD strings."""
 from datetime import date, timedelta
 
+from . import constants as c
+
 
 def parse(text):
     return date.fromisoformat(text)
@@ -49,3 +51,22 @@ def friendly_date(text, today, within=6):
     if -within <= gap < -1:
         return f"{-gap} days ago"
     return short_date(text, today)
+
+
+def undo_cutoff(today):
+    """The earliest day a deletion or batch can still be undone from (c.UNDO_DAYS)."""
+    return add_days(today, -c.UNDO_DAYS)
+
+
+def countdown(today, day, window):
+    """Days until an interview on `day`, and how its focus window sits between today and then.
+
+    `focus_share` is the part of the bar, from today to the interview, that the focus
+    window covers; `focus_in` is the days until the window opens (0 once it has).
+    """
+    days = days_between(today, day)
+    if days < 0:
+        return {"days": days, "past": True, "focus_in": 0, "focus_share": 0}
+    return {"days": days, "past": False, "focus_in": max(0, days - window),
+            "focus_share": 1 if days <= window else round(window / days, 3)}
+

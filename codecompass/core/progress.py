@@ -6,10 +6,10 @@ Plain functions on plain data. Attempts are dicts with "date" (YYYY-MM-DD) and
 from datetime import date, timedelta
 
 from . import constants as c
+from .dates import MONTHS
 
 SOLVED = (c.SOLVED_ALONE, c.SOLVED_WITH_HINTS, c.SOLVED_AFTER_SOLUTION)
 WEEKDAYS = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
 
 def is_date(text):

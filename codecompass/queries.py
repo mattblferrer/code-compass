@@ -1,8 +1,8 @@
 """Database reads and writes used by the routes."""
 import json
-from datetime import date, timedelta
 
 from .core import constants as c
+from .core.dates import undo_cutoff
 
 
 def patterns(conn):
@@ -76,6 +76,18 @@ def add_custom_problem(conn, values):
             [(problem_id, name) for name in values["patterns"]],
         )
     return problem_id
+
+
+def patterns_by_problem(conn, problem_ids):
+    """{problem_id: [pattern names in list order]} for many problems, a chunk of ids per query."""
+    out = {}
+    for chunk in _chunks(problem_ids):
+        rows = conn.execute(
+            f"""SELECT pp.problem_id, pt.name FROM problem_patterns pp JOIN patterns pt ON pt.id = pp.pattern_id
+                WHERE pp.problem_id IN ({", ".join("?" * len(chunk))}) ORDER BY pt.list_position""", chunk)
+        for row in rows:
+            out.setdefault(row["problem_id"], []).append(row["name"])
+    return out
 
 
 def unused_hint(conn, problem_id):
@@ -227,7 +239,7 @@ def delete_interview(conn, interview_id, today):
 
 def _keep_deleted(conn, kind, payload, today):
     """Store a deleted row, and drop copies older than c.UNDO_DAYS. Runs inside the caller's transaction."""
-    cutoff = (date.fromisoformat(today) - timedelta(days=c.UNDO_DAYS)).isoformat()
+    cutoff = undo_cutoff(today)
     conn.execute("DELETE FROM deleted_items WHERE date < ?", (cutoff,))
     return conn.execute("INSERT INTO deleted_items (kind, payload, date) VALUES (?, ?, ?)",
                         (kind, json.dumps(payload), today)).lastrowid
@@ -243,7 +255,7 @@ def restore_deleted(conn, item_id, today):
     item = conn.execute("SELECT * FROM deleted_items WHERE id = ?", (item_id,)).fetchone()
     if item is None:
         return None
-    cutoff = (date.fromisoformat(today) - timedelta(days=c.UNDO_DAYS)).isoformat()
+    cutoff = undo_cutoff(today)
     if item["date"] < cutoff:
         with conn:
             conn.execute("DELETE FROM deleted_items WHERE id = ?", (item_id,))

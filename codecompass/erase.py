@@ -3,13 +3,12 @@
 Before erasing, the whole database is copied to a file beside it. Undo copies it
 back, so everything returns exactly as it was. The copy is removed as soon as the
 user saves anything new, so Undo can never overwrite a fresh start, and in any
-case after c.UNDO_DAYS.
+case after UNDO_DAYS (core/constants.py).
 """
 import os
 import sqlite3
-from datetime import date, timedelta
 
-from .core import constants as c
+from .core.dates import undo_cutoff
 
 # Everything the user entered, synced, or chose. The built-in catalog and reserve
 # problems and the patterns stay; settings fall back to their defaults.
@@ -70,7 +69,7 @@ def discard(conn, database):
 
 def _undoable(conn, path, today):
     row = conn.execute("SELECT value FROM app_meta WHERE key = ?", (MARK,)).fetchone()
-    cutoff = (date.fromisoformat(today) - timedelta(days=c.UNDO_DAYS)).isoformat()
+    cutoff = undo_cutoff(today)
     return row is not None and row["value"] >= cutoff and os.path.exists(path)
 
 

@@ -5,11 +5,12 @@ results. The current time and the user's local dates come from the route layer.
 """
 import json
 import threading
-from datetime import date, datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 from . import remote
 from .db import connect
 from .core import constants as c
+from .core.dates import undo_cutoff
 from .core import sync as rules
 
 SYNC_SITES = tuple(rules.SITES)
@@ -214,18 +215,33 @@ def _with_problem(conn, row):
     return item
 
 
+# Waiting items with their problem when it is in CodeCompass, leaving out any whose
+# problem already has an attempt that day, however it was logged (R-33). One query.
+_PENDING = """
+    FROM sync_items s LEFT JOIN problems p ON p.link = s.problem_link
+    WHERE s.status = 'pending'
+      AND NOT EXISTS (SELECT 1 FROM attempts a WHERE a.problem_id = p.id AND a.date = s.date)"""
+
+
 def pending_items(conn):
-    """Items waiting for an outcome, oldest first. An item is hidden once an attempt
-    on its problem and date exists, however that attempt was logged (R-33)."""
-    rows = conn.execute("SELECT * FROM sync_items WHERE status = 'pending' ORDER BY date, id").fetchall()
+    """Items waiting for an outcome, oldest first, each with "problem_id" (None when the
+    problem is new to CodeCompass) and, for a known problem, its title and "difficulty"."""
     items = []
-    for row in rows:
-        item = _with_problem(conn, row)
-        if item["problem_id"] and conn.execute("SELECT 1 FROM attempts WHERE problem_id = ? AND date = ?",
-                                               (item["problem_id"], item["date"])).fetchone():
-            continue
+    for row in conn.execute(f"SELECT s.*, p.id AS known_id, p.title AS known_title, p.difficulty AS known_difficulty"
+                            f" {_PENDING} ORDER BY s.date, s.id"):
+        item = dict(row)
+        item["tags"] = json.loads(item["tags"]) if item["tags"] else []
+        item["problem_id"] = item.pop("known_id")
+        title, item["difficulty"] = item.pop("known_title"), item.pop("known_difficulty")
+        if title is not None:
+            item["title"] = title
         items.append(item)
     return items
+
+
+def pending_count(conn):
+    """How many items wait for an outcome, as pending_items would list them."""
+    return conn.execute(f"SELECT count(*) {_PENDING}").fetchone()[0]
 
 
 def get_item(conn, item_id):
@@ -243,7 +259,7 @@ def record_batch(conn, done, today):
 
     `done` holds the lists "items", "attempts", "problems", and "hints". Returns the record's id.
     """
-    cutoff = (date.fromisoformat(today) - timedelta(days=c.UNDO_DAYS)).isoformat()
+    cutoff = undo_cutoff(today)
     with conn:
         conn.execute("DELETE FROM sync_batches WHERE date < ?", (cutoff,))
         return conn.execute("INSERT INTO sync_batches (payload, date) VALUES (?, ?)",
@@ -258,7 +274,7 @@ def undo_batch(conn, batch_id, today):
     row = conn.execute("SELECT * FROM sync_batches WHERE id = ?", (batch_id,)).fetchone()
     if row is None:
         return None
-    cutoff = (date.fromisoformat(today) - timedelta(days=c.UNDO_DAYS)).isoformat()
+    cutoff = undo_cutoff(today)
     with conn:
         conn.execute("DELETE FROM sync_batches WHERE id = ?", (batch_id,))
         if row["date"] < cutoff:

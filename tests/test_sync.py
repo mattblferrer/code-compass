@@ -870,7 +870,6 @@ def test_saving_from_a_filtered_list_returns_to_it(client, app, sites):
 
 # --- Code review fixes ---
 
-
 def test_codeforces_paging_stops_when_a_page_brings_nothing_new(client, app, sites, monkeypatch):
     """An API that ignored the page offset would otherwise be read forever."""
     monkeypatch.setattr(remote, "CODEFORCES_PAGE", 2)
@@ -918,3 +917,38 @@ def test_unseen_results_carry_into_the_next_sync(client, app, sites):
     syncing.current_job(app.config["DATABASE"]).thread.join(10)
     page = client.get("/sync").get_data(as_text=True)
     assert "Codeforces: 5 new submissions to confirm." in page and "Codeforces: no new submissions." in page
+
+
+def test_waiting_list_and_count_agree(client, app, sites):
+    from codecompass import sync as syncing
+
+    add_problem(client, "Watermelon", "https://codeforces.com/problemset/problem/4/A")
+    link(client, codeforces="practice_user")
+    sync(client)
+    client.post("/log", data={"problem": "Watermelon (custom)", "date": "2026-10-18", "outcome": c.SOLVED_ALONE,
+                              "time_minutes": "", "time_seconds": "", "notes": ""})
+    with app.app_context():
+        conn = get_db()
+        waiting = syncing.pending_items(conn)
+        assert syncing.pending_count(conn) == len(waiting) == 4  # The item logged by hand that day is hidden.
+        known = next(i for i in waiting if i["problem_link"].endswith("/4/A"))
+        assert (known["problem_id"], known["title"], known["difficulty"]) == (
+            rows(app, "SELECT id FROM problems WHERE link LIKE '%/4/A'")[0]["id"], "Watermelon", "easy")
+    assert "4 synced submissions</a> wait for an outcome" in client.get("/").get_data(as_text=True)
+
+
+def test_batch_rules():
+    assert rules.batch_outcome("auto", True) == c.SOLVED_ALONE and rules.batch_outcome("auto", False) == c.NOT_SOLVED
+    assert rules.batch_outcome(c.SOLVED_WITH_HINTS, True) == c.SOLVED_WITH_HINTS
+    assert rules.batch_skip(c.NOT_SOLVED, True, False, False) == "accepted"
+    assert rules.batch_skip(c.SOLVED_ALONE, True, True, False) == "hint"
+    assert rules.batch_skip(c.SOLVED_WITH_HINTS, True, True, True) == "details"
+    assert rules.batch_skip(c.SOLVED_WITH_HINTS, True, True, False) is None
+    labels = {c.SOLVED_ALONE: "Solved alone", c.NOT_SOLVED: "Not solved"}
+    assert rules.batch_message("auto", {c.SOLVED_ALONE: 2, c.NOT_SOLVED: 1}, labels) == (
+        "Saved 3 items: 2 as solved alone and 1 as not solved.")
+    assert rules.batch_message("dismiss", {"dismiss": 1}, labels) == "Dismissed 1 item."
+    assert rules.skip_message({}) is None
+    assert rules.skip_message({"hint": 1, "details": 2}) == (
+        "Left 3 on the list: 2 new to CodeCompass and needing a level or patterns; "
+        "1 with a revealed hint, which cannot be solved alone.")

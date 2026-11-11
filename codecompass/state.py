@@ -8,7 +8,8 @@ from .core.levels import current_level
 from .core.mastery import pattern_score
 from .core.reasons import hint_eligible, reason
 from .core.recommend import REVIEW, active_interview, recommend
-from .core.reviews import activity, due_dates, is_stale, last_attempts, schedules, served_reviews, streak_days
+from .core.reviews import (activity, due_dates, is_stale, last_attempts, review_attempt_ids, schedules,
+                           served_reviews, streak_days)
 from .core.siblings import choose_sibling
 from .core.sites import is_hidden
 from .core.streak import review_streak
@@ -192,8 +193,7 @@ class Snapshot:
 
     def review_attempts(self):
         """Ids of attempts that completed a review, on the problem itself or as its sibling (R-12, R-28)."""
-        return {attempt["id"] for own, rows in self.schedules.values()
-                for attempt, row in zip(own, rows) if row["kind"] == REVIEW}
+        return review_attempt_ids(self.schedules)
 
     def level(self):
         history = [

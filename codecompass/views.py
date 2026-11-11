@@ -10,14 +10,15 @@ from flask import Blueprint, Response, abort, current_app, flash, jsonify, redir
 
 from . import erase, picker, queries, remote
 from . import sync as syncing
-from .core.sync import LEETCODE_NOTICE, PROFILE_URLS, new_problem_details, outcome_choices, rating_changes
+from .core.sync import (LEETCODE_NOTICE, PROFILE_URLS, batch_message, batch_outcome, batch_skip, new_problem_details,
+                        outcome_choices, rating_changes, skip_message)
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
 from .core.exchange import COLUMNS, export_rows, plan_import, references
 from .core import filters, ordering, progress
-from .core.dates import friendly_date, full_date, short_date
+from .core.dates import countdown, friendly_date, full_date, short_date
 from .core.mastery import expected_level_index
 from .core.recommend import active_interview
-from .core.reviews import ics
+from .core.reviews import ics, review_attempt_ids, schedules
 from .core.sites import FILTER_SITES, KINDS, site_label
 from .state import Snapshot
 from .core import constants as c
@@ -145,7 +146,7 @@ def dashboard():
     snap = Snapshot(conn, today())
     return render_template(
         "dashboard.html",
-        sync_pending=len(syncing.pending_items(conn)),
+        sync_pending=syncing.pending_count(conn),
         due_count=len(snap.due_now),
         streak=snap.streak(),
         recommendations=snap.recommendations(),
@@ -375,7 +376,9 @@ def history():
     """
     conn = get_db()
     now = today()
-    totals = progress.day_totals(queries.all_attempts(conn))
+    # One read of the attempts, newest first, serves the calendar, the review marks, and the list.
+    every = [dict(a) for a in queries.recent_attempts(conn, limit=-1)]
+    totals = progress.day_totals(every)
     years = progress.years(totals, now)
     year = request.args.get("year", type=int)
     if year not in years:
@@ -383,17 +386,17 @@ def history():
     first, last, label = progress.period(year, now)
     until = request.args.get("until", "")
     until = until if progress.is_date(until) else None
-    snap = Snapshot(conn, now)
     # With reviews off (R-41), no attempt is marked as a review and there is no Reviews only filter.
-    reviews = snap.review_attempts() if snap.reviews_on else set()
-    rows = [{**dict(a), "review": a["id"] in reviews, "site": site_label(a["link"]),
-             "patterns": snap.problem(a["problem_id"])["patterns"]}
-            for a in queries.recent_attempts(conn, limit=-1, until=until)]
+    reviews_on = queries.current_settings(conn)["reviews_on"] == "1"
+    reviews = review_attempt_ids(schedules(every)) if reviews_on else set()
+    patterns = queries.patterns_by_problem(conn, {a["problem_id"] for a in every})
+    rows = [{**a, "review": a["id"] in reviews, "site": site_label(a["link"]), "patterns": patterns.get(a["problem_id"], [])}
+            for a in every if until is None or a["date"] <= until]
     sites = sorted({r["site"] for r in rows})
     present = {name for r in rows for name in r["patterns"]}
-    pattern_names = [p["name"] for p in snap.patterns if p["name"] in present]
+    pattern_names = [p["name"] for p in queries.patterns(conn) if p["name"] in present]
     chosen = filters.read_history(request.args, set(sites), set(pattern_names))
-    if not snap.reviews_on:
+    if not reviews_on:
         chosen.pop("reviews", None)
     matched = [r for r in rows if filters.history_match(r, chosen)]
     attempts = matched[:HISTORY_LIMIT]
@@ -418,7 +421,7 @@ def history():
     return render_template("history.html", days=days, attempts=attempts, calendar=calendar, until=until,
                            listed={d["date"] for d in days}, outcome_labels=OUTCOME_LABELS,
                            filters=chosen, options=options, matched=len(matched), total=len(rows),
-                           reviews_on=snap.reviews_on)
+                           reviews_on=reviews_on)
 
 
 @bp.app_template_filter("day_label")
@@ -643,17 +646,7 @@ def interview_page(conn, form, chosen, errors, editing=None, status=200):
     ), status
 
 
-def countdown(today_text, day_text, window):
-    """Days until an interview, and how its focus window sits between today and that day.
 
-    `focus_share` is the part of the bar, from today to the interview, that the focus
-    window covers; `focus_in` is the days until the window opens (0 once it has).
-    """
-    days = (date.fromisoformat(day_text) - date.fromisoformat(today_text)).days
-    if days < 0:
-        return {"days": days, "past": True, "focus_in": 0, "focus_share": 0}
-    return {"days": days, "past": False, "focus_in": max(0, days - window),
-            "focus_share": 1 if days <= window else round(window / days, 3)}
 
 
 def checked_interview(conn):
@@ -786,14 +779,15 @@ def sync_page():
     accounts = syncing.accounts(conn)
     waiting = syncing.pending_items(conn)
     pattern_names = [p["name"] for p in queries.patterns(conn)]
+    # Hints and patterns for every known problem at once, not a query per item.
+    hinted = queries.unused_hints(conn)
+    known_patterns = queries.patterns_by_problem(conn, {i["problem_id"] for i in waiting if i["problem_id"]})
     for item in waiting:
         item["choices"] = outcome_choices(item["accepted"])
-        item["hint"] = bool(item["problem_id"]) and queries.unused_hint(conn, item["problem_id"])
+        item["hint"] = item["problem_id"] in hinted
         if item["problem_id"]:
-            known = queries.get_problem(conn, item["problem_id"])
-            item["match"] = {"difficulty": known["difficulty"],
-                             "patterns": queries.problem_patterns(conn, item["problem_id"]), "new": False,
-                             "needs": False}
+            item["match"] = {"difficulty": item["difficulty"], "patterns": known_patterns.get(item["problem_id"], []),
+                             "new": False, "needs": False}
         else:
             item["details"] = new_problem_details(item["site"], item, pattern_names)
             d = item["details"]
@@ -989,14 +983,8 @@ def confirm_sync_item(conn, item, outcome, details, difficulty, chosen, names, h
     values["review_of_problem_id"] = (reviews or Snapshot(conn, today())).review_of(problem_id, values["date"])
     attempt_id = queries.add_attempt(conn, values, entry_method="sync")
     syncing.set_status(conn, item["id"], "confirmed")
-    return {"attempt": attempt_id, "problem": problem_id if added else None, "hints": hints}, {}
-
-
-class _NoReviews:
-    """Stands in for a Snapshot while no sibling suggestion is active, when no attempt can complete one."""
-
-    def review_of(self, problem_id, attempt_date):
-        return None
+    return {"attempt": attempt_id, "problem": problem_id if added else None, "hints": hints,
+            "problem_id": problem_id, "completes": values["review_of_problem_id"]}, {}
 
 
 # "auto" saves each item from its verdict: solved alone if accepted, otherwise not solved.
@@ -1026,36 +1014,35 @@ def batch_sync_items():
         return back_to_sync()
 
     names = {p["name"] for p in queries.patterns(conn)}
-    # A sibling review can only be completed while a suggestion is active, so the history
-    # is read for each item only then.
-    active = conn.execute("SELECT 1 FROM sibling_suggestions WHERE status = 'active' LIMIT 1").fetchone()
+    # Which due review an attempt completes depends on the reviews due now, which change only
+    # when a saved attempt completes a review or lands on a problem that was due; the picture
+    # is read once and again only then.
+    reviews = Snapshot(conn, today())
     done = {"items": [], "attempts": [], "problems": [], "hints": []}
-    skipped = {"details": 0, "hint": 0, "accepted": 0}
+    skipped = {}
     saved_as = {}
     for listed in picked:
         item = syncing.get_item(conn, listed["id"])  # An earlier item may have just added its problem.
         if action == "dismiss":
             syncing.set_status(conn, item["id"], "dismissed")
             done["items"].append(item["id"])
+            saved_as["dismiss"] = saved_as.get("dismiss", 0) + 1
             continue
-        outcome = action if action != "auto" else (c.SOLVED_ALONE if item["accepted"] else c.NOT_SOLVED)
-        if outcome not in outcome_choices(item["accepted"]):
-            skipped["accepted"] += 1
-            continue
+        outcome = batch_outcome(action, item["accepted"])
         hint = bool(item["problem_id"]) and queries.unused_hint(conn, item["problem_id"])
-        if hint and outcome == c.SOLVED_ALONE:
-            skipped["hint"] += 1
-            continue
         details = None if item["problem_id"] else new_problem_details(item["site"], item, sorted(names))
-        if details and (not details["difficulty"] or not details["patterns"]):
-            skipped["details"] += 1
+        reason = batch_skip(outcome, item["accepted"], hint,
+                            bool(details) and (not details["difficulty"] or not details["patterns"]))
+        if reason is None:
+            added, errors = confirm_sync_item(conn, item, outcome, details,
+                                              details["difficulty"] if details else None,
+                                              details["patterns"] if details else [], names, hint, reviews)
+            reason = "details" if errors else None
+        if reason:
+            skipped[reason] = skipped.get(reason, 0) + 1
             continue
-        added, errors = confirm_sync_item(conn, item, outcome, details, details["difficulty"] if details else None,
-                                          details["patterns"] if details else [], names, hint,
-                                          None if active else _NoReviews())
-        if errors:
-            skipped["details"] += 1
-            continue
+        if added["completes"] or added["problem_id"] in reviews.due_now:
+            reviews = Snapshot(conn, today())
         done["items"].append(item["id"])
         saved_as[outcome] = saved_as.get(outcome, 0) + 1
         done["attempts"].append(added["attempt"])
@@ -1063,28 +1050,12 @@ def batch_sync_items():
         if added["problem"]:
             done["problems"].append(added["problem"])
 
-    count = len(done["items"])
-    if count:
+    if done["items"]:
         batch_id = syncing.record_batch(conn, done, today())
-        noun = "item" if count == 1 else "items"
-        if action == "dismiss":
-            message = f"Dismissed {count} {noun}."
-        elif action == "auto":
-            parts = [f"{n} as {OUTCOME_LABELS[o].lower()}" for o, n in saved_as.items()]
-            message = f"Saved {count} {noun}: " + " and ".join(parts) + "."
-        else:
-            message = f"Saved {count} {noun} as {OUTCOME_LABELS[action].lower()}."
-        flash(message, f"undo-batch:{batch_id}")
-    left = sum(skipped.values())
+        flash(batch_message(action, saved_as, OUTCOME_LABELS), f"undo-batch:{batch_id}")
+    left = skip_message(skipped)
     if left:
-        reasons = []
-        if skipped["details"]:
-            reasons.append(f"{skipped['details']} new to CodeCompass and needing a level or patterns")
-        if skipped["hint"]:
-            reasons.append(f"{skipped['hint']} with a revealed hint, which cannot be solved alone")
-        if skipped["accepted"]:
-            reasons.append(f"{skipped['accepted']} with an accepted submission, which cannot be not solved")
-        flash(f"Left {left} on the list: " + "; ".join(reasons) + ".")
+        flash(left)
     return back_to_sync()
 
 
