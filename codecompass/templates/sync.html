@@ -74,7 +74,7 @@
                  aria-label="Select {{ item['title'] }}, {{ item['date'] }}">
           <div class="sync-head">
             <a href="{{ item['problem_link'] }}" rel="noreferrer" target="_blank"><strong>{{ item['title'] }}</strong></a>
-            <span class="meta">{{ sites[item['site']] }} · {{ item['date']|when }} · {{ "Accepted" if item['accepted'] else "No accepted submission" }}</span>
+            <span class="meta">{{ sites[item['site']] }} · {{ item['date']|when }} · <span class="verdict {{ 'ac' if item['accepted'] else 'wa' }}">{{ "Accepted" if item['accepted'] else "No accepted submission" }}</span></span>
             {% if item.details %}
               <small>
                 New to CodeCompass, so it is added as a custom problem when you confirm.

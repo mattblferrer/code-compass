@@ -789,3 +789,10 @@ def test_redirects_to_another_site_are_refused():
         handler.redirect_request(request, None, 302, "Found", {}, "https://example.com/elsewhere")
     same = handler.redirect_request(request, None, 302, "Found", {}, "https://atcoder.jp/users/Practice_User/history/json")
     assert same.full_url == "https://atcoder.jp/users/Practice_User/history/json"
+
+
+def test_verdicts_are_coloured(client, app, sites):
+    link(client, codeforces="practice_user")
+    page = sync(client)
+    assert page.count('<span class="verdict ac">Accepted</span>') == 4
+    assert page.count('<span class="verdict wa">No accepted submission</span>') == 1

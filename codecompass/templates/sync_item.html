@@ -20,7 +20,7 @@
       <ul class="context-list">
         <li><span>Site</span><span>{{ sites[item['site']] }}</span></li>
         <li><span>Date</span>{{ item['date']|when }}</li>
-        <li><span>Result</span><span>{{ "Accepted" if item['accepted'] else "No accepted submission" }}</span></li>
+        <li><span>Result</span><span class="verdict {{ 'ac' if item['accepted'] else 'wa' }}">{{ "Accepted" if item['accepted'] else "No accepted submission" }}</span></li>
         {% if item['rating'] is not none %}<li><span>Rating on {{ sites[item['site']] }}</span><span>{{ item['rating'] }}</span></li>{% endif %}
       </ul>
       {% if details %}<p class="context-muted">This problem is new to CodeCompass, so it is added as a custom problem when you confirm.</p>{% endif %}

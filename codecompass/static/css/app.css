@@ -3359,3 +3359,16 @@ table.sortable th[aria-sort="descending"] .sort-arrow::after {
   content: "\2193";
   opacity: 1;
 }
+
+/* A synced submission's verdict: green when accepted, and the orange of a rating drop when not. */
+.verdict {
+  font-weight: 600;
+}
+
+.verdict.ac {
+  color: var(--up);
+}
+
+.verdict.wa {
+  color: var(--due);
+}
