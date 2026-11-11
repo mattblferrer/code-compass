@@ -8,7 +8,7 @@ from .core.levels import current_level
 from .core.mastery import pattern_score
 from .core.reasons import hint_eligible, reason
 from .core.recommend import REVIEW, active_interview, recommend
-from .core.reviews import activity, due_dates, schedules, streak_days
+from .core.reviews import activity, due_dates, is_stale, last_attempts, schedules, served_reviews, streak_days
 from .core.siblings import choose_sibling
 from .core.sites import is_hidden
 from .core.streak import review_streak
@@ -87,7 +87,10 @@ class Snapshot:
 
         self.schedules = schedules(self.attempts)
         self.due = due_dates(self.schedules)
-        self.due_now = {pid: day for pid, day in self.due.items() if day <= today}
+        self.last_attempt = last_attempts(self.schedules)
+        # Reviews of problems not attempted for a long time wait while newer ones are due (R-12).
+        self.due_now = served_reviews({pid: day for pid, day in self.due.items() if day <= today},
+                                      self.last_attempt, today)
         self.attempted = {a["problem_id"] for a in self.attempts}
         self.not_now = {r["problem_id"] for r in conn.execute(
             "SELECT problem_id FROM not_now WHERE date > ?", (add_days(today, -c.NOT_NOW_DAYS),)
@@ -393,8 +396,11 @@ class Snapshot:
         return result
 
     def calendar_events(self):
+        """Reviews for the calendar file (R-31), leaving out problems that will be old by
+        their due date (R-12), which wait for newer reviews."""
         return [
             {"uid": f"review-{pid}-{day}@codecompass", "date": day,
              "summary": f"Review: {self.problems[pid]['title']}"}
             for pid, day in sorted(self.due.items(), key=lambda x: (x[1], x[0]))
+            if pid in self.due_now or not is_stale(self.last_attempt[pid], max(day, self.today))
         ]

@@ -38,6 +38,9 @@ FIRST_INTERVAL_DAYS = {
     SOLVED_AFTER_SOLUTION: 7,
     NOT_SOLVED: 7,
 }
+# A due review of a problem last attempted more than this many days ago is held back
+# while any more recent review is due (R-12).
+STALE_REVIEW_DAYS = 180
 
 # Recommendations (R-13, R-15, R-29, R-32)
 LIST_SIZE = 5

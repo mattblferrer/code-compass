@@ -151,6 +151,52 @@ def test_calendar_export(client, app):
     assert "SUMMARY:Review: Two Sum" in body
 
 
+# --- Old reviews wait for newer ones (R-12) ---
+# Two Sum last attempted 200 days ago was due 186 days ago; Valid Parentheses last
+# attempted 30 days ago was due 16 days ago. Both are due, but Two Sum is old.
+
+def test_served_reviews_rule():
+    from codecompass.core.reviews import is_stale, served_reviews
+
+    today = "2026-11-11"
+    assert not is_stale("2026-05-15", today)  # Exactly 180 days ago is still recent.
+    assert is_stale("2026-05-14", today)  # 181 days ago is old.
+    due = {1: "2026-05-28", 2: "2026-10-26"}
+    last = {1: "2026-05-14", 2: "2026-10-12"}
+    assert served_reviews(due, last, today) == {2: "2026-10-26"}  # The old one waits.
+    assert served_reviews({1: "2026-05-28"}, last, today) == {1: "2026-05-28"}  # Nothing newer is due.
+    assert served_reviews({}, last, today) == {}
+
+
+def test_an_old_review_waits_while_a_recent_one_is_due(client, app):
+    log(client, TWO_SUM, 200)
+    log(client, PARENS, 30)
+    html = page(client)
+    assert "1 review is due" in html
+    assert "Review of Valid Parentheses" in html
+    assert "Two Sum" not in html.split("<h2>Patterns</h2>")[0]
+    # No sibling is chosen for the review that waits.
+    assert query(app, "SELECT due_problem_id FROM sibling_suggestions") == [{"due_problem_id": pid(app, "Valid Parentheses")}]
+    body = client.get("/reviews.ics").get_data(as_text=True)
+    assert "SUMMARY:Review: Valid Parentheses" in body and "Two Sum" not in body
+
+
+def test_an_old_review_is_served_when_nothing_recent_is_due(client, app):
+    log(client, TWO_SUM, 200)
+    html = page(client)
+    assert "1 review is due" in html
+    assert "Due for another try" in html and "Two Sum" in html.split("<h2>Patterns</h2>")[0]
+    assert "SUMMARY:Review: Two Sum" in client.get("/reviews.ics").get_data(as_text=True)
+
+
+def test_attempting_an_old_problem_still_completes_its_review(client, app):
+    log(client, TWO_SUM, 200)
+    log(client, PARENS, 30)
+    log(client, TWO_SUM, 0)  # A review, solved alone: the 14-day interval doubles.
+    problem = page(client, f"/problems/{pid(app, 'Two Sum')}")
+    assert f"Next review due {(date.today() + timedelta(days=28)).isoformat()}" in problem
+
+
 @pytest.mark.parametrize("path", ["/patterns/Nope", "/problems/999"])
 def test_missing_pages(client, path):
     assert client.get(path).status_code == 404

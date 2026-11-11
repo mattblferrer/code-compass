@@ -1,7 +1,8 @@
 """Due reviews, streak days, and the calendar file (R-12, R-28, R-30, R-31)."""
 from datetime import timedelta
 
-from .dates import parse
+from . import constants as c
+from .dates import add_days, parse
 from .schedule import REVIEW, review_schedule
 
 
@@ -34,6 +35,28 @@ def schedules(attempts):
 def due_dates(all_schedules):
     """{problem_id: next due date}."""
     return {pid: rows[-1]["due"] for pid, (_, rows) in all_schedules.items()}
+
+
+def last_attempts(all_schedules):
+    """{problem_id: date of the latest attempt in its schedule}, sibling reviews included."""
+    return {pid: own[-1]["date"] for pid, (own, _) in all_schedules.items()}
+
+
+def is_stale(last_attempt, day):
+    """Whether a problem last attempted on `last_attempt` is old on `day` (R-12)."""
+    return last_attempt < add_days(day, -c.STALE_REVIEW_DAYS)
+
+
+def served_reviews(due_now, last, today):
+    """The due reviews to serve (R-12): those of problems attempted within the last
+    c.STALE_REVIEW_DAYS days, or, when none of those is due, every due review.
+
+    `due_now` is {problem_id: due date} for reviews due by today, and `last` the
+    latest attempt date of each problem. A review held back keeps its schedule, so
+    an attempt on that problem still completes it.
+    """
+    recent = {pid: day for pid, day in due_now.items() if not is_stale(last[pid], today)}
+    return recent or dict(due_now)
 
 
 def streak_days(all_schedules, today):

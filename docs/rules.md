@@ -94,6 +94,7 @@ Each attempted problem has a current interval and a due date, except that a sibl
 - An early attempt is an attempt on the problem itself before its due date.
 - A late review gets no extra credit: doubling uses the current interval, not the days that actually passed, and the next due date counts from the attempt date.
 - Intervals have no maximum.
+- **Old problems wait:** a problem is old when the latest attempt in its schedule (its own, or a sibling attempt for one of its reviews) is more than 180 days before today. While any review of a problem that is not old is due, reviews of old problems are not served: they are left out of the review slots, the number due, and the calendar file, and no sibling is chosen for them. When no such review is due, the old ones are served as usual. A review held back keeps its schedule, so an attempt on that problem still completes it, and the streak is unchanged, since a day with any review due always has one served. The calendar file also leaves out reviews that will be old by their due date.
 - Dates follow the user's local time zone.
 
 ### Why these values
