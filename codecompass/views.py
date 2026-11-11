@@ -344,7 +344,25 @@ def delete_attempt(attempt_id):
 
 @bp.route("/history")
 def history():
-    return render_template("history.html", attempts=queries.recent_attempts(get_db(), limit=200))
+    """Recent attempts grouped by day, newest first, with reviews marked (R-12)."""
+    conn = get_db()
+    attempts = queries.recent_attempts(conn, limit=200)
+    reviews = Snapshot(conn, today()).review_attempts()
+    days, week = [], None
+    for a in attempts:
+        if not days or days[-1]["date"] != a["date"]:
+            day = date.fromisoformat(a["date"])
+            starts_week = week is not None and day.isocalendar()[:2] != week
+            week = day.isocalendar()[:2]
+            days.append({"date": a["date"], "label": day_label(a["date"]), "attempts": [], "week_start": starts_week})
+        days[-1]["attempts"].append({**dict(a), "review": a["id"] in reviews})
+    return render_template("history.html", days=days, attempts=attempts)
+
+
+def day_label(text):
+    """A date as the History page heads a day, such as "Tue 11 Nov 2026"."""
+    day = date.fromisoformat(text)
+    return f"{day:%a} {day.day} {day:%b %Y}"
 
 
 @bp.route("/problems/<int:problem_id>")
@@ -507,11 +525,31 @@ def interview_page(conn, form, chosen, errors, editing=None, status=200):
          for r in rows],
         today(),
     )
+    # Upcoming interviews first, nearest first; past ones after, most recent first.
+    now = today()
+    upcoming = [dict(r) for r in rows if r["date"] >= now]
+    past = sorted((dict(r) for r in rows if r["date"] < now), key=lambda r: r["date"], reverse=True)
+    for r in upcoming + past:
+        r["countdown"] = countdown(now, r["date"], c.FOCUS_WINDOW_DAYS)
+        r["label"] = day_label(r["date"])
     return render_template(
-        "interviews.html", interviews=rows, focus_date=focus["date"] if focus else None, today=today(),
+        "interviews.html", interviews=upcoming + past, focus_date=focus["date"] if focus else None, today=now,
         window=c.FOCUS_WINDOW_DAYS, form=form, chosen=chosen, errors=errors, editing=editing,
         patterns=queries.patterns(conn), levels=c.LEVELS,
     ), status
+
+
+def countdown(today_text, day_text, window):
+    """Days until an interview, and how its focus window sits between today and that day.
+
+    `focus_share` is the part of the bar, from today to the interview, that the focus
+    window covers; `focus_in` is the days until the window opens (0 once it has).
+    """
+    days = (date.fromisoformat(day_text) - date.fromisoformat(today_text)).days
+    if days < 0:
+        return {"days": days, "past": True, "focus_in": 0, "focus_share": 0}
+    return {"days": days, "past": False, "focus_in": max(0, days - window),
+            "focus_share": 1 if days <= window else round(window / days, 3)}
 
 
 def checked_interview(conn):

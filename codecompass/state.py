@@ -176,6 +176,11 @@ class Snapshot:
         records = streak_days(self.schedules, self.today)
         return activity(records, [a["date"] for a in self.attempts], self.today, days)
 
+    def review_attempts(self):
+        """Ids of attempts that completed a review, on the problem itself or as its sibling (R-12, R-28)."""
+        return {attempt["id"] for own, rows in self.schedules.values()
+                for attempt, row in zip(own, rows) if row["kind"] == REVIEW}
+
     def level(self):
         history = [
             {"difficulty": self._known[a["problem_id"]]["difficulty"], "outcome": a["outcome"]}

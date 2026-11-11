@@ -34,7 +34,9 @@ def test_adding_an_interview(client, app):
                             "patterns": ["Two Pointers", "Stack"]}]
     page = client.get("/interviews").get_data(as_text=True)
     assert "Interview with Acme added." in page
-    assert "Two Pointers, Stack" in page
+    assert "<li>Two Pointers</li><li>Stack</li>" in page  # The patterns, as chips on the interview's card.
+    # 5 days away, so the countdown shows it and recommendations focus on it.
+    assert '<strong class="days-left">5</strong> days' in page and "Recommendations are focused on it" in page
 
 
 def test_difficulty_and_patterns_are_optional(client, app):

@@ -6,21 +6,33 @@
     <a href="{{ url_for('main.export_csv') }}">Export to CSV</a>
     <a href="{{ url_for('main.import_csv') }}">Import from CSV</a>
   </p>
-  {% if attempts %}
-    <div class="table-wrap">
+  {% if days %}
+    {# One table, a row group per day, so the columns stay aligned and screen readers
+       hear each day as a group. The marks repeat the outcome in shape and colour. #}
+    <div class="table-wrap log">
       <table>
-        <thead><tr><th>Date</th><th>Problem</th><th>Outcome</th><th>Time</th><th><span class="visually-hidden">Edit</span></th></tr></thead>
-        <tbody>
-          {% for a in attempts %}
-            <tr>
-              <td>{{ a['date'] }}</td>
-              <td><a href="{{ url_for('main.problem', problem_id=a['problem_id']) }}">{{ a['title'] }}</a></td>
-              <td>{{ a['outcome']|outcome }}</td>
-              <td>{{ a['time_seconds']|clock }}</td>
-              <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
+        <thead><tr><th>Problem</th><th>Outcome</th><th>Time</th><th><span class="visually-hidden">Edit</span></th></tr></thead>
+        {% for day in days %}
+          <tbody class="day{{ ' week-start' if day.week_start }}">
+            <tr class="day-head">
+              <th scope="rowgroup" colspan="4">
+                <time datetime="{{ day.date }}">{{ day.label }}</time>
+                <span class="day-count">{{ day.attempts|length }} {{ "attempt" if day.attempts|length == 1 else "attempts" }}</span>
+              </th>
             </tr>
-          {% endfor %}
-        </tbody>
+            {% for a in day.attempts %}
+              <tr>
+                <td class="problem-cell">
+                  <a href="{{ url_for('main.problem', problem_id=a['problem_id']) }}">{{ a['title'] }}</a>
+                  {% if a.review %}<span class="tag review-tag">Review</span>{% endif %}
+                </td>
+                <td class="outcome-cell"><span class="o-mark o-{{ a['outcome'] }}" aria-hidden="true"></span>{{ a['outcome']|outcome }}</td>
+                <td>{{ a['time_seconds']|clock }}</td>
+                <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        {% endfor %}
       </table>
     </div>
   {% else %}

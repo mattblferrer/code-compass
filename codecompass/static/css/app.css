@@ -2578,3 +2578,359 @@ dialog.confirm-dialog[open] {
   }
 }
 
+/* --- Brand: chart and compass ---
+   One bold place, the header band: a compass needle with a red north tip, the name in
+   Bahnschrift (a DIN, the road-sign typeface, on Windows; DIN Alternate on Apple), and
+   faint contour lines like a chart's. Headings share the DIN; the rest stays quiet. */
+:root {
+  --font-brand: "Bahnschrift", "DIN Alternate", "DIN Next", "Segoe UI Variable Display", system-ui, sans-serif;
+  --needle: #ff5a4f;
+}
+
+h1,
+h2 {
+  font-family: var(--font-brand);
+  font-weight: 600;
+}
+
+h1 {
+  letter-spacing: -0.01em;
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='xMidYMid slice'%3E%3Cg fill='none' stroke='white' stroke-width='1'%3E%3Cpath d='M1028 64 L1030 66 L1030 68 L1027 70 L1023 71 L1019 71 L1016 71 L1013 71 L1010 72 L1006 73 L1003 73 L999 72 L996 71 L994 69 L992 68 L991 66 L992 64 L994 62 L996 61 L997 60 L998 58 L999 56 L1002 54 L1006 54 L1010 54 L1013 55 L1016 56 L1019 57 L1022 58 L1024 59 L1025 61 L1027 62 Z'/%3E%3Cpath d='M1056 64 L1058 69 L1057 74 L1051 78 L1042 80 L1032 81 L1024 81 L1017 82 L1010 84 L1001 86 L991 86 L983 84 L976 81 L972 77 L968 73 L966 68 L968 64 L971 60 L975 57 L978 53 L980 49 L983 44 L990 40 L1000 39 L1010 40 L1018 43 L1025 46 L1032 48 L1039 50 L1045 52 L1049 56 L1053 60 Z'/%3E%3Cpath d='M1084 64 L1085 71 L1082 79 L1074 85 L1060 89 L1045 90 L1032 91 L1021 92 L1010 96 L996 100 L980 101 L965 97 L956 91 L950 84 L946 77 L944 71 L944 64 L947 58 L953 52 L958 46 L961 40 L967 32 L978 26 L994 24 L1010 26 L1023 31 L1033 36 L1043 39 L1055 42 L1067 45 L1076 50 L1081 57 Z'/%3E%3Cpath d='M1113 64 L1111 74 L1105 84 L1094 92 L1078 98 L1058 100 L1041 101 L1026 103 L1010 109 L990 114 L967 115 L948 111 L935 101 L930 91 L927 81 L923 73 L921 64 L922 55 L928 47 L935 39 L942 30 L952 20 L967 12 L988 9 L1010 13 L1028 20 L1041 27 L1054 31 L1071 34 L1089 38 L1104 45 L1112 54 Z'/%3E%3Cpath d='M1144 64 L1136 77 L1126 88 L1113 98 L1094 106 L1072 110 L1050 113 L1031 116 L1010 121 L985 128 L956 130 L930 124 L914 112 L909 98 L908 85 L905 74 L900 64 L897 53 L901 41 L910 30 L922 20 L937 9 L957 -0 L983 -4 L1010 -1 L1032 8 L1049 17 L1065 23 L1087 26 L1112 30 L1134 38 L1144 51 Z'/%3E%3Cpath d='M1175 64 L1161 79 L1145 92 L1128 104 L1109 114 L1086 121 L1061 125 L1036 129 L1010 135 L979 141 L944 143 L913 137 L894 122 L889 104 L890 89 L888 76 L879 64 L871 50 L871 35 L882 21 L900 9 L922 -2 L947 -11 L978 -16 L1010 -13 L1037 -4 L1057 7 L1077 14 L1103 17 L1135 22 L1164 32 L1178 47 Z'/%3E%3Cpath d='M1207 64 L1186 82 L1162 96 L1142 108 L1123 121 L1100 131 L1072 139 L1042 144 L1010 150 L974 155 L934 156 L897 148 L874 132 L869 111 L872 93 L870 78 L859 64 L845 48 L841 29 L853 11 L877 -2 L907 -13 L939 -22 L974 -26 L1010 -24 L1042 -16 L1067 -5 L1090 4 L1120 9 L1158 14 L1193 26 L1211 44 Z'/%3E%3Cpath d='M1238 64 L1211 84 L1180 99 L1155 112 L1136 127 L1114 142 L1084 154 L1049 161 L1010 166 L968 169 L924 168 L883 159 L857 141 L849 118 L852 97 L851 80 L838 64 L819 45 L810 23 L822 1 L853 -14 L892 -24 L931 -31 L971 -35 L1010 -34 L1046 -28 L1077 -17 L1106 -8 L1139 -1 L1181 7 L1221 20 L1243 41 Z'/%3E%3Cpath d='M1267 64 L1236 86 L1197 103 L1168 117 L1148 133 L1128 152 L1097 169 L1056 180 L1010 183 L963 182 L916 178 L872 167 L841 149 L829 125 L830 101 L829 82 L815 64 L792 42 L780 16 L792 -9 L829 -27 L877 -36 L924 -40 L968 -42 L1010 -43 L1051 -39 L1089 -31 L1123 -20 L1160 -11 L1205 -1 L1248 15 L1273 38 Z'/%3E%3Cpath d='M1294 64 L1260 89 L1216 107 L1182 121 L1161 139 L1142 163 L1110 185 L1064 199 L1010 201 L957 196 L908 188 L862 174 L827 155 L809 131 L806 106 L804 84 L790 64 L766 40 L750 10 L763 -19 L804 -39 L862 -47 L917 -48 L965 -49 L1010 -51 L1056 -51 L1101 -45 L1142 -35 L1184 -23 L1228 -9 L1272 10 L1298 35 Z'/%3E%3Cpath d='M268 -10 L266 -9 L264 -8 L262 -7 L260 -6 L258 -5 L256 -4 L253 -4 L250 -3 L247 -3 L243 -3 L240 -4 L238 -5 L237 -6 L237 -8 L237 -9 L236 -10 L235 -11 L234 -13 L235 -14 L238 -15 L241 -16 L244 -16 L247 -17 L250 -17 L253 -16 L255 -15 L258 -15 L260 -14 L264 -14 L267 -13 L269 -12 Z'/%3E%3Cpath d='M300 -10 L294 -6 L286 -4 L281 -1 L277 1 L273 4 L267 7 L259 9 L250 10 L241 9 L232 9 L223 7 L217 4 L215 -0 L215 -4 L215 -7 L212 -10 L208 -14 L205 -18 L207 -22 L215 -25 L224 -26 L233 -27 L242 -27 L250 -27 L258 -27 L265 -26 L272 -24 L279 -22 L288 -21 L296 -18 L301 -14 Z'/%3E%3Cpath d='M330 -10 L321 -4 L309 0 L299 4 L293 8 L288 14 L279 19 L266 23 L250 24 L235 22 L221 19 L209 16 L199 11 L193 6 L191 0 L190 -5 L186 -10 L180 -16 L176 -23 L179 -30 L191 -35 L208 -37 L224 -37 L238 -36 L250 -37 L263 -37 L276 -37 L289 -34 L301 -31 L313 -28 L324 -23 L331 -17 Z'/%3E%3Cpath d='M357 -10 L347 -2 L332 4 L318 9 L309 15 L303 23 L291 32 L273 38 L250 38 L229 35 L211 29 L197 24 L183 18 L172 12 L165 5 L162 -3 L157 -10 L151 -18 L147 -28 L152 -38 L168 -44 L191 -47 L215 -46 L234 -45 L250 -46 L268 -48 L288 -49 L308 -46 L325 -41 L338 -35 L350 -27 L358 -19 Z'/%3E%3Cpath d='M380 -10 L372 0 L357 9 L341 15 L328 23 L318 33 L303 44 L279 52 L250 53 L223 47 L202 39 L186 30 L170 24 L153 17 L138 9 L129 0 L124 -10 L121 -21 L120 -33 L128 -44 L147 -53 L176 -57 L205 -55 L229 -53 L250 -54 L273 -58 L300 -61 L328 -59 L351 -52 L365 -42 L375 -32 L380 -21 Z'/%3E%3Cpath d='M399 -10 L394 2 L383 13 L367 23 L350 32 L335 43 L315 56 L286 65 L250 67 L217 60 L193 48 L175 37 L157 29 L134 23 L110 14 L93 3 L87 -10 L88 -24 L95 -37 L107 -50 L130 -61 L161 -66 L195 -65 L225 -63 L250 -64 L278 -68 L312 -73 L349 -72 L378 -64 L393 -50 L398 -36 L399 -22 Z'/%3E%3C/g%3E%3C/svg%3E") center / cover no-repeat;
+  opacity: 0.09;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-brand);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.wordmark .logo-mark {
+  flex: none;
+}
+
+.mark-ring {
+  fill: none;
+  stroke: var(--on-band-muted);
+  stroke-width: 1.4;
+  opacity: 0.6;
+}
+
+.mark-north {
+  fill: var(--needle);
+}
+
+.mark-south {
+  fill: var(--on-band);
+}
+
+.mark-pin {
+  fill: var(--band);
+}
+
+/* Pointing at the name swings the needle to north, and it settles back after. */
+.wordmark .logo-mark g {
+  transform-origin: 12px 12px;
+  transform: rotate(35deg);
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wordmark:hover .logo-mark g,
+.wordmark:focus-visible .logo-mark g {
+  transform: rotate(0deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wordmark .logo-mark g {
+    transition: none;
+  }
+}
+
+/* --- History: a log grouped by day, with a mark for each outcome --- */
+.log tbody.day .day-head th {
+  padding-top: 1rem;
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: var(--step-0);
+  color: var(--text);
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+
+.log tbody.day:first-of-type .day-head th {
+  padding-top: 0.6rem;
+}
+
+.log tbody.week-start .day-head th {
+  border-top: 2px solid var(--rule);
+  padding-top: 1.4rem;
+}
+
+.day-count {
+  float: right;
+  font-family: var(--font);
+  font-weight: 400;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.problem-cell .review-tag {
+  margin-left: 0.4rem;
+}
+
+.outcome-cell {
+  white-space: nowrap;
+}
+
+/* Filled: alone. Half: hints. Ring: after the solution. Cross: not solved. */
+.o-mark {
+  display: inline-block;
+  position: relative;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  vertical-align: -0.05rem;
+  box-sizing: border-box;
+}
+
+.o-solved_alone {
+  background: var(--up);
+}
+
+.o-solved_with_hints {
+  border: 2px solid var(--data);
+  background: linear-gradient(90deg, var(--data) 50%, transparent 50%);
+}
+
+.o-solved_after_solution {
+  border: 2px solid var(--medium);
+}
+
+.o-not_solved::before,
+.o-not_solved::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.8rem;
+  height: 2px;
+  background: var(--hard);
+  border-radius: 1px;
+}
+
+.o-not_solved::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.o-not_solved::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* --- Interviews: each one a destination, with the days left and its focus window --- */
+.destinations {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: 1rem;
+}
+
+.destination {
+  padding: 1rem 1.15rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--data);
+  border-radius: var(--radius);
+}
+
+.destination.in-focus {
+  border-top-color: var(--needle);
+}
+
+.destination.past {
+  border-top-color: var(--rule);
+  opacity: 0.75;
+}
+
+.destination[aria-current="true"] {
+  outline: 2px solid var(--data);
+  outline-offset: 2px;
+}
+
+.destination .interview-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+  font-family: var(--font-brand);
+  font-size: var(--step-1);
+}
+
+.countdown {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.45rem;
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+}
+
+.countdown .days-left {
+  font-family: var(--font-brand);
+  font-size: 2.6rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.countdown time {
+  margin-left: auto;
+}
+
+/* Today on the left, the interview on the right; the shaded end is the focus window. */
+.approach {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--track);
+}
+
+.approach::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--text);
+  transform: translateY(-50%);
+}
+
+.approach span {
+  border-radius: 999px;
+  background: var(--data-mid);
+}
+
+.destination.in-focus .approach span {
+  background: var(--needle);
+}
+
+.approach-note {
+  margin: 0.35rem 0 0.6rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.destination .context-muted {
+  margin: 0 0 0.4rem;
+}
+
+.chips {
+  list-style: none;
+  margin: 0 0 0.6rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.chips li {
+  padding: 0.12rem 0.6rem;
+  border-radius: 999px;
+  background: var(--track);
+  font-size: var(--step--1);
+}
+
+.add-interview > summary {
+  list-style: none;
+  display: inline-block;
+}
+
+.add-interview > summary::-webkit-details-marker {
+  display: none;
+}
+
+.add-interview[open] > summary {
+  margin-bottom: 1rem;
+}
+
+.interview-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 0 1.25rem;
+}
+
+/* Pattern choices as toggle chips; the checkbox stays for keyboards and screen readers. */
+.chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.6rem 0;
+}
+
+label.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: var(--step--1);
+  font-weight: 400;
+  cursor: pointer;
+  user-select: none;
+}
+
+label.chip input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+label.chip:hover {
+  border-color: var(--data);
+}
+
+label.chip:has(input:checked) {
+  background: var(--data);
+  border-color: var(--data);
+  color: var(--on-data);
+}
+
+label.chip:has(input:checked)::before {
+  content: "\2713";
+  font-weight: 600;
+}
+
+label.chip:has(input:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+
+/* The interview form uses the page width, so company, date, and difficulty share a row. */
+form.sheet.interview-sheet {
+  max-width: 60rem;
+}

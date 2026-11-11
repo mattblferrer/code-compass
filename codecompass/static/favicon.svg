@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- CodeCompass mark: a compass needle on the chart navy, north tip in needle red. -->
+  <rect width="32" height="32" rx="7" fill="#163d7a"/>
+  <circle cx="16" cy="16" r="11.5" fill="none" stroke="#c9d6ee" stroke-width="1.5" opacity="0.6"/>
+  <g transform="rotate(35 16 16)">
+    <path d="M16 5.5 L19.6 16 L12.4 16 Z" fill="#ff5a4f"/>
+    <path d="M16 26.5 L19.6 16 L12.4 16 Z" fill="#ffffff"/>
+  </g>
+  <circle cx="16" cy="16" r="1.6" fill="#163d7a"/>
+</svg>
