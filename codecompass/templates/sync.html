@@ -41,7 +41,8 @@
   {% if waiting %}
     <p class="small">Sites show that you submitted, not how much help you had. Choose what happened for each one, or select several and choose once; "Had external help" covers hints, AI chat, discussion posts, or a full solution.</p>
 
-    <form method="get" action="{{ url_for('main.sync_page') }}#filters" class="filters" id="filters" aria-label="Filter waiting submissions">
+    {% call pick.fold(filters) %}
+    <form method="get" action="{{ url_for('main.sync_page') }}#filters" class="filters" aria-label="Filter waiting submissions">
       {{ pick.choose("verdict", "Verdict", options.verdict, filters.get("verdict")) }}
       {{ pick.choose("difficulty", "Difficulty", options.difficulty, filters.get("difficulty")) }}
       {{ pick.choose("site", "Site", options.site, filters.get("site")) }}
@@ -51,6 +52,7 @@
       {{ pick.date_range(filters) }}
       {{ pick.bar_end(filters, url_for('main.sync_page') ~ '#filters') }}
     </form>
+    {% endcall %}
     {% if filters %}
       <p class="filter-count" role="status">{{ items|length }} of {{ waiting }} waiting {{ "submission matches" if waiting == 1 else "submissions match" }}. Select all and the batch actions use only these.</p>
     {% endif %}

@@ -95,3 +95,13 @@ def test_filters_leave_the_calendar_whole(client):
     assert f'<option value="{c.NOT_SOLVED}" selected>' in page
     # The calendar still counts every attempt; filters apply to the list only.
     assert "<dt>Attempts</dt><dd>1</dd>" in page
+
+
+def test_filter_bar_folds_behind_a_button_that_counts_the_filters_on(client):
+    log(client, PARENS, 3, c.NOT_SOLVED)
+    page = client.get("/history").get_data(as_text=True)
+    # Open in the page, so it shows without JavaScript; the script folds it on a phone.
+    assert '<details class="filter-fold" id="filters" open data-active="0">' in page
+    assert '<summary class="button quiet small">Filters</summary>' in page
+    on = client.get(f"/history?outcome={c.NOT_SOLVED}&difficulty=easy").get_data(as_text=True)
+    assert 'data-active="2"' in on and "Filters (2 on)</summary>" in on

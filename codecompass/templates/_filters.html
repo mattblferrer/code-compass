@@ -21,3 +21,13 @@
     {% if f %}<a href="{{ clear_url }}">Clear filters</a>{% endif %}
   </div>
 {% endmacro %}
+
+{# On a phone the bar folds behind a Filters button, open while any filter is on;
+   js/filters.js folds it, so without JavaScript it stays open. Wider screens always
+   show it, and the button is hidden there. #}
+{% macro fold(f) %}
+  <details class="filter-fold" id="filters" open data-active="{{ f|length }}">
+    <summary class="button quiet small">Filters{% if f %} ({{ f|length }} on){% endif %}</summary>
+    {{ caller() }}
+  </details>
+{% endmacro %}

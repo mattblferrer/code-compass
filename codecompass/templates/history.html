@@ -100,7 +100,8 @@
 
   {% if total %}
     {# Filters apply to the list below; the calendar always shows every attempt. #}
-    <form method="get" action="{{ url_for('main.history') }}#filters" class="filters" id="filters" aria-label="Filter attempts">
+    {% call pick.fold(filters) %}
+    <form method="get" action="{{ url_for('main.history') }}#filters" class="filters" aria-label="Filter attempts">
       {% if cal.year %}<input type="hidden" name="year" value="{{ cal.year }}">{% endif %}
       {% if until %}<input type="hidden" name="until" value="{{ until }}">{% endif %}
       {{ pick.choose("outcome", "Outcome", options.outcome, filters.get("outcome")) }}
@@ -112,6 +113,7 @@
       <label class="check"><input type="checkbox" name="reviews" value="1" {% if filters.get("reviews") %}checked{% endif %}><span>Reviews only</span></label>
       {{ pick.bar_end(filters, url_for('main.history', year=cal.year, until=until) ~ '#filters') }}
     </form>
+    {% endcall %}
     {% if filters %}
       <p class="filter-count" role="status">{{ matched }} of {{ total }} {{ "attempt matches" if total == 1 else "attempts match" }}{% if matched > attempts|length %}; showing the latest {{ attempts|length }}{% endif %}.</p>
     {% endif %}

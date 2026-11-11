@@ -1,7 +1,19 @@
 // Filter bars on History and Sync: each change applies at once, so the Apply button is
 // only needed without JavaScript. Filters live in the page's address, so a reload or a
-// bookmark keeps them.
+// bookmark keeps them. On a phone the bar folds behind its Filters button unless a
+// filter is on; on a wider screen it is always open.
 (function () {
+  var narrow = window.matchMedia ? window.matchMedia("(max-width: 40rem)") : null;
+  document.querySelectorAll("details.filter-fold").forEach(function (fold) {
+    var active = fold.getAttribute("data-active") !== "0";
+    function fit() {
+      if (!narrow || !narrow.matches) fold.open = true;
+    }
+    if (narrow && narrow.matches && !active) fold.open = false;
+    // Turning a phone sideways, or widening a window, opens it again.
+    if (narrow && narrow.addEventListener) narrow.addEventListener("change", fit);
+  });
+
   document.querySelectorAll("form.filters").forEach(function (form) {
     var apply = form.querySelector('.filter-actions button[type="submit"]');
     if (apply) apply.hidden = true;
