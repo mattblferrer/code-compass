@@ -1,8 +1,8 @@
 {% extends "base.html" %}
+{% from "_page.html" import page_head %}
 {% block title %}Profile - CodeCompass{% endblock %}
 {% block content %}
-  <h1>Profile</h1>
-  <p class="lede">Contest ratings from your linked accounts, as of each one's last sync. They are shown here only: they never affect scores, review dates, or recommendations, and each site uses its own scale.</p>
+  {{ page_head("Profile", "Contest ratings from your linked accounts, as of each one's last sync. They are shown here only: they never affect scores, review dates, or recommendations, and each site uses its own scale.") }}
 
   {% if not histories %}
     <p class="empty">No account is linked. <a href="{{ url_for('main.settings') }}#accounts">Link a Codeforces, AtCoder, or LeetCode username in settings</a>, then sync to see your ratings here.</p>
@@ -12,7 +12,7 @@
     <section class="rating-site" aria-labelledby="rating-{{ h.site }}">
       <h2 id="rating-{{ h.site }}">{{ h.label }} <a class="handle" href="{{ h.url }}" rel="noreferrer" target="_blank">{{ h.username }}</a></h2>
       {% if h.rows %}
-        <dl class="rating-summary">
+        <dl class="stats rating-summary">
           <div><dt>Current</dt><dd>{{ h.current }}</dd></div>
           <div><dt>Best</dt><dd>{{ h.best }}</dd></div>
           <div><dt>Rated contests</dt><dd>{{ h.rows|length }}</dd></div>
@@ -54,7 +54,7 @@
             <tbody>
               {% for r in h.rows|reverse %}
                 <tr>
-                  <td>{{ r['date'] }}</td>
+                  <td>{{ r['date']|short_day }}</td>
                   <td>{{ r['contest'] }}</td>
                   <td class="number">{{ r['rating'] }}</td>
                   <td class="number delta {{ 'up' if r['change'] and r['change'] > 0 else ('down' if r['change'] and r['change'] < 0 else '') }}">{{ r['change']|signed }}</td>

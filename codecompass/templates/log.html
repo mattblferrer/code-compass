@@ -1,10 +1,13 @@
 {% extends "base.html" %}
+{% from "_page.html" import page_head %}
 {% block title %}{{ "Edit attempt" if attempt else "Log an attempt" }} - CodeCompass{% endblock %}
 {% macro error(field) %}
   {% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}
 {% endmacro %}
 {% block content %}
-  <h1>{{ "Edit attempt" if attempt else "Log an attempt" }}</h1>
+  {{ page_head("Edit attempt" if attempt else "Log an attempt",
+               "Change or delete this attempt; scores and review dates update after." if attempt
+               else "Record a problem you worked on and how it went.") }}
   {% if errors %}
     <p class="field-error" role="alert">Fix the fields marked below, then save again.</p>
   {% endif %}
@@ -67,7 +70,7 @@
         <label class="choice">
           <input type="radio" name="outcome" value="{{ outcome }}" {% if form.get('outcome') == outcome %}checked{% endif %}>
           <span>
-            {{ outcome_labels[outcome] }}
+            <span class="choice-title">{{ outcome|outcome_mark }}{{ outcome_labels[outcome] }}</span>
             <small>{{ outcome_definitions[outcome] }}</small>
           </span>
         </label>

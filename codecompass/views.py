@@ -4,6 +4,7 @@ import time
 from datetime import date, datetime
 from urllib.parse import quote
 
+from markupsafe import Markup
 from flask import Blueprint, Response, abort, current_app, flash, jsonify, redirect, render_template, request, url_for
 
 from . import erase, picker, queries, remote
@@ -12,6 +13,8 @@ from .core.sync import LEETCODE_NOTICE, PROFILE_URLS, new_problem_details, outco
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
 from .core.exchange import COLUMNS, export_rows, plan_import, references
 from .core import progress
+from .core.dates import friendly_date, full_date, short_date
+from .core.mastery import expected_level_index
 from .core.recommend import active_interview
 from .core.reviews import ics
 from .core.sites import FILTER_SITES, KINDS
@@ -161,6 +164,7 @@ def pattern(name):
         "pattern.html",
         pattern=info,
         score=snap.scores.get(name, {}).get("score"),
+        expected=c.LEVELS[expected_level_index(snap.scores[name]["score"])] if name in snap.scores else None,
         rows=snap.by_pattern[name],
         min_attempts=c.MIN_ATTEMPTS,
         chart=history_chart(snap.score_history(name)),
@@ -373,7 +377,8 @@ def history():
             day = date.fromisoformat(a["date"])
             starts_week = week is not None and day.isocalendar()[:2] != week
             week = day.isocalendar()[:2]
-            days.append({"date": a["date"], "label": day_label(a["date"]), "attempts": [], "week_start": starts_week})
+            days.append({"date": a["date"], "label": friendly_date(a["date"], now, within=1), "attempts": [],
+                         "week_start": starts_week})
         days[-1]["attempts"].append({**dict(a), "review": a["id"] in reviews})
     calendar = {
         "label": label, "year": year, "years": years, "first": first, "last": last,
@@ -386,9 +391,34 @@ def history():
 
 @bp.app_template_filter("day_label")
 def day_label(text):
-    """A date as the History page heads a day, such as "Tue 11 Nov 2026"."""
-    day = date.fromisoformat(text)
-    return f"{day:%a} {day.day} {day:%b %Y}"
+    """A date in full, such as "Tue 11 Nov 2026"."""
+    return full_date(text)
+
+
+def _time(text, label):
+    """A date as shown on a page: `label` in a <time>, with the full date on hover."""
+    if not text:
+        return ""
+    return Markup('<span class="when" title="{}"><time datetime="{}">{}</time></span>').format(
+        full_date(text), text, label)
+
+
+@bp.app_template_filter("when")
+def when_filter(text, within=6):
+    """"Today", "in 3 days", "5 days ago" near today, otherwise "Tue 10 Nov"."""
+    return _time(text, friendly_date(text, today(), within)) if text else ""
+
+
+@bp.app_template_filter("short_day")
+def short_day_filter(text):
+    """"Tue 10 Nov", with the year when it is not this year."""
+    return _time(text, short_date(text, today())) if text else ""
+
+
+@bp.app_template_filter("outcome_mark")
+def outcome_mark_filter(outcome):
+    """The outcome's mark, as on History: filled, half, ring, or cross. Decorative; the label follows."""
+    return Markup('<span class="o-mark o-{}" aria-hidden="true"></span>').format(outcome)
 
 
 @bp.route("/problems/<int:problem_id>")
@@ -401,7 +431,9 @@ def problem(problem_id):
         problem=row,
         patterns=queries.problem_patterns(conn, problem_id),
         attempts=queries.attempts_for_problem(conn, problem_id),
-        due=snap.next_due(problem_id),
+        review=snap.review_info(problem_id),
+        reviews_on=snap.reviews_on,
+        scores={name: s["score"] for name, s in snap.scores.items()},
         hint_eligible=snap.hint_eligible(problem_id),
         hint=snap.hint(problem_id),
     )
@@ -557,7 +589,6 @@ def interview_page(conn, form, chosen, errors, editing=None, status=200):
     past = sorted((dict(r) for r in rows if r["date"] < now), key=lambda r: r["date"], reverse=True)
     for r in upcoming + past:
         r["countdown"] = countdown(now, r["date"], c.FOCUS_WINDOW_DAYS)
-        r["label"] = day_label(r["date"])
     return render_template(
         "interviews.html", interviews=upcoming + past, focus_date=focus["date"] if focus else None, today=now,
         window=c.FOCUS_WINDOW_DAYS, form=form, chosen=chosen, errors=errors, editing=editing,

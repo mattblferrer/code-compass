@@ -1,61 +1,77 @@
 {% extends "base.html" %}
+{% from "_page.html" import page_head %}
 {% block title %}{{ pattern['name'] }} - CodeCompass{% endblock %}
 {% block content %}
-  <h1>{{ pattern['name'] }}</h1>
-  <p>{{ pattern['description'] }}</p>
-  <p class="meta">
-    {% if score is not none %}
-      <span>Score {{ "%.2f"|format(score) }}</span>
-    {% else %}
-      <span>Not enough data: a score needs at least {{ min_attempts }} attempts</span>
-    {% endif %}
-    <span>{{ pattern['category']|capitalize }} pattern</span>
-    <span>{{ pattern['tier']|capitalize }} tier</span>
-  </p>
+  {{ page_head(pattern['name'], pattern['description']) }}
 
-  {% if chart %}
-    <h2>Score over time</h2>
-    {# Without JavaScript each dot has a title; js/score_chart.js adds the details box used by the rating history. #}
-    <figure class="history score-chart" data-points='{{ chart['dots']|tojson }}'>
-      <svg viewBox="0 0 {{ chart['width'] }} {{ chart['height'] }}" role="img"
-           aria-label="Score from {{ chart['first'] }} to {{ chart['last'] }}, ending at {{ chart['dots'][-1]['shown'] }}">
-        {% for g in chart['guides'] %}
-          <line class="guide{{ ' band' if g['value'] in (40, 70) }}" x1="{{ chart['left'] }}" x2="{{ chart['right'] }}" y1="{{ g['y'] }}" y2="{{ g['y'] }}"></line>
-          <text class="guide-label" x="{{ chart['left'] - 6 }}" y="{{ g['y'] + 4 }}" text-anchor="end">{{ g['value'] }}</text>
-        {% endfor %}
-        <polyline class="line" points="{{ chart['line'] }}"></polyline>
-        {% for d in chart['dots'] %}
-          <circle class="dot" cx="{{ d['x'] }}" cy="{{ d['y'] }}" r="3.5"><title>{{ d['date'] }}: {{ d['shown'] }}{% if d['change'] is not none %} ({{ d['change']|signed }}){% endif %}</title></circle>
-        {% endfor %}
-      </svg>
-      <figcaption>
-        <span>{{ chart['first'] }}</span>
-        <span>Weekly, from the third attempt. Lines at 40 and 70 mark where the expected difficulty changes.</span>
-        <span>Today</span>
-      </figcaption>
-    </figure>
-  {% endif %}
+  <div class="workbench">
+    <div class="workbench-main">
+      {% if chart %}
+        <section class="panel lead" aria-labelledby="score-chart-heading">
+          <h2 id="score-chart-heading">Score over time</h2>
+          {# Without JavaScript each dot has a title; js/score_chart.js adds the details box used by the rating history. #}
+          <figure class="history score-chart" data-points='{{ chart['dots']|tojson }}'>
+            <svg viewBox="0 0 {{ chart['width'] }} {{ chart['height'] }}" role="img"
+                 aria-label="Score from {{ chart['first'] }} to {{ chart['last'] }}, ending at {{ chart['dots'][-1]['shown'] }}">
+              {% for g in chart['guides'] %}
+                <line class="guide{{ ' band' if g['value'] in (40, 70) }}" x1="{{ chart['left'] }}" x2="{{ chart['right'] }}" y1="{{ g['y'] }}" y2="{{ g['y'] }}"></line>
+                <text class="guide-label" x="{{ chart['left'] - 6 }}" y="{{ g['y'] + 4 }}" text-anchor="end">{{ g['value'] }}</text>
+              {% endfor %}
+              <polyline class="line" points="{{ chart['line'] }}"></polyline>
+              {% for d in chart['dots'] %}
+                <circle class="dot" cx="{{ d['x'] }}" cy="{{ d['y'] }}" r="3.5"><title>{{ d['date'] }}: {{ d['shown'] }}{% if d['change'] is not none %} ({{ d['change']|signed }}){% endif %}</title></circle>
+              {% endfor %}
+            </svg>
+            <figcaption>
+              <span>{{ chart['first']|short_day }}</span>
+              <span>Weekly, from the third attempt. Lines at 40 and 70 mark where the expected difficulty changes.</span>
+              <span>Today</span>
+            </figcaption>
+          </figure>
+        </section>
+      {% endif %}
 
-  <h2>Attempts behind this score</h2>
-  {% if rows %}
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Date</th><th>Problem</th><th>Difficulty</th><th>Outcome</th></tr></thead>
-        <tbody>
-          {% for r in rows %}
-            <tr>
-              <td>{{ r['date'] }}</td>
-              <td><a href="{{ url_for('main.problem', problem_id=r['problem']['id']) }}">{{ r['problem']['title'] }}</a></td>
-              <td>{{ r['difficulty']|capitalize }}</td>
-              <td>{{ r['outcome']|outcome }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <h2>Attempts behind this score</h2>
+      {% if rows %}
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date</th><th>Problem</th><th>Difficulty</th><th>Outcome</th></tr></thead>
+            <tbody>
+              {% for r in rows %}
+                <tr>
+                  <td>{{ r['date']|when }}</td>
+                  <td><a href="{{ url_for('main.problem', problem_id=r['problem']['id']) }}">{{ r['problem']['title'] }}</a></td>
+                  <td>{{ r['difficulty']|capitalize }}</td>
+                  <td class="outcome-cell">{{ r['outcome']|outcome_mark }}{{ r['outcome']|outcome }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="empty">No attempts in this pattern yet.</p>
+      {% endif %}
     </div>
-  {% else %}
-    <p class="empty">No attempts in this pattern yet.</p>
-  {% endif %}
+
+    <aside class="workbench-side" aria-label="This pattern">
+      <section class="panel side" aria-labelledby="pattern-facts-heading">
+        <h2 id="pattern-facts-heading">This pattern</h2>
+        {% if score is not none %}
+          <dl class="stats">
+            <div class="big"><dt>Score</dt><dd title="{{ '%.2f'|format(score) }}">{{ '%.0f'|format(score) }}</dd></div>
+            <div><dt>New problems at</dt><dd>{{ expected|capitalize }}</dd></div>
+            <div><dt>Attempts</dt><dd>{{ rows|length }}</dd></div>
+          </dl>
+        {% else %}
+          <p class="context-muted">Not enough data: a score needs at least {{ min_attempts }} attempts. {{ rows|length }} so far.</p>
+        {% endif %}
+        <p class="meta">
+          <span>{{ pattern['category']|capitalize }} pattern</span>
+          <span>{{ pattern['tier']|capitalize }} tier</span>
+        </p>
+      </section>
+    </aside>
+  </div>
 {% endblock %}
 {% block scripts %}
   {% if chart %}

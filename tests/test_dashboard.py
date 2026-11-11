@@ -81,10 +81,11 @@ def test_sibling_attempt_completes_the_review(client, app):
                             "review_of_problem_id": pid(app, "Valid Parentheses")}
     html = page(client)
     assert "review is due" not in html
-    assert "<strong>1</strong> day review streak" in html
+    assert "<dt>Review streak</dt><dd>1 day</dd>" in html
     original = page(client, f"/problems/{pid(app, 'Valid Parentheses')}")
-    assert f"Next review due {(date.today() + timedelta(days=28)).isoformat()}" in original
-    assert "Next review due" not in page(client, f"/problems/{pid(app, 'Daily Temperatures')}")
+    review = original.split('id="review-heading"')[1]
+    assert "<dt>Next review</dt>" in review and f'datetime="{(date.today() + timedelta(days=28)).isoformat()}"' in review
+    assert "<dt>Next review</dt>" not in page(client, f"/problems/{pid(app, 'Daily Temperatures')}")
 
 
 def test_dismissing_a_sibling_keeps_the_review_due(client, app):
@@ -193,8 +194,8 @@ def test_attempting_an_old_problem_still_completes_its_review(client, app):
     log(client, TWO_SUM, 200)
     log(client, PARENS, 30)
     log(client, TWO_SUM, 0)  # A review, solved alone: the 14-day interval doubles.
-    problem = page(client, f"/problems/{pid(app, 'Two Sum')}")
-    assert f"Next review due {(date.today() + timedelta(days=28)).isoformat()}" in problem
+    review = page(client, f"/problems/{pid(app, 'Two Sum')}").split('id="review-heading"')[1]
+    assert f'datetime="{(date.today() + timedelta(days=28)).isoformat()}"' in review and "<dd>28 days</dd>" in review
 
 
 # --- Reviews off (R-41) ---
@@ -217,10 +218,10 @@ def test_with_reviews_off_only_new_problems_are_recommended(client, app):
     save_reviews(client, on=False)
     html = page(client)
     assert "review is due" not in html and "Review of" not in html and "Due for another try" not in html
-    assert "review streak" not in html and "Review missed" not in html
+    assert "Review streak" not in html and "Review missed" not in html
     assert 'class="tag review"' not in html.split("<h2>Patterns</h2>")[0]
     assert "BEGIN:VEVENT" not in client.get("/reviews.ics").get_data(as_text=True)
-    assert "Next review due" not in page(client, f"/problems/{pid(app, 'Valid Parentheses')}")
+    assert "<dt>Next review</dt>" not in page(client, f"/problems/{pid(app, 'Valid Parentheses')}")
     assert query(app, "SELECT * FROM sibling_suggestions") == []
     # The schedule is kept: turning reviews on again shows the same due date.
     save_reviews(client, on=True)

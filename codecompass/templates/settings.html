@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_page.html" import page_head %}
 {% block title %}Settings - CodeCompass{% endblock %}
 {% macro error(field) %}
   {% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}
@@ -19,7 +20,7 @@
   {% endfor %}
 {% endmacro %}
 {% block content %}
-  <h1>Settings</h1>
+  {{ page_head("Settings", "Choose what CodeCompass recommends, the accounts it syncs, and what it keeps.") }}
   <form method="post" class="settings-grid" novalidate>
     <div class="panel settings-card">
       <fieldset>

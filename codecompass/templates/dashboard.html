@@ -59,21 +59,21 @@
         {% endif %}
       </h1>
       {% if first %}
-        <p class="start">Start with <a href="{{ url_for('main.problem', problem_id=first['problem']['id']) }}">{{ first['problem']['title'] }}</a>. {{ first['reason'] }}{% if first['due'] %}, due {{ first['due'] }}{% endif %}.</p>
+        <p class="start">Start with <a href="{{ url_for('main.problem', problem_id=first['problem']['id']) }}">{{ first['problem']['title'] }}</a>. {{ first['reason'] }}{% if first['due'] %}, due {{ first['due']|when }}{% endif %}.</p>
       {% else %}
         <p class="start">Add problems to the catalog or <a href="{{ url_for('main.new_problem') }}">add a custom problem</a> to get recommendations.</p>
       {% endif %}
-      <p class="facts">
-        {% if reviews_on %}<span><strong>{{ streak }}</strong> {{ "day" if streak == 1 else "days" }} review streak</span>{% endif %}
-        <span><strong>{{ level|capitalize }}</strong> current level</span>
-        <span><strong>{{ scored|length }}</strong> of {{ patterns|length }} patterns scored</span>
-        {% if due_count %}<a href="{{ url_for('main.reviews_calendar') }}">Add review dates to your calendar (.ics)</a>{% endif %}
-      </p>
+      <dl class="stats facts">
+        {% if reviews_on %}<div><dt>Review streak</dt><dd>{{ streak }} {{ "day" if streak == 1 else "days" }}</dd></div>{% endif %}
+        <div><dt>Current level</dt><dd>{{ level|capitalize }}</dd></div>
+        <div><dt>Patterns scored</dt><dd>{{ scored|length }} of {{ patterns|length }}</dd></div>
+      </dl>
+      {% if due_count %}<p class="facts-link"><a href="{{ url_for('main.reviews_calendar') }}">Add review dates to your calendar (.ics)</a></p>{% endif %}
       {% if sync_pending %}
         <p class="focus-note"><a href="{{ url_for('main.sync_page') }}">{{ sync_pending }} synced {{ "submission" if sync_pending == 1 else "submissions" }}</a> {{ "waits" if sync_pending == 1 else "wait" }} for an outcome.</p>
       {% endif %}
       {% if interview %}
-        <p class="focus-note">Focused on your <a href="{{ url_for('main.interviews') }}">interview</a> with {{ interview['companies']|join(" and ") }} on {{ interview['date'] }}.</p>
+        <p class="focus-note">Focused on your <a href="{{ url_for('main.interviews') }}">interview</a> with {{ interview['companies']|join(" and ") }} on {{ interview['date']|short_day }}.</p>
       {% endif %}
     </div>
     {% if first %}
@@ -91,7 +91,7 @@
       {% endfor %}
     </ol>
     <div class="activity-key">
-      <span>{{ activity[0]['date'] }}</span>
+      <span>{{ activity[0]['date']|short_day }}</span>
       <ul>
         {% if reviews_on %}
           <li class="review">Review done</li>
@@ -106,7 +106,7 @@
   </section>
 
   <div class="board">
-    <section id="next-panel" class="panel" aria-labelledby="next-heading">
+    <section id="next-panel" class="panel lead" aria-labelledby="next-heading">
       <h2 id="next-heading">Practice next</h2>
       {% if recommendations %}
         <ol class="next">
@@ -134,7 +134,7 @@
                 </div>
               </div>
               {% if r['due'] %}
-                <p class="due-date"><small>Due</small> <time datetime="{{ r['due'] }}">{{ r['due'] }}</time></p>
+                <p class="due-date"><small>Due</small> {{ r['due']|when }}</p>
               {% endif %}
             </li>
           {% endfor %}

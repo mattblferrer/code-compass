@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_page.html" import page_head %}
 {% block title %}History - CodeCompass{% endblock %}
 {% macro day_tip(d) %}
   {%- set t = d.totals -%}
@@ -14,15 +15,14 @@
   {%- endif -%}
 {% endmacro %}
 {% block content %}
-  <h1>History</h1>
-  <p class="actions">
-    <a href="{{ url_for('main.export_csv') }}">Export to CSV</a>
-    <a href="{{ url_for('main.import_csv') }}">Import from CSV</a>
-  </p>
+  {% call page_head("History", "Every attempt you have logged, and how your practice has gone over the year.") %}
+    <a class="button quiet small" href="{{ url_for('main.export_csv') }}">Export to CSV</a>
+    <a class="button quiet small" href="{{ url_for('main.import_csv') }}">Import from CSV</a>
+  {% endcall %}
 
   {# R-40: problems solved per day over a year, with that year's stats beside it. #}
   {% set cal = calendar %}
-  <section class="panel progress-panel" aria-labelledby="calendar-heading">
+  <section class="panel lead progress-panel" aria-labelledby="calendar-heading">
     <div class="progress-head">
       <h2 id="calendar-heading">Problems solved, {{ cal.label|lower if cal.year is none else cal.label }}</h2>
       <nav class="year-switch" aria-label="Calendar period">

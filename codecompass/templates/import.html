@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% from "_page.html" import page_head %}
 {% block title %}Import attempts - CodeCompass{% endblock %}
 {% block content %}
-  <h1>Import attempts</h1>
-  <p>Import attempts from a spreadsheet saved as CSV, such as an <a href="{{ url_for('main.export_csv') }}">export</a> from CodeCompass.</p>
+  {{ page_head("Import attempts") }}
+  <p class="lede page-lede">Import attempts from a spreadsheet saved as CSV, such as an <a href="{{ url_for('main.export_csv') }}">export</a> from CodeCompass.</p>
 
   <div class="workbench">
     <div class="workbench-main">

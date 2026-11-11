@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_page.html" import page_head %}
 {% block title %}Confirm a synced submission - CodeCompass{% endblock %}
 {% macro error(field) %}
   {% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}
@@ -7,7 +8,7 @@
   <label><input type="checkbox" name="patterns" value="{{ p['name'] }}" {% if p['name'] in chosen %}checked{% endif %}>{{ p['name'] }}</label>
 {% endmacro %}
 {% block content %}
-  <h1>Confirm a synced submission</h1>
+  {{ page_head("Confirm a synced submission", "Say how much help you had; the site shows only that you submitted.") }}
 
   <div class="workbench">
   <aside class="workbench-side" aria-label="The submission">
@@ -18,7 +19,7 @@
       </p>
       <ul class="context-list">
         <li><span>Site</span><span>{{ sites[item['site']] }}</span></li>
-        <li><span>Date</span><span>{{ item['date'] }}</span></li>
+        <li><span>Date</span>{{ item['date']|when }}</li>
         <li><span>Result</span><span>{{ "Accepted" if item['accepted'] else "No accepted submission" }}</span></li>
         {% if item['rating'] is not none %}<li><span>Rating on {{ sites[item['site']] }}</span><span>{{ item['rating'] }}</span></li>{% endif %}
       </ul>

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% from "_page.html" import page_head %}
 {% block title %}Sync - CodeCompass{% endblock %}
 {% block content %}
   {% set leetcode_shown = accounts|selectattr(0, 'equalto', 'leetcode')|list or items|selectattr('site', 'equalto', 'leetcode')|list %}
-  <h1>Sync</h1>
+  {{ page_head("Sync", "Bring in your submissions from Codeforces, AtCoder, and LeetCode, then say how much help you had.") }}
 
   {% if accounts %}
     <section class="sync-accounts" aria-label="Linked accounts">
@@ -73,7 +74,7 @@
                  aria-label="Select {{ item['title'] }}, {{ item['date'] }}">
           <div class="sync-head">
             <a href="{{ item['problem_link'] }}" rel="noreferrer" target="_blank"><strong>{{ item['title'] }}</strong></a>
-            <span class="meta">{{ sites[item['site']] }} · {{ item['date'] }} · {{ "Accepted" if item['accepted'] else "No accepted submission" }}</span>
+            <span class="meta">{{ sites[item['site']] }} · {{ item['date']|when }} · {{ "Accepted" if item['accepted'] else "No accepted submission" }}</span>
             {% if item.details %}
               <small>
                 New to CodeCompass, so it is added as a custom problem when you confirm.

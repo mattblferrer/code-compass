@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_page.html" import page_head %}
 {% block title %}Interviews - CodeCompass{% endblock %}
 {% macro error(field) %}
   {% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}
@@ -51,8 +52,7 @@
   </form>
 {% endmacro %}
 {% block content %}
-  <h1>Interviews</h1>
-  <p>When your nearest interview is within {{ window }} days, recommendations focus on it: its patterns, or else your 2 weakest patterns, and its target difficulty. Interviews on the same date are combined. Past interviews are kept but no longer count.</p>
+  {{ page_head("Interviews", "When your nearest interview is within " ~ window ~ " days, recommendations focus on it: its patterns, or else your 2 weakest patterns, and its target difficulty. Interviews on the same date are combined. Past interviews are kept but no longer count.") }}
 
   {% if editing %}{{ interview_form() }}{% endif %}
 
@@ -70,12 +70,12 @@
           </p>
           <p class="countdown">
             {% if cd.past %}
-              <time datetime="{{ i['date'] }}">{{ i.label }}</time>
+              {{ i['date']|short_day }}
             {% elif cd.days == 0 %}
               <strong class="days-left">Today</strong>
             {% else %}
               <strong class="days-left">{{ cd.days }}</strong> {{ "day" if cd.days == 1 else "days" }}
-              <time datetime="{{ i['date'] }}">{{ i.label }}</time>
+              {{ i['date']|short_day }}
             {% endif %}
           </p>
           {% if not cd.past %}

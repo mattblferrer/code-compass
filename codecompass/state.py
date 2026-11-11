@@ -177,6 +177,14 @@ class Snapshot:
         """The problem's next review date, or None when it has none or reviews are off (R-41)."""
         return self.due.get(problem_id) if self.reviews_on else None
 
+    def review_info(self, problem_id):
+        """The problem's next review date and current interval in days, or None when it has no
+        schedule of its own or reviews are off (R-12, R-41)."""
+        if not self.reviews_on or problem_id not in self.schedules:
+            return None
+        last = self.schedules[problem_id][1][-1]
+        return {"due": last["due"], "interval": last["interval"]}
+
     def activity(self, days=56):
         """Daily review activity for the strip on the dashboard (R-30); practice only with reviews off."""
         records = streak_days(self.schedules, self.today) if self.reviews_on else []

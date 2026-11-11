@@ -1,47 +1,85 @@
 {% extends "base.html" %}
 {% from "_hint.html" import hint_block %}
+{% from "_page.html" import page_head %}
 {% block title %}{{ problem['title'] }} - CodeCompass{% endblock %}
 {% block content %}
-  <h1>{{ problem['title'] }}</h1>
-  <p class="meta">
-    <span>{{ problem['difficulty']|capitalize }}</span>
-    <span>{{ problem['source'] }}</span>
-    {% if due %}<span>Next review due {{ due }}</span>{% endif %}
-  </p>
-  <div id="hint-area">
-    {% if hint_eligible and not hint and not attempts %}
-      <p>Patterns stay hidden until you show the hint or log an attempt.</p>
-    {% else %}
-      <p>Patterns: {{ patterns|join(", ") }}</p>
-    {% endif %}
-    {{ hint_block(problem, hint_eligible, hint, url_for('main.problem', problem_id=problem['id']), "#hint-area, #messages") }}
-  </div>
-  <p class="actions">
+  {% call page_head(problem['title']) %}
     <a class="button" href="{{ url_for('main.log_attempt', problem=problem['id']) }}">Log attempt</a>
     {% if problem['link'] and problem['link'].startswith('http') and problem['source'] != 'Demo' %}
       <a class="button quiet" href="{{ problem['link'] }}" target="_blank" rel="noopener">Open problem</a>
     {% endif %}
-  </p>
+  {% endcall %}
 
-  <h2>Attempts</h2>
-  {% if attempts %}
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Date</th><th>Outcome</th><th>Time</th><th>Notes</th><th><span class="visually-hidden">Edit</span></th></tr></thead>
-        <tbody>
-          {% for a in attempts %}
-            <tr>
-              <td>{{ a['date'] }}</td>
-              <td>{{ a['outcome']|outcome }}</td>
-              <td>{{ a['time_seconds']|clock }}</td>
-              <td>{{ a['notes'] or "" }}</td>
-              <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <div class="workbench">
+    <div class="workbench-main">
+      <section class="panel lead" aria-labelledby="attempts-heading">
+        <p class="meta">
+          <span class="mark level-{{ problem['difficulty']|replace(' ', '-') }}">{{ problem['difficulty']|capitalize }}</span>
+          <span>{{ problem['source'] }}</span>
+        </p>
+        <div id="hint-area">
+          {% if hint_eligible and not hint and not attempts %}
+            <p>Patterns stay hidden until you show the hint or log an attempt.</p>
+          {% else %}
+            {# Each pattern with its current score, as on the dashboard. #}
+            <ul class="pattern-scores" aria-label="Patterns">
+              {% for name in patterns %}
+                {% set s = scores.get(name) %}
+                <li><a href="{{ url_for('main.pattern', name=name) }}">{{ name }}</a>
+                  <strong>{% if s is not none %}{{ '%.0f'|format(s) }}{% else %}<span class="unscored">Not scored</span>{% endif %}</strong></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          {{ hint_block(problem, hint_eligible, hint, url_for('main.problem', problem_id=problem['id']), "#hint-area, #messages") }}
+        </div>
+
+        <h2 id="attempts-heading">Attempts</h2>
+        {% if attempts %}
+          <div class="table-wrap plain">
+            <table>
+              <thead><tr><th>Date</th><th>Outcome</th><th>Time</th><th>Notes</th><th><span class="visually-hidden">Edit</span></th></tr></thead>
+              <tbody>
+                {% for a in attempts %}
+                  <tr>
+                    <td>{{ a['date']|when }}</td>
+                    <td class="outcome-cell">{{ a['outcome']|outcome_mark }}{{ a['outcome']|outcome }}</td>
+                    <td>{{ a['time_seconds']|clock }}</td>
+                    <td class="note-cell">{{ a['notes'] or "" }}</td>
+                    <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="empty">No attempts yet. Log one after you try it.</p>
+        {% endif %}
+      </section>
     </div>
-  {% else %}
-    <p class="empty">No attempts yet. Log one after you try it.</p>
-  {% endif %}
+
+    <aside class="workbench-side" aria-label="Review">
+      <section class="panel side" aria-labelledby="review-heading">
+        <h2 id="review-heading">Review</h2>
+        {% if not reviews_on %}
+          <p class="context-muted">Reviews are off, so this problem is not brought back. <a href="{{ url_for('main.settings') }}">Turn reviews on in settings</a>.</p>
+        {% elif review %}
+          <dl class="stats">
+            <div><dt>Next review</dt><dd>{{ review.due|when }}</dd></div>
+            <div><dt>Interval</dt><dd>{{ review.interval }} {{ "day" if review.interval == 1 else "days" }}</dd></div>
+          </dl>
+          <p class="context-muted">Solving it alone on or after that day doubles the interval; with help, it starts again from that outcome's first interval.</p>
+        {% elif attempts %}
+          <p class="context-muted">No review is scheduled: these attempts counted as reviews of another problem.</p>
+        {% else %}
+          <p class="context-muted">Log an attempt, and its first review is set from how it went.</p>
+        {% endif %}
+        {% if attempts %}
+          <dl class="stats">
+            <div><dt>Attempts</dt><dd>{{ attempts|length }}</dd></div>
+            <div><dt>Solved alone</dt><dd>{{ attempts|selectattr('outcome', 'equalto', 'solved_alone')|list|length }}</dd></div>
+          </dl>
+        {% endif %}
+      </section>
+    </aside>
+  </div>
 {% endblock %}

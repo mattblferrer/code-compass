@@ -31,8 +31,8 @@
   --font-display: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   --font-number: "Bahnschrift", "DIN Alternate", "Segoe UI Variable Display", system-ui, sans-serif;
 
-  --step--1: 0.8125rem;
-  --step-0: 0.9375rem;
+  --step--1: 0.85rem;
+  --step-0: 1rem;
   --step-1: 1.125rem;
   --step-2: 1.375rem;
   --step-3: 1.875rem;
@@ -47,18 +47,18 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
     --bg: #121417;
-    --surface: #1a1d21;
+    --surface: #1e2227;
     --text: #e8eaed;
     --muted: #9ea7b1;
-    --rule: #2c3138;
-    --track: #252a30;
-    --data: #7aa7f0;
+    --rule: #333941;
+    --track: #282d34;
+    --data: #86aae6;
     --data-mid: #4f78bb;
     --data-low: #34507e;
     --due: #f0a35a;
     --due-soft: #2a2117;
     --on-data: #0d1420;
-    --focus: #7aa7f0;
+    --focus: #86aae6;
     --band: #10243f;
     --on-band: #e8eaed;
     --on-band-muted: #a9bad6;
@@ -77,18 +77,18 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #121417;
-  --surface: #1a1d21;
+  --surface: #1e2227;
   --text: #e8eaed;
   --muted: #9ea7b1;
-  --rule: #2c3138;
-  --track: #252a30;
-  --data: #7aa7f0;
+  --rule: #333941;
+  --track: #282d34;
+  --data: #86aae6;
   --data-mid: #4f78bb;
   --data-low: #34507e;
   --due: #f0a35a;
   --due-soft: #2a2117;
   --on-data: #0d1420;
-  --focus: #7aa7f0;
+  --focus: #86aae6;
   --band: #10243f;
   --on-band: #e8eaed;
   --on-band-muted: #a9bad6;
@@ -666,7 +666,6 @@ tr:last-child td {
 .panel {
   background: var(--surface);
   border: 1px solid var(--rule);
-  border-top: 3px solid var(--data);
   border-radius: var(--radius);
   padding: 1.1rem 1.25rem 1.25rem;
 }
@@ -1347,6 +1346,7 @@ details.hint[open] > summary {
 
 .settings-card fieldset {
   margin: 0;
+  min-width: 0;  /* Fieldsets otherwise refuse to shrink below their content on a phone. */
 }
 
 .settings-card .table-wrap {
@@ -1858,10 +1858,7 @@ button.theme-toggle:hover {
   }
 }
 
-/* Side cards are quieter than the dashboard's panels, so the form stays the main thing. */
-.panel.side {
-  border-top-color: var(--data-low);
-}
+/* Side cards are quieter than the main card, so the form or list stays the main thing. */
 
 .panel.side > h2 {
   font-size: var(--step-0);
@@ -2286,7 +2283,7 @@ button.danger,
 }
 
 .danger-panel {
-  border-top-color: var(--hard);
+  border-top: 3px solid var(--hard);
   margin-top: 1.5rem;
 }
 
@@ -3141,4 +3138,149 @@ a.cell:focus-visible {
 
 .year-grid {
   --cell: clamp(0.62rem, calc((100cqw - 2.4rem) / 53 - 3px), 1.15rem);
+}
+
+/* --- One look across pages --- */
+
+/* The main card on a page carries the accent; everything else is quieter. */
+.panel.lead {
+  border-top: 3px solid var(--data);
+}
+
+/* Every page opens the same way: title, one line on what it is for, its actions. */
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin: 0 0 1.25rem;
+}
+
+.page-title {
+  flex: 1 1 28rem;
+  min-width: 0;
+}
+
+.page-head h1 {
+  margin: 0;
+}
+
+.page-head .lede {
+  margin: 0.4rem 0 0;
+  max-width: 64ch;
+}
+
+.page-lede {
+  margin-top: -0.75rem;
+}
+
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* One stat style: a small label over a number in the brand face. */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  margin: 0 0 0.9rem;
+}
+
+.stats dt {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.stats dd {
+  margin: 0.1rem 0 0;
+  font-family: var(--font-brand);
+  font-size: var(--step-2);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+.stats .big dd {
+  font-size: 2.6rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.today .stats.facts {
+  margin: 0.25rem 0 0.4rem;
+}
+
+.today .stats.facts dd {
+  font-size: var(--step-1);
+}
+
+.facts-link {
+  margin: 0 0 0.5rem;
+  font-size: var(--step--1);
+}
+
+/* Outcome marks beside choices and in short lists. */
+.choice-title {
+  display: inline-flex;
+  align-items: center;
+}
+
+.context-list .o-mark {
+  margin-right: 0.35rem;
+}
+
+.note-cell {
+  color: var(--muted);
+}
+
+/* A problem's patterns with their scores. */
+.pattern-scores {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.pattern-scores li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+}
+
+.pattern-scores strong {
+  font-family: var(--font-brand);
+}
+
+.unscored {
+  font-family: var(--font);
+  font-weight: 400;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.panel .meta {
+  margin-bottom: 0.9rem;
+}
+
+
+/* A chart inside a card needs no frame of its own. */
+.panel figure.history {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+/* The score chart's first date and "Today" stay on one line each. */
+.score-chart figcaption span:first-child,
+.score-chart figcaption span:last-child {
+  white-space: nowrap;
 }

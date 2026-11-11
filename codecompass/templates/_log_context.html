@@ -31,7 +31,7 @@
 {% if context.attempt_count %}
   <ul class="context-list">
     {% for a in context.attempts %}
-      <li><span>{{ a['date'] }}</span><span>{{ a['outcome']|outcome }}</span></li>
+      <li>{{ a['date']|when }}<span>{{ a['outcome']|outcome_mark }}{{ a['outcome']|outcome }}</span></li>
     {% endfor %}
   </ul>
   {% if context.attempt_count > context.attempts|length %}

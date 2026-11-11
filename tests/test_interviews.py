@@ -90,7 +90,8 @@ def test_focus_and_past_interviews_are_marked(client):
     assert page.count('<span class="tag">In focus</span>') == 2  # Same-date interviews combine.
     assert page.count('<span class="tag">Past</span>') == 1
     dashboard = client.get("/").get_data(as_text=True)
-    assert "Focused on your" in dashboard and "with Near A and Near B on " + day(4) in dashboard
+    assert "Focused on your" in dashboard and "with Near A and Near B on " in dashboard
+    assert f'<time datetime="{day(4)}">' in dashboard.split("Focused on your")[1]
 
 
 def test_no_focus_outside_the_window(client):
