@@ -117,8 +117,10 @@ def test_items_show_problem_and_date_with_no_outcome_chosen(client, sites):
     page = sync(client)
     assert "Do Not Be Distracted!" in page and "2026-10-28" in page
     assert "checked" not in page.split("Waiting for an outcome")[1]
-    # "Not solved" is offered only for the item with no accepted submission.
-    assert page.count('value="not_solved"') == 1
+    # "Not solved" is offered only for the item with no accepted submission. The batch bar
+    # above the list offers it too, for whichever selected items it fits.
+    listed = page.split('<ul class="sync-items">', 1)[1]
+    assert listed.count('value="not_solved"') == 1
 
 
 def test_second_sync_adds_nothing_and_reaches_back_only_to_the_last_sync(client, app, sites):
@@ -360,6 +362,121 @@ def test_leetcode_notice_in_settings_sync_list_and_rating_history(client, sites)
 def test_no_leetcode_notice_on_the_sync_page_without_leetcode(client, sites):
     link(client, codeforces="practice_user")
     assert rules.LEETCODE_NOTICE not in sync(client)
+
+
+# --- Several items at once ---
+
+def batch(client, action, ids):
+    return client.post("/sync/items/batch", data={"action": action, "item": [str(i) for i in ids]},
+                       follow_redirects=True).get_data(as_text=True)
+
+
+def undo_batch_id(page):
+    return int(page.split('action="/sync/batches/', 1)[1].split("/", 1)[0])
+
+
+def test_every_item_can_be_selected_for_the_batch_form(client, app, sites):
+    link(client, codeforces="practice_user")
+    page = sync(client)
+    assert page.count('form="batch-form"') == len(items(app)) == 5
+    bar = page.split('id="batch-form"', 1)[1].split("</form>", 1)[0]
+    for action in ("solved_alone", "solved_with_hints", "solved_after_solution", "not_solved", "dismiss"):
+        assert f'name="action" value="{action}"' in bar
+    assert "js/sync_batch.js" in page
+
+
+def test_batch_saves_each_item_it_fits_and_says_why_others_stay(client, app, sites):
+    link(client, codeforces="practice_user")
+    sync(client)
+    page = batch(client, c.SOLVED_ALONE, [r["id"] for r in items(app).values()])
+    # 2284F has no rating and 71A no mapped pattern, so both still need details and stay on the list.
+    assert "Saved 3 items as solved alone." in page
+    assert "Left 2 on the list: 2 new to CodeCompass and needing a level or patterns." in page
+    assert sorted(items(app)) == [("2284/F", "2026-10-25"), ("71/A", "2026-09-20")]
+    attempts = rows(app, "SELECT a.date, a.outcome, a.entry_method, p.link FROM attempts a JOIN problems p ON p.id = a.problem_id")
+    assert len(attempts) == 3
+    assert all(a["outcome"] == c.SOLVED_ALONE and a["entry_method"] == "sync" for a in attempts)
+    # Watermelon's two days share the one custom problem the first of them added.
+    assert len(rows(app, "SELECT id FROM problems WHERE link LIKE '%/4/A'")) == 1
+    assert sorted(a["date"] for a in attempts if a["link"].endswith("/4/A")) == ["2026-10-18", "2026-10-20"]
+
+
+def test_batch_not_solved_skips_accepted_items(client, app, sites):
+    link(client, codeforces="practice_user")
+    sync(client)
+    page = batch(client, c.NOT_SOLVED, [r["id"] for r in items(app).values()])
+    assert "Saved 1 item as not solved." in page
+    assert "with an accepted submission, which cannot be not solved" in page
+    assert [(a["date"], a["outcome"]) for a in rows(app, "SELECT date, outcome FROM attempts")] == [
+        ("2026-10-20", c.NOT_SOLVED)]
+
+
+def test_undo_puts_a_saved_batch_back_on_the_list(client, app, sites):
+    link(client, codeforces="practice_user")
+    sync(client)
+    before = items(app)
+    problems = rows(app, "SELECT id FROM problems ORDER BY id")
+    batch_id = undo_batch_id(batch(client, c.SOLVED_AFTER_SOLUTION, [r["id"] for r in before.values()]))
+    assert rows(app, "SELECT count(*) AS n FROM attempts")[0]["n"] == 3
+    page = client.post(f"/sync/batches/{batch_id}/undo", follow_redirects=True).get_data(as_text=True)
+    assert "Put 3 items back on the list." in page
+    assert items(app) == before
+    assert rows(app, "SELECT count(*) AS n FROM attempts")[0]["n"] == 0
+    assert rows(app, "SELECT id FROM problems ORDER BY id") == problems  # The custom problems it added are gone.
+    # It can be undone only once.
+    again = client.post(f"/sync/batches/{batch_id}/undo", follow_redirects=True).get_data(as_text=True)
+    assert "That can no longer be undone." in again
+
+
+def test_undo_brings_dismissed_items_back(client, app, sites):
+    link(client, codeforces="practice_user")
+    sync(client)
+    before = items(app)
+    page = batch(client, "dismiss", [r["id"] for r in before.values()])
+    assert "Dismissed 5 items." in page and items(app) == {}
+    client.post(f"/sync/batches/{undo_batch_id(page)}/undo")
+    assert items(app) == before
+
+
+def test_batch_with_a_hint_uses_it_and_undo_frees_it(client, app, sites):
+    add_problem(client, "Watermelon", "https://codeforces.com/problemset/problem/4/A")
+    link(client, codeforces="practice_user")
+    sync(client)
+    watermelon = rows(app, "SELECT id FROM problems WHERE link LIKE '%/4/A'")[0]["id"]
+    with app.app_context():
+        conn = get_db()
+        with conn:
+            conn.execute("INSERT INTO hint_reveals (problem_id, date) VALUES (?, '2026-10-17')", (watermelon,))
+    ids = [r["id"] for (key, _), r in items(app).items() if key == "4/A"]
+    page = batch(client, c.SOLVED_ALONE, ids)
+    assert "Left 2 on the list: 2 with a revealed hint, which cannot be solved alone." in page
+    page = batch(client, c.SOLVED_WITH_HINTS, ids)
+    assert "Saved 2 items as solved with hints." in page
+    assert rows(app, "SELECT used FROM hint_reveals") == [{"used": 1}]
+    client.post(f"/sync/batches/{undo_batch_id(page)}/undo")
+    assert rows(app, "SELECT used FROM hint_reveals") == [{"used": 0}]
+    assert rows(app, "SELECT id FROM problems WHERE link LIKE '%/4/A'") == [{"id": watermelon}]  # Not a batch's own.
+
+
+def test_batch_needs_a_selection_and_an_action(client, app, sites):
+    link(client, codeforces="practice_user")
+    sync(client)
+    assert "Select one or more items first." in batch(client, c.SOLVED_ALONE, [])
+    first = next(iter(items(app).values()))["id"]
+    assert "Choose what happened for the selected items." in batch(client, "solved", [first])
+    assert rows(app, "SELECT count(*) AS n FROM attempts")[0]["n"] == 0 and len(items(app)) == 5
+
+
+def test_batch_undo_expires_after_the_undo_days(client, app, sites, monkeypatch):
+    from datetime import date, timedelta
+
+    link(client, codeforces="practice_user")
+    sync(client)
+    page = batch(client, "dismiss", [r["id"] for r in items(app).values()])
+    later = (date.today() + timedelta(days=c.UNDO_DAYS + 1)).isoformat()
+    monkeypatch.setattr(views, "today", lambda: later)
+    page = client.post(f"/sync/batches/{undo_batch_id(page)}/undo", follow_redirects=True).get_data(as_text=True)
+    assert "That can no longer be undone." in page and items(app) == {}
 
 
 # --- Rating history (R-34) ---

@@ -51,6 +51,13 @@
                   <button type="submit" class="undo">Undo</button>
                 </form>
               </div>
+            {% elif category.startswith("undo-batch:") %}
+              <div class="flash has-action">
+                <span>{{ message }}</span>
+                <form method="post" action="{{ url_for('main.undo_sync_batch', batch_id=category.split(':')[1]|int) }}" class="inline">
+                  <button type="submit" class="undo">Undo</button>
+                </form>
+              </div>
             {% elif category == "undo-erase" %}
               {# Losing everything is too much to miss, so this one stays until it is closed. #}
               <div class="flash has-action stays" role="alert">

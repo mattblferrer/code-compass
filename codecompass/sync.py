@@ -4,9 +4,10 @@ remote.py makes the requests and core/sync.py reads them; this module stores the
 results. The current time and the user's local dates come from the route layer.
 """
 import json
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 
 from . import remote
+from .core import constants as c
 from .core import sync as rules
 
 SYNC_SITES = tuple(rules.SITES)
@@ -127,6 +128,46 @@ def get_item(conn, item_id):
 def set_status(conn, item_id, status):
     with conn:
         conn.execute("UPDATE sync_items SET status = ? WHERE id = ?", (status, item_id))
+
+
+def record_batch(conn, done, today):
+    """Keep what a batch action did so it can be undone, and drop records older than c.UNDO_DAYS.
+
+    `done` holds the lists "items", "attempts", "problems", and "hints". Returns the record's id.
+    """
+    cutoff = (date.fromisoformat(today) - timedelta(days=c.UNDO_DAYS)).isoformat()
+    with conn:
+        conn.execute("DELETE FROM sync_batches WHERE date < ?", (cutoff,))
+        return conn.execute("INSERT INTO sync_batches (payload, date) VALUES (?, ?)",
+                            (json.dumps(done), today)).lastrowid
+
+
+def undo_batch(conn, batch_id, today):
+    """Reverse a batch action: its attempts are removed, custom problems it added that
+    nothing else uses are removed, used hints are unused again, and its items wait for an
+    outcome again. Returns how many items came back, or None if it can no longer be undone.
+    """
+    row = conn.execute("SELECT * FROM sync_batches WHERE id = ?", (batch_id,)).fetchone()
+    if row is None:
+        return None
+    cutoff = (date.fromisoformat(today) - timedelta(days=c.UNDO_DAYS)).isoformat()
+    with conn:
+        conn.execute("DELETE FROM sync_batches WHERE id = ?", (batch_id,))
+        if row["date"] < cutoff:
+            return None
+        done = json.loads(row["payload"])
+        conn.executemany("DELETE FROM attempts WHERE id = ? AND entry_method = 'sync'",
+                         [(i,) for i in done["attempts"]])
+        conn.executemany(
+            """DELETE FROM problems WHERE id = ? AND is_custom = 1
+               AND NOT EXISTS (SELECT 1 FROM attempts WHERE problem_id = problems.id OR review_of_problem_id = problems.id)""",
+            [(i,) for i in done["problems"]])
+        conn.executemany("UPDATE hint_reveals SET used = 0 WHERE id = ?", [(i,) for i in done["hints"]])
+        back = 0
+        for item_id in done["items"]:
+            back += conn.execute("UPDATE sync_items SET status = 'pending' WHERE id = ? AND status != 'pending'",
+                                 (item_id,)).rowcount
+    return back
 
 
 def rating_history(conn):

@@ -136,3 +136,11 @@ CREATE TABLE IF NOT EXISTS deleted_items (
     payload TEXT NOT NULL,
     date TEXT NOT NULL
 );
+
+-- What a batch action on sync items did, kept so it can be undone (R-33): the items it
+-- changed, the attempts and custom problems it added, and the hints those attempts used.
+CREATE TABLE IF NOT EXISTS sync_batches (
+    id INTEGER PRIMARY KEY,
+    payload TEXT NOT NULL,
+    date TEXT NOT NULL
+);

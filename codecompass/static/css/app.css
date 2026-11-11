@@ -2362,3 +2362,108 @@ dialog.confirm-dialog[open] {
   from { opacity: 0; transform: translateY(0.5rem); }
   to { opacity: 1; transform: none; }
 }
+
+/* Sync: select several items and choose once (R-33). The bar stays in reach below the
+   header while scrolling a long list. */
+.batch-bar {
+  position: sticky;
+  top: calc(var(--header-height) + 0.5rem);
+  z-index: 15;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+  margin: 0 0 0.75rem;
+  padding: 0.6rem 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
+.batch-pick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 1rem;
+}
+
+.select-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.select-all[hidden] {
+  display: none;
+}
+
+.batch-count {
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+
+.batch-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.batch-actions button:disabled,
+.batch-actions details.disabled > summary {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
+
+.sync-item > .pick {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0.15rem 0 0;
+  accent-color: var(--data);
+}
+
+.sync-item:has(> .pick:checked) {
+  border-color: var(--data);
+  box-shadow: inset 3px 0 0 var(--data);
+}
+
+
+/* The checkbox sits beside the title at any width, rather than wrapping onto its own line. */
+.sync-item:has(> .pick) {
+  position: relative;
+  padding-left: 2.75rem;
+}
+
+.sync-item > .pick {
+  position: absolute;
+  left: 1rem;
+  top: 1.05rem;
+  margin: 0;
+}
+
+/* On a phone the bar keeps to two short rows, so it covers little of the list while pinned. */
+@media (max-width: 40rem) {
+  .batch-bar {
+    gap: 0.4rem;
+    padding: 0.5rem 0.6rem;
+  }
+
+  .batch-count:not(.picked) {
+    display: none;
+  }
+
+  .batch-actions {
+    gap: 0.35rem;
+  }
+
+  .batch-actions button,
+  .batch-actions details.external-help > summary {
+    padding: 0.35rem 0.6rem;
+    font-size: var(--step--1);
+  }
+}

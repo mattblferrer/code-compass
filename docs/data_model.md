@@ -175,6 +175,16 @@ The two columns `site` and `username` together are the primary key.
 
 `site`, `problem_link`, and `date` together are unique. Rows stay after being dismissed, so dismissed items do not return.
 
+### `sync_batches` (R-33)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `id` | Integer | Primary key |
+| `payload` | Text | JSON with the ids of the sync items the batch changed, the attempts and custom problems it added, and the hint reveals those attempts used |
+| `date` | Text | The date of the batch |
+
+Saving or dismissing several sync items at once keeps a row here so Undo can reverse it: the attempts are deleted, custom problems the batch added are deleted if nothing else uses them, the hint reveals are marked unused, and the items return to `pending`. A row is removed when it is undone, and rows older than one day are removed at the next batch.
+
 ### `rating_history` (R-34)
 
 | Column | Type | Notes |
@@ -189,7 +199,7 @@ The two columns `site` and `username` together are the primary key.
 
 ## Deleting all data (R-39)
 
-Deleting all data empties every table above that holds the user's data: `attempts`, `interviews`, `interview_patterns`, `settings`, `hidden_sites`, `pattern_preferences`, `sibling_suggestions`, `not_now`, `hint_reveals`, `linked_accounts`, `sync_items`, `rating_history`, and `deleted_items`. It also removes custom problems and any problem kept only because an attempt used it. Patterns and the catalog and reserve problems stay, and settings fall back to their defaults.
+Deleting all data empties every table above that holds the user's data: `attempts`, `interviews`, `interview_patterns`, `settings`, `hidden_sites`, `pattern_preferences`, `sibling_suggestions`, `not_now`, `hint_reveals`, `linked_accounts`, `sync_items`, `sync_batches`, `rating_history`, and `deleted_items`. It also removes custom problems and any problem kept only because an attempt used it. Patterns and the catalog and reserve problems stay, and settings fall back to their defaults.
 
 Before deleting, the whole database is copied to a file beside it, named after the database with `-erased` added (for example `instance/codecompass.sqlite-erased`), and the `app_meta` table records the day of the deletion under the key `erased_on`. Undo copies the file back over the database, which also removes that key, and then deletes the file. Saving anything new, or a deletion older than one day, removes the file and the key, after which the deletion is final.
 

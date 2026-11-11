@@ -741,33 +741,148 @@ def sync_item(item_id):
                               {"difficulty": details["difficulty"]} if details else {}, {})
 
     form = request.form.to_dict()
-    errors = {}
-    if form.get("outcome") not in outcome_choices(item["accepted"]):
-        errors["outcome"] = "Choose an outcome."
-    problem_values, chosen = None, []
+    # The details form sends its own fields; a confirm from the list uses the mapped values.
+    own = bool(details and form.get("details"))
+    chosen = request.form.getlist("patterns") if own else (details["patterns"] if details else [])
     if details:
-        # The details form sends its own fields; a confirm from the list uses the mapped values.
-        own = bool(form.get("details"))
-        chosen = request.form.getlist("patterns") if own else details["patterns"]
         form["difficulty"] = form.get("difficulty", "") if own else details["difficulty"]
+    done, errors = confirm_sync_item(conn, item, form.get("outcome", ""), details, form.get("difficulty"),
+                                     chosen, set(names), hint)
+    if errors:
+        return sync_item_page(item, details, patterns, hint, chosen, form, errors, 400)
+    flash(f"Saved {item['title']} on {item['date']} as {OUTCOME_LABELS[form['outcome']].lower()}.")
+    return redirect(url_for("main.sync_page"))
+
+
+def confirm_sync_item(conn, item, outcome, details, difficulty, chosen, names, hint, reviews=None):
+    """Save a synced item as an attempt with `outcome`, adding its problem first if it is new (R-33).
+
+    Returns (what was added, errors); nothing is saved when there are errors. `reviews`
+    answers which due review the attempt completes as a sibling (a Snapshot, made here
+    when not given).
+    """
+    errors = {}
+    if outcome not in outcome_choices(item["accepted"]):
+        errors["outcome"] = "Choose an outcome."
+    problem_values = None
+    if details:
         rating = "" if item["rating"] is None else str(item["rating"])
         problem_values, problem_errors = validate_problem(
-            {"title": item["title"], "link": item["problem_link"], "difficulty": form["difficulty"], "rating": rating},
-            chosen, set(names))
+            {"title": item["title"], "link": item["problem_link"], "difficulty": difficulty or "", "rating": rating},
+            chosen, names)
         errors.update(problem_errors)
-    values, attempt_errors = validate_attempt({"date": item["date"], "outcome": form.get("outcome", "")},
+    values, attempt_errors = validate_attempt({"date": item["date"], "outcome": outcome},
                                               today(), item["problem_id"] or 0, hint)
     for field, message in attempt_errors.items():
         errors.setdefault(field, message)
     if errors:
-        return sync_item_page(item, details, patterns, hint, chosen, form, errors, 400)
+        return None, errors
 
+    added = item["problem_id"] is None
     problem_id = item["problem_id"] or queries.add_custom_problem(conn, problem_values)
+    hints = [r["id"] for r in conn.execute("SELECT id FROM hint_reveals WHERE problem_id = ? AND used = 0",
+                                           (problem_id,))]
     values["problem_id"] = problem_id
-    values["review_of_problem_id"] = Snapshot(conn, today()).review_of(problem_id, values["date"])
-    queries.add_attempt(conn, values, entry_method="sync")
-    syncing.set_status(conn, item_id, "confirmed")
-    flash(f"Saved {item['title']} on {item['date']} as {OUTCOME_LABELS[values['outcome']].lower()}.")
+    values["review_of_problem_id"] = (reviews or Snapshot(conn, today())).review_of(problem_id, values["date"])
+    attempt_id = queries.add_attempt(conn, values, entry_method="sync")
+    syncing.set_status(conn, item["id"], "confirmed")
+    return {"attempt": attempt_id, "problem": problem_id if added else None, "hints": hints}, {}
+
+
+class _NoReviews:
+    """Stands in for a Snapshot while no sibling suggestion is active, when no attempt can complete one."""
+
+    def review_of(self, problem_id, attempt_date):
+        return None
+
+
+BATCH_ACTIONS = (c.SOLVED_ALONE, c.SOLVED_WITH_HINTS, c.SOLVED_AFTER_SOLUTION, c.NOT_SOLVED, "dismiss")
+
+
+@bp.post("/sync/items/batch")
+def batch_sync_items():
+    """Save or dismiss several selected items at once, with Undo (R-33).
+
+    Items are saved oldest first, as they would be one by one. An item the action does
+    not fit stays on the list, and the message says why: a new problem that still needs
+    its level or patterns, a revealed hint (for solved alone), or an accepted submission
+    (for not solved).
+    """
+    conn = get_db()
+    action = request.form.get("action", "")
+    ids = {int(i) for i in request.form.getlist("item") if i.isdigit()}
+    shown = {item["id"]: item for item in syncing.pending_items(conn)}
+    picked = sorted((shown[i] for i in ids if i in shown), key=lambda it: (it["date"], it["id"]))
+    if not picked:
+        flash("Select one or more items first.")
+        return redirect(url_for("main.sync_page"))
+    if action not in BATCH_ACTIONS:
+        flash("Choose what happened for the selected items.")
+        return redirect(url_for("main.sync_page"))
+
+    names = {p["name"] for p in queries.patterns(conn)}
+    # A sibling review can only be completed while a suggestion is active, so the history
+    # is read for each item only then.
+    active = conn.execute("SELECT 1 FROM sibling_suggestions WHERE status = 'active' LIMIT 1").fetchone()
+    done = {"items": [], "attempts": [], "problems": [], "hints": []}
+    skipped = {"details": 0, "hint": 0, "accepted": 0}
+    for listed in picked:
+        item = syncing.get_item(conn, listed["id"])  # An earlier item may have just added its problem.
+        if action == "dismiss":
+            syncing.set_status(conn, item["id"], "dismissed")
+            done["items"].append(item["id"])
+            continue
+        if action not in outcome_choices(item["accepted"]):
+            skipped["accepted"] += 1
+            continue
+        hint = bool(item["problem_id"]) and queries.unused_hint(conn, item["problem_id"])
+        if hint and action == c.SOLVED_ALONE:
+            skipped["hint"] += 1
+            continue
+        details = None if item["problem_id"] else new_problem_details(item["site"], item, sorted(names))
+        if details and (not details["difficulty"] or not details["patterns"]):
+            skipped["details"] += 1
+            continue
+        added, errors = confirm_sync_item(conn, item, action, details, details["difficulty"] if details else None,
+                                          details["patterns"] if details else [], names, hint,
+                                          None if active else _NoReviews())
+        if errors:
+            skipped["details"] += 1
+            continue
+        done["items"].append(item["id"])
+        done["attempts"].append(added["attempt"])
+        done["hints"] += added["hints"]
+        if added["problem"]:
+            done["problems"].append(added["problem"])
+
+    count = len(done["items"])
+    if count:
+        batch_id = syncing.record_batch(conn, done, today())
+        noun = "item" if count == 1 else "items"
+        message = (f"Dismissed {count} {noun}." if action == "dismiss"
+                   else f"Saved {count} {noun} as {OUTCOME_LABELS[action].lower()}.")
+        flash(message, f"undo-batch:{batch_id}")
+    left = sum(skipped.values())
+    if left:
+        reasons = []
+        if skipped["details"]:
+            reasons.append(f"{skipped['details']} new to CodeCompass and needing a level or patterns")
+        if skipped["hint"]:
+            reasons.append(f"{skipped['hint']} with a revealed hint, which cannot be solved alone")
+        if skipped["accepted"]:
+            reasons.append(f"{skipped['accepted']} with an accepted submission, which cannot be not solved")
+        flash(f"Left {left} on the list: " + "; ".join(reasons) + ".")
+    return redirect(url_for("main.sync_page"))
+
+
+@bp.post("/sync/batches/<int:batch_id>/undo")
+def undo_sync_batch(batch_id):
+    """Put a batch's items back on the list (R-33)."""
+    back = syncing.undo_batch(get_db(), batch_id, today())
+    if back is None:
+        flash("That can no longer be undone.")
+    else:
+        flash(f"Put {back} {'item' if back == 1 else 'items'} back on the list.")
     return redirect(url_for("main.sync_page"))
 
 
