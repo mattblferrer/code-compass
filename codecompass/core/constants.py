@@ -61,6 +61,9 @@ ATCODER_LEVEL_FLOORS = ((2000, "very hard"), (1200, "hard"), (400, "medium"))
 # How long a deleted attempt or interview can be restored with Undo, in days.
 UNDO_DAYS = 1
 
+# History calendar (R-40): the fewest problems solved in a day for each darker shade.
+CALENDAR_SHADES = (1, 2, 4, 6)
+
 # Sync (R-33). The first sync for a username reads its whole history. Later syncs reach
 # back to the previous sync less SYNC_OVERLAP_HOURS, so submissions a source recorded
 # late are still found; items already listed are never listed twice.

@@ -1,0 +1,115 @@
+"""The History calendar: problems solved per day over a year, with the year's stats (R-40)."""
+from datetime import date, timedelta
+
+from codecompass.core import constants as c
+from codecompass.core import progress
+
+PARENS = "Valid Parentheses (Test list)"
+TWO_SUM = "Two Sum (Test list)"
+
+
+def attempt(day, outcome=c.SOLVED_ALONE):
+    return {"date": day, "outcome": outcome}
+
+
+def log(client, problem, day, outcome=c.SOLVED_ALONE):
+    response = client.post("/log", data={"problem": problem, "date": day, "outcome": outcome,
+                                         "time_minutes": "", "time_seconds": "", "notes": ""})
+    assert response.status_code == 302
+
+
+# --- Plain rules ---
+
+def test_every_solved_outcome_counts_and_not_solved_does_not():
+    totals = progress.day_totals([
+        attempt("2026-03-02"), attempt("2026-03-02", c.SOLVED_WITH_HINTS),
+        attempt("2026-03-02", c.SOLVED_AFTER_SOLUTION), attempt("2026-03-02", c.NOT_SOLVED),
+        attempt("2026-03-04", c.NOT_SOLVED),
+    ])
+    assert totals["2026-03-02"]["solved"] == 3 and totals["2026-03-02"]["attempts"] == 4
+    assert totals["2026-03-02"][c.NOT_SOLVED] == 1
+    assert totals["2026-03-04"]["solved"] == 0  # A day with only failed tries is practised, not solved.
+
+
+def test_shades_follow_the_thresholds():
+    assert c.CALENDAR_SHADES == (1, 2, 4, 6)
+    assert [progress.shade(n) for n in (0, 1, 2, 3, 4, 5, 6, 20)] == [0, 1, 2, 2, 3, 3, 4, 4]
+
+
+def test_periods():
+    assert progress.period(None, "2026-11-11") == ("2025-11-12", "2026-11-11", "Past 12 months")
+    assert progress.period(2025, "2026-11-11") == ("2025-01-01", "2025-12-31", "2025")
+
+
+def test_weeks_run_monday_to_sunday_and_mark_months():
+    totals = progress.day_totals([attempt("2026-03-02"), attempt("2026-03-02")])
+    columns = progress.weeks("2026-02-26", "2026-03-10", totals, "2026-03-08")
+    # 2026-02-26 is a Thursday, so the first week starts with three days outside the period.
+    assert [d and d["date"] for d in columns[0]["days"]] == [None, None, None, "2026-02-26", "2026-02-27",
+                                                              "2026-02-28", "2026-03-01"]
+    assert [w["month"] for w in columns] == ["Mar", None, None]  # March starts in the first week.
+    monday = columns[1]["days"][0]
+    assert (monday["date"], monday["solved"], monday["shade"], monday["future"]) == ("2026-03-02", 2, 2, False)
+    assert columns[2]["days"][1]["future"]  # 2026-03-10, after today.
+    assert columns[2]["days"][2] is None  # 2026-03-11, after the period.
+
+
+def test_stats_for_a_period():
+    totals = progress.day_totals([
+        attempt("2026-03-03"), attempt("2026-03-03", c.NOT_SOLVED),  # Tuesday
+        attempt("2026-03-10", c.SOLVED_WITH_HINTS),  # Tuesday
+        attempt("2026-03-05"), attempt("2026-03-05"),  # Thursday
+        attempt("2025-12-30"),  # Outside the period.
+    ])
+    assert progress.stats(totals, "2026-01-01", "2026-12-31") == {
+        "solved": 4, "attempts": 5, "days": 3, "average": 1.3, "busiest": "Tuesday", "busiest_attempts": 3}
+    # A tie goes to the earlier weekday; with no attempts there is no busiest day.
+    tie = progress.day_totals([attempt("2026-03-05"), attempt("2026-03-03")])
+    assert progress.stats(tie, "2026-01-01", "2026-12-31")["busiest"] == "Tuesday"
+    assert progress.stats({}, "2026-01-01", "2026-12-31") == {
+        "solved": 0, "attempts": 0, "days": 0, "average": 0, "busiest": None, "busiest_attempts": 0}
+
+
+def test_years_include_this_year():
+    totals = progress.day_totals([attempt("2024-05-01"), attempt("2026-01-01")])
+    assert progress.years(totals, "2026-11-11") == [2026, 2024]
+    assert progress.years({}, "2026-11-11") == [2026]
+
+
+def test_is_date():
+    assert progress.is_date("2026-02-28") and not progress.is_date("2026-02-30")
+    assert not progress.is_date("2026-2-3") and not progress.is_date("") and not progress.is_date("soon")
+
+
+# --- The page ---
+
+def test_history_shows_the_calendar_and_the_years_stats(client):
+    today = date.today()
+    log(client, PARENS, today.isoformat())
+    log(client, TWO_SUM, today.isoformat(), c.NOT_SOLVED)
+    log(client, PARENS, (today - timedelta(days=1)).isoformat(), c.SOLVED_WITH_HINTS)
+    page = client.get("/history").get_data(as_text=True)
+    assert "Problems solved, past 12 months" in page
+    assert '<dt>Problems solved</dt><dd>2</dd>' in page and '<dt>Attempts</dt><dd>3</dd>' in page
+    assert '<dt>Days practised</dt><dd>2</dd>' in page and '<dt>Solved per day practised</dt><dd>1.0</dd>' in page
+    # Today's square links to today in the list and says what happened.
+    assert f'href="#day-{today.isoformat()}"' in page and f'id="day-{today.isoformat()}"' in page
+    assert ": 1 solved (1 alone), 1 not solved" in page
+    assert page.count('class="cell s1"') >= 2  # Today and yesterday, one solve each.
+    assert f'href="/history?year={today.year}"' in page and "js/history.js" in page
+
+
+def test_a_calendar_year_and_an_earlier_day(client):
+    log(client, PARENS, "2025-03-04")
+    log(client, TWO_SUM, date.today().isoformat())
+    page = client.get("/history?year=2025").get_data(as_text=True)
+    assert "Problems solved, 2025" in page and '<dt>Problems solved</dt><dd>1</dd>' in page
+    assert 'href="/history?year=2025" aria-current="page"' in page
+    # A day can open the list at that day.
+    earlier = client.get("/history?year=2025&until=2025-03-04").get_data(as_text=True)
+    assert "Showing attempts up to Tue 4 Mar 2025." in earlier
+    log_part = earlier.split('<div class="table-wrap log">', 1)[1]
+    assert "Valid Parentheses" in log_part and "Two Sum" not in log_part
+    # A year without attempts, or a malformed day, falls back to the default view.
+    assert "Problems solved, past 12 months" in client.get("/history?year=1999").get_data(as_text=True)
+    assert "Showing attempts up to" not in client.get("/history?until=soon").get_data(as_text=True)

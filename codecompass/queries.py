@@ -129,11 +129,13 @@ def attempts_for_problem(conn, problem_id):
     ).fetchall()
 
 
-def recent_attempts(conn, limit=50):
+def recent_attempts(conn, limit=50, until=None):
+    """The latest attempts, newest first; with `until`, the latest on or before that date."""
     return conn.execute(
         """SELECT a.*, p.title, p.source FROM attempts a JOIN problems p ON p.id = a.problem_id
+           WHERE ? IS NULL OR a.date <= ?
            ORDER BY a.date DESC, a.id DESC LIMIT ?""",
-        (limit,),
+        (until, until, limit),
     ).fetchall()
 
 

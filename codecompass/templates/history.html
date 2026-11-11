@@ -1,11 +1,93 @@
 {% extends "base.html" %}
 {% block title %}History - CodeCompass{% endblock %}
+{% macro day_tip(d) %}
+  {%- set t = d.totals -%}
+  {{ d.date|day_label }}:
+  {%- if not t %} nothing logged
+  {%- else %} {{ t.solved }} solved
+    {%- set parts = [] -%}
+    {%- if t.solved_alone %}{% set _ = parts.append(t.solved_alone ~ " alone") %}{% endif -%}
+    {%- if t.solved_with_hints %}{% set _ = parts.append(t.solved_with_hints ~ " with hints") %}{% endif -%}
+    {%- if t.solved_after_solution %}{% set _ = parts.append(t.solved_after_solution ~ " after the solution") %}{% endif -%}
+    {%- if parts %} ({{ parts|join(", ") }}){% endif -%}
+    {%- if t.not_solved %}, {{ t.not_solved }} not solved{% endif -%}
+  {%- endif -%}
+{% endmacro %}
 {% block content %}
   <h1>History</h1>
   <p class="actions">
     <a href="{{ url_for('main.export_csv') }}">Export to CSV</a>
     <a href="{{ url_for('main.import_csv') }}">Import from CSV</a>
   </p>
+
+  {# R-40: problems solved per day over a year, with that year's stats beside it. #}
+  {% set cal = calendar %}
+  <section class="panel progress-panel" aria-labelledby="calendar-heading">
+    <div class="progress-head">
+      <h2 id="calendar-heading">Problems solved, {{ cal.label|lower if cal.year is none else cal.label }}</h2>
+      <nav class="year-switch" aria-label="Calendar period">
+        <a href="{{ url_for('main.history') }}" {% if cal.year is none %}aria-current="page"{% endif %}>Past 12 months</a>
+        {% for y in cal.years %}
+          <a href="{{ url_for('main.history', year=y) }}" {% if cal.year == y %}aria-current="page"{% endif %}>{{ y }}</a>
+        {% endfor %}
+      </nav>
+    </div>
+    <div class="progress-body">
+      <div class="year-grid-wrap" id="year-grid">
+        <table class="year-grid">
+          <caption class="visually-hidden">Problems solved each day, {{ cal.label }}. Days with attempts link to them in the list below.</caption>
+          <thead>
+            <tr>
+              <td></td>
+              {% for w in cal.weeks %}<th scope="col">{% if w.month %}<span>{{ w.month }}</span>{% endif %}</th>{% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in range(7) %}
+              <tr>
+                <th scope="row">
+                  {% set name = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")[row] %}
+                  {% if row in (0, 2, 4) %}{{ name }}{% else %}<span class="visually-hidden">{{ name }}</span>{% endif %}
+                </th>
+                {% for w in cal.weeks %}
+                  {% set d = w.days[row] %}
+                  {% if d is none %}
+                    <td></td>
+                  {% elif d.totals %}
+                    <td><a class="cell s{{ d.shade }}" title="{{ day_tip(d)|trim }}"
+                           href="{{ '#day-' ~ d.date if d.date in listed else url_for('main.history', year=cal.year, until=d.date) ~ '#day-' ~ d.date }}"><span class="visually-hidden">{{ day_tip(d)|trim }}</span></a></td>
+                  {% else %}
+                    <td><span class="cell s0{{ ' future' if d.future }}" title="{{ d.date|day_label }}"></span></td>
+                  {% endif %}
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% set s = cal.stats %}
+      <dl class="year-stats">
+        <div><dt>Problems solved</dt><dd>{{ s.solved }}</dd></div>
+        <div><dt>Attempts</dt><dd>{{ s.attempts }}</dd></div>
+        <div><dt>Days practised</dt><dd>{{ s.days }}</dd></div>
+        <div><dt>Solved per day practised</dt><dd>{{ s.average }}</dd></div>
+        <div class="wide"><dt>Busiest weekday</dt><dd>{% if s.busiest %}{{ s.busiest }} <small>{{ s.busiest_attempts }} {{ "attempt" if s.busiest_attempts == 1 else "attempts" }}</small>{% else %}None yet{% endif %}</dd></div>
+      </dl>
+    </div>
+    <p class="year-key" aria-hidden="true">
+      <span>Solved in a day</span>
+      <span class="cell s0"></span> 0
+      {% for floor in cal.shades %}
+        {% set next = cal.shades[loop.index] if not loop.last else none %}
+        <span class="cell s{{ loop.index }}"></span>
+        {% if next is none %}{{ floor }}+{% elif next - floor == 1 %}{{ floor }}{% else %}{{ floor }}–{{ next - 1 }}{% endif %}
+      {% endfor %}
+    </p>
+  </section>
+
+  {% if until %}
+    <p class="list-note">Showing attempts up to {{ until|day_label }}. <a href="{{ url_for('main.history', year=cal.year) }}">Show the latest</a></p>
+  {% endif %}
   {% if days %}
     {# One table, a row group per day, so the columns stay aligned and screen readers
        hear each day as a group. The marks repeat the outcome in shape and colour. #}
@@ -13,7 +95,7 @@
       <table>
         <thead><tr><th>Problem</th><th>Outcome</th><th>Time</th><th><span class="visually-hidden">Edit</span></th></tr></thead>
         {% for day in days %}
-          <tbody class="day{{ ' week-start' if day.week_start }}">
+          <tbody class="day{{ ' week-start' if day.week_start }}" id="day-{{ day.date }}">
             <tr class="day-head">
               <th scope="rowgroup" colspan="4">
                 <time datetime="{{ day.date }}">{{ day.label }}</time>
@@ -38,4 +120,7 @@
   {% else %}
     <p class="empty">No attempts yet. <a href="{{ url_for('main.log_attempt') }}">Log your first one</a>.</p>
   {% endif %}
+{% endblock %}
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/history.js') }}"></script>
 {% endblock %}

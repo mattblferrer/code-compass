@@ -2939,3 +2939,206 @@ label.chip:has(input:focus-visible) {
 form.sheet.interview-sheet {
   max-width: 60rem;
 }
+
+/* --- History calendar (R-40): problems solved per day over a year --- */
+.progress-panel {
+  margin-bottom: 1.5rem;
+  --cell: 0.78rem;
+}
+
+.progress-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.progress-head h2 {
+  margin: 0;
+}
+
+.year-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.year-switch a {
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: var(--step--1);
+  text-decoration: none;
+}
+
+.year-switch a:hover {
+  background: var(--track);
+  color: var(--text);
+}
+
+.year-switch a[aria-current="page"] {
+  background: var(--data);
+  color: var(--on-data);
+  font-weight: 600;
+}
+
+.progress-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .progress-body {
+    grid-template-columns: minmax(0, 1fr) 15rem;
+  }
+}
+
+.year-grid-wrap {
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.year-grid {
+  border-collapse: separate;
+  border-spacing: 3px;
+  margin: 0;
+  width: auto;
+}
+
+.year-grid th,
+.year-grid td {
+  padding: 0;
+  border: 0;
+  background: none;
+  line-height: 1;
+}
+
+.year-grid thead th {
+  height: 1rem;
+  width: var(--cell);
+  text-align: left;
+  vertical-align: bottom;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: visible;
+}
+
+/* A month name may be wider than its week; let it run over the next ones. */
+.year-grid thead th span {
+  display: inline-block;
+  width: 0;
+}
+
+.year-grid tbody th {
+  padding-right: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--muted);
+  text-align: right;
+}
+
+.cell {
+  display: block;
+  width: var(--cell);
+  height: var(--cell);
+  border-radius: 2px;
+  background: var(--track);
+}
+
+.year-key .cell {
+  display: inline-block;
+  vertical-align: -0.1rem;
+  margin-left: 0.5rem;
+}
+
+.cell.s1 { background: color-mix(in srgb, var(--data) 32%, var(--track)); }
+.cell.s2 { background: color-mix(in srgb, var(--data) 55%, var(--track)); }
+.cell.s3 { background: color-mix(in srgb, var(--data) 78%, var(--track)); }
+.cell.s4 { background: var(--data); }
+
+.cell.future {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--track);
+}
+
+a.cell:hover,
+a.cell:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 1px;
+}
+
+.year-key {
+  margin: 0.6rem 0 0;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.year-key > span:first-child {
+  margin-right: 0.25rem;
+}
+
+/* The year's numbers, in the same DIN as the headings. */
+.year-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 1rem;
+  margin: 0;
+}
+
+.year-stats .wide {
+  grid-column: 1 / -1;
+}
+
+.year-stats dt {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.year-stats dd {
+  margin: 0.1rem 0 0;
+  font-family: var(--font-brand);
+  font-size: var(--step-2);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.year-stats dd small {
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--muted);
+}
+
+@media (max-width: 64rem) {
+  .year-stats {
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  }
+
+  .year-stats .wide {
+    grid-column: auto;
+  }
+}
+
+.list-note {
+  color: var(--muted);
+}
+
+/* A day jumped to from the calendar is outlined, so it is easy to find in the list. */
+.log tbody.day:target .day-head th {
+  color: var(--data);
+}
+
+/* The squares grow to fill the calendar's width (53 weeks plus the day names), within limits. */
+.year-grid-wrap {
+  container-type: inline-size;
+  position: relative;  /* Keeps each square's hidden text inside the scrolling box. */
+}
+
+.year-grid {
+  --cell: clamp(0.62rem, calc((100cqw - 2.4rem) / 53 - 3px), 1.15rem);
+}

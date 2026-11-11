@@ -11,6 +11,7 @@ from . import sync as syncing
 from .core.sync import LEETCODE_NOTICE, PROFILE_URLS, new_problem_details, outcome_choices, rating_changes
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
 from .core.exchange import COLUMNS, export_rows, plan_import, references
+from .core import progress
 from .core.recommend import active_interview
 from .core.reviews import ics
 from .core.sites import FILTER_SITES, KINDS
@@ -342,11 +343,28 @@ def delete_attempt(attempt_id):
     return redirect(url_for("main.problem", problem_id=attempt["problem_id"]))
 
 
+HISTORY_LIMIT = 200
+
+
 @bp.route("/history")
 def history():
-    """Recent attempts grouped by day, newest first, with reviews marked (R-12)."""
+    """A calendar of problems solved per day with the year's stats (R-40), and the attempts
+    grouped by day, newest first, with reviews marked (R-12).
+
+    `year` picks a calendar year for the calendar instead of the past 12 months; `until`
+    starts the list at an earlier day, which is where a day in the calendar links.
+    """
     conn = get_db()
-    attempts = queries.recent_attempts(conn, limit=200)
+    now = today()
+    totals = progress.day_totals(queries.all_attempts(conn))
+    years = progress.years(totals, now)
+    year = request.args.get("year", type=int)
+    if year not in years:
+        year = None
+    first, last, label = progress.period(year, now)
+    until = request.args.get("until", "")
+    until = until if progress.is_date(until) else None
+    attempts = queries.recent_attempts(conn, limit=HISTORY_LIMIT, until=until)
     reviews = Snapshot(conn, today()).review_attempts()
     days, week = [], None
     for a in attempts:
@@ -356,9 +374,16 @@ def history():
             week = day.isocalendar()[:2]
             days.append({"date": a["date"], "label": day_label(a["date"]), "attempts": [], "week_start": starts_week})
         days[-1]["attempts"].append({**dict(a), "review": a["id"] in reviews})
-    return render_template("history.html", days=days, attempts=attempts)
+    calendar = {
+        "label": label, "year": year, "years": years, "first": first, "last": last,
+        "weeks": progress.weeks(first, last, totals, now), "stats": progress.stats(totals, first, last),
+        "shades": c.CALENDAR_SHADES,
+    }
+    return render_template("history.html", days=days, attempts=attempts, calendar=calendar, until=until,
+                           listed={d["date"] for d in days}, outcome_labels=OUTCOME_LABELS)
 
 
+@bp.app_template_filter("day_label")
 def day_label(text):
     """A date as the History page heads a day, such as "Tue 11 Nov 2026"."""
     day = date.fromisoformat(text)
