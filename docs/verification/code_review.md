@@ -1,13 +1,15 @@
 # Code review and AI mistakes log
 
-This page records the review of the changes the AI wrote on 2026-11-10 and 2026-11-11, for the plan item "review each change for date and time zone bugs, outgoing requests (R-03), CDN links (R-24), and one shared validator for the form and CSV; log any mistakes the AI made."
+This page records the reviews of the changes the AI wrote, for the plan item "review each change for date and time zone bugs, outgoing requests (R-03), CDN links (R-24), and one shared validator for the form and CSV; log any mistakes the AI made." Each review covers the commits since the one before, and the AI mistakes log at the end runs across all of them.
+
+## First review
 
 - **Date:** 2026-11-11
 - **Changes reviewed:** every commit after `b364cc5`, from `9b088e4` (catalog sources) to `e2ba680` (code review fixes)
 - **Method:** an automated code review of that range, which reported 10 findings, followed by the four checks below, made by searching the code and reading each match
 - **Tests:** 334 passing after the fixes
 
-## Checks
+### Checks
 
 | Check | How | Result |
 | --- | --- | --- |
@@ -15,6 +17,37 @@ This page records the review of the changes the AI wrote on 2026-11-10 and 2026-
 | Outgoing requests (R-03) | Searched for `urllib`, `urlopen`, `http.client`, `requests`, and `socket`, and for `fetch(` in the JavaScript | Pass after one fix. Only `codecompass/remote.py` makes requests, called only by the lookup (`/problems/new?lookup=1`) and by a sync (`POST /sync`). The JavaScript fetches only this app's own routes. Every URL in `remote.py` is in the source table in `docs/rules.md`. **Fixed:** urllib followed redirects to any host, so a redirect could reach a source not on the list; redirects are now followed only within the same host (`remote.SameHostRedirects`, with a test). |
 | CDN links (R-24) | Searched templates and CSS for external `src`, `href` on `script`, `link`, `img`, and `iframe`, `url(`, and `@import`, and listed `codecompass/static` | Pass. Every script and stylesheet is served from `codecompass/static` (one stylesheet, five scripts), fonts are system fonts, and the only external URLs are links to problems and site profiles, which the user opens. |
 | One shared validator (R-05, R-20) | Listed every write to `attempts` and `problems` and every caller of the validators | Pass after one fix. The logging form, attempt edits, CSV import, and sync confirmation all use `validate_attempt`, and custom problems from the form, CSV import, and sync all use `validate_problem`. The only other writes are the catalog load, the demo data, and Undo, which restores a row that was validated when it was saved. **Fixed in `e2ba680`:** CSV import did not apply the hint rule (R-27) that the form applies. |
+
+## Second review
+
+- **Date:** 2026-11-11
+- **Changes reviewed:** the 23 commits after `37d2166`, from `badcb49` (measured checks) to `8ee674e` (filters folded on phones): 66 files and about 6,200 changed lines. They added the redesign and branding, sync of the whole history with progress, batch actions and auto-classify, the 180-day review rule, delete all data (R-39), the History calendar (R-40), the reviews setting (R-41), filters, sorting, and settings autosave.
+- **Method:** an automated code review of that range, which reported 10 findings; the AI checked each against the code before reporting it, and the author chose how to handle each. The four checks below were then repeated by searching the code and reading each match.
+- **Tests:** 411 passing after the fixes, in `14fd0d6` (bugs and R-41) and `b8df954` (speed and structure)
+
+### Findings
+
+| # | Finding | Decision | Fix |
+| --- | --- | --- | --- |
+| 1 | The log form's in-browser checks did not match `validate_attempt`: they blocked an empty date, which the server takes as today, and minutes such as "5." that the server reads, against the one-validator rule (R-05). | Fix | The checks follow the server's rules exactly (`14fd0d6`). |
+| 2 | Adding `reviews_on` to an older settings table took three separate steps, so an interruption could lose saved settings or stop the app starting. | Fix | One transaction, and a half-done rebuild is finished on the next start (`14fd0d6`). |
+| 3 | A background sync that hit an unexpected error dropped the results of sites that had finished, and a new sync dropped a finished sync's unseen results. | Fix | Both are kept and shown (`14fd0d6`). |
+| 4 | With the page cap removed, Codeforces paging had no guard, so an API that ignored the page offset would loop forever. | Fix | A page with nothing new stops the sync with an error (`14fd0d6`). |
+| 5 | The sync page ran several queries per waiting item, about 10,000 after a long first sync, and the dashboard loaded every item to count them. | Fix | One query for the list, two for hints and patterns, one count: 147 ms to 49 ms and 138 ms to 70 ms on 1,600 items (`b8df954`). |
+| 6 | With a sibling suggestion active, a batch rebuilt the whole review picture for every item. | Fix | Read once, and again only when a save changes what is due: 300 items, 1,371 ms to 865 ms (`b8df954`). |
+| 7 | History read every attempt three times per visit. | Fix | One read (`b8df954`). |
+| 8 | Batch rules and the interview countdown lived in `views.py`, against "logic lives in `core/`". | Fix | Plain functions with tests in `core/sync.py` and `core/dates.py` (`b8df954`). |
+| 9 | With reviews off, History still marked reviews and offered "Reviews only", against R-41. | Author chose to hide them | Hidden while reviews are off (`14fd0d6`). |
+| 10 | The Undo cutoff was written out in five places, and month names in two. | Fix | `undo_cutoff()` and one list (`b8df954`). |
+
+### Checks
+
+| Check | How | Result |
+| --- | --- | --- |
+| Dates and time zones | Searched again for every clock read in Python and JavaScript, and for every date the new scripts handle | Pass. `core/` still takes "today" as an argument, including the new `progress`, `ordering`, `filters`, and date wording. The clock is read only in `views.py`, the `demo` command, and the timer. The background sync takes "now" and the local-date function from the request that starts it. The calendar card, the chart cards, and the rating chart build dates in UTC on both sides; the sync progress shows months in local time, which is display only. |
+| Outgoing requests (R-03) | Searched again for `urllib`, `urlopen`, `http.client`, `requests`, and `socket`, and for `fetch(` in the JavaScript | Pass. `remote.py` is still the only module that contacts another site; other matches only parse links. Every `fetch` in the new scripts (settings autosave, sync progress, problem search, log context) calls this app's own routes. |
+| CDN links (R-24) | Searched templates and CSS again for external `src`, `href`, `url(`, and `@import`, and listed `codecompass/static` | Pass. The new scripts and `favicon.svg` are served from `codecompass/static`, the header's contour lines are an inline SVG in the stylesheet, and fonts are still system fonts (Bahnschrift, or DIN Alternate on Apple). |
+| One shared validator (R-05, R-20) | Listed every write to `attempts` and `problems` again, and every caller of the validators | Pass after finding 1. Single confirms, batch saves, and auto-classify all go through `confirm_sync_item`, which uses `validate_attempt` and `validate_problem`; settings autosave uses `validate_settings`, as the Save button does. The other writes are still the catalog load, the demo data, and Undo, which only removes a batch's rows or puts back what was there. |
 
 ## AI mistakes
 
@@ -40,6 +73,18 @@ Mistakes in work the AI produced, in the order they were found. "Found by" says 
 | 16 | 2026-11-10 | Undo (R-07) | Restore did not check the 1-day window, and failed with an error page if the problem had been removed. | Code review | `e2ba680` |
 | 17 | 2026-11-10 | Recommendations (R-32) | Target slots could show a very hard problem with the setting off. This followed the documented rule at the time; the author changed the rule. | Code review | Rule and docs changed (`e2ba680`). |
 | 18 | 2026-11-10 to 11 | Performance | After the reserve was added, saving an attempt and CSV import and export loaded all 13,000+ problems. | Code review | Load only what is needed (`e2ba680`). |
-| 19 | 2026-11-11 | Outgoing requests (R-03) | Redirects to another host were followed. | This review | Same-host redirects only (this review's commit). |
+| 19 | 2026-11-11 | Outgoing requests (R-03) | Redirects to another host were followed. | First review | Same-host redirects only (`37d2166`). |
+| 20 | 2026-11-11 | Design (R-33, R-34) | The sync popover overflowed its card, and the chart's drag code overwrote its own animation handle and failed when pointer capture was refused. | Browser check | Fixed before commit (`209cc25`). |
+| 21 | 2026-11-11 | Branding | New class names `.mark` and `.days` were already in use, which shrank the logo and broke the countdown layout. | Browser check | Renamed before commit (`6b61179`). |
+| 22 | 2026-11-11 | Layout | Several pages overflowed a phone's width: the calendar's hidden screen-reader text, the rating chart's caption, and a settings fieldset. | Browser check | Fixed before commit (`be4fd4a`, `f209a7d`). |
+| 23 | 2026-11-11 | Sync progress (R-33) | The new progress list picked up the linked-accounts list's layout, putting site rows side by side. | Browser check | Fixed before commit (`9cb9752`). |
+| 24 | 2026-11-11 | Logging (R-05) | The log form's in-browser checks blocked saves the server accepts. | Second review | `14fd0d6` |
+| 25 | 2026-11-11 | Settings (R-41) | The settings table rebuild was not one transaction. | Second review | `14fd0d6` |
+| 26 | 2026-11-11 | Sync (R-33) | A crashed background sync dropped finished sites' results, and removing the page cap left Codeforces paging without a guard. | Second review | `14fd0d6` |
+| 27 | 2026-11-11 | Performance | The sync page, dashboard, batches, and History did far more database work than needed after a long first sync. | Second review | `b8df954` |
+| 28 | 2026-11-11 | Code rules | Batch rules and the countdown were put in `views.py`, and the Undo cutoff was copied five times. | Second review | `b8df954` |
+| 29 | 2026-11-11 | Reviews (R-41) | History still showed reviews while they were turned off. | Second review | `14fd0d6` |
+| 30 | 2026-11-11 | Sync (R-33) | The first two versions of the paging guard compared times, then submission IDs, and stopped good syncs, since both can arrive slightly out of order. | Tests | The guard stops only when a page has nothing new (`14fd0d6`). |
+| 31 | 2026-11-11 | Editing | An edit script named a set `seen`, hiding the progress counter of the same name (38 tests failed), and another wrote a literal newline inside a string in `db.py`. | Tests, AI's check | Fixed before commit (`14fd0d6`). |
 
-Most mistakes were caught by a test, a browser check, or the code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code.
+Most mistakes were caught by a test, a browser check, or a code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code. In the second review, items 26 and 28 repeat that pattern: limits and rules that existed in one place (AtCoder's paging guard, `core/` for rules) were not carried to new code, and items 20 to 23 show that most layout mistakes were caught only by looking at the page.
