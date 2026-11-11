@@ -20,8 +20,11 @@
   {% endfor %}
 {% endmacro %}
 {% block content %}
-  {{ page_head("Settings", "Choose what CodeCompass recommends, the accounts it syncs, and what it keeps.") }}
-  <form method="post" class="settings-grid" novalidate>
+  {% call page_head("Settings", "Choose what CodeCompass recommends, the accounts it syncs, and what it keeps.") %}
+    {# Shown by js/settings_autosave.js, which saves each change as it is made. #}
+    <p class="autosave-status" id="autosave-status" role="status" hidden></p>
+  {% endcall %}
+  <form method="post" class="settings-grid" id="settings-form" novalidate>
     <div class="panel settings-card">
       <fieldset>
         <legend>Recommendations</legend>
@@ -143,4 +146,7 @@
   <dialog id="erase-dialog" class="confirm-dialog" aria-labelledby="erase-heading">
     {% with in_dialog = true %}{% include "_erase_confirm.html" %}{% endwith %}
   </dialog>
+{% endblock %}
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/settings_autosave.js') }}"></script>
 {% endblock %}

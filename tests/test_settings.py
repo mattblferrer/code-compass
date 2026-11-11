@@ -101,3 +101,23 @@ def test_dark_tokens_match_for_the_system_setting_and_the_toggle():
     chosen = css.split(':root[data-theme="dark"] {', 1)[1].split("}", 1)[0]
     tokens = lambda block: re.findall(r"(--[\w-]+|color-scheme):\s*([^;]+);", block)
     assert tokens(media) and tokens(media) == tokens(chosen)
+
+
+def test_each_change_saves_in_the_background(client, app):
+    """The page's script posts each change with X-Autosave and gets JSON back."""
+    page = client.get("/settings").get_data(as_text=True)
+    assert 'id="settings-form"' in page and 'id="autosave-status"' in page and "js/settings_autosave.js" in page
+    response = client.post("/settings", data={**ALL_SHOWN, "starting_difficulty": "hard", "reviews_on": "1"},
+                           headers={"X-Autosave": "1"})
+    assert response.status_code == 200 and response.get_json() == {"saved": True}
+    assert saved(app)["settings"]["starting_difficulty"] == "hard"
+    # No "Settings saved." message waits for the next page; the status line said it.
+    assert "Settings saved." not in client.get("/settings").get_data(as_text=True)
+
+
+def test_a_bad_background_save_changes_nothing(client, app):
+    response = client.post("/settings", data={**ALL_SHOWN, "starting_difficulty": "impossible"},
+                           headers={"X-Autosave": "1"})
+    assert response.status_code == 400
+    assert response.get_json() == {"saved": False, "errors": {"starting_difficulty": "Choose a starting difficulty."}}
+    assert saved(app) == {"settings": {}, "preferences": {}, "hidden": set()}

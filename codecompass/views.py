@@ -511,11 +511,20 @@ def run_lookup(conn, form, lookup, pattern_names):
 @bp.route("/settings", methods=["GET", "POST"])
 def settings():
     """Starting difficulty, advanced and very hard switches, pattern targets and
-    mastered patterns, and the site filter (R-13, R-32, R-36)."""
+    mastered patterns, the site filter, and review problems (R-13, R-32, R-36, R-41).
+
+    The page's script saves each change as it is made (X-Autosave), and gets JSON
+    back; without the script, Save settings posts the form as before.
+    """
     conn = get_db()
     patterns = queries.patterns(conn)
     if request.method == "POST":
         values, errors = validate_settings(request.form, [p["name"] for p in patterns], FILTER_SITES, KINDS)
+        if request.headers.get("X-Autosave") == "1":
+            if errors:
+                return jsonify({"saved": False, "errors": errors}), 400
+            queries.save_settings(conn, values)
+            return jsonify({"saved": True})
         if not errors:
             queries.save_settings(conn, values)
             flash("Settings saved.")

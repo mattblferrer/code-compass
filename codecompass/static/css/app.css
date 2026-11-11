@@ -3300,3 +3300,19 @@ a.cell:focus-visible {
   color: var(--muted);
   white-space: nowrap;
 }
+
+/* Settings save as they change; this says where saving stands. */
+.autosave-status {
+  margin: 0;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.autosave-status[hidden],
+.settings-save[hidden] {
+  display: none;
+}
+
+.autosave-status.problem {
+  color: var(--due);
+}
