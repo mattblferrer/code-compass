@@ -411,9 +411,8 @@ def recommend(s):
             if not is_target and abs(gap) > 1:
                 continue
             options.append(problem)
+        # Very hard problems stay hidden with the setting off, target slots included.
         allowed = [p for p in options if very_hard_on or p["difficulty"] != "very hard"]
-        if is_target and not allowed:
-            allowed = options
         if not allowed:
             return None
         return min(allowed, key=lambda p: (distance_rank(p), len(p["patterns"]) - 1, p["position"]))

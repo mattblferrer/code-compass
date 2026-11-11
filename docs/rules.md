@@ -211,7 +211,7 @@ A problem can be offered as new only if it meets all of these:
 - It has no inactive advanced pattern (R-32).
 - It is not already on the list.
 - It meets the very hard setting (see Difficulty levels).
-- Its site is shown by the site filter (R-36). Unlike the very hard setting, a target slot has no exception.
+- Its site is shown by the site filter (R-36). A target slot has no exception to either.
 - Its difficulty is the user's current level, or one level away. For a target slot, any difficulty qualifies, because choosing a target is an explicit request.
 
 Rank the problems that qualify by these, in order:
@@ -220,7 +220,7 @@ Rank the problems that qualify by these, in order:
 2. **Fewest extra patterns** besides the pattern it was chosen for.
 3. **Catalog order.**
 
-If no catalog problem qualifies for the pattern, the same conditions and ranking are applied to the reserve (R-37), with reserve order in place of catalog order. For a target slot, the catalog is used up first, including its very hard problems, before the reserve is tried. A pattern with no qualifying problem in either is skipped, and its slot passes to the next pattern.
+If no catalog problem qualifies for the pattern, the same conditions and ranking are applied to the reserve (R-37), with reserve order in place of catalog order. For a target slot, every catalog level that qualifies is used up first, before the reserve is tried; very hard problems qualify only with the very hard setting on. A pattern with no qualifying problem in either is skipped, and its slot passes to the next pattern.
 
 ### Due reviews on the same date
 
@@ -383,7 +383,7 @@ The shares come from the page on 2026-11-10 (400 problems). A solver count is no
 
 Very hard problems are not recommended unless the user turns on the very hard setting, which is off by default. While it is off:
 
-- New problems exclude very hard problems, except that a target slot can use one when no easier problem qualifies.
+- New problems exclude very hard problems, including in target slots.
 - A sibling can be very hard only if the due problem is very hard.
 - The current difficulty level stops at hard.
 

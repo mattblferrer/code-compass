@@ -24,6 +24,7 @@ from urllib.parse import quote, urlparse
 
 from .core import sync as parse
 from .core.lookup import atcoder_details, codeforces_details
+from .core.problem_refs import atcoder_link
 
 TIMEOUT = 15
 USER_AGENT = "CodeCompass (local practice tracker; lookup or sync started by the user)"
@@ -207,8 +208,7 @@ def sync(site, username, since, known_links=frozenset()):
 
 def _atcoder_details(raw, known_links):
     """Titles and difficulty estimates, fetched only when a submitted problem is not in CodeCompass."""
-    unknown = {s["problem_id"] for s in raw
-               if f"https://atcoder.jp/contests/{s['contest_id']}/tasks/{s['problem_id']}" not in known_links}
+    unknown = {s["problem_id"] for s in raw if atcoder_link(s["contest_id"], s["problem_id"]) not in known_links}
     if not unknown:
         return {}, {}
     titles, estimates = {}, {}

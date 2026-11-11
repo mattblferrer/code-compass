@@ -3496,11 +3496,11 @@
         }
       ],
       "expected_list": [
-        "new:FFT and NTT/very hard",
         "new:Linked List/easy",
         "new:Intervals/easy",
         "new:Greedy/easy",
-        "new:Stack/easy"
+        "new:Stack/easy",
+        "new:Heap/easy"
       ]
     },
     {

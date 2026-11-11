@@ -266,3 +266,30 @@ def test_reserve_column_added_to_an_older_database(tmp_path):
     conn = connect(path)
     assert "reserve_position" in {r["name"] for r in conn.execute("PRAGMA table_info(problems)")}
     conn.close()
+
+
+def target_pick(catalog, reserve, very_hard_on=False):
+    """The problem a target pattern gets, from fixed data (R-32, R-37)."""
+    from codecompass.core.recommend import recommend
+
+    fft = "FFT and NTT"
+    state = {"patterns": [fft], "advanced": [fft], "catalog": catalog, "reserve": reserve, "scores": {},
+             "unscored_attempts": {}, "due": [], "excluded": set(), "targets": [fft], "mastered": [],
+             "level": "easy", "advanced_on": False, "very_hard_on": very_hard_on, "interview": None}
+    picks = [r["problem"] for r in recommend(state) if r["pattern"] == fft]
+    return picks[0] if picks else None
+
+
+def fft_problem(id_, difficulty, position=1):
+    return {"id": id_, "position": position, "difficulty": difficulty, "patterns": ["FFT and NTT"]}
+
+
+def test_target_skips_very_hard_catalog_problems_for_the_reserve_with_the_setting_off():
+    assert target_pick([fft_problem(1, "very hard")], [fft_problem(2, "easy")]) == 2
+    assert target_pick([fft_problem(1, "very hard")], [fft_problem(2, "very hard")]) is None
+    assert target_pick([fft_problem(1, "very hard")], [fft_problem(2, "easy")], very_hard_on=True) == 1
+
+
+def test_target_uses_any_catalog_level_before_the_reserve():
+    # Catalog first: a hard catalog problem, two levels from easy, beats an easy reserve one.
+    assert target_pick([fft_problem(1, "hard")], [fft_problem(2, "easy")]) == 1

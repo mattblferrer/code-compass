@@ -127,9 +127,9 @@ def recommend(state):
             if abs(gap) > 1 and not is_target:
                 continue
             options.append((problem, gap))
+        # With the very hard setting off, very hard problems are never offered, not even in
+        # a target slot; the reserve is tried before a pattern is skipped (R-32, R-37).
         allowed = [o for o in options if very_hard_on or o[0]["difficulty"] != c.VERY_HARD]
-        if is_target and not allowed:
-            allowed = options
         if not allowed:
             return None
         problem, _ = min(

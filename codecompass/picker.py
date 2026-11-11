@@ -89,19 +89,24 @@ def resolve(conn, form):
     an optional "custom_url", or None."""
     site = (form.get("site") or "").strip()
     ref = (form.get("ref") or "").strip()
-    if site == OTHER or ref:
+    text = (form.get("problem") or "").strip()
+    chosen = form.get("problem_id", "")
+    picked = None
+    if chosen.isdigit():
+        row = queries.picker_row(conn, int(chosen))
+        if row and label(row) == text:
+            picked = row["id"]
+
+    # A typed ID is used as typed (picking from the list clears it). Otherwise a problem
+    # picked by title wins over a leftover site choice, including "Other".
+    if ref or (site == OTHER and picked is None):
         found = find_by_ref(conn, site, ref)
         if found["row"]:
             return found["row"]["id"], None
         show_custom = site == OTHER or found["link"] is not None
         return None, {"message": found["message"], "custom_url": custom_url_for(found) if show_custom else None}
-
-    text = (form.get("problem") or "").strip()
-    chosen = form.get("problem_id", "")
-    if chosen.isdigit():
-        row = queries.picker_row(conn, int(chosen))
-        if row and label(row) == text:
-            return row["id"], None
+    if picked is not None:
+        return picked, None
     if not text:
         return None, {"message": MESSAGES["none"]}
 

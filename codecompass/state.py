@@ -13,7 +13,21 @@ from .core.siblings import choose_sibling
 from .core.sites import is_hidden
 from .core.streak import review_streak
 
-DEFAULT_SETTINGS = {"starting_difficulty": "easy", "advanced_on": "0", "very_hard_on": "0"}
+from .queries import DEFAULT_SETTINGS, current_settings  # noqa: F401 (DEFAULT_SETTINGS is used by importers)
+
+
+def _load_problems(conn, where="", args=()):
+    """Problems with their pattern names, all of them or those matching `where` (on problems.id)."""
+    problems = {r["id"]: {**dict(r), "patterns": []}
+                for r in conn.execute(f"SELECT * FROM problems {where.format(column='id')}", args)}
+    for r in conn.execute(
+        f"""SELECT pp.problem_id, pt.name FROM problem_patterns pp JOIN patterns pt ON pt.id = pp.pattern_id
+            {where.format(column='pp.problem_id')} ORDER BY pt.list_position""",
+        args,
+    ):
+        if r["problem_id"] in problems:
+            problems[r["problem_id"]]["patterns"].append(r["name"])
+    return problems
 
 
 class Snapshot:
@@ -26,25 +40,21 @@ class Snapshot:
             "SELECT name, category, tier, family, description FROM patterns ORDER BY list_position"
         )]
         self.pattern_info = {p["name"]: p for p in self.patterns}
-        self.problems = {r["id"]: {**dict(r), "patterns": []} for r in conn.execute("SELECT * FROM problems")}
-        for r in conn.execute(
-            """SELECT pp.problem_id, pt.name FROM problem_patterns pp
-               JOIN patterns pt ON pt.id = pp.pattern_id ORDER BY pt.list_position"""
-        ):
-            self.problems[r["problem_id"]]["patterns"].append(r["name"])
+        # Scores and due reviews need only the attempted problems. The whole catalog and
+        # reserve (about 15,000 problems) loads on first use of self.problems, which only
+        # recommendations and sibling choice need; saving an attempt does not.
+        self._known = _load_problems(conn, "WHERE {column} IN (SELECT problem_id FROM attempts)")
+        self._all_problems = None
         self.attempts = [dict(r) for r in conn.execute("SELECT * FROM attempts ORDER BY date, id")]
 
-        self.settings = dict(DEFAULT_SETTINGS)
-        self.settings.update({r["key"]: r["value"] for r in conn.execute("SELECT key, value FROM settings")})
-        prefs = {r["name"]: r["preference"] for r in conn.execute(
-            "SELECT pt.name, pp.preference FROM pattern_preferences pp JOIN patterns pt ON pt.id = pp.pattern_id"
-        )}
+        self.settings = current_settings(conn)
+        prefs = self.settings["preferences"]
         self.targets = {name for name, pref in prefs.items() if pref == "target"}
         self.mastered = {name for name, pref in prefs.items() if pref == "mastered"}
         self.advanced_on = self.settings["advanced_on"] == "1"
         self.very_hard_on = self.settings["very_hard_on"] == "1"
         self.advanced = {p["name"] for p in self.patterns if p["category"] == "advanced"}
-        self.hidden_sites = {(r["site"], r["category"]) for r in conn.execute("SELECT site, category FROM hidden_sites")}
+        self.hidden_sites = self.settings["hidden"]
 
         interviews = []
         for r in conn.execute("SELECT * FROM interviews ORDER BY date, id"):
@@ -62,7 +72,7 @@ class Snapshot:
         # Each attempt counts in full toward each of its problem's patterns.
         self.by_pattern = {p["name"]: [] for p in self.patterns}
         for a in self.attempts:
-            problem = self.problems[a["problem_id"]]
+            problem = self._known[a["problem_id"]]
             for name in problem["patterns"]:
                 self.by_pattern[name].append({
                     "date": a["date"], "difficulty": problem["difficulty"], "outcome": a["outcome"],
@@ -83,6 +93,23 @@ class Snapshot:
             "SELECT problem_id FROM not_now WHERE date > ?", (add_days(today, -c.NOT_NOW_DAYS),)
         )}
         self._suggestions = [dict(r) for r in conn.execute("SELECT * FROM sibling_suggestions ORDER BY id")]
+
+    @property
+    def problems(self):
+        """Every problem by id, loaded on first use."""
+        if self._all_problems is None:
+            loaded = _load_problems(self.conn)
+            loaded.update(self._known)  # Keep the dicts already handed out.
+            self._all_problems = loaded
+        return self._all_problems
+
+    def problem(self, problem_id):
+        """One problem, without loading them all."""
+        if self._all_problems is not None:
+            return self._all_problems.get(problem_id)
+        if problem_id not in self._known:
+            self._known.update(_load_problems(self.conn, "WHERE {column} = ?", (problem_id,)))
+        return self._known.get(problem_id)
 
     # --- Patterns ---
 
@@ -145,7 +172,7 @@ class Snapshot:
 
     def level(self):
         history = [
-            {"difficulty": self.problems[a["problem_id"]]["difficulty"], "outcome": a["outcome"]}
+            {"difficulty": self._known[a["problem_id"]]["difficulty"], "outcome": a["outcome"]}
             for a in self.attempts
         ]
         return current_level(history, self.settings["starting_difficulty"], self.very_hard_on)
@@ -168,7 +195,7 @@ class Snapshot:
             return False
         cache = self.__dict__.setdefault("_hidden_cache", {})
         if problem_id not in cache:
-            p = self.problems[problem_id]
+            p = self.problem(problem_id)
             cache[problem_id] = not p["is_custom"] and is_hidden(p["link"], p["patterns"], self.advanced,
                                                                   self.hidden_sites)
         return cache[problem_id]

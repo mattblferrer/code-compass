@@ -216,3 +216,25 @@ def test_edit_form_keeps_the_chosen_problem(rclient, reserve_app):
     })
     assert response.status_code == 302
     assert logged(reserve_app)[0]["link"].endswith("/2/A")
+
+
+def test_problem_picked_by_title_wins_over_a_leftover_other_site(rclient, reserve_app):
+    # The user chose "Other", then picked a problem from the title search instead.
+    result = rclient.get("/problems/search?q=hunt").get_json()[0]
+    response = log(rclient, problem=result["label"], problem_id=str(result["id"]), site="other", ref="")
+    assert response.status_code == 302
+    assert logged(reserve_app) == [{"title": "Treasure Hunt", "link": "https://codeforces.com/problemset/problem/1/A"}]
+    # With nothing picked, "Other" still points to a custom problem.
+    page = log(rclient, problem="", site="other").get_data(as_text=True)
+    assert "custom problems" in page
+
+
+@pytest.mark.parametrize("text", ["https://atcoder.jp/contests/abc042/tasks/arc058_a",
+                                  "https://atcoder.jp/contests/arc058/tasks/arc058_a"])
+def test_shared_atcoder_task_has_one_link(text):
+    # ABC042 C is ARC058 A: it is stored under the contest its task ID names.
+    assert from_link(text) == ("atcoder", "https://atcoder.jp/contests/arc058/tasks/arc058_a")
+    assert from_id("atcoder", "arc058_a") == "https://atcoder.jp/contests/arc058/tasks/arc058_a"
+    # Other contests keep their own name, even when the task ID is spelled differently.
+    assert from_link("https://atcoder.jp/contests/tessoku-book/tasks/tessoku_book_a")[1] == \
+        "https://atcoder.jp/contests/tessoku-book/tasks/tessoku_book_a"

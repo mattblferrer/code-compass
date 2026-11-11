@@ -151,6 +151,16 @@ def read_settings(conn):
     }
 
 
+DEFAULT_SETTINGS = {"starting_difficulty": "easy", "advanced_on": "0", "very_hard_on": "0"}
+
+
+def current_settings(conn):
+    """Saved settings over the defaults, with "preferences" ({pattern: "target" or "mastered"})
+    and "hidden" ({(site, kind)}). The settings page and Snapshot both read them here."""
+    saved = read_settings(conn)
+    return {**DEFAULT_SETTINGS, **saved["settings"], "preferences": saved["preferences"], "hidden": saved["hidden"]}
+
+
 def save_settings(conn, values):
     """Replace all settings, pattern preferences, and hidden sites in one transaction (R-13, R-32, R-36)."""
     pattern_ids = {r["name"]: r["id"] for r in conn.execute("SELECT id, name FROM patterns")}
@@ -220,15 +230,27 @@ def _keep_deleted(conn, kind, payload, today):
                         (kind, json.dumps(payload), today)).lastrowid
 
 
-def restore_deleted(conn, item_id):
+def restore_deleted(conn, item_id, today):
     """Put a deleted attempt or interview back, under its old id when that id is still free.
 
-    Returns (kind, restored row) or None if the copy is gone or was already restored.
+    Returns (kind, restored row); ("missing_problem", row) when the attempt's problem is no
+    longer in the database (a catalog or reserve reload can remove a problem left with no
+    attempts); or None if the copy is gone, was already restored, or is older than c.UNDO_DAYS.
     """
     item = conn.execute("SELECT * FROM deleted_items WHERE id = ?", (item_id,)).fetchone()
     if item is None:
         return None
+    cutoff = (date.fromisoformat(today) - timedelta(days=c.UNDO_DAYS)).isoformat()
+    if item["date"] < cutoff:
+        with conn:
+            conn.execute("DELETE FROM deleted_items WHERE id = ?", (item_id,))
+        return None
     row = json.loads(item["payload"])
+    if item["kind"] == "attempt":
+        if not get_problem(conn, row["problem_id"]):
+            return "missing_problem", row
+        if row.get("review_of_problem_id") and not get_problem(conn, row["review_of_problem_id"]):
+            row["review_of_problem_id"] = None  # The review it completed is gone; the attempt still counts.
     with conn:
         if item["kind"] == "attempt":
             taken = conn.execute("SELECT 1 FROM attempts WHERE id = ?", (row["id"],)).fetchone()
@@ -259,18 +281,48 @@ def all_attempts(conn):
     return [dict(r) for r in conn.execute("SELECT * FROM attempts ORDER BY id")]
 
 
-def problems_by_id(conn, ids=None):
-    """{id: {title, link, difficulty, rating, patterns}} for the given ids, or for every problem."""
-    rows = conn.execute("SELECT id, title, link, difficulty, rating FROM problems").fetchall()
-    wanted = set(ids) if ids is not None else None
-    result = {r["id"]: {**dict(r), "patterns": []} for r in rows if wanted is None or r["id"] in wanted}
-    for r in conn.execute(
-        """SELECT pp.problem_id, pt.name FROM problem_patterns pp JOIN patterns pt ON pt.id = pp.pattern_id
-           ORDER BY pt.list_position"""
-    ):
-        if r["problem_id"] in result:
+def _chunks(items, size=500):
+    """Slices of `items` small enough for one SQL IN (...) list."""
+    items = list(items)
+    for start in range(0, len(items), size):
+        yield items[start:start + size]
+
+
+def _with_patterns(conn, rows):
+    result = {r["id"]: {**dict(r), "patterns": []} for r in rows}
+    for chunk in _chunks(result):
+        for r in conn.execute(
+            f"""SELECT pp.problem_id, pt.name FROM problem_patterns pp JOIN patterns pt ON pt.id = pp.pattern_id
+                WHERE pp.problem_id IN ({', '.join('?' * len(chunk))}) ORDER BY pt.list_position""",
+            chunk,
+        ):
             result[r["problem_id"]]["patterns"].append(r["name"])
     return result
+
+
+PROBLEM_FIELDS = "id, title, link, difficulty, rating"
+
+
+def problems_by_id(conn, ids):
+    """{id: {title, link, difficulty, rating, patterns}} for the given ids only."""
+    rows = []
+    for chunk in _chunks(set(ids)):
+        rows += conn.execute(f"SELECT {PROBLEM_FIELDS} FROM problems WHERE id IN ({', '.join('?' * len(chunk))})",
+                             chunk).fetchall()
+    return _with_patterns(conn, rows)
+
+
+def problems_matching(conn, links, titles):
+    """Problems whose link is in `links` or whose lower-case title is in `titles`, as problems_by_id
+    gives them. CSV import needs only these, not the whole catalog and reserve."""
+    rows = {}
+    for column, values in (("link", links), ("lower(title)", titles)):
+        for chunk in _chunks(set(values)):
+            for r in conn.execute(
+                f"SELECT {PROBLEM_FIELDS} FROM problems WHERE {column} IN ({', '.join('?' * len(chunk))})", chunk
+            ):
+                rows[r["id"]] = r
+    return _with_patterns(conn, rows.values())
 
 
 def apply_import(conn, plan):
@@ -292,3 +344,11 @@ def apply_import(conn, plan):
             [(ids.get(a["problem"], a["problem"]), a["date"], a["outcome"], a["time_seconds"], a["notes"],
               ids.get(a["review_of"], a["review_of"])) for a in plan["attempts"]],
         )
+        # As when logging, an attempt uses up a revealed hint on its problem (R-27).
+        conn.executemany("UPDATE hint_reveals SET used = 1 WHERE problem_id = ? AND used = 0",
+                         [(a["problem"],) for a in plan["attempts"] if a["problem"] not in ids])
+
+
+def unused_hints(conn):
+    """Problems with a revealed beginner hint not yet used by an attempt (R-27)."""
+    return {row["problem_id"] for row in conn.execute("SELECT DISTINCT problem_id FROM hint_reveals WHERE used = 0")}

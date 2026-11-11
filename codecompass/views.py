@@ -10,11 +10,11 @@ from . import picker, queries, remote
 from . import sync as syncing
 from .core.sync import LEETCODE_NOTICE, PROFILE_URLS, new_problem_details, outcome_choices, rating_changes
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
-from .core.exchange import COLUMNS, export_rows, plan_import
+from .core.exchange import COLUMNS, export_rows, plan_import, references
 from .core.recommend import active_interview
 from .core.reviews import ics
 from .core.sites import FILTER_SITES, KINDS
-from .state import DEFAULT_SETTINGS, Snapshot
+from .state import Snapshot
 from .core import constants as c
 from .core.validation import (
     OUTCOME_DEFINITIONS,
@@ -400,9 +400,7 @@ def settings():
         current = values
         status = 400
     else:
-        saved = queries.read_settings(conn)
-        current = {**DEFAULT_SETTINGS, **saved["settings"], "preferences": saved["preferences"],
-                   "hidden": saved["hidden"]}
+        current = queries.current_settings(conn)
         errors, status = {}, 200
     return settings_page(conn, current, errors, patterns, status)
 
@@ -424,9 +422,7 @@ def link_accounts():
     conn = get_db()
     values, errors = validate_accounts(request.form, syncing.SYNC_SITES)
     if errors:
-        saved = queries.read_settings(conn)
-        current = {**DEFAULT_SETTINGS, **saved["settings"], "preferences": saved["preferences"],
-                   "hidden": saved["hidden"]}
+        current = queries.current_settings(conn)
         typed = {site: request.form.get(f"username:{site}", "") for site in syncing.SYNC_SITES}
         return settings_page(conn, current, {}, queries.patterns(conn), 400, typed, errors)
     syncing.link_accounts(conn, values)
@@ -496,11 +492,14 @@ def delete_interview(interview_id):
 @bp.post("/undo/<int:item_id>")
 def undo_delete(item_id):
     """Restore a deleted attempt or interview (R-07, R-15)."""
-    restored = queries.restore_deleted(get_db(), item_id)
+    restored = queries.restore_deleted(get_db(), item_id, today())
     if restored is None:
         flash("That can no longer be undone.")
         return redirect(url_for("main.dashboard"))
     kind, row = restored
+    if kind == "missing_problem":
+        flash("That attempt can't be restored, because its problem is no longer in CodeCompass.")
+        return redirect(url_for("main.history"))
     if kind == "attempt":
         flash("Attempt restored.")
         return redirect(url_for("main.problem", problem_id=row["problem_id"]))
@@ -544,8 +543,9 @@ def import_csv():
     conn = get_db()
     reader = csv.DictReader(io.StringIO(text))
     rows = list(reader)
-    plan = plan_import(rows, reader.fieldnames, queries.problems_by_id(conn), queries.all_attempts(conn),
-                       [p["name"] for p in queries.patterns(conn)], today())
+    plan = plan_import(rows, reader.fieldnames, queries.problems_matching(conn, *references(rows)),
+                       queries.all_attempts(conn), [p["name"] for p in queries.patterns(conn)], today(),
+                       hinted=queries.unused_hints(conn))
     if plan["error"]:
         return render_template("import.html", result={"error": plan["error"]}, columns=COLUMNS), 400
     queries.apply_import(conn, plan)

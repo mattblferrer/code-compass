@@ -78,3 +78,34 @@ def test_old_copies_are_cleared_at_the_next_deletion(client, app):
     attempt_id = rows(app, "SELECT id FROM attempts")[0]["id"]
     client.post(f"/attempts/{attempt_id}/delete")
     assert [r["date"] for r in rows(app, "SELECT date FROM deleted_items")] == [date.today().isoformat()]
+
+
+def test_undo_stops_working_after_the_undo_window(client, app):
+    from codecompass import queries
+
+    log(client)
+    attempt_id = rows(app, "SELECT id FROM attempts")[0]["id"]
+    page = client.post(f"/attempts/{attempt_id}/delete", follow_redirects=True).get_data(as_text=True)
+    item_id = undo_id(page)
+    later = (date.today() + timedelta(days=c.UNDO_DAYS + 1)).isoformat()
+    with app.app_context():
+        assert queries.restore_deleted(get_db(), item_id, later) is None
+    assert rows(app, "SELECT * FROM attempts") == []
+    assert rows(app, "SELECT * FROM deleted_items") == []  # The expired copy is cleared.
+
+
+def test_undo_explains_when_the_problem_is_gone(client, app):
+    client.post("/problems/new", data={"title": "Gone soon", "difficulty": "easy", "patterns": ["Greedy"]})
+    problem_id = rows(app, "SELECT id FROM problems WHERE title = 'Gone soon'")[0]["id"]
+    client.post("/log", data={"problem_id": str(problem_id), "problem": "Gone soon (custom)", "date": "2026-01-05",
+                              "outcome": c.SOLVED_ALONE, "time_minutes": ""})
+    attempt_id = rows(app, "SELECT id FROM attempts")[0]["id"]
+    page = client.post(f"/attempts/{attempt_id}/delete", follow_redirects=True).get_data(as_text=True)
+    with app.app_context():
+        conn = get_db()
+        with conn:  # As a catalog or reserve reload removes a problem left with no attempts.
+            conn.execute("DELETE FROM problems WHERE id = ?", (problem_id,))
+    response = client.post(f"/undo/{undo_id(page)}", follow_redirects=True)
+    assert response.status_code == 200
+    assert "its problem is no longer in CodeCompass" in response.get_data(as_text=True)
+    assert rows(app, "SELECT * FROM attempts") == []

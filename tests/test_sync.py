@@ -524,3 +524,13 @@ def test_profile_shows_ratings_changes_and_links(client, sites):
     assert "Educational Codeforces Round 170, 2026-09-14: 412 → 803 (+391)" in page
     # LeetCode's first contest leaves the rating at 1500; the second adds 33 (1532.618 rounds to 1533).
     assert ">0<" in page and "+33" in page
+
+
+def test_shared_atcoder_task_matches_the_stored_problem(sites):
+    # ABC042 C is task arc058_a; the catalog and reserve store it under arc058.
+    stored = "https://atcoder.jp/contests/arc058/tasks/arc058_a"
+    raw = [{"epoch_second": NOW, "problem_id": "arc058_a", "contest_id": "abc042", "result": "AC"}]
+    assert rules.atcoder_submissions(raw, 0)[0]["link"] == stored
+    # Already known by that link, so no title or estimate request is needed.
+    assert remote._atcoder_details(raw, {stored}) == ({}, {})
+    assert sites.requests == []

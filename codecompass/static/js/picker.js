@@ -29,6 +29,10 @@
   function chooseFromList(item) {
     choose(item);
     ref.value = "";
+    if (site.value === "other") {
+      site.value = "";
+      updateHint();
+    }
     setStatus("");
   }
 

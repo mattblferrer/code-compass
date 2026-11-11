@@ -7,7 +7,7 @@ and the custom-problem form (R-05, R-02).
 """
 from . import constants as c
 from .problem_refs import from_link
-from .validation import OUTCOME_LABELS, format_minutes, validate_attempt, validate_problem
+from .validation import MESSAGES, OUTCOME_LABELS, format_minutes, validate_attempt, validate_problem
 
 COLUMNS = ["date", "title", "link", "difficulty", "rating", "patterns", "outcome", "time_minutes", "notes", "review_of"]
 REQUIRED = ("date", "title", "outcome")
@@ -66,35 +66,68 @@ class _Index:
     """Problems found by canonical link or by lower-case title, including ones the import creates."""
 
     def __init__(self, problems):
-        self.by_link, self.by_title = {}, {}
+        self.by_link, self.by_title, self.unlinked = {}, {}, {}
         for key, p in problems.items():
             self.add(key, p["title"], p["link"])
 
     def add(self, key, title, link):
         if link:
             self.by_link[_canonical(link)] = key
+        else:
+            self.unlinked.setdefault(title.strip().lower(), []).append(key)
         self.by_title.setdefault(title.strip().lower(), []).append(key)
 
     def match(self, title, link):
-        """("found", key), ("ambiguous", None), or ("none", None)."""
+        """("found", key), ("ambiguous", None), or ("none", None).
+
+        A row with a link is matched by that link. If no problem has it, the title can
+        match only a problem saved without a link, never one with a different link,
+        since many problems share titles such as "Two Sum" or "Game".
+        """
         if link and _canonical(link) in self.by_link:
             return "found", self.by_link[_canonical(link)]
-        keys = self.by_title.get(title.strip().lower(), []) if title else []
+        titles = self.unlinked if link else self.by_title
+        keys = titles.get(title.strip().lower(), []) if title else []
         if len(keys) == 1:
             return "found", keys[0]
         return ("ambiguous", None) if keys else ("none", None)
+
+
+def _normalized(rows):
+    return [{(k or "").strip().lower(): (v or "").strip() for k, v in raw.items() if k is not None} for raw in rows]
+
+
+def references(rows):
+    """(canonical links, lower-case titles) that the rows name, in their problem or review_of
+    columns, so the caller can load just the problems an import could match."""
+    links, titles = set(), set()
+    for row in _normalized(rows):
+        refs = [(row.get("title", ""), row.get("link", ""))]
+        review = row.get("review_of", "")
+        if review.lower().startswith(("http://", "https://")):
+            refs.append(("", review))
+        elif review:
+            refs.append((review, ""))
+        for title, link in refs:
+            if link:
+                links.add(_canonical(link))
+            if title:
+                titles.add(title.lower())
+    return links, titles
 
 
 def _attempt_key(problem, date, outcome, seconds, notes, review_of):
     return (problem, date, outcome, seconds, notes or None, review_of)
 
 
-def plan_import(rows, header, problems, attempts, pattern_names, today):
+def plan_import(rows, header, problems, attempts, pattern_names, today, hinted=frozenset()):
     """Decide what an imported file adds (R-19, R-20).
 
     `rows` are dicts from the file, keyed by `header` (the file's column names).
     `problems` maps an id to a dict with title and link; `attempts` are the saved
-    attempts. Returns a dict with:
+    attempts. `hinted` holds the problems with a revealed, unused beginner hint: as
+    on the logging form, the next attempt on one cannot be "solved alone" (R-27).
+    Returns a dict with:
       new_problems: custom problems to create, each with "key", title, link, difficulty, patterns
       attempts: attempts to add, each with "problem" and "review_of" as a problem id or a new key
       skipped: (row number, reason) pairs, row numbers counted as in a spreadsheet (header is 1)
@@ -107,10 +140,11 @@ def plan_import(rows, header, problems, attempts, pattern_names, today):
         return plan
 
     index = _Index(problems)
+    hinted = set(hinted)
     seen = {_attempt_key(a["problem_id"], a["date"], a["outcome"], a["time_seconds"], a["notes"],
                          a.get("review_of_problem_id")) for a in attempts}
     names = set(pattern_names)
-    rows = [{(k or "").strip().lower(): (v or "").strip() for k, v in raw.items() if k is not None} for raw in rows]
+    rows = _normalized(rows)
 
     # First pass: the custom problems this file can create, so that a review_of
     # pointing at one created further down the file still matches.
@@ -171,6 +205,8 @@ def plan_import(rows, header, problems, attempts, pattern_names, today):
                 if unknown:
                     reasons.append("patterns: Not on the pattern list: " + ", ".join(unknown) + ".")
 
+        if not reasons and key in hinted and values["outcome"] == c.SOLVED_ALONE:
+            reasons.append(f"outcome: {MESSAGES['outcome_hint']}")
         if reasons:
             plan["skipped"].append((number, " ".join(reasons)))
             continue
@@ -182,6 +218,7 @@ def plan_import(rows, header, problems, attempts, pattern_names, today):
             plan["skipped"].append((number, REASONS["duplicate"]))
             continue
         seen.add(attempt_key)
+        hinted.discard(key)  # The hint applies to the next attempt only, as on the form.
         plan["attempts"].append({"row": number, "problem": key, "date": values["date"], "outcome": values["outcome"],
                                  "time_seconds": values["time_seconds"], "notes": values["notes"],
                                  "review_of": review_key})

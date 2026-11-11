@@ -38,7 +38,17 @@ def leetcode_link(slug):
     return f"https://leetcode.com/problems/{slug}/"
 
 
+# Contests whose tasks can also appear in another contest under their own ID, such as
+# ABC042 C, which is task arc058_a. The task ID names the contest it belongs to.
+_NUMBERED_CONTEST = re.compile(r"^(abc|arc|agc)\d+$")
+
+
 def atcoder_link(contest, task):
+    """The stored link for an AtCoder task. A shared ABC, ARC, or AGC task is stored under
+    the contest its ID names, so it has one link however it was reached."""
+    home = task.rsplit("_", 1)[0]
+    if _NUMBERED_CONTEST.match(home):
+        contest = home
     return f"https://atcoder.jp/contests/{contest}/tasks/{task}"
 
 

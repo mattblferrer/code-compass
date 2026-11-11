@@ -44,7 +44,7 @@
         <input type="checkbox" name="very_hard_on" value="1" {% if current.very_hard_on == '1' %}checked{% endif %}>
         <span>
           Very hard problems
-          <small>Include very hard problems in recommendations. When off, they appear only when a target pattern has nothing easier. Logging and scores are unaffected.</small>
+          <small>Include very hard problems in recommendations. When off, they are left out, target patterns included, except as the review sibling of a very hard problem. Logging and scores are unaffected.</small>
         </span>
       </label>
     </fieldset>

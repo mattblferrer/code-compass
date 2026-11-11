@@ -169,3 +169,78 @@ def test_history_links_to_export_and_import(client):
 
 def records_for(app):
     return records(app.config["DATABASE"])
+
+
+def plan(rows, problems, hinted=frozenset()):
+    from codecompass.core.exchange import plan_import
+
+    columns = sorted({k for r in rows for k in r} | {"date", "title", "outcome"})
+    full = [{k: r.get(k, "") for k in columns} for r in rows]
+    return plan_import(full, columns, problems, [], ["Greedy", "Arrays and Hashing"], "2026-11-10", hinted=hinted)
+
+
+LEETCODE_TWO_SUM = {1: {"title": "Two Sum", "link": "https://leetcode.com/problems/two-sum/"}}
+
+
+def test_a_row_with_a_link_never_matches_another_problem_by_title():
+    row = {"date": "2026-11-01", "title": "Two Sum", "link": "https://codeforces.com/problemset/problem/1/A",
+           "outcome": "Solved alone"}
+    # Without the details to create it, it is skipped instead of landing on LeetCode's Two Sum.
+    result = plan([row], LEETCODE_TWO_SUM)
+    assert result["attempts"] == [] and "No problem matches" in result["skipped"][0][1]
+    # With them, it becomes its own custom problem.
+    result = plan([{**row, "difficulty": "Easy", "patterns": "Greedy"}], LEETCODE_TWO_SUM)
+    assert [p["link"] for p in result["new_problems"]] == ["https://codeforces.com/problemset/problem/1/A"]
+    assert result["attempts"][0]["problem"] == result["new_problems"][0]["key"]
+
+
+def test_rows_with_one_title_and_different_links_make_different_problems():
+    rows = [{"date": "2026-11-01", "title": "Foo", "link": f"https://codeforces.com/problemset/problem/{n}/A",
+             "difficulty": "Easy", "patterns": "Greedy", "outcome": "Solved alone"} for n in (2, 3)]
+    result = plan(rows, {})
+    assert len(result["new_problems"]) == 2
+    assert len({a["problem"] for a in result["attempts"]}) == 2
+
+
+def test_a_linked_row_can_still_match_a_problem_saved_without_a_link():
+    row = {"date": "2026-11-01", "title": "My puzzle", "link": "https://example.com/puzzle", "outcome": "Not solved"}
+    result = plan([row], {7: {"title": "My puzzle", "link": None}})
+    assert result["attempts"][0]["problem"] == 7
+
+
+def test_import_follows_the_hint_rule_like_the_form():
+    rows = [{"date": "2026-11-01", "title": "Two Sum", "outcome": "Solved alone"},
+            {"date": "2026-11-02", "title": "Two Sum", "outcome": "Solved with hints"},
+            {"date": "2026-11-03", "title": "Two Sum", "outcome": "Solved alone"}]
+    result = plan(rows, LEETCODE_TWO_SUM, hinted={1})
+    assert result["skipped"][0][0] == 2 and "hint was revealed" in result["skipped"][0][1]
+    # The first attempt saved uses the hint, so a later "solved alone" is allowed.
+    assert [a["outcome"] for a in result["attempts"]] == [c.SOLVED_WITH_HINTS, c.SOLVED_ALONE]
+
+
+def test_importing_an_attempt_uses_up_a_revealed_hint(client, app):
+    with app.app_context():
+        problem_id = get_db().execute("SELECT id FROM problems WHERE title = 'Two Sum'").fetchone()[0]
+    client.post(f"/problems/{problem_id}/hint")
+    page = upload(client, make_csv([{"date": "2026-11-01", "title": "Two Sum", "outcome": "Solved alone"},
+                                    {"date": "2026-11-02", "title": "Two Sum", "outcome": "Solved with hints"}]))
+    assert "hint was revealed" in page.get_data(as_text=True)
+    with app.app_context():
+        conn = get_db()
+        assert not queries.unused_hint(conn, problem_id)
+        assert [r[0] for r in conn.execute("SELECT outcome FROM attempts")] == [c.SOLVED_WITH_HINTS]
+
+
+def test_import_reads_only_the_problems_the_file_names(app):
+    from codecompass.core.exchange import references
+
+    rows = [{"Title": " Two Sum ", "Link": "", "review_of": "https://codeforces.com/contest/1520/problem/A"},
+            {"title": "Valid Parentheses", "link": "leetcode.com/problems/valid-parentheses/"}]
+    links, titles = references(rows)
+    assert links == {"https://codeforces.com/problemset/problem/1520/A",
+                     "https://leetcode.com/problems/valid-parentheses/"}
+    assert titles == {"two sum", "valid parentheses"}
+    with app.app_context():
+        found = queries.problems_matching(get_db(), links, titles)
+    assert sorted(p["title"] for p in found.values()) == ["Two Sum", "Valid Parentheses"]
+    assert all(p["patterns"] for p in found.values())
