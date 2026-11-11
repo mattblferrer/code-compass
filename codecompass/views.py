@@ -415,6 +415,12 @@ def short_day_filter(text):
     return _time(text, short_date(text, today())) if text else ""
 
 
+@bp.app_template_filter("site")
+def site_filter(link):
+    """Where a problem is from: "LeetCode", "Codeforces", another site's address, or "Custom"."""
+    return site_label(link)
+
+
 @bp.app_template_filter("outcome_mark")
 def outcome_mark_filter(outcome):
     """The outcome's mark, as on History: filled, half, ring, or cross. Decorative; the label follows."""

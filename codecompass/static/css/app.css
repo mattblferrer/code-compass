@@ -3316,3 +3316,11 @@ a.cell:focus-visible {
 .autosave-status.problem {
   color: var(--due);
 }
+
+/* Where a problem is from, beside its title: quieter than the pills that follow. */
+.source {
+  margin-right: 0.15rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+  white-space: nowrap;
+}

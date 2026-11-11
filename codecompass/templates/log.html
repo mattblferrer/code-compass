@@ -131,6 +131,7 @@
               <div>
                 <a class="title" href="{{ url_for('main.log_attempt', problem=p['id']) }}"
                    data-pick-id="{{ p['id'] }}" data-pick-label="{{ r['label'] }}">{{ p['title'] }}</a>
+                <span class="source">{{ p['link']|site }}</span>
                 {% if r['kind'] == 'review' %}<span class="mark review">Review</span>{% endif %}
                 <span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>
                 <p class="reason">{{ r['reason'] }}</p>

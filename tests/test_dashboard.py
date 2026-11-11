@@ -377,3 +377,13 @@ def test_log_form_carries_the_servers_own_messages_for_checks_as_you_go(client):
     assert messages["date_future"] == MESSAGES["date_future"]
     assert messages["time"] == MESSAGES["time"] and messages["outcome"] == MESSAGES["outcome"]
     assert messages["unknown"].startswith(MESSAGES["problem"])
+
+
+def test_practice_next_shows_where_each_problem_is_from(client, app):
+    """The test catalog links to example.com, so each problem's site shows as that address."""
+    dashboard = page(client).split('id="next-panel"')[1]
+    assert dashboard.count('<span class="source">example.com</span>') == len(dashboard.split('class="title"')) - 1
+    log_page = page(client, "/log").split('id="practice-heading"')[1]
+    assert '<span class="source">example.com</span>' in log_page
+    card = page(client, f"/problems/{pid(app, 'Two Sum')}/context")
+    assert '<span class="source">example.com</span>' in card

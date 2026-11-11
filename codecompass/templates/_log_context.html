@@ -4,6 +4,7 @@
 <h2>This problem</h2>
 <p class="context-title">
   <a href="{{ url_for('main.problem', problem_id=p['id']) }}">{{ p['title'] }}</a>
+  <span class="source">{{ p['link']|site }}</span>
   <span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>
 </p>
 {% if context.completes %}

@@ -115,6 +115,7 @@
             <li>
               <div>
                 <a class="title" href="{{ url_for('main.problem', problem_id=p['id']) }}">{{ p['title'] }}</a>
+                <span class="source">{{ p['link']|site }}</span>
                 {% if r['kind'] == 'review' %}<span class="mark review">Review</span>{% endif %}
                 <span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>
                 {% if r['hint_eligible'] and not r['hint'] %}<span class="mark hint" title="A beginner hint is available for this problem">Hint available</span>{% endif %}
