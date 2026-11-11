@@ -16,6 +16,7 @@ from .core.reviews import ics
 from .core.sites import FILTER_SITES, KINDS
 from .state import Snapshot
 from .core import constants as c
+from .core.validation import MESSAGES as VALIDATION_MESSAGES
 from .core.validation import (
     OUTCOME_DEFINITIONS,
     OUTCOME_LABELS,
@@ -74,6 +75,12 @@ def attempt_form(template, form, errors, picked=None, **extra):
         picked=picked,
         context=context,
         practice=practice,
+        # The server's own messages, so checks made as fields are left say exactly what saving would.
+        check_messages={
+            "date_format": VALIDATION_MESSAGES["date_format"], "date_future": VALIDATION_MESSAGES["date_future"],
+            "time": VALIDATION_MESSAGES["time"], "outcome": VALIDATION_MESSAGES["outcome"],
+            "unknown": picker.MESSAGES["unknown"], "ambiguous": picker.MESSAGES["ambiguous"],
+        },
         sites=SITES,
         id_hints=ID_HINTS,
         outcomes=c.OUTCOMES,

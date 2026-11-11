@@ -69,6 +69,8 @@
   }
 
   function render(items) {
+    // A search that finishes after the field was left does not reopen the list.
+    if (document.activeElement !== input) return;
     results = items;
     list.innerHTML = "";
     if (!items.length) {

@@ -69,3 +69,28 @@
       });
   });
 })();
+
+// Popovers and sheets built on <details class="dismissable"> (the More sheet, the
+// "Had external help" menu) close on Escape or a click outside them, so only one is
+// open at a time. Without JavaScript they still open and close from their button.
+(function () {
+  function openOnes() {
+    return document.querySelectorAll("details.dismissable[open]");
+  }
+
+  document.addEventListener("click", function (event) {
+    openOnes().forEach(function (details) {
+      if (!details.contains(event.target)) details.open = false;
+    });
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") return;
+    openOnes().forEach(function (details) {
+      var hadFocus = details.contains(document.activeElement);
+      details.open = false;
+      var summary = details.querySelector("summary");
+      if (hadFocus && summary) summary.focus();
+    });
+  });
+})();

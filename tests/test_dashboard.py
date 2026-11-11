@@ -236,3 +236,27 @@ def test_edit_page_shows_the_problem_but_not_practice_next(client, app):
     html = page(client, f"/attempts/{attempt_id}/edit")
     assert "This problem" in html and "Valid Parentheses" in html
     assert "Practice next" not in html
+
+
+# --- Navigation and form checks ---
+
+def test_phone_tab_bar_has_the_main_pages_and_more(client):
+    html = page(client, "/settings")
+    bar = html.split('<nav class="tab-bar"')[1].split("</nav>")[0]
+    for label in ("Dashboard", "Log", "History", "More", "Interviews", "Sync", "Profile", "Settings"):
+        assert f"<span>{label}</span>" in bar or f">{label}</a>" in bar
+    # A page under More marks More as the current tab, and itself inside the sheet.
+    assert '<summary aria-current="page">' in bar
+    assert 'aria-current="page">Settings</a>' in bar
+    assert '<summary aria-current="page">' not in page(client, "/log").split('<nav class="tab-bar"')[1]
+
+
+def test_log_form_carries_the_servers_own_messages_for_checks_as_you_go(client):
+    import html as html_lib
+    import json
+
+    attrs = page(client, "/log").split('id="attempt-form"')[1].split(">")[0]
+    messages = json.loads(html_lib.unescape(attrs.split('data-messages="')[1].split('"')[0]))
+    assert messages["date_future"] == MESSAGES["date_future"]
+    assert messages["time"] == MESSAGES["time"] and messages["outcome"] == MESSAGES["outcome"]
+    assert messages["unknown"].startswith(MESSAGES["problem"])

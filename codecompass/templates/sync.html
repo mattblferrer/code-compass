@@ -56,12 +56,15 @@
                 {% if not item.hint %}
                   <button type="submit" name="outcome" value="solved_alone" title="{{ outcome_definitions['solved_alone'] }}">Solved alone</button>
                 {% endif %}
-                <details class="external-help">
+                <details class="external-help dismissable">
                   <summary>Had external help</summary>
-                  <div>
+                  {# Opens over the page, anchored to the button, so nothing beside it moves. #}
+                  <div class="help-menu" role="group" aria-label="What kind of help">
                     {% for outcome in ('solved_with_hints', 'solved_after_solution') %}
-                      <button type="submit" name="outcome" value="{{ outcome }}" class="quiet">{{ outcome_labels[outcome] }}</button>
-                      <small>{{ outcome_definitions[outcome] }}</small>
+                      <button type="submit" name="outcome" value="{{ outcome }}" class="menu-choice">
+                        <span>{{ outcome_labels[outcome] }}</span>
+                        <small>{{ outcome_definitions[outcome] }}</small>
+                      </button>
                     {% endfor %}
                   </div>
                 </details>

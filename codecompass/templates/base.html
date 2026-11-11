@@ -59,6 +59,31 @@
       </div>
       {% block content %}{% endblock %}
     </main>
+    {# On a phone the main pages sit in a tab bar at the bottom, within thumb reach (R-23);
+       the rest open from More. Wider screens use the links in the header instead. #}
+    {% set tabs = [("main.dashboard", "Dashboard"), ("main.log_attempt", "Log"), ("main.history", "History")] %}
+    {% set more = [("main.interviews", "Interviews"), ("main.sync_page", "Sync"), ("main.profile", "Profile"), ("main.settings", "Settings")] %}
+    <nav class="tab-bar" aria-label="Main">
+      {% for endpoint, label in tabs %}
+        <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>
+          {% if label == "Dashboard" %}<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>
+          {% elif label == "Log" %}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg>
+          {% else %}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>{% endif %}
+          <span>{{ label }}</span>
+        </a>
+      {% endfor %}
+      <details class="tab-more dismissable">
+        <summary {% if request.endpoint in more|map('first')|list %}aria-current="page"{% endif %}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/></svg>
+          <span>More</span>
+        </summary>
+        <div class="tab-sheet">
+          {% for endpoint, label in more %}
+            <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>{{ label }}</a>
+          {% endfor %}
+        </div>
+      </details>
+    </nav>
     <script src="{{ url_for('static', filename='js/enhance.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
     {% block scripts %}{% endblock %}

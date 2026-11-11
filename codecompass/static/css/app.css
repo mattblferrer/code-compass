@@ -257,10 +257,17 @@ main {
   animation: toast 5s ease forwards;
 }
 
+/* A message leaves the way it came, down and out. */
 @keyframes toast {
   0% { opacity: 0; transform: translateY(0.5rem); }
   6%, 85% { opacity: 1; transform: none; }
-  100% { opacity: 0; visibility: hidden; }
+  100% { opacity: 0; transform: translateY(0.5rem); visibility: hidden; }
+}
+
+/* While someone is reading or using a message, it waits for them. */
+.flash:hover,
+.flash:focus-within {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1538,16 +1545,71 @@ details.external-help[open] > summary {
   border-color: var(--data);
 }
 
-details.external-help > div {
-  display: grid;
-  gap: 0.25rem;
-  max-width: 20rem;
-  margin-top: 0.5rem;
+details.external-help {
+  position: relative;
 }
 
-details.external-help small {
+/* A popover anchored under its button: it grows from there and covers the page
+   instead of pushing the other buttons aside. */
+details.external-help > .help-menu {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  z-index: 20;
+  display: grid;
+  width: min(20rem, calc(100vw - 2rem));
+  padding: 0.35rem;
+  border: 1px solid var(--rule);
+  border-radius: calc(var(--radius) * 1.5);
+  background: var(--surface);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  transform-origin: calc(100% - 2rem) 0;  /* Grows from the button above it. */
+  animation: popover-grow 0.18s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+@keyframes popover-grow {
+  from { opacity: 0; transform: scale(0.96) translateY(-0.25rem); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  details.external-help > .help-menu {
+    animation: sheet-fade-any 0.12s ease-out;
+  }
+
+  @keyframes sheet-fade-any {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+
+button.menu-choice {
+  display: grid;
+  gap: 0.15rem;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+
+button.menu-choice + button.menu-choice {
+  border-top: 1px solid var(--rule);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+button.menu-choice:hover,
+button.menu-choice:focus-visible {
+  background: var(--track);
+  filter: none;
+}
+
+button.menu-choice small {
   color: var(--muted);
-  margin-bottom: 0.4rem;
+  font-weight: 400;
 }
 
 .rating-site {
@@ -1753,19 +1815,6 @@ button.theme-toggle:hover {
   display: inline;
 }
 
-/* On a phone the theme button sits beside the name, and the links take the next row (R-23). */
-@media (max-width: 40rem) {
-  button.theme-toggle {
-    order: 1;
-    margin-left: auto;
-  }
-
-  .site-nav {
-    order: 2;
-    width: 100%;
-    margin-left: 0;
-  }
-}
 
 /* --- Workbench: a form with reference cards beside it on wide screens ---
    The form keeps a comfortable line length on the left; the cards on the right
@@ -1993,4 +2042,235 @@ table.goals select {
 /* .small also sizes buttons; as a paragraph it only makes the text smaller. */
 p.small {
   padding: 0;
+}
+
+/* --- Sticky, translucent header ---
+   The header stays in reach as a frosted layer that the page scrolls under. Where blur
+   is unavailable, or the user asks for less transparency or more contrast, it is solid. */
+:root {
+  --header-height: 3.6rem;
+  scroll-padding-top: calc(var(--header-height) + 0.75rem);
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .site-header {
+    background: color-mix(in srgb, var(--band) 80%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .site-header {
+    background: var(--band);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Cards that stay put while scrolling sit below the header, not under it. */
+@media (min-width: 64rem) {
+  .workbench > .workbench-side {
+    top: calc(var(--header-height) + 1rem);
+  }
+}
+
+/* --- Tab bar on phones --- */
+.tab-bar {
+  display: none;
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --tab-height: 3.75rem;
+  }
+
+  .site-header .site-nav {
+    display: none;
+  }
+
+  button.theme-toggle {
+    margin-left: auto;
+  }
+
+  main {
+    padding-bottom: calc(var(--tab-height) + env(safe-area-inset-bottom, 0px) + 2rem);
+  }
+
+  /* Messages float above the tab bar. */
+  #messages {
+    bottom: calc(var(--tab-height) + env(safe-area-inset-bottom, 0px) + 0.75rem);
+  }
+
+  .tab-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 45;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--band);
+    border-top: 1px solid color-mix(in srgb, var(--on-band) 14%, transparent);
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .tab-bar {
+      background: color-mix(in srgb, var(--band) 82%, transparent);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      backdrop-filter: blur(18px) saturate(160%);
+    }
+  }
+
+  .tab-bar > a,
+  .tab-more > summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    min-height: var(--tab-height);
+    color: var(--on-band-muted);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    cursor: pointer;
+    list-style: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tab-more > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .tab-bar svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tab-more svg circle {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .tab-bar [aria-current="page"],
+  .tab-more[open] > summary {
+    color: var(--on-band);
+  }
+
+  .tab-bar [aria-current="page"] svg {
+    stroke-width: 2.3;
+  }
+
+  /* Feedback on the press itself, not the release. */
+  .tab-bar > a:active,
+  .tab-more > summary:active {
+    background: color-mix(in srgb, var(--on-band) 10%, transparent);
+  }
+
+  .tab-bar :focus-visible {
+    outline-color: var(--on-band);
+    outline-offset: -4px;
+  }
+
+  /* More opens a sheet that rises from the tab bar, the way it will go back down. */
+  .tab-sheet {
+    position: fixed;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: calc(var(--tab-height) + env(safe-area-inset-bottom, 0px) + 0.5rem);
+    display: grid;
+    padding: 0.4rem;
+    border: 1px solid var(--rule);
+    border-radius: calc(var(--radius) * 2);
+    background: var(--surface);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+    transform-origin: 87.5% 100%;  /* Under the More tab. */
+    animation: sheet-rise 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+
+  .tab-sheet a {
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius);
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .tab-sheet a + a {
+    border-top: 1px solid var(--rule);
+  }
+
+  .tab-sheet a[aria-current="page"] {
+    color: var(--data);
+  }
+
+  .tab-sheet a:active {
+    background: var(--track);
+  }
+
+  @keyframes sheet-rise {
+    from { opacity: 0; transform: translateY(0.75rem) scale(0.97); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tab-sheet {
+      animation: sheet-fade 0.15s ease-out;
+    }
+
+    @keyframes sheet-fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  }
+}
+
+/* --- Feedback on press ---
+   Buttons answer the moment they are pressed, not when the press ends. */
+button,
+.button {
+  transition: transform 0.1s ease-out, filter 0.1s ease-out;
+}
+
+button:active:not(:disabled),
+.button:active {
+  transform: scale(0.97);
+}
+
+.choice:active {
+  background: var(--track);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:active:not(:disabled),
+  .button:active {
+    transform: none;
+    filter: brightness(0.92);
+  }
+}
+
+/* Switching between light and dark eases instead of flashing (theme.js adds the class briefly). */
+:root.theme-changing,
+:root.theme-changing * {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, fill 0.25s ease,
+              stroke 0.25s ease !important;
+}
+
+/* The picker's notes are muted, but an error under it keeps the error color. */
+fieldset.picker > small.field-error {
+  color: var(--due);
 }

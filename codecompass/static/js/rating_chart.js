@@ -122,12 +122,14 @@
     }
 
     function zoom(factor, center) {
+      stop();
       if (center === undefined) center = (view[0] + view[1]) / 2;
       view = clamp(center - (center - view[0]) * factor, center + (view[1] - center) * factor);
       render();
     }
 
     function pan(dt) {
+      stop();
       view = clamp(view[0] + dt, view[1] + dt);
       render();
     }
@@ -266,19 +268,97 @@
       zoom(event.deltaY < 0 ? 0.8 : 1.25, timeAt(event.clientX));
     }, { passive: false });
 
+    // --- Dragging: the chart follows the pointer 1:1 from where it was grabbed, stretches
+    // softly past either end and springs back, and a flick keeps gliding and slows like a
+    // scroll. Any new touch stops a glide where it is. With reduced motion it just stops.
+    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var pointers = {};
+    var motion = null;
+    var drag = null;  // { x, from, span, trail: [{x, t}] }
+
+    function stop() {
+      if (motion) cancelAnimationFrame(motion);
+      motion = null;
+    }
+
+    function plotWidth() {
+      var rect = svg.getBoundingClientRect();
+      return rect.width * PLOT / W;
+    }
+
+    // The further past an end, the less the chart follows.
+    function rubber(over, size) {
+      return (over * size * 0.55) / (size + 0.55 * Math.abs(over));
+    }
+
+    function stretched(from, span) {
+      if (from < full[0]) return full[0] - rubber(full[0] - from, span);
+      if (from + span > full[1]) return full[1] - span + rubber(from + span - full[1], span);
+      return from;
+    }
+
+    function setView(from, span) {
+      view = [from, from + span];
+      render();
+    }
+
+    // Back inside the range with a critically damped spring (no overshoot).
+    function settle() {
+      var span = view[1] - view[0];
+      var target = clamp(view[0], view[1])[0];
+      if (Math.abs(target - view[0]) < 1 || still) { setView(target, span); return; }
+      var last = performance.now();
+      motion = requestAnimationFrame(function step(now) {
+        var dt = Math.min(64, Math.max(0, now - last)) / 1000;
+        last = now;
+        var next = target + (view[0] - target) * Math.exp(-dt / 0.08);
+        if (Math.abs(next - target) < span / 2000) { setView(target, span); motion = null; return; }
+        setView(next, span);
+        motion = requestAnimationFrame(step);
+      });
+    }
+
+    // Keep moving at the release speed and slow down as a scroll does (0.998 per ms).
+    function glide(velocity) {  // velocity in chart time per ms
+      var span = view[1] - view[0];
+      var last = performance.now();
+      motion = requestAnimationFrame(function step(now) {
+        var dt = Math.min(64, Math.max(0, now - last));
+        last = now;
+        velocity *= Math.pow(0.998, dt);
+        var from = view[0] + velocity * dt;
+        var edge = from < full[0] || from + span > full[1];
+        if (edge || Math.abs(velocity) * plotWidth() / span < 0.02) {
+          view = [from, from + span];
+          settle();
+          return;
+        }
+        setView(from, span);
+        motion = requestAnimationFrame(step);
+      });
+    }
+
     function spread() {
       var xs = Object.keys(pointers).map(function (id) { return pointers[id]; });
       return xs.length === 2 ? { gap: Math.abs(xs[0] - xs[1]), mid: (xs[0] + xs[1]) / 2 } : null;
     }
+
+    function startDrag(clientX) {
+      drag = { x: clientX, from: view[0], span: view[1] - view[0], trail: [{ x: clientX, t: performance.now() }] };
+    }
+
     var moved = false;
     svg.addEventListener("pointerdown", function (event) {
+      stop();  // Catch a gliding chart where it is.
       pointers[event.pointerId] = event.clientX;
       moved = false;
-      svg.setPointerCapture(event.pointerId);
+      try { svg.setPointerCapture(event.pointerId); } catch (e) { /* Tracking still works inside the chart. */ }
       svg.classList.add("dragging");
+      if (Object.keys(pointers).length === 1) startDrag(event.clientX);
+      else drag = null;  // Two fingers: a pinch.
       show(nearest(event.clientX));  // A tap on a touch screen shows the contest too.
     });
+
     svg.addEventListener("pointermove", function (event) {
       if (!(event.pointerId in pointers)) {
         show(nearest(event.clientX));
@@ -288,19 +368,40 @@
       if (!moved) show(null);
       moved = true;
       var before = spread();
-      var previous = pointers[event.pointerId];
       pointers[event.pointerId] = event.clientX;
       var after = spread();
       if (before && after && after.gap > 10) {
         zoom(before.gap / after.gap, timeAt(after.mid));
-      } else if (!before) {
-        var rect = svg.getBoundingClientRect();
-        pan(-(event.clientX - previous) / (rect.width * PLOT / W) * (view[1] - view[0]));
+      } else if (drag) {
+        var raw = drag.from - (event.clientX - drag.x) / plotWidth() * drag.span;
+        setView(stretched(raw, drag.span), drag.span);
+        drag.trail.push({ x: event.clientX, t: performance.now() });
+        if (drag.trail.length > 6) drag.trail.shift();
       }
     });
+
     function release(event) {
       delete pointers[event.pointerId];
-      if (!Object.keys(pointers).length) svg.classList.remove("dragging");
+      var left = Object.keys(pointers);
+      if (left.length === 1) {  // From a pinch back to one finger: drag from here.
+        startDrag(pointers[left[0]]);
+        return;
+      }
+      if (left.length) return;
+      svg.classList.remove("dragging");
+      if (!drag || !moved) { drag = null; return; }
+      // Release speed from the last tenth of a second of movement.
+      var now = performance.now();
+      var recent = drag.trail.filter(function (p) { return now - p.t < 100; });
+      var span = drag.span;
+      drag = null;
+      if (recent.length >= 2 && !still && event.type === "pointerup") {
+        var a = recent[0], b = recent[recent.length - 1];
+        var pxPerMs = (b.x - a.x) / Math.max(1, b.t - a.t);
+        var velocity = -pxPerMs / plotWidth() * span;
+        if (Math.abs(pxPerMs) > 0.3 && view[0] >= full[0] && view[1] <= full[1]) { glide(velocity); return; }
+      }
+      settle();
     }
     svg.addEventListener("pointerup", release);
     svg.addEventListener("pointercancel", release);

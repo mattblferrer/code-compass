@@ -27,7 +27,15 @@
     button.classList.toggle("is-dark", dark);
   }
 
+  // Ease the change of colors, unless the user asks for less motion.
+  function ease() {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    root.classList.add("theme-changing");
+    setTimeout(function () { root.classList.remove("theme-changing"); }, 300);
+  }
+
   button.addEventListener("click", function () {
+    ease();
     var next = current() === "dark" ? "light" : "dark";
     try {
       if (next === systemTheme()) localStorage.removeItem(KEY);

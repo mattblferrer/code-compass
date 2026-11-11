@@ -10,7 +10,8 @@
   {% endif %}
   <div class="workbench">
   <div class="workbench-main">
-  <form method="post" class="sheet" novalidate>
+  <form method="post" class="sheet" id="attempt-form" novalidate data-messages="{{ check_messages|tojson|forceescape }}"
+        data-search-url="{{ url_for('main.search_problems') }}">
     <fieldset class="picker" data-search-url="{{ url_for('main.search_problems') }}"
               data-find-url="{{ url_for('main.find_problem') }}" data-hints="{{ id_hints|tojson|forceescape }}">
       <legend>Problem</legend>
@@ -144,4 +145,5 @@
   <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
   <script src="{{ url_for('static', filename='js/picker.js') }}"></script>
   <script src="{{ url_for('static', filename='js/log_context.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/log_checks.js') }}"></script>
 {% endblock %}
