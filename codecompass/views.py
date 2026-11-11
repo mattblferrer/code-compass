@@ -149,6 +149,7 @@ def dashboard():
         interview=snap.interview,
         level=snap.level(),
         activity=snap.activity(),
+        reviews_on=snap.reviews_on,
     )
 
 
@@ -400,7 +401,7 @@ def problem(problem_id):
         problem=row,
         patterns=queries.problem_patterns(conn, problem_id),
         attempts=queries.attempts_for_problem(conn, problem_id),
-        due=snap.due.get(problem_id),
+        due=snap.next_due(problem_id),
         hint_eligible=snap.hint_eligible(problem_id),
         hint=snap.hint(problem_id),
     )

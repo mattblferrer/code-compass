@@ -17,7 +17,9 @@ def test_defaults_shown_before_anything_is_saved(client):
     assert 'name="advanced_on" value="1" checked' not in page
     assert 'name="very_hard_on" value="1" checked' not in page
     assert page.count('<option value="" selected>Neither</option>') == 54
-    assert page.count('value="1" checked>') == len(FILTER_SITES) * len(KINDS)
+    # Every site switch, and Review problems (R-41), start on.
+    assert page.count('value="1" checked>') == len(FILTER_SITES) * len(KINDS) + 1
+    assert 'name="reviews_on" value="1" checked' in page
     assert 'href="/settings" aria-current="page"' in page
 
 
@@ -28,7 +30,7 @@ def test_saving_every_setting(client, app):
     response = client.post("/settings", data=form)
     assert response.status_code == 302
     assert saved(app) == {
-        "settings": {"starting_difficulty": "medium", "advanced_on": "1", "very_hard_on": "0"},
+        "settings": {"starting_difficulty": "medium", "advanced_on": "1", "very_hard_on": "0", "reviews_on": "0"},
         "preferences": {"Stack": "target", "Heap": "mastered", "Tree DP": "target"},
         "hidden": {("cses", "core"), ("codeforces", "advanced")},
     }

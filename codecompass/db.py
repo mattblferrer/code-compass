@@ -33,14 +33,32 @@ ADDED_COLUMNS = [
 ]
 
 
+# Tables whose CHECK constraint gained a value after they were first created, as
+# (table, a value the current constraint names). CREATE TABLE IF NOT EXISTS leaves an
+# older table as it was, so such a table is rebuilt from schema.sql, keeping its rows.
+WIDENED_CHECKS = [
+    ("settings", "reviews_on"),
+]
+
+
 def init_db(path):
     conn = connect(path)
+    schema = SCHEMA_PATH.read_text(encoding="utf-8")
     with conn:
-        conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+        conn.executescript(schema)
         for table, column, declaration in ADDED_COLUMNS:
             existing = {row["name"] for row in conn.execute(f"PRAGMA table_info({table})")}
             if column not in existing:
                 conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {declaration}")
+    for table, value in WIDENED_CHECKS:
+        sql = conn.execute("SELECT sql FROM sqlite_master WHERE type = 'table' AND name = ?", (table,)).fetchone()
+        if sql and f"'{value}'" not in sql["sql"]:
+            with conn:
+                conn.execute(f"ALTER TABLE {table} RENAME TO {table}_old")
+            conn.executescript(schema)  # Creates the table again with the current constraint.
+            with conn:
+                conn.execute(f"INSERT INTO {table} SELECT * FROM {table}_old")
+                conn.execute(f"DROP TABLE {table}_old")
     conn.close()
 
 

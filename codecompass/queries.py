@@ -153,7 +153,7 @@ def read_settings(conn):
     }
 
 
-DEFAULT_SETTINGS = {"starting_difficulty": "easy", "advanced_on": "0", "very_hard_on": "0"}
+DEFAULT_SETTINGS = {"starting_difficulty": "easy", "advanced_on": "0", "very_hard_on": "0", "reviews_on": "1"}
 
 
 def current_settings(conn):
@@ -164,13 +164,14 @@ def current_settings(conn):
 
 
 def save_settings(conn, values):
-    """Replace all settings, pattern preferences, and hidden sites in one transaction (R-13, R-32, R-36)."""
+    """Replace all settings, pattern preferences, and hidden sites in one transaction (R-13, R-32,
+    R-36, R-41). A setting missing from `values` is saved at its default."""
     pattern_ids = {r["name"]: r["id"] for r in conn.execute("SELECT id, name FROM patterns")}
     with conn:
-        for key in ("starting_difficulty", "advanced_on", "very_hard_on"):
+        for key, default in DEFAULT_SETTINGS.items():
             conn.execute(
                 "INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value",
-                (key, values[key]),
+                (key, values.get(key, default)),
             )
         conn.execute("DELETE FROM pattern_preferences")
         conn.executemany(

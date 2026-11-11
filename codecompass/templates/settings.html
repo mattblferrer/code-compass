@@ -42,6 +42,13 @@
           </span>
         </label>
         <label class="choice">
+          <input type="checkbox" name="reviews_on" value="1" {% if current.reviews_on == '1' %}checked{% endif %}>
+          <span>
+            Review problems
+            <small>Bring back problems you have attempted, at growing intervals, before new ones. When off, every recommendation is a new problem and nothing is shown as due; review dates are still kept, so turning this on again picks up where they are.</small>
+          </span>
+        </label>
+        <label class="choice">
           <input type="checkbox" name="very_hard_on" value="1" {% if current.very_hard_on == '1' %}checked{% endif %}>
           <span>
             Very hard problems

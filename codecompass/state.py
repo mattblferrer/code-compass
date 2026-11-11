@@ -53,6 +53,8 @@ class Snapshot:
         self.mastered = {name for name, pref in prefs.items() if pref == "mastered"}
         self.advanced_on = self.settings["advanced_on"] == "1"
         self.very_hard_on = self.settings["very_hard_on"] == "1"
+        # With reviews off (R-41), schedules are still kept, but no review is served or shown.
+        self.reviews_on = self.settings["reviews_on"] == "1"
         self.advanced = {p["name"] for p in self.patterns if p["category"] == "advanced"}
         self.hidden_sites = self.settings["hidden"]
 
@@ -90,7 +92,7 @@ class Snapshot:
         self.last_attempt = last_attempts(self.schedules)
         # Reviews of problems not attempted for a long time wait while newer ones are due (R-12).
         self.due_now = served_reviews({pid: day for pid, day in self.due.items() if day <= today},
-                                      self.last_attempt, today)
+                                      self.last_attempt, today) if self.reviews_on else {}
         self.attempted = {a["problem_id"] for a in self.attempts}
         self.not_now = {r["problem_id"] for r in conn.execute(
             "SELECT problem_id FROM not_now WHERE date > ?", (add_days(today, -c.NOT_NOW_DAYS),)
@@ -171,9 +173,13 @@ class Snapshot:
             previous = day
         return points
 
+    def next_due(self, problem_id):
+        """The problem's next review date, or None when it has none or reviews are off (R-41)."""
+        return self.due.get(problem_id) if self.reviews_on else None
+
     def activity(self, days=56):
-        """Daily review activity for the strip on the dashboard (R-30)."""
-        records = streak_days(self.schedules, self.today)
+        """Daily review activity for the strip on the dashboard (R-30); practice only with reviews off."""
+        records = streak_days(self.schedules, self.today) if self.reviews_on else []
         return activity(records, [a["date"] for a in self.attempts], self.today, days)
 
     def review_attempts(self):
@@ -189,6 +195,9 @@ class Snapshot:
         return current_level(history, self.settings["starting_difficulty"], self.very_hard_on)
 
     def streak(self):
+        """The review streak (R-30), or None with reviews off (R-41)."""
+        if not self.reviews_on:
+            return None
         return review_streak(streak_days(self.schedules, self.today), self.today)
 
     # --- Sibling suggestions (R-28) ---
@@ -321,7 +330,7 @@ class Snapshot:
             "patterns_hidden": eligible and not hint and not attempts,
             "attempts": attempts[-3:][::-1],
             "attempt_count": len(attempts),
-            "due": self.due.get(problem_id),
+            "due": self.next_due(problem_id),
             "completes": self.problem(completes) if completes else None,
             "hint_used_up": bool(hint) and not editing,
         }
@@ -402,7 +411,9 @@ class Snapshot:
 
     def calendar_events(self):
         """Reviews for the calendar file (R-31), leaving out problems that will be old by
-        their due date (R-12), which wait for newer reviews."""
+        their due date (R-12), which wait for newer reviews. Empty with reviews off (R-41)."""
+        if not self.reviews_on:
+            return []
         return [
             {"uid": f"review-{pid}-{day}@codecompass", "date": day,
              "summary": f"Review: {self.problems[pid]['title']}"}

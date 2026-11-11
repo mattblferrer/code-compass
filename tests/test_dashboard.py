@@ -197,6 +197,58 @@ def test_attempting_an_old_problem_still_completes_its_review(client, app):
     assert f"Next review due {(date.today() + timedelta(days=28)).isoformat()}" in problem
 
 
+# --- Reviews off (R-41) ---
+
+def save_reviews(client, on):
+    from codecompass.core.sites import FILTER_SITES, KINDS
+
+    form = {"starting_difficulty": "easy", **{f"show:{s}:{k}": "1" for s in FILTER_SITES for k in KINDS}}
+    if on:
+        form["reviews_on"] = "1"
+    assert client.post("/settings", data=form).status_code == 302
+
+
+def test_with_reviews_off_only_new_problems_are_recommended(client, app):
+    log(client, PARENS, 30)  # Due 16 days ago.
+    assert "1 review is due" in page(client)  # This also chooses its sibling.
+    with app.app_context():
+        get_db().execute("DELETE FROM sibling_suggestions")
+        get_db().commit()
+    save_reviews(client, on=False)
+    html = page(client)
+    assert "review is due" not in html and "Review of" not in html and "Due for another try" not in html
+    assert "review streak" not in html and "Review missed" not in html
+    assert 'class="tag review"' not in html.split("<h2>Patterns</h2>")[0]
+    assert "BEGIN:VEVENT" not in client.get("/reviews.ics").get_data(as_text=True)
+    assert "Next review due" not in page(client, f"/problems/{pid(app, 'Valid Parentheses')}")
+    assert query(app, "SELECT * FROM sibling_suggestions") == []
+    # The schedule is kept: turning reviews on again shows the same due date.
+    save_reviews(client, on=True)
+    html = page(client)
+    assert "1 review is due" in html and f'<time datetime="{ago(16)}">' in html
+
+
+def test_an_older_database_gains_the_reviews_setting(tmp_path):
+    import sqlite3
+
+    from codecompass.db import init_db
+
+    path = str(tmp_path / "old.sqlite")
+    old = sqlite3.connect(path)
+    old.execute("""CREATE TABLE settings (
+        key TEXT PRIMARY KEY CHECK (key IN ('starting_difficulty', 'advanced_on', 'very_hard_on')),
+        value TEXT NOT NULL)""")
+    old.execute("INSERT INTO settings VALUES ('starting_difficulty', 'hard')")
+    old.commit()
+    old.close()
+    init_db(path)
+    init_db(path)  # Safe to run again.
+    conn = sqlite3.connect(path)
+    conn.execute("INSERT INTO settings VALUES ('reviews_on', '0')")
+    assert sorted(conn.execute("SELECT key, value FROM settings")) == [("reviews_on", "0"), ("starting_difficulty", "hard")]
+    conn.close()
+
+
 @pytest.mark.parametrize("path", ["/patterns/Nope", "/problems/999"])
 def test_missing_pages(client, path):
     assert client.get(path).status_code == 404

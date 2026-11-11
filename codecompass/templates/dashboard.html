@@ -64,7 +64,7 @@
         <p class="start">Add problems to the catalog or <a href="{{ url_for('main.new_problem') }}">add a custom problem</a> to get recommendations.</p>
       {% endif %}
       <p class="facts">
-        <span><strong>{{ streak }}</strong> {{ "day" if streak == 1 else "days" }} review streak</span>
+        {% if reviews_on %}<span><strong>{{ streak }}</strong> {{ "day" if streak == 1 else "days" }} review streak</span>{% endif %}
         <span><strong>{{ level|capitalize }}</strong> current level</span>
         <span><strong>{{ scored|length }}</strong> of {{ patterns|length }} patterns scored</span>
         {% if due_count %}<a href="{{ url_for('main.reviews_calendar') }}">Add review dates to your calendar (.ics)</a>{% endif %}
@@ -93,9 +93,13 @@
     <div class="activity-key">
       <span>{{ activity[0]['date'] }}</span>
       <ul>
-        <li class="review">Review done</li>
-        <li class="practice">Practice only</li>
-        <li class="missed">Review missed</li>
+        {% if reviews_on %}
+          <li class="review">Review done</li>
+          <li class="practice">Practice only</li>
+          <li class="missed">Review missed</li>
+        {% else %}
+          <li class="practice">Practised</li>
+        {% endif %}
       </ul>
       <span>Today</span>
     </div>
