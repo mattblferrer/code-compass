@@ -69,13 +69,26 @@ class RequestFailed(Exception):
         self.site = site
 
 
+class SameHostRedirects(urllib.request.HTTPRedirectHandler):
+    """Follow a redirect only within the same host, so a request never reaches a source
+    that docs/rules.md does not list (R-03). Another host fails like any other error."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if urlparse(newurl).hostname != urlparse(req.full_url).hostname:
+            raise urllib.error.HTTPError(newurl, code, "Redirect to another site refused", headers, fp)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+_opener = urllib.request.build_opener(SameHostRedirects)
+
+
 def fetch(url, data=None):
     """The response body as bytes; a POST when `data` is given. Raises urllib errors; tests replace this."""
     headers = {"User-Agent": USER_AGENT, "Accept-Encoding": "gzip"}
     if data is not None:
         headers["Content-Type"] = "application/json"
     request = urllib.request.Request(url, data=data, headers=headers)
-    with urllib.request.urlopen(request, timeout=TIMEOUT) as response:
+    with _opener.open(request, timeout=TIMEOUT) as response:
         body = response.read()
         if response.headers.get("Content-Encoding") == "gzip":
             body = gzip.decompress(body)

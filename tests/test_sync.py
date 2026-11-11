@@ -9,6 +9,7 @@ their local dates are the same in any time zone within 11 hours of UTC.
 import io
 import json
 import urllib.error
+import urllib.request
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
@@ -534,3 +535,13 @@ def test_shared_atcoder_task_matches_the_stored_problem(sites):
     # Already known by that link, so no title or estimate request is needed.
     assert remote._atcoder_details(raw, {stored}) == ({}, {})
     assert sites.requests == []
+
+
+def test_redirects_to_another_site_are_refused():
+    # R-03: requests go only to the documented sources, so a redirect elsewhere is not followed.
+    handler = remote.SameHostRedirects()
+    request = urllib.request.Request("https://atcoder.jp/users/practice_user/history/json")
+    with pytest.raises(urllib.error.HTTPError):
+        handler.redirect_request(request, None, 302, "Found", {}, "https://example.com/elsewhere")
+    same = handler.redirect_request(request, None, 302, "Found", {}, "https://atcoder.jp/users/Practice_User/history/json")
+    assert same.full_url == "https://atcoder.jp/users/Practice_User/history/json"
