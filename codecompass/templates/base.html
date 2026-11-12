@@ -29,10 +29,23 @@
         </svg>
         <span>CodeCompass</span>
       </a>
+      {# The first links always show; on a narrower window the rest fold into More, so the
+         header stays one row (app.css): the last four below 75rem, and History and Progress
+         too below 52rem. Phones use the tab bar instead. #}
+      {% set later = nav[3:] %}
       <nav class="site-nav" aria-label="Main">
         {% for endpoint, label in nav %}
-          <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>{{ label }}</a>
+          <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %} {% if loop.index > 5 %}class="later"{% elif loop.index > 3 %}class="middle"{% endif %}>{{ label }}</a>
         {% endfor %}
+        <details class="nav-more dismissable">
+          <summary {% if request.endpoint in nav[5:]|map('first')|list %}aria-current="page"{% endif %}
+                   {% if request.endpoint in nav[3:5]|map('first')|list %}data-middle-current{% endif %}>More</summary>
+          <div class="nav-more-menu">
+            {% for endpoint, label in later %}
+              <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %} {% if loop.index <= 2 %}class="middle"{% endif %}>{{ label }}</a>
+            {% endfor %}
+          </div>
+        </details>
       </nav>
       {# Shown by theme.js; without JavaScript the system setting is used. #}
       <button type="button" class="theme-toggle" id="theme-toggle" hidden>

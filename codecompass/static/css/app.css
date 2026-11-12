@@ -3672,7 +3672,7 @@ kbd {
   gap: 0.5rem;
 }
 
-.plan li {
+.plan > li {
   display: grid;
   grid-template-columns: 9rem minmax(0, 1fr) auto;
   align-items: center;
@@ -3683,7 +3683,7 @@ kbd {
   border-radius: var(--radius);
 }
 
-.plan li.today {
+.plan > li.today {
   border-color: var(--data);
   box-shadow: inset 3px 0 0 var(--data);
 }
@@ -3712,7 +3712,7 @@ kbd {
 }
 
 @media (max-width: 40rem) {
-  .plan li {
+  .plan > li {
     grid-template-columns: minmax(0, 1fr);
   }
 }
@@ -3730,5 +3730,94 @@ kbd {
 
 .restore-form label {
   margin-bottom: 0.5rem;
+}
+
+/* Below 75rem the header's later links fold into More, so the header stays one row. */
+.nav-more {
+  position: relative;
+  display: none;
+}
+
+.nav-more > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius);
+  color: var(--on-band-muted);
+}
+
+.nav-more > summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-more > summary:hover,
+.nav-more[open] > summary {
+  color: var(--on-band);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-more > summary[aria-current="page"] {
+  color: var(--on-band);
+  background: rgba(255, 255, 255, 0.16);
+  font-weight: 600;
+}
+
+.nav-more-menu {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  z-index: 50;
+  display: grid;
+  min-width: 10rem;
+  padding: 0.35rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: calc(var(--radius) * 1.5);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.site-nav .nav-more-menu a {
+  color: var(--text);
+}
+
+.site-nav .nav-more-menu a:hover {
+  background: var(--track);
+  color: var(--text);
+}
+
+.site-nav .nav-more-menu a[aria-current="page"] {
+  background: var(--track);
+  color: var(--text);
+}
+
+@media (max-width: 75rem) {
+  .site-nav a.later {
+    display: none;
+  }
+
+  .nav-more {
+    display: block;
+  }
+}
+
+/* History and Progress sit in the header until 52rem, and in More below it. */
+.nav-more-menu a.middle {
+  display: none;
+}
+
+@media (max-width: 52rem) {
+  .site-nav a.middle {
+    display: none;
+  }
+
+  .nav-more-menu a.middle {
+    display: block;
+  }
+
+  .nav-more > summary[data-middle-current] {
+    color: var(--on-band);
+    background: rgba(255, 255, 255, 0.16);
+    font-weight: 600;
+  }
 }
 
