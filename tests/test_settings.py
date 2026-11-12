@@ -30,7 +30,8 @@ def test_saving_every_setting(client, app):
     response = client.post("/settings", data=form)
     assert response.status_code == 302
     assert saved(app) == {
-        "settings": {"starting_difficulty": "medium", "advanced_on": "1", "very_hard_on": "0", "reviews_on": "0"},
+        "settings": {"starting_difficulty": "medium", "advanced_on": "1", "very_hard_on": "0", "reviews_on": "0",
+                     "weekly_goal": "0"},
         "preferences": {"Stack": "target", "Heap": "mastered", "Tree DP": "target"},
         "hidden": {("cses", "core"), ("codeforces", "advanced")},
     }
@@ -121,3 +122,37 @@ def test_a_bad_background_save_changes_nothing(client, app):
     assert response.status_code == 400
     assert response.get_json() == {"saved": False, "errors": {"starting_difficulty": "Choose a starting difficulty."}}
     assert saved(app) == {"settings": {}, "preferences": {}, "hidden": set()}
+
+
+def test_weekly_goal_setting(client, app):
+    """R-43: a whole number of problems a week, blank for none."""
+    response = client.post("/settings", data={**ALL_SHOWN, "starting_difficulty": "easy", "weekly_goal": "10"})
+    assert response.status_code == 302 and saved(app)["settings"]["weekly_goal"] == "10"
+    assert 'value="10" placeholder="No goal"' in client.get("/settings").get_data(as_text=True)
+    for bad in ("-1", "2.5", "101", "ten"):
+        response = client.post("/settings", data={**ALL_SHOWN, "starting_difficulty": "easy", "weekly_goal": bad})
+        assert response.status_code == 400, bad
+        assert "Enter a whole number from 0 to 100" in response.get_data(as_text=True)
+    client.post("/settings", data={**ALL_SHOWN, "starting_difficulty": "easy", "weekly_goal": ""})
+    assert saved(app)["settings"]["weekly_goal"] == "0"
+
+
+
+def test_a_database_from_before_the_weekly_goal_can_store_it(tmp_path):
+    import sqlite3
+
+    from codecompass.db import init_db
+
+    path = str(tmp_path / "r41.sqlite")
+    old = sqlite3.connect(path)
+    old.execute("""CREATE TABLE settings (
+        key TEXT PRIMARY KEY CHECK (key IN ('starting_difficulty', 'advanced_on', 'very_hard_on', 'reviews_on')),
+        value TEXT NOT NULL)""")
+    old.execute("INSERT INTO settings VALUES ('reviews_on', '0')")
+    old.commit()
+    old.close()
+    init_db(path)
+    conn = sqlite3.connect(path)
+    conn.execute("INSERT INTO settings VALUES ('weekly_goal', '5')")
+    assert sorted(conn.execute("SELECT key, value FROM settings")) == [("reviews_on", "0"), ("weekly_goal", "5")]
+    conn.close()

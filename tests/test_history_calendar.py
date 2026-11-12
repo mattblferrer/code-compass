@@ -148,3 +148,33 @@ def test_history_shows_each_problems_source_and_difficulty(client):
     # The test catalog links to example.com; its level shows in the dashboard's pill.
     assert '<td class="source-cell">example.com</td>' in row
     assert '<span class="mark level-medium">Medium</span>' in row
+
+
+# --- Weekly goal (R-43) ---
+
+def test_week_progress_and_weeks_that_met_the_goal():
+    # 2026-03-04 is a Wednesday; its week runs from Monday 2026-03-02.
+    totals = progress.day_totals([attempt("2026-03-02"), attempt("2026-03-03", c.SOLVED_WITH_HINTS),
+                                  attempt("2026-03-04", c.NOT_SOLVED), attempt("2026-02-27")])
+    assert progress.week_start("2026-03-04") == "2026-03-02" and progress.week_start("2026-03-02") == "2026-03-02"
+    assert progress.week_progress(totals, "2026-03-04", 0) is None
+    assert progress.week_progress(totals, "2026-03-04", 3) == {
+        "solved": 2, "goal": 3, "met": False, "start": "2026-03-02", "share": 2 / 3}
+    assert progress.week_progress(totals, "2026-03-04", 2)["met"]
+    columns = progress.weeks("2026-02-23", "2026-03-08", totals, "2026-03-08", goal=2)
+    assert [(w["solved"], w["met"]) for w in columns] == [(1, False), (2, True)]
+    assert not any(w["met"] for w in progress.weeks("2026-02-23", "2026-03-08", totals, "2026-03-08"))
+
+
+def test_weekly_goal_on_the_dashboard_and_calendar(client, app):
+    from codecompass.core.sites import FILTER_SITES, KINDS
+
+    today = date.today()
+    log(client, PARENS, today.isoformat())
+    assert "This week" not in client.get("/").get_data(as_text=True)  # No goal yet.
+    client.post("/settings", data={"starting_difficulty": "easy", "reviews_on": "1", "weekly_goal": "1",
+                                   **{f"show:{s}:{k}": "1" for s in FILTER_SITES for k in KINDS}})
+    dashboard = client.get("/").get_data(as_text=True)
+    assert "<dt>This week</dt>" in dashboard and "1 of 1 solved" in dashboard and 'aria-label="goal met"' in dashboard
+    history = client.get("/history").get_data(as_text=True)
+    assert 'class="goal-row"' in history and "Goal met, 1 solved" in history

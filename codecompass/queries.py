@@ -165,7 +165,8 @@ def read_settings(conn):
     }
 
 
-DEFAULT_SETTINGS = {"starting_difficulty": "easy", "advanced_on": "0", "very_hard_on": "0", "reviews_on": "1"}
+DEFAULT_SETTINGS = {"starting_difficulty": "easy", "advanced_on": "0", "very_hard_on": "0", "reviews_on": "1",
+                    "weekly_goal": "0"}
 
 
 def current_settings(conn):

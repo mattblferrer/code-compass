@@ -64,6 +64,9 @@ UNDO_DAYS = 1
 # Review queue (R-42): how many days ahead the upcoming reviews reach.
 QUEUE_DAYS = 30
 
+# Weekly goal (R-43): the largest number of problems solved a week a goal can ask for.
+MAX_WEEKLY_GOAL = 100
+
 # History calendar (R-40): the fewest problems solved in a day for each darker shade.
 CALENDAR_SHADES = (1, 2, 4, 6)
 

@@ -170,11 +170,17 @@ def validate_settings(data, pattern_names, sites, kinds):
         elif choice:
             preferences[name] = choice
     hidden = {(site, kind) for site in sites for kind in kinds if not data.get(f"show:{site}:{kind}")}
+    # A weekly goal of problems solved (R-43); blank or 0 means no goal.
+    goal = _text(data, "weekly_goal") or "0"
+    if not goal.isdigit() or int(goal) > c.MAX_WEEKLY_GOAL:
+        errors["weekly_goal"] = f"Enter a whole number from 0 to {c.MAX_WEEKLY_GOAL}, or leave it blank for no goal."
+        goal = "0"
     values = {
         "starting_difficulty": level,
         "advanced_on": "1" if data.get("advanced_on") else "0",
         "very_hard_on": "1" if data.get("very_hard_on") else "0",
         "reviews_on": "1" if data.get("reviews_on") else "0",
+        "weekly_goal": str(int(goal)),
         "preferences": preferences,
         "hidden": hidden,
     }

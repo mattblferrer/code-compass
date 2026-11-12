@@ -52,11 +52,12 @@ def period(year, today):
     return f"{year:04d}-01-01", f"{year:04d}-12-31", str(year)
 
 
-def weeks(first, last, totals, today):
+def weeks(first, last, totals, today, goal=0):
     """Columns of Monday-to-Sunday days covering first..last, for the calendar grid.
 
     Each day is None outside the period, or {"date", "solved", "shade", "future",
-    "totals"}. Each week has "month", the month's short name when a month starts in it.
+    "totals"}. Each week has "month", the month's short name when a month starts in it,
+    and "met", whether its problems solved reached the weekly goal (R-43; never without one).
     """
     start, end = date.fromisoformat(first), date.fromisoformat(last)
     monday = start - timedelta(days=start.weekday())
@@ -75,9 +76,28 @@ def weeks(first, last, totals, today):
             solved = found["solved"] if found else 0
             days.append({"date": text, "solved": solved, "shade": shade(solved), "future": text > today,
                          "totals": found})
-        columns.append({"days": days, "month": month})
+        solved = sum(t["solved"] for d, t in totals.items()
+                     if monday.isoformat() <= d <= (monday + timedelta(days=6)).isoformat())
+        columns.append({"days": days, "month": month, "met": bool(goal) and solved >= goal,
+                        "solved": solved})
         monday += timedelta(days=7)
     return columns
+
+
+def week_start(day):
+    """The Monday of the week holding `day` (weeks run Monday to Sunday)."""
+    d = date.fromisoformat(day)
+    return (d - timedelta(days=d.weekday())).isoformat()
+
+
+def week_progress(totals, today, goal):
+    """This week's problems solved against the weekly goal (R-43), or None without a goal."""
+    if not goal:
+        return None
+    start = week_start(today)
+    solved = sum(t["solved"] for d, t in totals.items() if start <= d <= today)
+    return {"solved": solved, "goal": goal, "met": solved >= goal, "start": start,
+            "share": min(1.0, solved / goal)}
 
 
 def stats(totals, first, last):

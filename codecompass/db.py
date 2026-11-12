@@ -38,6 +38,7 @@ ADDED_COLUMNS = [
 # older table as it was, so such a table is rebuilt from schema.sql, keeping its rows.
 WIDENED_CHECKS = [
     ("settings", "reviews_on"),
+    ("settings", "weekly_goal"),
 ]
 
 

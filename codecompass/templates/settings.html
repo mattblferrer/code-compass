@@ -59,6 +59,14 @@
             <small>Include very hard problems in recommendations. When off, they are left out, target patterns included, except as the review sibling of a very hard problem. Logging and scores are unaffected.</small>
           </span>
         </label>
+        <label>
+          Weekly goal
+          <input type="number" name="weekly_goal" min="0" max="100" step="1" inputmode="numeric"
+                 value="{{ current.weekly_goal if current.weekly_goal != '0' else '' }}" placeholder="No goal"
+                 {% if errors.get('weekly_goal') %}aria-invalid="true" aria-describedby="weekly_goal-error"{% endif %}>
+          <small>Problems solved a week, Monday to Sunday, in any way: alone, with hints, or after the solution. The dashboard shows the week's progress, and History marks weeks that reached it. Leave blank for no goal.</small>
+          {{ error("weekly_goal") }}
+        </label>
       </fieldset>
     </div>
     <div class="panel settings-card">

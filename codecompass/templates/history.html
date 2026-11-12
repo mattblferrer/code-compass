@@ -52,6 +52,15 @@
               {% for w in cal.weeks %}<th scope="col">{% if w.month %}<span>{{ w.month }}</span>{% endif %}</th>{% endfor %}
             </tr>
           </thead>
+          {% if cal.goal %}
+            {# R-43: a mark under each week that reached the weekly goal. #}
+            <tfoot>
+              <tr class="goal-row">
+                <th scope="row"><span class="visually-hidden">Weekly goal</span></th>
+                {% for w in cal.weeks %}<td>{% if w.met %}<span class="goal-met" title="Goal met: {{ w.solved }} solved">✓<span class="visually-hidden">Goal met, {{ w.solved }} solved</span></span>{% endif %}</td>{% endfor %}
+              </tr>
+            </tfoot>
+          {% endif %}
           <tbody>
             {% for row in range(7) %}
               <tr>
@@ -88,6 +97,7 @@
       </dl>
     </div>
     <p class="year-key" aria-hidden="true">
+      {% if cal.goal %}<span class="goal-key"><span class="goal-met">✓</span> week reached the goal of {{ cal.goal }}</span>{% endif %}
       <span>Solved in a day</span>
       <span class="cell s0"></span> 0
       {% for floor in cal.shades %}

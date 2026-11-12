@@ -435,6 +435,13 @@ The interview in focus is the nearest one dated from today to 14 days ahead. Int
 
 Interviews never change a score. Because only 2 patterns supply new problems, the list can have fewer than 5 problems when those patterns run out.
 
+## Weekly goal (R-43)
+
+- **What counts:** problems solved, by any solved outcome (alone, with hints, or after viewing the solution), the same count the History calendar shades by (R-40). "Not solved" attempts do not count.
+- **Weeks:** Monday to Sunday, by the user's local dates. This week runs from its Monday to today.
+- **Goal:** a whole number from 0 to 100 (`MAX_WEEKLY_GOAL`), set in settings; 0 or blank means no goal, and nothing is shown.
+- **Shown:** the dashboard shows this week's count against the goal, and the History calendar marks every week whose count reached it.
+
 ## Sync and lookup sources (R-03, R-33, R-34, R-35)
 
 CodeCompass contacts only these sources, and only when the user starts a sync or a lookup. All requests are in `codecompass/remote.py`. They are plain requests with an honest User-Agent, with no logins, passwords, or cookies, and a username is the public one shown on the site.

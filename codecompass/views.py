@@ -155,6 +155,8 @@ def dashboard():
         level=snap.level(),
         activity=snap.activity(),
         reviews_on=snap.reviews_on,
+        week=progress.week_progress(progress.day_totals(snap.attempts), snap.today,
+                                    int(snap.settings["weekly_goal"])),
     )
 
 
@@ -390,6 +392,8 @@ def history():
     now = today()
     # One read of the attempts, newest first, serves the calendar, the review marks, and the list.
     every = [dict(a) for a in queries.recent_attempts(conn, limit=-1)]
+    settings_now = queries.current_settings(conn)
+    goal = int(settings_now["weekly_goal"])
     totals = progress.day_totals(every)
     years = progress.years(totals, now)
     year = request.args.get("year", type=int)
@@ -399,7 +403,7 @@ def history():
     until = request.args.get("until", "")
     until = until if progress.is_date(until) else None
     # With reviews off (R-41), no attempt is marked as a review and there is no Reviews only filter.
-    reviews_on = queries.current_settings(conn)["reviews_on"] == "1"
+    reviews_on = settings_now["reviews_on"] == "1"
     reviews = review_attempt_ids(schedules(every)) if reviews_on else set()
     patterns = queries.patterns_by_problem(conn, {a["problem_id"] for a in every})
     rows = [{**a, "review": a["id"] in reviews, "site": site_label(a["link"]), "patterns": patterns.get(a["problem_id"], [])}
@@ -423,7 +427,8 @@ def history():
         days[-1]["attempts"].append(a)
     calendar = {
         "label": label, "year": year, "years": years, "first": first, "last": last,
-        "weeks": progress.weeks(first, last, totals, now), "stats": progress.stats(totals, first, last),
+        "weeks": progress.weeks(first, last, totals, now, goal), "stats": progress.stats(totals, first, last),
+        "goal": goal,
         "shades": c.CALENDAR_SHADES,
     }
     options = {"outcome": [(o, OUTCOME_LABELS[o]) for o in c.OUTCOMES],

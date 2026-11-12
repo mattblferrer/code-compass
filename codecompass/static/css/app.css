@@ -3474,3 +3474,53 @@ table.sortable th[aria-sort="descending"] .sort-arrow::after {
     display: none;
   }
 }
+
+/* Weekly goal (R-43): progress on the dashboard, and a mark under weeks that reached it. */
+.week-goal progress {
+  display: block;
+  width: 7rem;
+  height: 0.4rem;
+  margin-top: 0.3rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--track);
+  accent-color: var(--data);
+  appearance: none;
+}
+
+.week-goal progress::-webkit-progress-bar {
+  background: var(--track);
+  border-radius: 999px;
+}
+
+.week-goal progress::-webkit-progress-value {
+  background: var(--data);
+  border-radius: 999px;
+}
+
+.week-goal.met progress::-webkit-progress-value {
+  background: var(--up);
+}
+
+.week-goal progress::-moz-progress-bar {
+  background: var(--data);
+  border-radius: 999px;
+}
+
+.goal-mark,
+.goal-met {
+  color: var(--up);
+  font-weight: 700;
+}
+
+.year-grid .goal-row td {
+  height: 0.9rem;
+  text-align: center;
+  font-size: 0.65rem;
+  line-height: 1;
+}
+
+.goal-key {
+  margin-right: 1rem;
+}
+

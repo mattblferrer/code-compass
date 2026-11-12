@@ -67,6 +67,12 @@
         {% if reviews_on %}<div><dt>Review streak</dt><dd>{{ streak }} {{ "day" if streak == 1 else "days" }}</dd></div>{% endif %}
         <div><dt>Current level</dt><dd>{{ level|capitalize }}</dd></div>
         <div><dt>Patterns scored</dt><dd>{{ scored|length }} of {{ patterns|length }}</dd></div>
+        {% if week %}
+          {# R-43: this week's problems solved against the weekly goal. #}
+          <div class="week-goal{{ ' met' if week.met }}"><dt>This week</dt>
+            <dd>{{ week.solved }} of {{ week.goal }} solved{% if week.met %} <span class="goal-mark" aria-label="goal met">✓</span>{% endif %}
+              <progress max="1" value="{{ week.share }}" aria-label="Weekly goal progress"></progress></dd></div>
+        {% endif %}
       </dl>
       {% if due_count %}<p class="facts-link"><a href="{{ url_for('main.reviews_calendar') }}">Add review dates to your calendar (.ics)</a></p>{% endif %}
       {% if sync_pending %}
