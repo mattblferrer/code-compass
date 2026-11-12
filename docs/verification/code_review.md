@@ -49,6 +49,38 @@ This page records the reviews of the changes the AI wrote, for the plan item "re
 | CDN links (R-24) | Searched templates and CSS again for external `src`, `href`, `url(`, and `@import`, and listed `codecompass/static` | Pass. The new scripts and `favicon.svg` are served from `codecompass/static`, the header's contour lines are an inline SVG in the stylesheet, and fonts are still system fonts (Bahnschrift, or DIN Alternate on Apple). |
 | One shared validator (R-05, R-20) | Listed every write to `attempts` and `problems` again, and every caller of the validators | Pass after finding 1. Single confirms, batch saves, and auto-classify all go through `confirm_sync_item`, which uses `validate_attempt` and `validate_problem`; settings autosave uses `validate_settings`, as the Save button does. The other writes are still the catalog load, the demo data, and Undo, which only removes a batch's rows or puts back what was there. |
 
+## Third review
+
+- **Date:** 2026-11-12
+- **Changes reviewed:** the 13 commits after `8ee674e`, from `14fd0d6` (the second review's fixes) to `0f48aa8` (header and plan chips): the second review's fixes, the R-16 and R-29 tests, and the review queue, weekly goal, prep plan, problem notes, backup and restore, keyboard shortcuts, Progress page, and time per pattern (R-42 to R-49).
+- **Method:** an automated code review of that range, which reported 10 findings; the AI checked each against the code, found an eleventh of its own while doing so, and the author chose to fix all of them. The four checks below were repeated by searching the code.
+- **Tests:** 467 passing after the fixes
+
+### Findings
+
+| # | Finding | Fix |
+| --- | --- | --- |
+| 1 | A batch rebuilt its picture of due reviews only after a review was completed or a due problem was saved, so a save on a suggested sibling before its review was due left the sibling suggested, and a later item on it in the same batch was wrongly saved as completing the review. | The picture is also rebuilt after a save on a suggested sibling, so a batch credits reviews as single confirms do. |
+| 2 | Notes and links were deleted with their problem: a catalog update dropping a problem never attempted, or undoing a sync batch that added a problem, removed the user's notes on it. | A problem with notes or links is kept as one with attempts is. |
+| 3 | A note's last edits were lost when the page was left within 0.7 s of typing. | Leaving the page sends a waiting edit. |
+| 4 | `str.isdigit()` passes digits such as "²" that `int()` refuses, so the weekly goal and daily target could fail with an error page. | Only ASCII digits are accepted, and the usual message shows. |
+| 5 | Restoring a backup kept the backup's old catalog, reserve, and patterns until the app restarted. | Restore loads them at once, as an app start does. |
+| 6 | When a background sync stopped unexpectedly, other sites' own errors (unknown user, refused) became "could not reach", and sites that never ran were reported as failed to connect. | Each site keeps its own error and username; a site the sync stopped on says so. |
+| 7 | Notes were sent with `keepalive`, which browsers cap at 64 KB, so a long note in non-Latin text could never save. | `keepalive` is used only when leaving the page, and only when the note fits. |
+| 8 | A past interview's prep plan said "The interview is today". | It says the interview has passed. |
+| 9 | The forms typed in the weekly goal's and daily target's limits instead of reading the constants. | They read `core/constants.py`. |
+| 10 | The weekly-points loop existed twice, `Snapshot.review_attempts` was unused, and the calendar scanned every day for each week. | One `weekly_days` helper, the unused method removed, and each week summed from its 7 days. |
+| 11 | The AI's helper for adding requirements set the in-scope range to the last requirement added, not the highest, so the PRD and CLAUDE.md said R-01 to R-46 and the rows R-42 to R-49 were out of order. | R-01 to R-49 in both, rows in numeric order. |
+
+### Checks
+
+| Check | How | Result |
+| --- | --- | --- |
+| Dates and time zones | Searched the changed files for clock reads | Pass. The clock is read only in `views.py`; the prep plan, weekly goal, time per pattern, and score charts take dates as arguments. |
+| Outgoing requests (R-03) | Searched the changed files for request code and `fetch(` | Pass. Only `remote.py` contacts other sites; the new scripts fetch only this app's routes. A problem's links are only opened by the user. |
+| CDN links (R-24) | Searched the changed templates and styles for external scripts, styles, and images | Pass. None were added. |
+| One shared validator (R-05) | Listed the new writes and their validators | Pass. Notes use `validate_note`, links `validate_link`, and interviews, with their daily target, `validate_interview`; restore replaces the whole database after checking the file. |
+
 ## AI mistakes
 
 Mistakes in work the AI produced, in the order they were found. "Found by" says whether a test, the AI's own check, the author, or the code review caught it.
@@ -86,5 +118,11 @@ Mistakes in work the AI produced, in the order they were found. "Found by" says 
 | 29 | 2026-11-11 | Reviews (R-41) | History still showed reviews while they were turned off. | Second review | `14fd0d6` |
 | 30 | 2026-11-11 | Sync (R-33) | The first two versions of the paging guard compared times, then submission IDs, and stopped good syncs, since both can arrive slightly out of order. | Tests | The guard stops only when a page has nothing new (`14fd0d6`). |
 | 31 | 2026-11-11 | Editing | An edit script named a set `seen`, hiding the progress counter of the same name (38 tests failed), and another wrote a literal newline inside a string in `db.py`. | Tests, AI's check | Fixed before commit (`14fd0d6`). |
+| 32 | 2026-11-12 | Sync (R-33) | A batch's review picture was not refreshed after a save on a suggested sibling, an edge the second review's speed fix introduced. | Third review | Refreshed then too. |
+| 33 | 2026-11-12 | Notes (R-45) | Notes and links were deleted with a problem the catalog dropped or a batch Undo removed, and the last edits could be lost on leaving the page. | Third review | Kept with the problem; edits sent on leaving. |
+| 34 | 2026-11-12 | Backup (R-46) | Restore did not reload the current catalog. | Third review | Loaded at once. |
+| 35 | 2026-11-12 | Sync (R-33) | The second review's fix for a crashed sync reported every unfinished site as "could not reach", hiding their own errors; the first version of this fix also dropped the username from the message. | Third review, then a test | Each site keeps its error and username. |
+| 36 | 2026-11-12 | Docs | The AI's helper for adding requirements set the in-scope range to the last one added (R-46), not the highest (R-49), and appended rows out of order. | AI's check during the review | Range and order fixed. |
+| 37 | 2026-11-12 | Validation | `str.isdigit()` was used for whole numbers, and form limits were typed into templates. | Third review | ASCII digits only; limits from the constants. |
 
-Most mistakes were caught by a test, a browser check, or a code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code. In the second review, items 26 and 28 repeat that pattern: limits and rules that existed in one place (AtCoder's paging guard, `core/` for rules) were not carried to new code, and items 20 to 23 show that most layout mistakes were caught only by looking at the page.
+Most mistakes were caught by a test, a browser check, or a code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code. In the second review, items 26 and 28 repeat that pattern: limits and rules that existed in one place (AtCoder's paging guard, `core/` for rules) were not carried to new code, and items 20 to 23 show that most layout mistakes were caught only by looking at the page. In the third review, items 32 and 35 are mistakes introduced by the second review's own fixes, which argues for reviewing each fix with the same care as new work.
