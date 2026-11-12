@@ -112,7 +112,22 @@
         </div>
       </details>
     </nav>
+    {# R-47: keyboard shortcuts, listed here and opened with "?" (js/shortcuts.js). #}
+    <dialog id="shortcuts" class="confirm-dialog shortcuts-dialog" aria-labelledby="shortcuts-heading" data-log-url="{{ url_for('main.log_attempt') }}">
+      <h2 id="shortcuts-heading">Keyboard shortcuts</h2>
+      <dl class="shortcut-list">
+        <div><dt><kbd>/</kbd></dt><dd>Search for a problem to log</dd></div>
+        <div><dt><kbd>L</kbd></dt><dd>Log an attempt</dd></div>
+        <div><dt><kbd>1</kbd> to <kbd>4</kbd></dt><dd>On the log form: solved alone, with hints, after the solution, not solved</dd></div>
+        <div><dt><kbd>S</kbd></dt><dd>On the log form: save</dd></div>
+        <div><dt><kbd>?</kbd></dt><dd>Show this list</dd></div>
+        <div><dt><kbd>Esc</kbd></dt><dd>Close it</dd></div>
+      </dl>
+      <p class="small-print">Shortcuts wait while you type in a field.</p>
+      <form method="dialog" class="erase-actions"><button type="submit" class="quiet" autofocus>Close</button></form>
+    </dialog>
     <script src="{{ url_for('static', filename='js/enhance.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/shortcuts.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
     {% block scripts %}{% endblock %}
   </body>

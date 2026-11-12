@@ -156,3 +156,14 @@ def test_a_database_from_before_the_weekly_goal_can_store_it(tmp_path):
     conn.execute("INSERT INTO settings VALUES ('weekly_goal', '5')")
     assert sorted(conn.execute("SELECT key, value FROM settings")) == [("reviews_on", "0"), ("weekly_goal", "5")]
     conn.close()
+
+
+def test_every_page_lists_the_keyboard_shortcuts(client):
+    """R-47: each page carries the shortcut list and its script; the log form has every outcome."""
+    for path in ("/", "/log", "/history", "/settings", "/reviews", "/progress"):
+        page = client.get(path).get_data(as_text=True)
+        assert '<dialog id="shortcuts"' in page and "js/shortcuts.js" in page, path
+    log_form = client.get("/log").get_data(as_text=True)
+    for outcome in ("solved_alone", "solved_with_hints", "solved_after_solution", "not_solved"):
+        assert f'name="outcome" value="{outcome}"' in log_form
+    assert 'id="problem-search"' in log_form and 'id="attempt-form"' in log_form
