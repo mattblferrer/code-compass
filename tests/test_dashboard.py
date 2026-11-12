@@ -561,3 +561,24 @@ def test_progress_page_charts_every_scored_pattern_and_the_movers(client, app):
     assert falling == ([("Stack", change)] if change and change < 0 else [])
     assert ("None rose." in html) == (not rising) and ("None fell." in html) == (not falling)
     assert 'href="/progress"' in page(client)
+
+
+# --- Time per pattern (R-49) ---
+
+def test_median_times():
+    from codecompass.core.timing import median_times
+
+    row = lambda level, seconds: {"difficulty": level, "attempt": {"time_seconds": seconds}}
+    rows = [row("medium", 600), row("easy", 300), row("medium", 1200), row("medium", 900), row("easy", None)]
+    assert median_times(rows) == {"easy": {"median": 300, "count": 1}, "medium": {"median": 900, "count": 3}}
+    assert median_times([row("hard", None)]) == {}
+
+
+def test_pattern_page_shows_median_time_by_level(client):
+    for days, minutes in ((20, "10"), (10, "20"), (2, "")):
+        client.post("/log", data={"problem": PARENS, "date": ago(days), "outcome": c.SOLVED_ALONE,
+                                  "time_minutes": minutes, "time_seconds": "", "notes": ""})
+    html = page(client, "/patterns/Stack")
+    times = html.split("<h3>Median time</h3>")[1].split("</ul>")[0]
+    assert "<strong>15:00</strong> <small>2 timed</small>" in times and "level-easy" in times
+    assert "Median time" not in page(client, "/patterns/Trie")

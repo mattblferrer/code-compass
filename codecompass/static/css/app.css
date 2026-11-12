@@ -3619,3 +3619,12 @@ figure.all-scores {
   overflow-y: auto;
 }
 
+/* Time per pattern (R-49). */
+.time-list li {
+  align-items: center;
+}
+
+.time-list strong {
+  font-family: var(--font-brand);
+}
+

@@ -17,6 +17,7 @@ from .core.exchange import COLUMNS, export_rows, plan_import, references
 from .core import filters, ordering, progress
 from .core.dates import countdown, friendly_date, full_date, short_date
 from .core.mastery import expected_level_index
+from .core.timing import median_times
 from .core.recommend import active_interview
 from .core.reviews import ics, review_attempt_ids, schedules
 from .core.sites import FILTER_SITES, KINDS, site_label
@@ -217,6 +218,7 @@ def pattern(name):
         pattern=info,
         score=snap.scores.get(name, {}).get("score"),
         expected=c.LEVELS[expected_level_index(snap.scores[name]["score"])] if name in snap.scores else None,
+        times=median_times(snap.by_pattern[name]),
         rows=ordering.sort_rows(snap.by_pattern[name], key, order),
         columns=columns, sort=key, order=order,
         levels=c.LEVELS, outcomes=c.OUTCOMES,
