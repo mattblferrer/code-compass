@@ -265,7 +265,19 @@ def not_now(problem_id):
                 )
     # The category carries what Undo needs to reverse this.
     flash("Hidden from recommendations for 7 days.", f"undo:{not_now_id}:{suggestion_id}")
+    if request.form.get("next") == "reviews" and review_of:
+        # From the review queue: choose the next sibling now, and stay on the queue (R-42).
+        Snapshot(conn, today()).sibling_for(review_of)
+        return redirect(url_for("main.review_queue") + f"#review-{review_of}")
     return redirect(url_for("main.dashboard"))
+
+
+@bp.route("/reviews")
+def review_queue():
+    """Every review due now and the ones coming in the next weeks (R-42)."""
+    snap = Snapshot(get_db(), today())
+    return render_template("reviews.html", queue=snap.review_queue(), reviews_on=snap.reviews_on,
+                           days=c.QUEUE_DAYS)
 
 
 @bp.post("/not-now/undo")

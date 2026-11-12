@@ -65,6 +65,18 @@ def served_reviews(due_now, last, today):
     return recent or dict(due_now)
 
 
+def upcoming_reviews(due, last, today, days):
+    """Reviews falling due after today and within `days` days, soonest first (R-42).
+
+    `due` is {problem_id: next due date} and `last` each problem's latest attempt. A
+    review that will be old by its due date is left out, as the calendar file leaves it
+    out (R-12): it waits for newer reviews.
+    """
+    end = add_days(today, days)
+    found = [(pid, day) for pid, day in due.items() if today < day <= end and not is_stale(last[pid], day)]
+    return sorted(found, key=lambda x: (x[1], x[0]))
+
+
 def streak_days(all_schedules, today):
     """Day records for review_streak: whether a review was due and whether one was completed."""
     due_days, completed = set(), set()

@@ -61,6 +61,9 @@ ATCODER_LEVEL_FLOORS = ((2000, "very hard"), (1200, "hard"), (400, "medium"))
 # How long a deleted attempt or interview can be restored with Undo, in days.
 UNDO_DAYS = 1
 
+# Review queue (R-42): how many days ahead the upcoming reviews reach.
+QUEUE_DAYS = 30
+
 # History calendar (R-40): the fewest problems solved in a day for each darker shade.
 CALENDAR_SHADES = (1, 2, 4, 6)
 

@@ -500,3 +500,39 @@ def test_not_now_lasts_seven_days(client, app, monkeypatch):
         later = (date.today() + timedelta(days=days)).isoformat()
         monkeypatch.setattr(views, "today", lambda later=later: later)
         assert shown() is expected, days
+
+
+# --- Review queue (R-42) ---
+
+def test_review_queue_lists_due_and_upcoming_reviews(client, app):
+    log(client, PARENS, 30)  # Due 16 days ago.
+    log(client, "Course Schedule (Codeforces)", 5)  # Due in 9 days.
+    log(client, TWO_SUM, 200)  # Old, so it waits while a newer review is due (R-12).
+    html = page(client, "/reviews")
+    due = html.split('id="due-heading"')[1].split('id="upcoming-heading"')[0]
+    upcoming = html.split('id="upcoming-heading"')[1]
+    assert "Valid Parentheses" in due and f'datetime="{ago(16)}"' in due and "<td>14 days</td>" in due
+    assert "Course Schedule" in upcoming and "Course Schedule" not in due
+    assert "Two Sum" not in html
+    # No sibling is chosen just by opening the queue.
+    assert query(app, "SELECT * FROM sibling_suggestions") == []
+    assert 'href="/reviews"' in page(client)
+
+
+def test_review_queue_swaps_a_sibling_and_stays(client, app):
+    log(client, PARENS, 30)
+    page(client)  # The dashboard suggests Daily Temperatures.
+    html = page(client, "/reviews")
+    assert "Daily Temperatures" in html.split('id="due-heading"')[1]
+    temps, parens = pid(app, "Daily Temperatures"), pid(app, "Valid Parentheses")
+    response = client.post(f"/problems/{temps}/not-now", data={"review_of": parens, "next": "reviews"})
+    assert response.headers["Location"] == f"/reviews#review-{parens}"
+    # No other sibling shares Stack in the test catalog, so the problem itself is the review.
+    assert "No other sibling left; review it itself" in page(client, "/reviews")
+
+
+def test_review_queue_with_reviews_off(client):
+    log(client, PARENS, 30)
+    save_reviews(client, on=False)
+    html = page(client, "/reviews")
+    assert "Reviews are turned off" in html and "Valid Parentheses" not in html

@@ -1,6 +1,6 @@
 # CodeCompass
 
-A single-user web app for tracking coding-interview practice by pattern. `docs/requirements.md` is the source of truth for behavior; cite requirement IDs (R-01 to R-41) when working on a feature.
+A single-user web app for tracking coding-interview practice by pattern. `docs/requirements.md` is the source of truth for behavior; cite requirement IDs (R-01 to R-42) when working on a feature.
 
 ## Commands
 

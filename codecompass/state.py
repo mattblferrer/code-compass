@@ -9,7 +9,7 @@ from .core.mastery import pattern_score
 from .core.reasons import hint_eligible, reason
 from .core.recommend import REVIEW, active_interview, recommend
 from .core.reviews import (activity, due_dates, is_stale, last_attempts, review_attempt_ids, schedules,
-                           served_reviews, streak_days)
+                           served_reviews, streak_days, upcoming_reviews)
 from .core.siblings import choose_sibling
 from .core.sites import is_hidden
 from .core.streak import review_streak
@@ -416,6 +416,30 @@ class Snapshot:
                 ),
             })
         return result
+
+    def review_queue(self):
+        """Every review served now and those coming within c.QUEUE_DAYS days (R-42).
+
+        A due review shows its sibling only when one is already suggested; choosing one
+        here would set problems aside from recommendations for every due review (R-28).
+        """
+        if not self.reviews_on:
+            return {"due": [], "upcoming": []}
+
+        def row(pid, day, sibling=None, none_left=False):
+            return {"problem": self.problem(pid), "due": day, "interval": self.schedules[pid][1][-1]["interval"],
+                    "sibling": sibling, "none_left": none_left}
+
+        due = sorted(self.due_now.items(), key=lambda x: (x[1], self.order_position(self.problem(x[0]))))
+        rows = []
+        for pid, day in due:
+            s = self.active_suggestion(pid)
+            # Every sibling was set aside, so the problem itself is the review (R-28).
+            none_left = not s and any(x["status"] == "dismissed" for x in self._current(pid))
+            rows.append(row(pid, day, self.problem(s["sibling_problem_id"]) if s else None, none_left))
+        upcoming = [row(pid, day) for pid, day in upcoming_reviews(self.due, self.last_attempt, self.today,
+                                                                     c.QUEUE_DAYS)]
+        return {"due": rows, "upcoming": upcoming}
 
     def calendar_events(self):
         """Reviews for the calendar file (R-31), leaving out problems that will be old by

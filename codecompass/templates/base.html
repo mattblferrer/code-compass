@@ -15,7 +15,7 @@
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
   </head>
   <body>
-    {% set nav = [("main.dashboard", "Dashboard"), ("main.log_attempt", "Log"), ("main.history", "History"), ("main.interviews", "Interviews"), ("main.sync_page", "Sync"), ("main.profile", "Profile"), ("main.settings", "Settings")] %}
+    {% set nav = [("main.dashboard", "Dashboard"), ("main.review_queue", "Reviews"), ("main.log_attempt", "Log"), ("main.history", "History"), ("main.interviews", "Interviews"), ("main.sync_page", "Sync"), ("main.profile", "Profile"), ("main.settings", "Settings")] %}
     <header class="site-header">
       <a class="wordmark" href="{{ url_for('main.dashboard') }}">
         {# A compass needle, north tip in needle red: the one mark of the brand. #}
@@ -90,7 +90,7 @@
     {# On a phone the main pages sit in a tab bar at the bottom, within thumb reach (R-23);
        the rest open from More. Wider screens use the links in the header instead. #}
     {% set tabs = [("main.dashboard", "Dashboard"), ("main.log_attempt", "Log"), ("main.history", "History")] %}
-    {% set more = [("main.interviews", "Interviews"), ("main.sync_page", "Sync"), ("main.profile", "Profile"), ("main.settings", "Settings")] %}
+    {% set more = [("main.review_queue", "Reviews"), ("main.interviews", "Interviews"), ("main.sync_page", "Sync"), ("main.profile", "Profile"), ("main.settings", "Settings")] %}
     <nav class="tab-bar" aria-label="Main">
       {% for endpoint, label in tabs %}
         <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>

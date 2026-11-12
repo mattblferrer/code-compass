@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% from "_page.html" import page_head %}
+{% block title %}Reviews - CodeCompass{% endblock %}
+{% macro problem_cells(p) %}
+  <td class="problem-cell"><a href="{{ url_for('main.problem', problem_id=p['id']) }}">{{ p['title'] }}</a></td>
+  <td class="source-cell">{{ p['link']|site }}</td>
+  <td><span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span></td>
+{% endmacro %}
+{% block content %}
+  {{ page_head("Reviews", "Problems coming back for review: every one due now, and the next " ~ days ~ " days.") }}
+
+  {% if not reviews_on %}
+    <p class="empty">Reviews are turned off, so nothing comes back for review. <a href="{{ url_for('main.settings') }}">Turn them on in settings</a>.</p>
+  {% else %}
+    {# R-42: reviews can be logged or opened here, and a suggested sibling swapped for another;
+       a review itself is never skipped. #}
+    <section class="panel lead" aria-labelledby="due-heading">
+      <h2 id="due-heading">Due now <small>{{ queue.due|length }}</small></h2>
+      {% if queue.due %}
+        <div class="table-wrap plain">
+          <table class="queue">
+            <thead><tr><th>Problem</th><th>Source</th><th>Difficulty</th><th>Due</th><th>Interval</th><th>Try instead</th><th><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody>
+              {% for r in queue.due %}
+                {% set p = r.problem %}
+                <tr id="review-{{ p['id'] }}">
+                  {{ problem_cells(p) }}
+                  <td>{{ r.due|when }}</td>
+                  <td>{{ r.interval }} {{ "day" if r.interval == 1 else "days" }}</td>
+                  <td>
+                    {% if r.sibling %}
+                      <a href="{{ url_for('main.problem', problem_id=r.sibling['id']) }}">{{ r.sibling['title'] }}</a>
+                      <form method="post" action="{{ url_for('main.not_now', problem_id=r.sibling['id']) }}" class="inline">
+                        <input type="hidden" name="review_of" value="{{ p['id'] }}">
+                        <input type="hidden" name="next" value="reviews">
+                        <button type="submit" class="text" title="Set this sibling aside for 7 days and suggest another">Not now</button>
+                      </form>
+                    {% elif r.none_left %}
+                      <span class="context-muted">No other sibling left; review it itself</span>
+                    {% else %}
+                      <span class="context-muted">Picked when it reaches Practice next</span>
+                    {% endif %}
+                  </td>
+                  <td class="queue-actions">
+                    <a class="button small" href="{{ url_for('main.log_attempt', problem=(r.sibling or p)['id']) }}">Log attempt</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="empty">Nothing is due. The next reviews are below.</p>
+      {% endif %}
+    </section>
+
+    <h2 class="after-card" id="upcoming-heading">Coming up <small>next {{ days }} days</small></h2>
+    {% if queue.upcoming %}
+      <div class="table-wrap">
+        <table class="queue">
+          <thead><tr><th>Problem</th><th>Source</th><th>Difficulty</th><th>Due</th><th>Interval</th></tr></thead>
+          <tbody>
+            {% for r in queue.upcoming %}
+              <tr>
+                {{ problem_cells(r.problem) }}
+                <td>{{ r.due|when }}</td>
+                <td>{{ r.interval }} {{ "day" if r.interval == 1 else "days" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="empty">No reviews in the next {{ days }} days.</p>
+    {% endif %}
+  {% endif %}
+{% endblock %}
