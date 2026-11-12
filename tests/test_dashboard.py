@@ -486,3 +486,17 @@ def test_interview_countdown_and_undo_cutoff():
     assert countdown("2026-11-11", "2026-12-09", 14) == {"days": 28, "past": False, "focus_in": 14, "focus_share": 0.5}
     assert countdown("2026-11-11", "2026-11-08", 14)["past"]
     assert undo_cutoff("2026-03-01") == "2026-02-28"
+
+
+def test_not_now_lasts_seven_days(client, app, monkeypatch):
+    """R-29: a problem set aside with "not now" is left out for 7 days and returns after."""
+    from codecompass import views
+
+    two_sum = pid(app, "Two Sum")
+    client.post(f"/problems/{two_sum}/not-now")
+    shown = lambda: "Two Sum" in page(client).split("<h2>Patterns</h2>")[0]
+    assert not shown()
+    for days, expected in ((6, False), (7, True)):
+        later = (date.today() + timedelta(days=days)).isoformat()
+        monkeypatch.setattr(views, "today", lambda later=later: later)
+        assert shown() is expected, days

@@ -109,3 +109,63 @@ def test_atcoder_levels(difficulty, level):
 @cases("interview")
 def test_active_interview(case):
     assert active_interview(case["interviews"], case["today"]) == case["expected"]
+
+
+# --- Reasons (R-16) and "not now" (R-29), on the author's recommendation cases ---
+
+# The day reasons are written on; it only changes wording such as "3 days ago".
+REASON_DAY = "2026-11-11"
+
+def _state(case, skipped=()):
+    return {
+        "patterns": case["patterns"], "advanced": case["advanced"], "catalog": case["catalog"],
+        "scores": case.get("scores", {}), "unscored_attempts": case.get("unscored_attempts", {}),
+        "due": [{**d, "patterns": [d["pattern"]]} for d in case.get("due", [])],
+        "excluded": case.get("attempted", []) + case.get("not_now", []) + case.get("reserved", []) + list(skipped),
+        "targets": case.get("targets", []), "mastered": case.get("mastered", []), "level": case["level"],
+        "advanced_on": case.get("advanced_on", False), "very_hard_on": case.get("very_hard_on", False),
+        "interview": case.get("interview"),
+    }
+
+
+@cases("recommendations")
+def test_every_reason_is_stated_and_a_hint_never_names_the_pattern(case):
+    """R-16: each recommendation has a reason; for a hint-eligible problem it names no pattern."""
+    from codecompass.core.reasons import reason
+
+    patterns_of = {p["id"]: p["patterns"] for p in case["catalog"]}
+    patterns_of.update({d["problem"]: [d["pattern"]] for d in case.get("due", [])})
+    interview = case.get("interview")
+    # The cases give only an interview's patterns and level; a reason also names the company and date.
+    focus = {"companies": ["Acme"], "date": REASON_DAY} if interview else None
+    for item in recommend(_state(case)):
+        for hint in (False, True):
+            text = reason(item, hint, case.get("scores", {}), REASON_DAY, interview=focus)
+            assert text, (item, hint)
+            if hint:
+                assert not any(name in text for name in patterns_of[item["problem"]]), (item, text)
+
+
+# The cases where the skipped problem's pattern has another problem at the level in use;
+# in the other three, an interview limits that pattern to the skipped problem.
+REFILLED_BY_THE_SAME_PATTERN = {
+    "new_user", "worked_example", "review_backlog_with_targets", "interview_within_14_days", "exclusions",
+    "advanced_target_with_settings_off", "interview_without_patterns_or_scores", "single_target_fills_both_slots",
+    "advanced_and_very_hard_on",
+}
+
+
+@cases("recommendations")
+def test_not_now_removes_the_problem_without_changing_the_patterns(case):
+    """R-29: a skipped problem leaves the list, and its pattern keeps its place when it has
+    another problem, so the list is refilled."""
+    before = recommend(_state(case))
+    new = [item for item in before if item["kind"] == "new"]
+    if not new:
+        pytest.skip("no new problem to skip")
+    skipped = new[0]["problem"]
+    after = recommend(_state(case, [skipped]))
+    assert skipped not in [item["problem"] for item in after]
+    if case["name"] in REFILLED_BY_THE_SAME_PATTERN:
+        shape = lambda items: [(i["kind"], i["group"], i["pattern"]) for i in items]
+        assert shape(after) == shape(before)

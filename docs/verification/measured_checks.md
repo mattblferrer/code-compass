@@ -1,10 +1,11 @@
-# Measured checks (R-08, R-18, R-21, R-23, R-24)
+# Measured checks (R-08, R-18, R-21, R-23, R-24, R-37)
 
 This page records the checks that need a measurement, a device, or testers rather than unit tests. Parts marked **Done** were run on 2026-11-11; parts marked **To do** need the author, testers, a browser, or a phone, and have a script and sheet below.
 
 | Requirement | Status | Result |
 | --- | --- | --- |
-| R-21 load time | **Done** | Pass: dashboard in 0.13 s or less over 10 runs with 500 attempts (limit 2 s) |
+| R-21 load time | **Done**, rerun 2026-11-12 | Pass: dashboard in 0.16 s or less over 10 runs with 500 attempts (limit 2 s) |
+| R-37 start time | **Done** (2026-11-12) | Pass: start in 0.25 s with the catalog and reserve on a new database, 0.01 s after (limit 2 s) |
 | R-24 offline | **Done** (automated), **to do** (network off) | Pass with outside connections blocked; the demo run with Wi-Fi off is still to do |
 | R-23 browsers and phone | **Done** (Chrome desktop, 375 px), **to do** (Firefox, phone) | Chrome passes at desktop width and at 375 px after two layout fixes |
 | R-08 logging time | **To do** | Needs at least 3 first-time users |
@@ -23,8 +24,22 @@ This page records the checks that need a measurement, a device, or testers rathe
   Median 0.114 s, slowest 0.131 s. App start, including loading the catalog and reserve into the new database: 0.24 s.
 - **Browser timing:** in Chrome, the same database's dashboard loaded 10 times in a page frame, including the stylesheet, scripts, and layout: median 0.268 s, slowest 0.303 s. The first visit of the day took 0.84 s, because it chooses and saves the review siblings.
 - **Result:** pass. Every run is under 2 seconds.
+- **Rerun on 2026-11-12,** after the History calendar, filters, the reviews setting, and the code review's speed fixes, with the same script and machine:
+
+  | Run | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+  | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+  | Seconds | 0.158 | 0.103 | 0.109 | 0.088 | 0.091 | 0.103 | 0.098 | 0.109 | 0.107 | 0.092 |
+
+  Median 0.103 s, slowest 0.158 s, app start 0.25 s. Pass.
 
 To rerun: `.venv\Scripts\python scripts\r21_load_time.py` (add `--keep copy.sqlite` to keep the database for a browser check).
+
+## R-37: app start with the reserve (Done)
+
+- **Machine:** the same target laptop as R-21, on 2026-11-12.
+- **Data:** the full catalog (2,174 problems) and reserve (11,293), loaded into a new database on the first start; later starts skip the load while the catalog and reserve files are unchanged.
+- **Timing:** `create_app` timed three times on one database: the first start took 0.25 s, and the next two 0.01 s each.
+- **Result:** pass. Every start is under 2 seconds.
 
 ## R-24: offline use
 
