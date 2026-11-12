@@ -67,6 +67,11 @@ QUEUE_DAYS = 30
 # Weekly goal (R-43): the largest number of problems solved a week a goal can ask for.
 MAX_WEEKLY_GOAL = 100
 
+# Problem notes (R-45): the longest note, link, and link label kept.
+MAX_NOTE_LENGTH = 20000
+MAX_LINK_LENGTH = 2000
+MAX_LINK_LABEL = 200
+
 # History calendar (R-40): the fewest problems solved in a day for each darker shade.
 CALENDAR_SHADES = (1, 2, 4, 6)
 

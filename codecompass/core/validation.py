@@ -231,3 +231,28 @@ def validate_accounts(data, sites):
             errors[site] = "Enter the public username as it appears on the site: letters, digits, _, . or -."
         values[site] = name or None
     return values, errors
+
+
+def validate_note(text):
+    """A problem's note (R-45), trimmed; an empty note means none. Returns (note, error)."""
+    note = (text or "").strip()
+    if len(note) > c.MAX_NOTE_LENGTH:
+        return None, f"Keep the note under {c.MAX_NOTE_LENGTH:,} characters."
+    return note, None
+
+
+def validate_link(url, label):
+    """A solution or editorial link for a problem (R-45). Returns (values, error).
+
+    Only web links are kept, since the user opens them in a browser; CodeCompass never
+    fetches them (R-03).
+    """
+    url, label = (url or "").strip(), (label or "").strip()
+    if not url.lower().startswith(("http://", "https://")) or " " in url or len(url) < 11:
+        return None, "Enter a web link starting with http:// or https://."
+    if len(url) > c.MAX_LINK_LENGTH:
+        return None, f"Keep the link under {c.MAX_LINK_LENGTH:,} characters."
+    if len(label) > c.MAX_LINK_LABEL:
+        return None, f"Keep the label under {c.MAX_LINK_LABEL} characters."
+    return {"url": url, "label": label or None}, None
+

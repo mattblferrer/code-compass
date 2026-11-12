@@ -31,6 +31,8 @@ from .core.validation import (
     validate_accounts,
     validate_attempt,
     validate_interview,
+    validate_link,
+    validate_note,
     validate_problem,
     validate_settings,
 )
@@ -490,11 +492,53 @@ def problem(problem_id):
         patterns=queries.problem_patterns(conn, problem_id),
         attempts=queries.attempts_for_problem(conn, problem_id),
         review=snap.review_info(problem_id),
+        note=queries.note_for(conn, problem_id),
+        links=queries.links_for(conn, problem_id),
         reviews_on=snap.reviews_on,
         scores={name: s["score"] for name, s in snap.scores.items()},
         hint_eligible=snap.hint_eligible(problem_id),
         hint=snap.hint(problem_id),
     )
+
+
+@bp.post("/problems/<int:problem_id>/notes")
+def save_problem_note(problem_id):
+    """Save the problem's note (R-45). The page's script saves as you type (X-Autosave)."""
+    conn = get_db()
+    queries.get_problem(conn, problem_id) or abort(404)
+    note, error = validate_note(request.form.get("note"))
+    autosave = request.headers.get("X-Autosave") == "1"
+    if error:
+        if autosave:
+            return jsonify({"saved": False, "error": error}), 400
+        flash(error)
+    else:
+        queries.save_note(conn, problem_id, note, today())
+        if autosave:
+            return jsonify({"saved": True})
+        flash("Note saved.")
+    return redirect(url_for("main.problem", problem_id=problem_id) + "#notes")
+
+
+@bp.post("/problems/<int:problem_id>/links")
+def add_problem_link(problem_id):
+    """Keep a solution or editorial link for the problem (R-45)."""
+    conn = get_db()
+    queries.get_problem(conn, problem_id) or abort(404)
+    values, error = validate_link(request.form.get("url"), request.form.get("label"))
+    if error:
+        flash(error)
+    else:
+        queries.add_link(conn, problem_id, values)
+        flash("Link added.")
+    return redirect(url_for("main.problem", problem_id=problem_id) + "#notes")
+
+
+@bp.post("/problems/<int:problem_id>/links/<int:link_id>/delete")
+def delete_problem_link(problem_id, link_id):
+    queries.delete_link(get_db(), problem_id, link_id) or abort(404)
+    flash("Link removed.")
+    return redirect(url_for("main.problem", problem_id=problem_id) + "#notes")
 
 
 @bp.route("/problems/new", methods=["GET", "POST"])

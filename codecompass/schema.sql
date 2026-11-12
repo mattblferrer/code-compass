@@ -144,3 +144,19 @@ CREATE TABLE IF NOT EXISTS sync_batches (
     payload TEXT NOT NULL,
     date TEXT NOT NULL
 );
+
+-- The user's note on a problem (R-45). An empty note is removed, not stored.
+CREATE TABLE IF NOT EXISTS problem_notes (
+    problem_id INTEGER PRIMARY KEY REFERENCES problems (id) ON DELETE CASCADE,
+    note TEXT NOT NULL,
+    updated TEXT NOT NULL
+);
+
+-- Solution and editorial links the user keeps for a problem (R-45). Only opened by the user.
+CREATE TABLE IF NOT EXISTS problem_links (
+    id INTEGER PRIMARY KEY,
+    problem_id INTEGER NOT NULL REFERENCES problems (id) ON DELETE CASCADE,
+    url TEXT NOT NULL,
+    label TEXT
+);
+

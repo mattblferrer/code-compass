@@ -144,6 +144,11 @@ def search(conn, text):
             rows = [queries.picker_row(conn, row["id"])]
     if not rows:
         rows = queries.search_problems(conn, text, SEARCH_LIMIT)
+        # Then problems whose note mentions it (R-45), after every title match.
+        if len(rows) < SEARCH_LIMIT:
+            seen = {r["id"] for r in rows}
+            rows += [r for r in queries.search_notes(conn, text, SEARCH_LIMIT) if r["id"] not in seen]
+            rows = rows[:SEARCH_LIMIT]
     return [as_result(r) for r in rows]
 
 

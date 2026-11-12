@@ -368,3 +368,49 @@ def apply_import(conn, plan):
 def unused_hints(conn):
     """Problems with a revealed beginner hint not yet used by an attempt (R-27)."""
     return {row["problem_id"] for row in conn.execute("SELECT DISTINCT problem_id FROM hint_reveals WHERE used = 0")}
+
+
+# --- Problem notes and links (R-45) ---
+
+def note_for(conn, problem_id):
+    row = conn.execute("SELECT note FROM problem_notes WHERE problem_id = ?", (problem_id,)).fetchone()
+    return row["note"] if row else ""
+
+
+def save_note(conn, problem_id, note, today):
+    """Keep the note, or remove it when it is empty."""
+    with conn:
+        if note:
+            conn.execute("""INSERT INTO problem_notes (problem_id, note, updated) VALUES (?, ?, ?)
+                            ON CONFLICT (problem_id) DO UPDATE SET note = excluded.note, updated = excluded.updated""",
+                         (problem_id, note, today))
+        else:
+            conn.execute("DELETE FROM problem_notes WHERE problem_id = ?", (problem_id,))
+
+
+def links_for(conn, problem_id):
+    return conn.execute("SELECT id, url, label FROM problem_links WHERE problem_id = ? ORDER BY id",
+                        (problem_id,)).fetchall()
+
+
+def add_link(conn, problem_id, values):
+    with conn:
+        conn.execute("INSERT INTO problem_links (problem_id, url, label) VALUES (?, ?, ?)",
+                     (problem_id, values["url"], values["label"]))
+
+
+def delete_link(conn, problem_id, link_id):
+    with conn:
+        return conn.execute("DELETE FROM problem_links WHERE id = ? AND problem_id = ?",
+                            (link_id, problem_id)).rowcount
+
+
+def search_notes(conn, text, limit):
+    """Problems whose note contains `text`, for the log form's search after title matches."""
+    pattern = "%" + text.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
+    return conn.execute(
+        f"""SELECT {PICKER_COLUMNS} FROM problems JOIN problem_notes ON problem_notes.problem_id = problems.id
+            WHERE problem_notes.note LIKE ? ESCAPE '\\' ORDER BY {PICKER_ORDER} LIMIT ?""",
+        (pattern, limit),
+    ).fetchall()
+

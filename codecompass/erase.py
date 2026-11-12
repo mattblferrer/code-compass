@@ -14,7 +14,8 @@ from .core.dates import undo_cutoff
 # problems and the patterns stay; settings fall back to their defaults.
 USER_TABLES = ("attempts", "interview_patterns", "interviews", "settings", "hidden_sites",
                "pattern_preferences", "sibling_suggestions", "not_now", "hint_reveals",
-               "linked_accounts", "sync_items", "sync_batches", "rating_history", "deleted_items")
+               "linked_accounts", "sync_items", "sync_batches", "rating_history", "deleted_items",
+               "problem_notes", "problem_links")
 MARK = "erased_on"  # In app_meta, the day of an erase that can still be undone.
 
 

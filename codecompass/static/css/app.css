@@ -3524,3 +3524,50 @@ table.sortable th[aria-sort="descending"] .sort-arrow::after {
   margin-right: 1rem;
 }
 
+/* Problem notes and links (R-45). */
+.notes-card {
+  margin-top: 1rem;
+}
+
+.notes-card textarea {
+  width: 100%;
+  min-height: 8rem;
+  resize: vertical;
+  font: inherit;
+}
+
+.note-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.4rem 0 0.25rem;
+}
+
+.note-actions button[hidden] {
+  display: none;
+}
+
+.link-list {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.link-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.link-list a {
+  overflow-wrap: anywhere;
+}
+
+.link-form label {
+  margin-bottom: 0.5rem;
+}
+
