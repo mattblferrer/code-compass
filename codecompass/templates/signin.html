@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% from "_page.html" import page_head %}
+{% block title %}Sign in - CodeCompass{% endblock %}
+{% block content %}
+  <section class="panel signin-panel" aria-labelledby="signin-heading">
+    {{ page_head("Sign in", "Track which interview patterns you have mastered, what you are forgetting, and what to practice next.", heading_id="signin-heading") }}
+    <form method="post" action="{{ url_for('auth.github') }}">
+      {{ csrf_field() }}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button type="submit" class="primary">Sign in with GitHub</button>
+    </form>
+    <p class="small-print">CodeCompass keeps only your GitHub username and display name, never a password, and nothing from your repositories. Each account sees only its own practice. <a href="{{ url_for('auth.privacy') }}">What is stored and how to delete it</a></p>
+  </section>
+{% endblock %}

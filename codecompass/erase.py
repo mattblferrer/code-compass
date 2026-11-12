@@ -4,10 +4,14 @@ Before erasing, the whole database is copied to a file beside it. Undo copies it
 back, so everything returns exactly as it was. The copy is removed as soon as the
 user saves anything new, so Undo can never overwrite a fresh start, and in any
 case after UNDO_DAYS (core/constants.py).
+
+In hosted mode (R-50) the copy is the account's data as a backup file, kept in its
+kept_copy table, and Undo reads it back (transfer.py). `database` is unused there.
 """
 import os
 import sqlite3
 
+from . import transfer
 from .core.dates import undo_cutoff
 
 # Everything the user entered, synced, or chose. The built-in catalog and reserve
@@ -23,9 +27,17 @@ def copy_path(database):
     return f"{database}-erased"
 
 
+def _hosted(conn):
+    return getattr(conn, "hosted", False)
+
+
 def keep_copy(conn, database):
     """Copy the whole database aside, so the change about to be made can be undone.
     Also used before restoring a backup (R-46)."""
+    if _hosted(conn):
+        with conn:
+            transfer.keep(conn)
+        return
     path = copy_path(database)
     _remove(path)
     copy = sqlite3.connect(path)
@@ -38,11 +50,18 @@ def keep_copy(conn, database):
 def mark(conn, today):
     """Note the day of a change that can still be undone."""
     with conn:
-        conn.execute("INSERT OR REPLACE INTO app_meta (key, value) VALUES (?, ?)", (MARK, today))
+        conn.execute("""INSERT INTO app_meta (key, value) VALUES (?, ?)
+                        ON CONFLICT (key) DO UPDATE SET value = excluded.value""", (MARK, today))
 
 
 def erase_all(conn, database, today):
     """Copy the database for Undo, then delete all the user's data."""
+    if _hosted(conn):
+        with conn:
+            transfer.keep(conn)
+            transfer.clear_account(conn)
+        mark(conn, today)
+        return
     keep_copy(conn, database)
     with conn:
         for table in USER_TABLES:
@@ -59,6 +78,16 @@ def undo_erase(conn, database, today):
     if not _undoable(conn, path, today):
         discard(conn, database)
         return False
+    if _hosted(conn):
+        copy = transfer.kept(conn)
+        try:
+            with conn:
+                transfer.import_account(conn, copy)
+                conn.execute("DELETE FROM kept_copy")
+                conn.execute("DELETE FROM app_meta WHERE key = ?", (MARK,))
+        finally:
+            copy.close()
+        return True
     copy = sqlite3.connect(path)
     try:
         copy.backup(conn)  # The copy was made before the mark was set, so the mark goes too.
@@ -77,12 +106,19 @@ def discard(conn, database):
     if conn.execute("SELECT 1 FROM app_meta WHERE key = ?", (MARK,)).fetchone():
         with conn:
             conn.execute("DELETE FROM app_meta WHERE key = ?", (MARK,))
+    if _hosted(conn):
+        with conn:
+            conn.execute("DELETE FROM kept_copy")
+        return
     _remove(copy_path(database))
 
 
 def _undoable(conn, path, today):
     row = conn.execute("SELECT value FROM app_meta WHERE key = ?", (MARK,)).fetchone()
     cutoff = undo_cutoff(today)
+    if _hosted(conn):
+        kept = conn.execute("SELECT 1 FROM kept_copy").fetchone()
+        return row is not None and row["value"] >= cutoff and kept is not None
     return row is not None and row["value"] >= cutoff and os.path.exists(path)
 
 

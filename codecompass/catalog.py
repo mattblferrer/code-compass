@@ -8,7 +8,7 @@ import click
 
 from .core.catalog_rows import parse_catalog, parse_patterns
 from .core.reserve import UNMAPPED_HEADER, atcoder_rows, atcoder_unmapped, reserve_rows, unmapped_rows
-from .db import connect
+from .db import open_db
 
 DATA_DIR = Path(__file__).with_name("data")
 HEADER = ["title", "link", "difficulty", "rating", "source", "patterns"]
@@ -51,7 +51,11 @@ def load(conn, patterns_path, catalog_path, reserve_path=None):
     main_links = {p["link"] for p in problems}
     reserve = [p for p in reserve if p["link"] not in main_links]
 
+    hosted = getattr(conn, "hosted", False)
     with conn:
+        if hosted:
+            # Shared problems change only here (schema_pg_shared.sql).
+            conn.execute("SET LOCAL codecompass.catalog = 'on'")
         for position, p in enumerate(patterns, start=1):
             conn.execute(
                 """INSERT INTO patterns (name, category, tier, family, description, list_position)
@@ -62,23 +66,31 @@ def load(conn, patterns_path, catalog_path, reserve_path=None):
                 (p["name"], p["category"], p["tier"], p["family"], p["description"], position),
             )
         pattern_ids = {row["name"]: row["id"] for row in conn.execute("SELECT id, name FROM patterns")}
-        existing = {row["link"]: row["id"] for row in conn.execute("SELECT id, link FROM problems WHERE link IS NOT NULL")}
+        # In hosted mode, accounts' custom problems stay theirs (R-52); a catalog entry with the
+        # same link is added beside them.
+        existing = {row["link"]: row["id"] for row in conn.execute(
+            "SELECT id, link FROM problems WHERE link IS NOT NULL" + (" AND owner IS NULL" if hosted else ""))}
 
-        updates, links = [], []
+        updates, inserts = [], []
         entries = [(p, position, None) for position, p in enumerate(problems, start=1)]
         entries += [(p, None, position) for position, p in enumerate(reserve, start=1)]
         for p, catalog_position, reserve_position in entries:
             values = (p["title"], p["difficulty"], p["rating"], p["source"], catalog_position, reserve_position)
-            problem_id = existing.get(p["link"])
-            if problem_id:
-                updates.append(values + (problem_id,))
+            if p["link"] in existing:
+                updates.append(values + (existing[p["link"]],))
             else:
-                problem_id = conn.execute(
-                    """INSERT INTO problems (title, difficulty, rating, source, catalog_position, reserve_position,
-                           link, is_custom) VALUES (?, ?, ?, ?, ?, ?, ?, 0)""",
-                    values + (p["link"],),
-                ).lastrowid
-            links.extend((problem_id, pattern_ids[name]) for name in p["patterns"])
+                inserts.append(values + (p["link"],))
+        # New problems go in together, in file order, then their ids are read back by link:
+        # one round trip per batch instead of one per problem, which matters on a hosted database.
+        conn.executemany(
+            """INSERT INTO problems (title, difficulty, rating, source, catalog_position, reserve_position,
+                   link, is_custom) VALUES (?, ?, ?, ?, ?, ?, ?, 0)""",
+            inserts,
+        )
+        if inserts:
+            existing = {row["link"]: row["id"] for row in conn.execute(
+                "SELECT id, link FROM problems WHERE link IS NOT NULL" + (" AND owner IS NULL" if hosted else ""))}
+        links = [(existing[p["link"]], pattern_ids[name]) for p, _, _ in entries for name in p["patterns"]]
         conn.executemany(
             """UPDATE problems SET title = ?, difficulty = ?, rating = ?, source = ?, catalog_position = ?,
                    reserve_position = ?, is_custom = 0 WHERE id = ?""",
@@ -96,6 +108,12 @@ def load(conn, patterns_path, catalog_path, reserve_path=None):
             if row["link"] not in kept
         ]
         for row in stale:
+            if hosted:
+                # Any account may have attempts, notes, or links on it, so it is kept.
+                conn.execute(
+                    "UPDATE problems SET catalog_position = NULL, reserve_position = NULL WHERE id = ?", (row["id"],)
+                )
+                continue
             has_attempts = conn.execute(
                 """SELECT 1 FROM attempts WHERE problem_id = ? OR review_of_problem_id = ?
                    UNION SELECT 1 FROM problem_notes WHERE problem_id = ?
@@ -191,7 +209,7 @@ def build_reserve_command(problemset):
 
 
 def init_app(app):
-    conn = connect(app.config["DATABASE"])
+    conn = open_db(app.config)
     try:
         load_if_changed(conn, app.config["PATTERNS_PATH"], app.config["CATALOG_PATH"], app.config.get("RESERVE_PATH"))
     finally:

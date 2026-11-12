@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_page.html" import page_head %}
+{% block title %}Account - CodeCompass{% endblock %}
+{% block content %}
+  {{ page_head("Account", "Signed in with GitHub as " ~ g.user.login ~ ".") }}
+  <section class="panel" aria-labelledby="signout-heading">
+    <h2 id="signout-heading">Sign out</h2>
+    <p>Ends this browser's sign-in. Your data stays.</p>
+    <form method="post" action="{{ url_for('auth.sign_out') }}">
+      {{ csrf_field() }}
+      <button type="submit">Sign out</button>
+    </form>
+  </section>
+  <section class="panel danger-panel" aria-labelledby="delete-account-heading">
+    <h2 id="delete-account-heading">Delete your account</h2>
+    <p>This deletes your account and everything in it: attempts, notes, interviews, problems you added, settings, linked usernames, synced submissions, and rating history. It cannot be undone. To keep a copy, <a href="{{ url_for('main.download_backup') }}">download a backup</a> first; it opens in a local copy of CodeCompass, or in a new account here.</p>
+    <form method="post" action="{{ url_for('auth.account') }}" class="account-delete">
+      {{ csrf_field() }}
+      <label for="confirm-account">Type your GitHub username, <strong>{{ g.user.login }}</strong>, to confirm</label>
+      <input id="confirm-account" name="confirm" autocomplete="off" spellcheck="false" required>
+      <button type="submit" class="danger">Delete my account</button>
+    </form>
+  </section>
+{% endblock %}

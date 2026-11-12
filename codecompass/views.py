@@ -2,13 +2,14 @@ import csv
 import re
 import io
 import time
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone
 from urllib.parse import quote
 
 from markupsafe import Markup
-from flask import Blueprint, Response, abort, current_app, flash, jsonify, redirect, render_template, request, url_for
+from flask import (Blueprint, Response, abort, current_app, flash, g, has_request_context, jsonify, redirect,
+                   render_template, request, url_for)
 
-from . import backup, erase, picker, queries, remote
+from . import backup, demo, erase, limits, picker, queries, remote
 from . import sync as syncing
 from .core.sync import (LEETCODE_NOTICE, PROFILE_URLS, batch_message, batch_outcome, batch_skip, new_problem_details,
                         outcome_choices, rating_changes, skip_message)
@@ -38,13 +39,27 @@ from .core.validation import (
     validate_problem,
     validate_settings,
 )
-from .db import get_db
+from .db import get_db, hosted
 
 bp = Blueprint("main", __name__)
+
+TOO_MANY_UPLOADS = "Too many files uploaded in the last few minutes. Wait a little and try again."
+
+
+def utc_offset():
+    """Hosted mode: the browser's offset from UTC, which base.html keeps in a cookie, since the
+    server's own clock is in UTC. Local mode uses the computer's time zone instead."""
+    try:
+        minutes = int(request.cookies.get("tz", "0"))
+    except ValueError:
+        minutes = 0
+    return timedelta(minutes=max(-14 * 60, min(14 * 60, minutes)))
 
 
 def today():
     """The user's local date. Only routes read the clock."""
+    if has_request_context() and hosted():
+        return (datetime.now(timezone.utc) + utc_offset()).date().isoformat()
     return date.today().isoformat()
 
 
@@ -66,7 +81,10 @@ def end_erase_undo():
 
 
 def local_date(seconds):
-    """The user's local date for a Unix time from a synced site."""
+    """The user's local date for a Unix time from a synced site. Local mode's background sync
+    calls it outside any request."""
+    if has_request_context() and hosted():
+        return (datetime.fromtimestamp(seconds, timezone.utc) + utc_offset()).date().isoformat()
     return datetime.fromtimestamp(seconds).date().isoformat()
 
 
@@ -161,7 +179,23 @@ def dashboard():
         reviews_on=snap.reviews_on,
         week=progress.week_progress(progress.day_totals(snap.attempts), snap.today,
                                     int(snap.settings["weekly_goal"])),
+        offer_demo=hosted() and not snap.attempts,
     )
+
+
+@bp.post("/demo")
+def load_demo():
+    """Hosted mode: fill an account that has no attempts with the demo history (R-25), so a
+    tester sees scores, reviews, and recommendations at once. Deleting all data removes it."""
+    conn = get_db()
+    if not hosted():
+        abort(404)
+    if queries.recent_attempts(conn, limit=1):
+        flash("The demo history can only be loaded into an account with no attempts.")
+        return redirect(url_for("main.dashboard"))
+    demo.build(conn, today())
+    flash("Loaded 8 weeks of made-up practice. Delete all data in settings when you want to start for real.")
+    return redirect(url_for("main.dashboard"))
 
 
 @bp.route("/progress")
@@ -432,7 +466,7 @@ def history():
     conn = get_db()
     now = today()
     # One read of the attempts, newest first, serves the calendar, the review marks, and the list.
-    every = [dict(a) for a in queries.recent_attempts(conn, limit=-1)]
+    every = [dict(a) for a in queries.recent_attempts(conn, limit=None)]
     settings_now = queries.current_settings(conn)
     goal = int(settings_now["weekly_goal"])
     totals = progress.day_totals(every)
@@ -483,9 +517,20 @@ def history():
 
 
 @bp.app_context_processor
+def running_sync():
+    """In hosted mode, whether the account's sync is running, so every page carries it on (R-54)."""
+    if not hosted() or g.get("user_id") is None or request.endpoint in (None, "static", "main.sync_page"):
+        return {}
+    job = syncing.stored_job(get_db())
+    return {"sync_step_url": url_for("main.sync_step")} if job and not job.done else {}
+
+
+@bp.app_context_processor
 def form_limits():
-    """Limits the forms show, from core/constants.py, so a changed constant changes the form too."""
-    return {"limits": {"plan_daily_default": c.PLAN_DAILY_DEFAULT, "plan_daily_max": c.PLAN_DAILY_MAX,
+    """Limits the forms show, from core/constants.py, so a changed constant changes the form too,
+    and the sites this mode syncs (R-33), as the pages name them."""
+    return {"sync_names": "Codeforces or AtCoder" if hosted() else "Codeforces, AtCoder, or LeetCode",
+            "limits": {"plan_daily_default": c.PLAN_DAILY_DEFAULT, "plan_daily_max": c.PLAN_DAILY_MAX,
                        "max_weekly_goal": c.MAX_WEEKLY_GOAL}}
 
 
@@ -691,7 +736,7 @@ def settings_page(conn, current, errors, patterns, status=200, usernames=None, a
     return render_template(
         "settings.html", current=current, errors=errors, patterns=patterns, levels=c.LEVELS,
         sites=[(site, SITES[site]) for site in FILTER_SITES], kinds=KINDS,
-        sync_sites=[(site, SITES[site]) for site in syncing.SYNC_SITES], usernames=usernames,
+        sync_sites=[(site, SITES[site]) for site in syncing.sites_for(conn)], usernames=usernames,
         account_errors=account_errors or {}, leetcode_notice=LEETCODE_NOTICE,
     ), status
 
@@ -700,10 +745,10 @@ def settings_page(conn, current, errors, patterns, status=200, usernames=None, a
 def link_accounts():
     """Link a public username per site for sync (R-33). Only usernames are asked for (R-03)."""
     conn = get_db()
-    values, errors = validate_accounts(request.form, syncing.SYNC_SITES)
+    values, errors = validate_accounts(request.form, syncing.sites_for(conn))
     if errors:
         current = queries.current_settings(conn)
-        typed = {site: request.form.get(f"username:{site}", "") for site in syncing.SYNC_SITES}
+        typed = {site: request.form.get(f"username:{site}", "") for site in syncing.sites_for(conn)}
         return settings_page(conn, current, {}, queries.patterns(conn), 400, typed, errors)
     syncing.link_accounts(conn, values)
     flash("Linked accounts saved." if any(values.values()) else "Linked accounts saved. No site is linked.")
@@ -740,6 +785,9 @@ def restore_backup():
     if request.method == "POST":
         request.max_content_length = backup.MAX_BACKUP_BYTES
         upload = request.files.get("file")
+        if not limits.allow(get_db(), f"upload:{g.get('user_id')}", c.UPLOAD_LIMIT, c.LIMIT_WINDOW_SECONDS):
+            flash(TOO_MANY_UPLOADS)
+            return render_template("restore.html"), 429
         if request.form.get("confirm") != "restore" or upload is None or not upload.filename:
             flash("Choose a backup file and confirm, or nothing is replaced.")
             return render_template("restore.html"), 400
@@ -897,7 +945,9 @@ def import_csv():
         return render_template("import.html", result=None, columns=COLUMNS)
     upload = request.files.get("file")
     error = None
-    if upload is None or not upload.filename:
+    if not limits.allow(get_db(), f"upload:{g.get('user_id')}", c.UPLOAD_LIMIT, c.LIMIT_WINDOW_SECONDS):
+        error = TOO_MANY_UPLOADS
+    elif upload is None or not upload.filename:
         error = "Choose a CSV file to import."
     else:
         try:
@@ -936,7 +986,7 @@ def sync_page():
     the next visit shows its results.
     """
     conn = get_db()
-    job = syncing.current_job(current_app.config["DATABASE"])
+    job = sync_job(conn)
     if job:
         flash_sync_results(job.take_results() or [])
     accounts = syncing.accounts(conn)
@@ -974,6 +1024,7 @@ def sync_page():
         items=items, outcome_labels=OUTCOME_LABELS, outcome_definitions=OUTCOME_DEFINITIONS,
         leetcode_notice=LEETCODE_NOTICE, sites=SITES,
         progress=job.progress() if job and not job.done else None,
+        step_url=url_for("main.sync_step") if hosted() else None,
         filters=chosen, options=options, waiting=len(waiting), back=request.query_string.decode(),
     )
 
@@ -1018,6 +1069,8 @@ def synced_label(stamp):
     """A stored UTC sync time in the user's local time, or None before the first sync."""
     if not stamp:
         return None
+    if hosted():
+        return (datetime.fromisoformat(stamp) + utc_offset()).strftime("%Y-%m-%d %H:%M")
     return datetime.fromisoformat(stamp).astimezone().strftime("%Y-%m-%d %H:%M")
 
 
@@ -1034,6 +1087,24 @@ def run_sync():
     if not syncing.accounts(conn):
         flash("Link a username in settings first.")
         return redirect(url_for("main.settings") + "#accounts")
+    if hosted():
+        # Hosted mode runs the sync in steps as pages ask (R-54); this request runs the first.
+        running = syncing.stored_job(conn)
+        running = running is not None and not running.done
+        if not running and not limits.allow(conn, f"sync:{g.get('user_id')}", c.SYNC_START_LIMIT,
+                                            c.LIMIT_WINDOW_SECONDS):
+            message = "Too many syncs started in the last few minutes. Wait a little and try again."
+            if request.headers.get("X-Sync-Background") == "1":
+                return jsonify({"error": "limit", "message": message}), 429
+            flash(message)
+            return redirect(url_for("main.sync_page"))
+        syncing.start_steps(conn, now_seconds())
+        job = syncing.advance(conn, local_date, c.SYNC_STEP_SECONDS)
+        if request.headers.get("X-Sync-Background") == "1":
+            return jsonify(job.progress()), 202
+        if running:
+            flash("A sync is already running.")
+        return redirect(url_for("main.sync_page"))
     if request.headers.get("X-Sync-Background") == "1":
         job = syncing.start(database, now_seconds(), local_date)
         return jsonify(job.progress()), 202
@@ -1045,11 +1116,34 @@ def run_sync():
     return redirect(url_for("main.sync_page"))
 
 
+def sync_job(conn):
+    """The current sync, if any: the background one in local mode, the saved one in hosted mode."""
+    if hosted():
+        return syncing.stored_job(conn)
+    return syncing.current_job(current_app.config["DATABASE"])
+
+
+NO_SYNC = {"running": False, "done": True, "sites": []}
+
+
 @bp.route("/sync/progress")
 def sync_progress():
-    """What a background sync has read so far, for the progress on the sync page. Local only."""
-    job = syncing.current_job(current_app.config["DATABASE"])
-    return jsonify(job.progress() if job else {"running": False, "done": True, "sites": []})
+    """What a sync has read so far, for the progress on the sync page."""
+    job = sync_job(get_db())
+    return jsonify(job.progress() if job else NO_SYNC)
+
+
+@bp.post("/sync/step")
+def sync_step():
+    """Hosted mode: run the account's sync a step further (R-54). Every open page asks, so the
+    sync goes on while the user moves around the app. A form post (no JavaScript) returns to
+    the sync page."""
+    if not hosted():
+        abort(404)
+    job = syncing.advance(get_db(), local_date, c.SYNC_STEP_SECONDS)
+    if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+        return jsonify(job.progress() if job else NO_SYNC)
+    return redirect(url_for("main.sync_page"))
 
 
 def flash_sync_results(results):

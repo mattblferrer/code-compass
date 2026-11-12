@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% from "_page.html" import page_head %}
+{% block title %}Form expired - CodeCompass{% endblock %}
+{% block content %}
+  <section class="panel">
+    {{ page_head("That form expired", "Nothing was changed. Go back, reload the page, and try again.") }}
+    <p><a href="{{ url_for('main.dashboard') }}">Go to the dashboard</a></p>
+  </section>
+{% endblock %}

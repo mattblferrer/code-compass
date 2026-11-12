@@ -1,10 +1,10 @@
 """Deleting all data from settings: asked first, then undoable until anything new is saved (R-39)."""
-import os
 from datetime import date, timedelta
 
 from codecompass import erase, views
 from codecompass.core import constants as c
 from codecompass.db import get_db
+from conftest import kept_copy_exists
 
 PARENS = "Valid Parentheses (Test list)"
 
@@ -16,7 +16,8 @@ def rows(app, sql):
 
 def everything(app):
     """Every user table, and every problem, as plain rows."""
-    tables = {t: rows(app, f"SELECT * FROM {t} ORDER BY rowid") for t in erase.USER_TABLES}
+    tables = {t: sorted(rows(app, f"SELECT * FROM {t}"), key=lambda r: sorted(r.items(), key=str))
+              for t in erase.USER_TABLES}
     tables["problems"] = rows(app, "SELECT * FROM problems ORDER BY id")
     return tables
 
@@ -81,7 +82,7 @@ def test_confirming_deletes_the_users_data_and_keeps_the_catalog(client, app, db
         assert after[table] == [], table
     catalog = [p for p in before["problems"] if not p["is_custom"]]
     assert after["problems"] == catalog
-    assert os.path.exists(erase.copy_path(db_path))
+    assert kept_copy_exists(app)
     # Settings are back to their defaults.
     assert '<option value="easy" selected>' in client.get("/settings").get_data(as_text=True)
 
@@ -93,7 +94,7 @@ def test_undo_puts_everything_back(client, app, db_path):
     page = client.post("/settings/erase/undo", follow_redirects=True).get_data(as_text=True)
     assert "All your data was restored." in page
     assert everything(app) == before
-    assert not os.path.exists(erase.copy_path(db_path))
+    assert not kept_copy_exists(app)
     assert rows(app, f"SELECT * FROM app_meta WHERE key = '{erase.MARK}'") == []
     # A second Undo has nothing left to restore.
     again = client.post("/settings/erase/undo", follow_redirects=True).get_data(as_text=True)
@@ -106,7 +107,7 @@ def test_saving_anything_new_makes_it_final(client, app, db_path):
     erase_all(client)
     client.post("/log", data={"problem": PARENS, "date": date.today().isoformat(), "outcome": c.NOT_SOLVED,
                               "time_minutes": "", "time_seconds": "", "notes": "fresh start"})
-    assert not os.path.exists(erase.copy_path(db_path))
+    assert not kept_copy_exists(app)
     page = client.post("/settings/erase/undo", follow_redirects=True).get_data(as_text=True)
     assert "That can no longer be undone." in page
     assert [r["notes"] for r in rows(app, "SELECT notes FROM attempts")] == ["fresh start"]
@@ -118,7 +119,7 @@ def test_the_copy_expires_after_the_undo_days(client, app, db_path, monkeypatch)
     later = (date.today() + timedelta(days=c.UNDO_DAYS + 1)).isoformat()
     monkeypatch.setattr(views, "today", lambda: later)
     client.get("/")
-    assert not os.path.exists(erase.copy_path(db_path))
+    assert not kept_copy_exists(app)
     assert "That can no longer be undone." in client.post("/settings/erase/undo",
                                                           follow_redirects=True).get_data(as_text=True)
     assert rows(app, "SELECT * FROM attempts") == []

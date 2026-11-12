@@ -47,6 +47,17 @@
   {% set total = patterns|length or 1 %}
   {% set first = recommendations[0] if recommendations else none %}
 
+  {% if offer_demo %}
+    {# Hosted mode (R-25): a new account can try everything with made-up history first. #}
+    <section class="panel demo-offer" aria-labelledby="demo-heading">
+      <h2 id="demo-heading">New here?</h2>
+      <p>Log or sync your practice to see where you stand. To look around first, load 8 weeks of made-up practice into this account; deleting all data in settings removes it.</p>
+      <form method="post" action="{{ url_for('main.load_demo') }}">{{ csrf_field() }}
+        <button type="submit">Load demo history</button>
+      </form>
+    </section>
+  {% endif %}
+
   <section id="today" class="today {{ 'due' if due_count }}" aria-labelledby="today-heading" {% if due_count %}role="status"{% endif %}>
     <div class="today-text">
       <h1 id="today-heading">
@@ -132,7 +143,7 @@
                     <a class="button small quiet" href="{{ p['link'] }}" target="_blank" rel="noopener">Open problem</a>
                   {% endif %}
                   {% if r['kind'] == 'new' or r['is_sibling'] %}
-                    <form method="post" action="{{ url_for('main.not_now', problem_id=p['id']) }}" class="inline" data-swap="#today, #next-panel, #messages">
+                    <form method="post" action="{{ url_for('main.not_now', problem_id=p['id']) }}" class="inline" data-swap="#today, #next-panel, #messages">{{ csrf_field() }}
                       {% if r['is_sibling'] %}<input type="hidden" name="review_of" value="{{ r['original']['id'] }}">{% endif %}
                       <button type="submit" class="text">Not now</button>
                     </form>

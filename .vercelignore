@@ -1,0 +1,10 @@
+# Only the app goes to Vercel: no tests, docs, local databases, or virtual environment.
+.venv/
+instance/
+tests/
+docs/
+*.sqlite
+*.sqlite-erased
+problemset.json
+__pycache__/
+.pytest_cache/

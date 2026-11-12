@@ -14,6 +14,7 @@ Requests are plain, with an honest User-Agent and no logins or cookies. They are
 spaced by each source's published limit (docs/rules.md lists the sources and limits),
 and a refusal is never retried: the sync or lookup stops and says so.
 """
+import contextvars
 import gzip
 import json
 import time
@@ -53,6 +54,11 @@ ATCODER_PAGE = 500  # AtCoder Problems returns at most this many submissions per
 sleep = time.sleep
 clock = time.monotonic
 _last_request = {}
+# The time of day, for spacing shared across processes in hosted mode (R-54). Tests replace it.
+wall_clock = time.time
+# In hosted mode, sync.py sets this for the requests of one step: called as pacer(host, spacing)
+# before each request, it waits for the host's turn across every account (R-54).
+pacer = contextvars.ContextVar("pacer", default=None)
 
 
 class RequestFailed(Exception):
@@ -98,6 +104,10 @@ def _pace(url):
     """Wait until the host's spacing has passed since the last request to it."""
     host = urlparse(url).hostname or ""
     host = next((h for h in SPACING if host == h or host.endswith("." + h)), host)
+    shared = pacer.get()
+    if shared is not None:
+        shared(host, SPACING.get(host, 1.0))
+        return
     last = _last_request.get(host)
     if last is not None:
         wait = SPACING.get(host, 1.0) - (clock() - last)
@@ -180,90 +190,134 @@ def sync(site, username, since, known_links=frozenset(), report=None):
     no title or difficulty lookup. `report`, if given, is called with what has been
     read so far: the step ("submissions", "details", or "ratings"), how many
     submissions have been read, and the oldest and newest submission times.
-    """
-    user = quote(username, safe="")
-    seen = {"read": 0, "oldest": None, "newest": None}
 
-    def step(name, times=()):
-        times = list(times)
-        if times:
-            seen["read"] += len(times)
-            low, high = min(times), max(times)
-            seen["oldest"] = low if seen["oldest"] is None else min(seen["oldest"], low)
-            seen["newest"] = high if seen["newest"] is None else max(seen["newest"], high)
-        if report:
-            report({"step": name, **seen})
+    It runs sync_step until the sync is done; hosted mode runs the same steps a few at a
+    time, across requests (R-54).
+    """
+    state = sync_state(site, username, since)
+    while True:
+        try:
+            done = sync_step(state, known_links)
+        finally:  # What was read is reported even when a request fails.
+            for event in state["events"]:
+                if report:
+                    report(event)
+            state["events"] = []
+        if done:
+            return state["submissions"], state["ratings"]
+
+
+def sync_state(site, username, since):
+    """A sync not started yet, as plain data that can be saved between steps."""
+    if site not in ("codeforces", "atcoder", "leetcode"):
+        raise ValueError(f"No sync for {site}")
+    first = {"codeforces": "submissions", "atcoder": "ratings", "leetcode": "submissions"}[site]
+    return {"site": site, "username": username, "since": since, "phase": first, "start": None,
+            "seen": {"read": 0, "oldest": None, "newest": None}, "events": [], "read_ids": [], "raw": [],
+            "history": None, "submissions": [], "ratings": []}
+
+
+def _report(state, name, times=()):
+    """Note what has been read so far, for the progress shown while syncing."""
+    seen = state["seen"]
+    times = list(times)
+    if times:
+        seen["read"] += len(times)
+        low, high = min(times), max(times)
+        seen["oldest"] = low if seen["oldest"] is None else min(seen["oldest"], low)
+        seen["newest"] = high if seen["newest"] is None else max(seen["newest"], high)
+    state["events"].append({"step": name, **seen})
+
+
+def sync_step(state, known_links=frozenset()):
+    """Make the next request of a sync (`state`, from sync_state) and note what it read.
+    Returns True when the sync is done; its results are then in state["submissions"] and
+    state["ratings"]. Raises RequestFailed as sync does."""
+    site, since = state["site"], state["since"]
+    user = quote(state["username"], safe="")
+    phase = state["phase"]
 
     if site == "codeforces":
-        # Pages until the history runs out or reaches back past `since`. The list is
-        # newest first, so a later sync usually needs one page and a first sync reads all.
-        submissions, start, read_ids = [], 1, set()
-        step("submissions")
-        while True:
-            result = _codeforces(CODEFORCES_STATUS.format(user=user, start=start, count=CODEFORCES_PAGE))
+        if phase == "submissions":
+            # Pages until the history runs out or reaches back past `since`. The list is
+            # newest first, so a later sync usually needs one page and a first sync reads all.
+            if state["start"] is None:
+                state["start"] = 1
+                _report(state, "submissions")
+            result = _codeforces(CODEFORCES_STATUS.format(user=user, start=state["start"], count=CODEFORCES_PAGE))
             # A page with no submission not already read does not reach further back, and
             # paging on would repeat forever. (A new submission during the sync shifts the
             # pages by one, so some overlap is normal.)
-            ids = {s.get("id") for s in result}
+            ids, read_ids = {s.get("id") for s in result}, set(state["read_ids"])
             if result and ids <= read_ids:
                 raise RequestFailed("failed", "Codeforces")
-            read_ids |= ids
-            submissions += parse.codeforces_submissions(result, since)
-            step("submissions", (s.get("creationTimeSeconds", 0) for s in result))
+            state["read_ids"] = sorted(read_ids | ids, key=str)
+            state["submissions"] += parse.codeforces_submissions(result, since)
+            _report(state, "submissions", (s.get("creationTimeSeconds", 0) for s in result))
             if len(result) < CODEFORCES_PAGE or result[-1].get("creationTimeSeconds", 0) < since:
-                break
-            start += CODEFORCES_PAGE
-        step("ratings")
-        return submissions, parse.codeforces_ratings(_codeforces(CODEFORCES_RATING.format(user=user)))
+                state["phase"] = "ratings"
+                _report(state, "ratings")
+            else:
+                state["start"] += CODEFORCES_PAGE
+            return False
+        state["ratings"] = parse.codeforces_ratings(_codeforces(CODEFORCES_RATING.format(user=user)))
+        return True
 
     if site == "atcoder":
-        step("ratings")
-        history = _json(_get(ATCODER_HISTORY.format(user=user), "AtCoder", missing="no_user"), "AtCoder")
-        # Oldest first from `since`, a page at a time, until a page comes back short.
-        raw, start = [], since
-        step("submissions")
-        while True:
+        if phase == "ratings":
+            _report(state, "ratings")
+            state["history"] = _json(_get(ATCODER_HISTORY.format(user=user), "AtCoder", missing="no_user"), "AtCoder")
+            # Oldest first from `since`, a page at a time, until a page comes back short.
+            state["phase"], state["start"] = "submissions", since
+            _report(state, "submissions")
+            return False
+        if phase == "submissions":
+            start = state["start"]
             result = _json(_get(ATCODER_SUBMISSIONS.format(user=user, since=start), "AtCoder Problems"),
                            "AtCoder Problems")
-            raw += result
-            step("submissions", (s["epoch_second"] for s in result))
+            state["raw"] += result
+            _report(state, "submissions", (s["epoch_second"] for s in result))
             if len(result) < ATCODER_PAGE:
-                break
+                state["phase"] = "details"
+                _report(state, "details")
+                return False
             following = max(s["epoch_second"] for s in result) + 1
             if following <= start:
                 raise RequestFailed("failed", "AtCoder Problems")  # A page that does not move forward.
-            start = following
-        step("details")
-        titles, estimates = _atcoder_details(raw, known_links)
-        submissions = parse.atcoder_submissions(raw, since, titles, estimates)
-        return submissions, parse.atcoder_ratings(history, lambda text: int(datetime.fromisoformat(text).timestamp()))
+            state["start"] = following
+            return False
+        # Titles and difficulty estimates, asked for only when a submitted problem is not in
+        # CodeCompass, one request a step so a step never repeats one. Without them the task ID
+        # stands in for the title, and the user picks the level.
+        unknown = sorted({s["problem_id"] for s in state["raw"]
+                          if atcoder_link(s["contest_id"], s["problem_id"]) not in known_links})
+        try:
+            if unknown and "titles" not in state:
+                problems = _json(_get(ATCODER_PROBLEMS, "AtCoder Problems"), "AtCoder Problems")
+                state["titles"] = {p["id"]: p["name"] for p in problems if p.get("id") in unknown and p.get("name")}
+                return False
+            if unknown and "estimates" not in state:
+                models = _json(_get(ATCODER_ESTIMATES, "AtCoder Problems"), "AtCoder Problems")
+                state["estimates"] = {k: v for k, v in models.items() if k in unknown}
+        except RequestFailed as error:
+            if error.kind == "refused":
+                raise
+            state.setdefault("titles", {})  # Titles already read are kept.
+            state["estimates"] = {}
+        state["submissions"] = parse.atcoder_submissions(state["raw"], since, state.get("titles", {}),
+                                                         state.get("estimates", {}))
+        state["ratings"] = parse.atcoder_ratings(state["history"],
+                                                 lambda text: int(datetime.fromisoformat(text).timestamp()))
+        state["raw"] = []
+        return True
 
-    if site == "leetcode":
-        step("submissions")
-        body = json.dumps({"query": LEETCODE_QUERY, "variables": {"username": username}}).encode()
-        reply = _json(_get(LEETCODE_GRAPHQL, "LeetCode", data=body), "LeetCode")
-        data = reply.get("data") or {}
-        # An unknown username returns empty lists, like a user with no activity.
-        if not isinstance(data.get("recentAcSubmissionList"), list):
-            raise RequestFailed("failed", "LeetCode")
-        return (parse.leetcode_submissions(data.get("recentAcSubmissionList"), since),
-                parse.leetcode_ratings(data.get("userContestRankingHistory")))
-
-    raise ValueError(f"No sync for {site}")
-
-
-def _atcoder_details(raw, known_links):
-    """Titles and difficulty estimates, fetched only when a submitted problem is not in CodeCompass."""
-    unknown = {s["problem_id"] for s in raw if atcoder_link(s["contest_id"], s["problem_id"]) not in known_links}
-    if not unknown:
-        return {}, {}
-    titles, estimates = {}, {}
-    try:
-        problems = _json(_get(ATCODER_PROBLEMS, "AtCoder Problems"), "AtCoder Problems")
-        titles = {p["id"]: p["name"] for p in problems if p.get("id") in unknown and p.get("name")}
-        estimates = _json(_get(ATCODER_ESTIMATES, "AtCoder Problems"), "AtCoder Problems")
-    except RequestFailed as error:
-        if error.kind == "refused":
-            raise
-        # Without them the task ID stands in for the title, and the user picks the level.
-    return titles, estimates
+    _report(state, "submissions")
+    body = json.dumps({"query": LEETCODE_QUERY, "variables": {"username": state["username"]}}).encode()
+    reply = _json(_get(LEETCODE_GRAPHQL, "LeetCode", data=body), "LeetCode")
+    data = reply.get("data") or {}
+    # An unknown username returns empty lists, like a user with no activity.
+    if not isinstance(data.get("recentAcSubmissionList"), list):
+        raise RequestFailed("failed", "LeetCode")
+    state["submissions"] = parse.leetcode_submissions(data.get("recentAcSubmissionList"), since)
+    state["ratings"] = parse.leetcode_ratings(data.get("userContestRankingHistory"))
+    return True

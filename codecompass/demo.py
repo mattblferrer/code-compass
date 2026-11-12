@@ -149,9 +149,13 @@ def build(conn, today, seed=SEED):
         for table in ("attempts", "sibling_suggestions", "not_now", "hint_reveals", "pattern_preferences"):
             conn.execute(f"DELETE FROM {table}")
         conn.execute("DELETE FROM problems WHERE is_custom = 1")
-        # Problems kept only because earlier demo attempts used them, such as
-        # the placeholder problems of older versions.
-        conn.execute("DELETE FROM problems WHERE catalog_position IS NULL AND reserve_position IS NULL")
+        if getattr(conn, "hosted", False):
+            # Number the attempts from 1 again, as SQLite does once the table is empty.
+            conn.execute("SELECT setval(pg_get_serial_sequence('attempts', 'id'), 1, false)")
+        else:
+            # Problems kept only because earlier demo attempts used them, such as the placeholder
+            # problems of older versions. In hosted mode such problems are shared, so they stay.
+            conn.execute("DELETE FROM problems WHERE catalog_position IS NULL AND reserve_position IS NULL")
         conn.executemany(
             """INSERT INTO attempts (problem_id, date, outcome, time_seconds, notes, entry_method, review_of_problem_id)
                VALUES (:problem_id, :date, :outcome, :time_seconds, :notes, 'manual', :review_of_problem_id)""",

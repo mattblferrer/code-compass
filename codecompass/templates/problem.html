@@ -84,7 +84,7 @@
          it is typed; without it, Save note does. #}
       <section class="panel side notes-card" id="notes" aria-labelledby="notes-heading">
         <h2 id="notes-heading">Notes</h2>
-        <form method="post" action="{{ url_for('main.save_problem_note', problem_id=problem['id']) }}" id="note-form">
+        <form method="post" action="{{ url_for('main.save_problem_note', problem_id=problem['id']) }}" id="note-form">{{ csrf_field() }}
           <label class="visually-hidden" for="note-text">Your note on this problem</label>
           <textarea id="note-text" name="note" rows="6" placeholder="Approach, pitfalls, what to remember next time">{{ note }}</textarea>
           <div class="note-actions">
@@ -98,7 +98,7 @@
             {% for l in links %}
               <li>
                 <a href="{{ l['url'] }}" target="_blank" rel="noopener noreferrer">{{ l['label'] or l['url'] }}</a>
-                <form method="post" action="{{ url_for('main.delete_problem_link', problem_id=problem['id'], link_id=l['id']) }}" class="inline">
+                <form method="post" action="{{ url_for('main.delete_problem_link', problem_id=problem['id'], link_id=l['id']) }}" class="inline">{{ csrf_field() }}
                   <button type="submit" class="text" aria-label="Remove {{ l['label'] or l['url'] }}">Remove</button>
                 </form>
               </li>
@@ -107,7 +107,7 @@
         {% else %}
           <p class="context-muted">Keep a solution, editorial, or write-up here.</p>
         {% endif %}
-        <form method="post" action="{{ url_for('main.add_problem_link', problem_id=problem['id']) }}" class="link-form">
+        <form method="post" action="{{ url_for('main.add_problem_link', problem_id=problem['id']) }}" class="link-form">{{ csrf_field() }}
           <label>Link <input type="url" name="url" placeholder="https://" required></label>
           <label>Label (optional) <input name="label" maxlength="200"></label>
           <button type="submit" class="small">Add link</button>

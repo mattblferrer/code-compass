@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if csrf_token() %}<meta name="csrf-token" content="{{ csrf_token() }}">{% endif %}
     <title>{% block title %}CodeCompass{% endblock %}</title>
+    {% if hosted_mode %}<script src="{{ url_for('static', filename='js/timezone.js') }}"></script>{% endif %}
     <script>
       // Apply a saved light or dark choice before the page paints, so it never flashes the other one.
       try {
@@ -33,6 +35,7 @@
          header stays one row (app.css): the last four below 75rem, and History and Progress
          too below 52rem. Phones use the tab bar instead. #}
       {% set later = nav[3:] %}
+      {% if signed_in %}
       <nav class="site-nav" aria-label="Main">
         {% for endpoint, label in nav %}
           <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %} {% if loop.index > 5 %}class="later"{% elif loop.index > 3 %}class="middle"{% endif %}>{{ label }}</a>
@@ -47,6 +50,10 @@
           </div>
         </details>
       </nav>
+      {% endif %}
+      {% if account %}
+        <a class="account-link" href="{{ url_for('auth.account') }}" {% if request.endpoint == 'auth.account' %}aria-current="page"{% endif %} title="Account and sign out">{{ account.login }}</a>
+      {% endif %}
       {# Shown by theme.js; without JavaScript the system setting is used. #}
       <button type="button" class="theme-toggle" id="theme-toggle" hidden>
         <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
@@ -62,7 +69,7 @@
               {% set parts = category.split(":") %}
               <div class="flash has-action">
                 <span>{{ message }}</span>
-                <form method="post" action="{{ url_for('main.undo_not_now') }}" class="inline" data-swap="#today, #next-panel, #messages">
+                <form method="post" action="{{ url_for('main.undo_not_now') }}" class="inline" data-swap="#today, #next-panel, #messages">{{ csrf_field() }}
                   <input type="hidden" name="not_now_id" value="{{ parts[1] }}">
                   <input type="hidden" name="suggestion_id" value="{{ parts[2] }}">
                   <button type="submit" class="undo">Undo</button>
@@ -72,14 +79,14 @@
               {# Like every message, it floats at the bottom and fades after a few seconds (app.css). #}
               <div class="flash has-action">
                 <span>{{ message }}</span>
-                <form method="post" action="{{ url_for('main.undo_delete', item_id=category.split(':')[1]|int) }}" class="inline">
+                <form method="post" action="{{ url_for('main.undo_delete', item_id=category.split(':')[1]|int) }}" class="inline">{{ csrf_field() }}
                   <button type="submit" class="undo">Undo</button>
                 </form>
               </div>
             {% elif category.startswith("undo-batch:") %}
               <div class="flash has-action">
                 <span>{{ message }}</span>
-                <form method="post" action="{{ url_for('main.undo_sync_batch', batch_id=category.split(':')[1]|int) }}" class="inline">
+                <form method="post" action="{{ url_for('main.undo_sync_batch', batch_id=category.split(':')[1]|int) }}" class="inline">{{ csrf_field() }}
                   <button type="submit" class="undo">Undo</button>
                 </form>
               </div>
@@ -87,7 +94,7 @@
               {# Losing everything is too much to miss, so this one stays until it is closed. #}
               <div class="flash has-action stays" role="alert">
                 <span>{{ message }}</span>
-                <form method="post" action="{{ url_for('main.undo_erase') }}" class="inline">
+                <form method="post" action="{{ url_for('main.undo_erase') }}" class="inline">{{ csrf_field() }}
                   <button type="submit" class="undo">Undo</button>
                 </form>
                 <button type="button" class="undo close-flash" aria-label="Close this message" hidden>Close</button>
@@ -104,6 +111,7 @@
        the rest open from More. Wider screens use the links in the header instead. #}
     {% set tabs = [("main.dashboard", "Dashboard"), ("main.log_attempt", "Log"), ("main.history", "History")] %}
     {% set more = [("main.review_queue", "Reviews"), ("main.progress_page", "Progress"), ("main.interviews", "Interviews"), ("main.sync_page", "Sync"), ("main.profile", "Profile"), ("main.settings", "Settings")] %}
+    {% if signed_in %}
     <nav class="tab-bar" aria-label="Main">
       {% for endpoint, label in tabs %}
         <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>
@@ -122,9 +130,11 @@
           {% for endpoint, label in more %}
             <a href="{{ url_for(endpoint) }}" {% if request.endpoint == endpoint %}aria-current="page"{% endif %}>{{ label }}</a>
           {% endfor %}
+          {% if account %}<a href="{{ url_for('auth.account') }}" {% if request.endpoint == 'auth.account' %}aria-current="page"{% endif %}>Account</a>{% endif %}
         </div>
       </details>
     </nav>
+    {% endif %}
     {# R-47: keyboard shortcuts, listed here and opened with "?" (js/shortcuts.js). #}
     <dialog id="shortcuts" class="confirm-dialog shortcuts-dialog" aria-labelledby="shortcuts-heading" data-log-url="{{ url_for('main.log_attempt') }}">
       <h2 id="shortcuts-heading">Keyboard shortcuts</h2>
@@ -142,6 +152,9 @@
     <script src="{{ url_for('static', filename='js/enhance.js') }}"></script>
     <script src="{{ url_for('static', filename='js/shortcuts.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    {% if sync_step_url %}
+      <script src="{{ url_for('static', filename='js/sync_steps.js') }}" data-step-url="{{ sync_step_url }}"></script>
+    {% endif %}
     {% block scripts %}{% endblock %}
   </body>
 </html>

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% from "_page.html" import page_head %}
+{% block title %}Privacy - CodeCompass{% endblock %}
+{% block content %}
+  <section class="panel prose" aria-labelledby="privacy-heading">
+    {{ page_head("Privacy", "What this site keeps, why, and how to remove it.", heading_id="privacy-heading") }}
+    <h2>What is kept</h2>
+    <ul>
+      <li>From GitHub: your account's ID number, username, and display name, to know it is you. No email, no password, and no access to your repositories.</li>
+      <li>What you enter or sync: attempts, notes, links, interviews, problems you add, settings and goals, linked Codeforces and AtCoder usernames, synced submissions, and rating history.</li>
+      <li>A sign-in record per browser, which ends after {{ session_days }} days without use or when you sign out.</li>
+    </ul>
+    <h2>Why</h2>
+    <p>Only to show you your own practice: scores, reviews, and recommendations. Your data is never shown to other accounts, sold, or used for anything else. A sync contacts Codeforces and AtCoder only when you start it, by the public username you link.</p>
+    <h2>Removing it</h2>
+    <p>Settings can download all your data as a backup file, or delete it. Your <a href="{{ url_for('auth.account') }}">account page</a> deletes the account and everything in it at once. The database host keeps a short history for recovery, so deleted data is fully gone once that window passes.</p>
+    <p class="small-print">This site is a small project for practice and testing, open to at most {{ max_accounts }} accounts.</p>
+  </section>
+{% endblock %}

@@ -222,6 +222,52 @@ main {
   outline-color: var(--on-band);
 }
 
+/* Hosted mode (R-51): the signed-in GitHub username, linking to the account page. Signed-out
+   pages have no navigation, so the theme toggle moves to the right on its own. */
+.account-link {
+  color: var(--on-band-muted);
+  text-decoration: none;
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius);
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-link:hover,
+.account-link[aria-current="page"] {
+  color: var(--on-band);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.site-header > .wordmark + .theme-toggle {
+  margin-left: auto;
+}
+
+/* Deleting an account: the username to type, then the button, stacked at the left. */
+.account-delete {
+  display: grid;
+  gap: 0.6rem;
+  justify-items: start;
+  max-width: 24rem;
+  margin-top: 1rem;
+}
+
+.account-delete input {
+  width: 100%;
+}
+
+.signin-panel form {
+  margin: 1.25rem 0 1rem;
+}
+
+@media (max-width: 40rem) {
+  .account-link {
+    display: none; /* On a phone, Account is in the tab bar's More sheet. */
+  }
+}
+
 main {
   padding-top: 1.75rem;
   padding-bottom: 4rem;

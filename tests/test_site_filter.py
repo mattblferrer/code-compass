@@ -10,7 +10,7 @@ from pathlib import Path
 import pytest
 
 from codecompass import create_app, queries
-from codecompass.db import connect
+from conftest import app_db
 from codecompass.state import Snapshot
 
 DATA = json.loads((Path(__file__).parent / "data" / "r36_site_filter.json").read_text(encoding="utf-8"))
@@ -33,9 +33,9 @@ def fresh(tmp_path):
             for p in DATA["catalog"]:
                 writer.writerow([p["title"], p["link"], p["difficulty"], "", "Reference", "; ".join(p["patterns"])])
         db_path = str(folder / "db.sqlite")
-        create_app({"TESTING": True, "DATABASE": db_path, "CATALOG_PATH": str(catalog_path),
-                    "RESERVE_PATH": None, "UNMAPPED_PATH": None})
-        conn = connect(db_path)
+        app = create_app({"TESTING": True, "DATABASE": db_path, "CATALOG_PATH": str(catalog_path),
+                          "RESERVE_PATH": None, "UNMAPPED_PATH": None})
+        conn = app_db(app)
         ids = {r["title"]: r["id"] for r in conn.execute("SELECT id, title FROM problems")}
         with conn:
             for a in DATA["attempts"]:

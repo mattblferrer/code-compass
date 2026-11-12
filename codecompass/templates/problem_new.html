@@ -47,7 +47,7 @@
   </aside>
 
   <div class="workbench-main">
-  <form method="post" class="sheet" novalidate>
+  <form method="post" class="sheet" novalidate>{{ csrf_field() }}
     <input type="hidden" name="rating" value="{{ form.get('rating', '') }}">
     <label>
       Title

@@ -4,7 +4,7 @@ from datetime import date
 import pytest
 
 from codecompass import create_app, demo
-from codecompass.db import connect
+from conftest import app_db
 
 
 @pytest.fixture
@@ -18,7 +18,7 @@ def demo_app(tmp_path):
 
 
 def build(app):
-    conn = connect(app.config["DATABASE"])
+    conn = app_db(app)
     try:
         demo.build(conn, date.today().isoformat())
         return [dict(r) for r in conn.execute("SELECT * FROM attempts ORDER BY id")]

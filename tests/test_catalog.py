@@ -8,6 +8,7 @@ import pytest
 from codecompass import catalog, create_app
 from codecompass.core.catalog_rows import DataFileError, parse_catalog
 from codecompass.db import connect, init_db
+from conftest import app_db
 
 ROOT = Path(__file__).resolve().parent.parent
 HEADER = ["title", "link", "difficulty", "rating", "source", "patterns"]
@@ -65,8 +66,7 @@ def test_patterns_file_matches_docs():
 
 def test_schema_and_load_are_rerunnable(db_path):
     create_app({"TESTING": True, "DATABASE": db_path})
-    create_app({"TESTING": True, "DATABASE": db_path})
-    conn = connect(db_path)
+    conn = app_db(create_app({"TESTING": True, "DATABASE": db_path}))
     assert conn.execute("SELECT count(*) FROM patterns").fetchone()[0] == 54
     conn.close()
 

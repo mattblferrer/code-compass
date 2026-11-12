@@ -9,7 +9,7 @@
       <small>You've seen the hint, so your next attempt on this problem can't be saved as "solved alone."</small>
     </details>
   {% elif eligible %}
-    <form method="post" action="{{ url_for('main.reveal_hint', problem_id=problem['id']) }}" class="inline" data-swap="{{ swap }}">
+    <form method="post" action="{{ url_for('main.reveal_hint', problem_id=problem['id']) }}" class="inline" data-swap="{{ swap }}">{{ csrf_field() }}
       <input type="hidden" name="next" value="{{ next_url }}">
       <button type="submit" class="text">Show beginner hint</button>
     </form>

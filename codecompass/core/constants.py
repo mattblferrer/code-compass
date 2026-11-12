@@ -90,3 +90,15 @@ CALENDAR_SHADES = (1, 2, 4, 6)
 # back to the previous sync less SYNC_OVERLAP_HOURS, so submissions a source recorded
 # late are still found; items already listed are never listed twice.
 SYNC_OVERLAP_HOURS = 24
+
+# Hosted mode (R-54), provisional: how long one step of a sync may run within a request, well
+# under the host's request time limit, and the most accounts that can sign up (R-51).
+SYNC_STEP_SECONDS = 8.0
+MAX_ACCOUNTS = 50
+
+# Hosted mode's limits (R-53), provisional: sign-ins per address, and backup or CSV uploads
+# and sync starts per account, in each window of LIMIT_WINDOW_SECONDS.
+LIMIT_WINDOW_SECONDS = 600
+SIGNIN_LIMIT = 20
+UPLOAD_LIMIT = 10
+SYNC_START_LIMIT = 10

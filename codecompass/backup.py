@@ -7,7 +7,7 @@ undone like deleting all data (R-39): the current database is copied aside first
 """
 import sqlite3
 
-from . import catalog, erase
+from . import catalog, erase, transfer
 from .db import init_db
 
 # The largest backup accepted; a database with the catalog and reserve is a few megabytes.
@@ -18,7 +18,10 @@ REQUIRED = {"app_meta", "patterns", "problems", "attempts", "settings", "intervi
 
 
 def snapshot(conn):
-    """The database as bytes, for the backup download."""
+    """The database as bytes, for the backup download: the whole file in local mode, and in
+    hosted mode the account's data in the same format (transfer.py, R-55)."""
+    if getattr(conn, "hosted", False):
+        return transfer.export_account(conn)
     return conn.serialize()
 
 
@@ -47,7 +50,19 @@ def restore(conn, database, copy, today, paths):
     (init_db), and the catalog, reserve, and patterns from `paths` (patterns, catalog,
     reserve), since a backup may come from an earlier version. It is marked so that Undo,
     and the rule that saving anything new makes it final, work as after deleting all data.
+
+    In hosted mode the backup is read into the account (transfer.py), which matches its
+    problems to the shared catalog by link, so it may come from either mode (R-55).
     """
+    if getattr(conn, "hosted", False):
+        try:
+            with conn:
+                transfer.keep(conn)
+                transfer.import_account(conn, copy)
+        finally:
+            copy.close()
+        erase.mark(conn, today)
+        return
     erase.keep_copy(conn, database)
     try:
         copy.backup(conn)

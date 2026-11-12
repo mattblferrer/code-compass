@@ -24,7 +24,7 @@
     {# Shown by js/settings_autosave.js, which saves each change as it is made. #}
     <p class="autosave-status" id="autosave-status" role="status" hidden></p>
   {% endcall %}
-  <form method="post" class="settings-grid" id="settings-form" novalidate>
+  <form method="post" class="settings-grid" id="settings-form" novalidate>{{ csrf_field() }}
     <div class="panel settings-card">
       <fieldset>
         <legend>Recommendations</legend>
@@ -124,7 +124,7 @@
   </form>
 
   {# R-33: only a public username per site. No password or cookie is ever asked for (R-03). #}
-  <form method="post" action="{{ url_for('main.link_accounts') }}" class="panel settings-card accounts" id="accounts" novalidate>
+  <form method="post" action="{{ url_for('main.link_accounts') }}" class="panel settings-card accounts" id="accounts" novalidate>{{ csrf_field() }}
     <fieldset>
       <legend>Linked accounts</legend>
       <p class="small">Link a public username to sync your submissions and contest ratings. CodeCompass contacts a site only when you press Sync now on the <a href="{{ url_for('main.sync_page') }}">sync page</a>. Leave a field blank to unlink that site.</p>

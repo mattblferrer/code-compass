@@ -13,10 +13,43 @@ def connect(path):
     return conn
 
 
+def hosted(config=None):
+    """True in hosted mode (R-50): accounts in PostgreSQL. Local mode is one SQLite file."""
+    return (config if config is not None else current_app.config).get("MODE") == "hosted"
+
+
+def open_db(config, user_id=None):
+    """A new connection: the SQLite file in local mode, or in hosted mode PostgreSQL searching
+    the account `user_id`'s schema first (only the shared tables when None). The caller closes it."""
+    if not hosted(config):
+        return connect(config["DATABASE"])
+    from . import pg
+
+    conn = pg.Connection(config["DATABASE_URL"], user_id)
+    if user_id is not None:
+        pg.ensure_user_schema(conn, user_id)
+    return conn
+
+
+def current_user_id():
+    """The signed-in account in hosted mode (set by auth.py), or None. Tests may name one."""
+    user_id = g.get("user_id")
+    if user_id is None and current_app.testing:
+        user_id = current_app.config.get("TESTING_USER_ID")
+    return user_id
+
+
 def get_db():
     if "db" not in g:
-        g.db = connect(current_app.config["DATABASE"])
+        g.db = open_db(current_app.config, current_user_id() if hosted() else None)
     return g.db
+
+
+def store_key():
+    """What identifies the current user's data: the database file, or the account."""
+    if hosted():
+        return f"account:{current_user_id()}"
+    return current_app.config["DATABASE"]
 
 
 def close_db(_exc=None):
@@ -89,5 +122,10 @@ def _widen(conn, schema, table, value):
 
 
 def init_app(app):
-    init_db(app.config["DATABASE"])
+    if hosted(app.config):
+        from . import pg
+
+        pg.init_shared(app.config["DATABASE_URL"])
+    else:
+        init_db(app.config["DATABASE"])
     app.teardown_appcontext(close_db)

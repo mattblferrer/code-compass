@@ -340,6 +340,7 @@ def test_atcoder_problems_already_here_need_no_extra_requests(client, app, sites
     assert not any("resources/" in url for url, _ in sites.requests)
 
 
+@pytest.mark.local_only  # Uses LeetCode, which hosted mode does not sync (R-33).
 def test_leetcode_sync_reads_recent_accepted_submissions(client, app, sites):
     link(client, leetcode="practice_user")
     page = sync(client)
@@ -351,6 +352,7 @@ def test_leetcode_sync_reads_recent_accepted_submissions(client, app, sites):
     assert all(r["accepted"] == 1 for r in items(app).values())
 
 
+@pytest.mark.local_only  # Uses LeetCode, which hosted mode does not sync (R-33).
 def test_leetcode_notice_in_settings_sync_list_and_rating_history(client, sites):
     page = client.get("/settings").get_data(as_text=True)
     assert rules.LEETCODE_NOTICE in page
@@ -486,8 +488,9 @@ def start_background(client, app):
 
     response = client.post("/sync", headers={"X-Sync-Background": "1"})
     job = syncing.current_job(app.config["DATABASE"])
-    job.thread.join(10)
-    assert job.done
+    if job is not None:  # Local mode's sync runs in a thread; hosted mode's first step ends it here.
+        job.thread.join(10)
+        assert job.done
     return response
 
 
@@ -544,6 +547,7 @@ def test_a_failed_background_sync_says_so(client, app, sites):
     assert "Could not reach Codeforces, so the Codeforces sync stopped." in page
 
 
+@pytest.mark.local_only  # Hosted mode's equivalent is in test_hosted_sync.py.
 def test_an_unexpected_error_still_ends_the_background_sync(client, app, sites, monkeypatch):
     from codecompass import sync as syncing
 
@@ -557,6 +561,7 @@ def test_an_unexpected_error_still_ends_the_background_sync(client, app, sites, 
     assert "Codeforces: the sync stopped because of an unexpected problem" in client.get("/sync").get_data(as_text=True)
 
 
+@pytest.mark.local_only  # Hosted mode's equivalent is in test_hosted_sync.py.
 def test_one_sync_runs_at_a_time(client, app, sites, monkeypatch):
     from codecompass import sync as syncing
 
@@ -575,6 +580,7 @@ def test_one_sync_runs_at_a_time(client, app, sites, monkeypatch):
 
 # --- Rating history (R-34) ---
 
+@pytest.mark.local_only  # Uses LeetCode, which hosted mode does not sync (R-33).
 def test_rating_history_equals_the_source(client, app, sites):
     link(client, codeforces="practice_user", atcoder="practice_user", leetcode="practice_user")
     sync(client)
@@ -672,6 +678,7 @@ def test_sync_without_a_linked_account_asks_for_one(client, sites):
 
 # --- Linked accounts ---
 
+@pytest.mark.local_only  # Uses LeetCode, which hosted mode does not sync (R-33).
 def test_settings_ask_only_for_public_usernames(client, app):
     page = client.get("/settings").get_data(as_text=True)
     assert 'name="username:codeforces"' in page and 'type="password"' not in page
@@ -754,6 +761,7 @@ def test_contest_history_shows_each_change():
     assert views.rating_change_label(changed[2]) == "1764 → 1700 (−64)"
 
 
+@pytest.mark.local_only  # Uses LeetCode, which hosted mode does not sync (R-33).
 def test_profile_shows_ratings_changes_and_links(client, sites):
     assert "No account is linked." in profile(client)
     link(client, codeforces="practice_user", leetcode="practice_user")
@@ -777,8 +785,11 @@ def test_shared_atcoder_task_matches_the_stored_problem(sites):
     stored = "https://atcoder.jp/contests/arc058/tasks/arc058_a"
     raw = [{"epoch_second": NOW, "problem_id": "arc058_a", "contest_id": "abc042", "result": "AC"}]
     assert rules.atcoder_submissions(raw, 0)[0]["link"] == stored
-    # Already known by that link, so no title or estimate request is needed.
-    assert remote._atcoder_details(raw, {stored}) == ({}, {})
+    # Already known by that link, so the sync's last step asks for no title or estimate.
+    state = remote.sync_state("atcoder", "practice_user", 0)
+    state.update(phase="details", raw=raw, history=[])
+    assert remote.sync_step(state, {stored}) is True
+    assert state["submissions"][0]["link"] == stored
     assert sites.requests == []
 
 
@@ -888,6 +899,7 @@ def test_codeforces_paging_stops_when_a_page_brings_nothing_new(client, app, sit
     assert items(app) == {}
 
 
+@pytest.mark.local_only
 def test_a_crash_after_one_site_keeps_its_results(client, app, sites, monkeypatch):
     from codecompass import sync as syncing
 
@@ -907,6 +919,7 @@ def test_a_crash_after_one_site_keeps_its_results(client, app, sites, monkeypatc
     assert "AtCoder: the sync stopped because of an unexpected problem" in page
 
 
+@pytest.mark.local_only
 def test_unseen_results_carry_into_the_next_sync(client, app, sites):
     from codecompass import sync as syncing
 
@@ -967,6 +980,7 @@ def test_undoing_a_batch_keeps_a_new_problem_with_a_note(client, app, sites):
     assert rows(app, "SELECT count(*) AS n FROM attempts")[0]["n"] == 0
 
 
+@pytest.mark.local_only
 def test_a_crash_keeps_another_sites_own_error(client, app, sites, monkeypatch):
     from codecompass import sync as syncing
 

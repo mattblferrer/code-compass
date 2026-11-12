@@ -3,7 +3,7 @@
 <h2 id="restore-heading">Replace all your data with a backup?</h2>
 <p>Everything in CodeCompass now (attempts, interviews, custom problems, notes, settings, goals, and synced data) is replaced by what the backup holds. You can undo it until you save something new, for up to a day.</p>
 <p class="small-print">To keep what you have now, <a href="{{ url_for('main.download_backup') }}">download a backup of it</a> first.</p>
-<form method="post" action="{{ url_for('main.restore_backup') }}" enctype="multipart/form-data" class="restore-form">
+<form method="post" action="{{ url_for('main.restore_backup') }}" enctype="multipart/form-data" class="restore-form">{{ csrf_field() }}
   <input type="hidden" name="confirm" value="restore">
   <label>Backup file <input type="file" name="file" accept=".sqlite,application/vnd.sqlite3" required></label>
   <div class="erase-actions">

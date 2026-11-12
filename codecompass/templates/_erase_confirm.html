@@ -11,7 +11,7 @@
 </ul>
 <p>The built-in problem list stays. You can undo this until you save something new, for up to a day.</p>
 <p class="small-print">To keep a copy, <a href="{{ url_for('main.export_csv') }}">download your attempts as CSV</a> first.</p>
-<form method="post" action="{{ url_for('main.erase_data') }}" class="erase-actions">
+<form method="post" action="{{ url_for('main.erase_data') }}" class="erase-actions">{{ csrf_field() }}
   <input type="hidden" name="confirm" value="erase">
   {% if in_dialog %}
     <button type="submit" class="quiet" formmethod="dialog" formnovalidate autofocus>Cancel</button>

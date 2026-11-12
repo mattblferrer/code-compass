@@ -14,6 +14,11 @@
   var lastStatus = "";
   var failures = 0;
 
+  function csrfToken() {
+    var meta = document.querySelector('meta[name="csrf-token"]');
+    return meta ? meta.content : "";
+  }
+
   function month(seconds) {
     return new Date(seconds * 1000).toLocaleDateString(undefined, { year: "numeric", month: "short" });
   }
@@ -25,6 +30,7 @@
   // What a site's row says, from what it has read so far.
   function detail(s) {
     if (s.state === "waiting") return "Waiting for its turn";
+    if (s.turn) return count(s.read) + " read. Waiting for " + s.label + "'s turn; other syncs are using it";
     if (s.state === "error") return "Stopped; the reason shows when the sync ends";
     if (s.state === "done") {
       return count(s.read) + " read. " + (s.added ? s.added + " new to confirm" : "Nothing new");
@@ -78,8 +84,14 @@
     if (line !== lastStatus) status.textContent = lastStatus = line;
   }
 
+  // In hosted mode each poll also runs the sync a step further (R-54).
+  var stepUrl = panel.getAttribute("data-step-url");
+
   function poll() {
-    fetch(panel.getAttribute("data-progress-url"), { headers: { "Accept": "application/json" } })
+    var ask = stepUrl ?
+      fetch(stepUrl, { method: "POST", headers: { "Accept": "application/json", "X-CSRF-Token": csrfToken() } }) :
+      fetch(panel.getAttribute("data-progress-url"), { headers: { "Accept": "application/json" } });
+    ask
       .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
       .then(function (progress) {
         failures = 0;
@@ -100,7 +112,8 @@
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     button.disabled = true;
-    fetch(form.action, { method: "POST", headers: { "X-Sync-Background": "1", "Accept": "application/json" } })
+    fetch(form.action, { method: "POST", headers: { "X-Sync-Background": "1", "Accept": "application/json",
+                                                   "X-CSRF-Token": csrfToken() } })
       .then(function (r) { if (r.status !== 202) throw new Error(); return r.json(); })
       .then(function (progress) { draw(progress); setTimeout(poll, 400); })
       .catch(function () { form.submit(); });  // Fall back to syncing within the request.

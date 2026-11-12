@@ -5,7 +5,7 @@
   {{ page_head("Profile", "Contest ratings from your linked accounts, as of each one's last sync. They are shown here only: they never affect scores, review dates, or recommendations, and each site uses its own scale.") }}
 
   {% if not histories %}
-    <p class="empty">No account is linked. <a href="{{ url_for('main.settings') }}#accounts">Link a Codeforces, AtCoder, or LeetCode username in settings</a>, then sync to see your ratings here.</p>
+    <p class="empty">No account is linked. <a href="{{ url_for('main.settings') }}#accounts">Link a {{ sync_names }} username in settings</a>, then sync to see your ratings here.</p>
   {% endif %}
 
   {% for h in histories %}

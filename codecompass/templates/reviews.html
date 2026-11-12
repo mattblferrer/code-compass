@@ -30,7 +30,7 @@
                   <td>
                     {% if r.sibling %}
                       <a href="{{ url_for('main.problem', problem_id=r.sibling['id']) }}">{{ r.sibling['title'] }}</a>
-                      <form method="post" action="{{ url_for('main.not_now', problem_id=r.sibling['id']) }}" class="inline">
+                      <form method="post" action="{{ url_for('main.not_now', problem_id=r.sibling['id']) }}" class="inline">{{ csrf_field() }}
                         <input type="hidden" name="review_of" value="{{ p['id'] }}">
                         <input type="hidden" name="next" value="reviews">
                         <button type="submit" class="text" title="Set this sibling aside for 7 days and suggest another">Not now</button>

@@ -225,6 +225,70 @@ Before deleting, the whole database is copied to a file beside it, named after t
 
 A backup is the whole database as one SQLite file, so it holds every table above, including the catalog and reserve. Restoring first copies the current database aside, as deleting all data does (the `-erased` file and the `erased_on` key), then copies the backup over the database and runs the same setup as an app start, which adds any table, column, or setting a newer version has. Undo copies the earlier database back.
 
+## Hosted mode (R-50 to R-56)
+
+Local mode keeps all the tables above in one SQLite file for one user. Hosted mode keeps them in PostgreSQL (`codecompass/schema_pg_shared.sql` and `codecompass/schema_pg_user.sql`), with the same columns and meanings, split in two:
+
+- **Shared, in the `public` schema:** `app_meta` (the catalog's fingerprint), `patterns`, `problems`, and `problem_patterns`, plus the tables below. `problems` gains an `owner` column: empty for the catalog and reserve, and the account's id for its custom problems. Shared problems and their patterns change only while the catalog loads; a database trigger refuses any other change. Links are unique among shared problems and within each account's custom problems, so two accounts can each add a custom problem with the same link.
+- **Per account, in its own schema `u<account id>`:** every user table above, from `attempts` to `problem_links`, its own `app_meta` (the `erased_on` key), and a view named `problems` that shows the shared catalog and reserve with that account's own custom problems only. A connection for an account searches its schema first, so every query reaches only that account's tables (R-52). `rating_history` gains a `rowid` column that keeps the order ratings were stored in, as SQLite's built-in rowid does.
+
+### `users` (R-51)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `id` | Integer | Primary key; names the account's schema |
+| `github_id` | Integer | The GitHub account's id; unique |
+| `login` | Text | The GitHub username, updated at each sign-in |
+| `name` | Text | The GitHub display name, if any |
+| `created` | Text | The date the account was made |
+
+No password is stored. New accounts stop at `MAX_ACCOUNTS` (`core/constants.py`).
+
+### `sessions` (R-51)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `token_hash` | Text | Primary key; the SHA-256 hash of the token the browser holds in its signed session cookie |
+| `user_id` | Integer | The account, removed with it |
+| `created` | Real | When the session started (Unix seconds) |
+| `last_used` | Real | When it was last used, written at most hourly; a session unused for 30 days ends |
+
+Signing out deletes the row, so a copied cookie stops working.
+
+### `site_clock` (R-54)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `host` | Text | Primary key; a site the sync asks, such as `codeforces.com` |
+| `next_at` | Real | The earliest time (Unix seconds) any account may next send it a request |
+
+### `rate_limits` (R-53)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `key` | Text | Primary key; what is counted, such as `signin:<address>` or `upload:<account>` |
+| `window_start` | Real | When the current window began (Unix seconds) |
+| `count` | Integer | Uses in this window |
+
+### `sync_job` (R-54), per account
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `id` | Integer | Always 1: an account has at most one sync |
+| `data` | Text | JSON: the sites in order, each site's progress, the current site's saved request state (`remote.sync_state`), and the results |
+| `lease` | Real | When the step running it ends, so two open pages never run it at once |
+
+### `kept_copy` (R-39, R-46), per account
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `id` | Integer | Always 1 |
+| `data` | Bytes | The account's data as a backup file, kept for Undo after deleting all data or restoring a backup |
+
+### Backups between modes (R-55)
+
+A hosted account's backup is a SQLite file in local mode's format (`codecompass/transfer.py`): the patterns, the problems the account's records use, its custom problems, and every user table. Local mode restores it as any backup. Reading a backup into an account matches problems by link to the shared catalog and reserve, and adds the rest as the account's custom problems; patterns match by name. The undo records in `deleted_items` and `sync_batches` are kept only when every problem keeps its id, as in a backup from the same account.
+
 ## Catalog and pattern files
 
 The catalog and pattern list are kept as reviewed CSV files, `codecompass/data/catalog.csv` and `codecompass/data/patterns.csv`. The unreviewed reserve (R-37) is `codecompass/data/reserve.csv`, in the same columns, built with `flask --app codecompass build-reserve` from a saved `problemset.problems` response. The app loads the files at each start, adding or updating problems by link and patterns by name, and skips the load when the files are unchanged since the last one. A reserve row whose link is in the catalog is ignored. Loading leaves attempts and custom problems alone, and a problem removed from the files stays in the database if it has attempts.

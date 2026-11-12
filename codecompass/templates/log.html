@@ -14,7 +14,7 @@
   <div class="workbench">
   <div class="workbench-main">
   <form method="post" class="sheet" id="attempt-form" novalidate data-messages="{{ check_messages|tojson|forceescape }}"
-        data-search-url="{{ url_for('main.search_problems') }}">
+        data-search-url="{{ url_for('main.search_problems') }}">{{ csrf_field() }}
     <fieldset class="picker" data-search-url="{{ url_for('main.search_problems') }}"
               data-find-url="{{ url_for('main.find_problem') }}" data-hints="{{ id_hints|tojson|forceescape }}">
       <legend>Problem</legend>
@@ -99,7 +99,7 @@
   </form>
 
   {% if attempt %}
-    <form method="post" action="{{ url_for('main.delete_attempt', attempt_id=attempt['id']) }}">
+    <form method="post" action="{{ url_for('main.delete_attempt', attempt_id=attempt['id']) }}">{{ csrf_field() }}
       <p><button type="submit" class="text">Delete this attempt</button></p>
     </form>
   {% endif %}

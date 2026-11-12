@@ -60,7 +60,7 @@ def test_a_backup_from_an_older_version_is_brought_up_to_date(client, app):
     response = restore(client, old.serialize())
     assert response.status_code == 302
     with app.app_context():
-        assert get_db().execute("SELECT 1 FROM sqlite_master WHERE name = 'problem_notes'").fetchone()
+        assert get_db().execute("SELECT count(*) FROM problem_notes").fetchone()[0] == 0  # The table is back.
 
 
 def test_nothing_changes_without_a_sound_backup_and_a_confirmation(client, app):

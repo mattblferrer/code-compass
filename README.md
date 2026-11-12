@@ -7,8 +7,10 @@ A web app for tracking coding-interview practice by pattern. See [docs/requireme
 ```
 python -m venv .venv
 .venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
+
+`requirements.txt` lists what the app runs on; `requirements-dev.txt` adds pytest. Local mode needs only Flask; the other libraries are for hosted mode.
 
 ## Run
 
@@ -39,11 +41,25 @@ curl -o problemset.json https://codeforces.com/api/problemset.problems
 flask --app codecompass build-reserve problemset.json
 ```
 
+## Hosted mode
+
+The same app can run as a website where people sign in with GitHub and each account keeps its own data (R-50 to R-56), on Vercel with a Neon PostgreSQL database. See [docs/deploying.md](docs/deploying.md).
+
 ## Test
 
 ```
 pytest
 ```
+
+This runs every test in local mode. To run them in hosted mode too, against a PostgreSQL server for tests (never the live database), start one with Docker and point the tests at it:
+
+```
+docker run -d --name codecompass-pg -e POSTGRES_PASSWORD=test -e POSTGRES_INITDB_ARGS=--locale=C.UTF-8 -p 127.0.0.1:54329:5432 postgres:17
+$env:CODECOMPASS_TEST_PG = "postgresql://postgres:test@127.0.0.1:54329/postgres"
+pytest
+```
+
+Each test gets its own database there. Tests never open the real data in `instance/`; one that tries stops with an error.
 
 ## Layout
 
@@ -51,6 +67,10 @@ pytest
 - `codecompass/state.py`: reads the database and runs the rules for the dashboard
 - `codecompass/views.py`: routes
 - `codecompass/db.py` and `codecompass/schema.sql`: SQLite connection and tables
+- `codecompass/pg.py`, `schema_pg_shared.sql`, and `schema_pg_user.sql`: hosted mode's PostgreSQL connection, shared tables, and per-account tables
+- `codecompass/auth.py` and `codecompass/limits.py`: hosted mode's GitHub sign-in, form tokens, and limits
+- `codecompass/transfer.py`: an account's data as a backup file, and back
+- `api/index.py` and `vercel.json`: hosted mode's entry point on Vercel
 - `codecompass/catalog.py` and `codecompass/data/`: the pattern list, catalog, and reserve, loaded at each start when they change
 - `codecompass/picker.py`: finding a problem to log by title, or by site and ID
 - `codecompass/demo.py`: the demo dataset

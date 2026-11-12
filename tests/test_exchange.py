@@ -8,7 +8,8 @@ import pytest
 from codecompass import create_app, queries
 from codecompass.core import constants as c
 from codecompass.core.exchange import COLUMNS
-from codecompass.db import connect, get_db
+from codecompass.db import get_db
+from conftest import app_db
 
 OUTCOMES = [c.SOLVED_ALONE, c.SOLVED_WITH_HINTS, c.SOLVED_AFTER_SOLUTION, c.NOT_SOLVED]
 NOTES = ["", "", "Off by one, then fixed", 'Used "two pointers", finally', "line one\nline two", "a, b; c"]
@@ -28,9 +29,9 @@ def upload(client, text, name="attempts.csv"):
     return client.post("/import", data=data, content_type="multipart/form-data")
 
 
-def records(db_path):
+def records(app):
     """Attempts as comparable records, naming problems by title rather than id."""
-    conn = connect(db_path)
+    conn = app_db(app)
     try:
         return [tuple(r) for r in conn.execute(
             """SELECT a.date, p.title, p.link, p.is_custom, a.outcome, a.time_seconds, a.notes, r.title
@@ -82,12 +83,12 @@ def test_round_trip_of_100_attempts_then_reimport_adds_nothing(client, app, db_p
     page = upload(target, text).get_data(as_text=True)
     assert "Imported 100 of 100 rows." in page
     assert "Created 2 custom problems" in page
-    assert records(str(tmp_path / "empty.sqlite")) == records(db_path)
+    assert records(empty_app) == records(app)
 
     again = upload(target, text).get_data(as_text=True)
     assert "Imported 0 of 100 rows." in again
     assert again.count("Duplicate of an attempt already saved.") == 100
-    assert len(records(str(tmp_path / "empty.sqlite"))) == 100
+    assert len(records(empty_app)) == 100
 
 
 def test_unmatched_rows_create_custom_problems_only_with_difficulty_and_patterns(client, app):
@@ -168,7 +169,7 @@ def test_history_links_to_export_and_import(client):
 
 
 def records_for(app):
-    return records(app.config["DATABASE"])
+    return records(app)
 
 
 def plan(rows, problems, hinted=frozenset()):

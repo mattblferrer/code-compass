@@ -7,7 +7,7 @@
 
   <div class="workbench">
     <div class="workbench-main">
-      <form method="post" enctype="multipart/form-data" class="sheet">
+      <form method="post" enctype="multipart/form-data" class="sheet">{{ csrf_field() }}
         <label>
           CSV file
           <input type="file" name="file" accept=".csv,text/csv">

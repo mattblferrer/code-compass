@@ -4,7 +4,7 @@
 {% block title %}Sync - CodeCompass{% endblock %}
 {% block content %}
   {% set leetcode_shown = accounts|selectattr(0, 'equalto', 'leetcode')|list or items|selectattr('site', 'equalto', 'leetcode')|list %}
-  {{ page_head("Sync", "Bring in your submissions from Codeforces, AtCoder, and LeetCode, then say how much help you had.") }}
+  {{ page_head("Sync", "Bring in your submissions from " ~ sync_names|replace(" or ", " and ") ~ ", then say how much help you had.") }}
 
   {% if accounts %}
     <section class="sync-accounts" aria-label="Linked accounts">
@@ -16,21 +16,27 @@
           </li>
         {% endfor %}
       </ul>
-      <form method="post" action="{{ url_for('main.run_sync') }}" id="sync-form">
+      <form method="post" action="{{ url_for('main.run_sync') }}" id="sync-form">{{ csrf_field() }}
         <button type="submit">Sync now</button>
       </form>
       {# While a sync runs, js/sync_progress.js shows what each site has read so far. #}
       <div class="sync-progress" id="sync-progress" {% if not progress %}hidden{% endif %}
            data-progress-url="{{ url_for('main.sync_progress') }}" data-page-url="{{ url_for('main.sync_page') }}"
+           {% if step_url %}data-step-url="{{ step_url }}"{% endif %}
            {% if progress %}data-progress='{{ progress|tojson }}'{% endif %}>
         <p class="sync-progress-status" id="sync-status" role="status">Syncing.</p>
         <ul class="sync-progress-sites"></ul>
-        <p class="small">Each site limits how often CodeCompass may ask, so a first sync of a long history can take a minute or more. You can leave this page; the results show here when it ends.</p>
+        <p class="small">Each site limits how often CodeCompass may ask, so a first sync of a long history can take a minute or more. {% if step_url %}It carries on while any CodeCompass page is open, and pauses when you close them all.{% else %}You can leave this page; the results show here when it ends.{% endif %}</p>
       </div>
+      {% if step_url and progress %}
+        <noscript>
+          <form method="post" action="{{ step_url }}">{{ csrf_field() }}<button type="submit">Continue syncing</button></form>
+        </noscript>
+      {% endif %}
       <p class="small">Fetches submissions since the last sync (your whole history on a first sync) and the rating history. Nothing becomes an attempt until you choose an outcome. Ratings are on your <a href="{{ url_for('main.profile') }}">profile</a>. <a href="{{ url_for('main.settings') }}#accounts">Change usernames</a></p>
     </section>
   {% else %}
-    <p class="empty">No account is linked. <a href="{{ url_for('main.settings') }}#accounts">Link a Codeforces, AtCoder, or LeetCode username in settings</a> to sync your submissions and ratings.</p>
+    <p class="empty">No account is linked. <a href="{{ url_for('main.settings') }}#accounts">Link a {{ sync_names }} username in settings</a> to sync your submissions and ratings.</p>
   {% endif %}
 
   {% if leetcode_shown %}
@@ -61,7 +67,7 @@
     {% else %}
     {# The checkboxes on each item belong to this form through their form attribute, since
        each item has its own forms too. js/sync_batch.js adds Select all and the count. #}
-    <form method="post" action="{{ url_for('main.batch_sync_items') }}" id="batch-form" class="batch-bar" aria-label="Selected items">
+    <form method="post" action="{{ url_for('main.batch_sync_items') }}" id="batch-form" class="batch-bar" aria-label="Selected items">{{ csrf_field() }}
       <input type="hidden" name="next" value="{{ back }}">
       <div class="batch-pick">
         <label class="select-all" hidden><input type="checkbox" id="select-all"> Select all</label>
@@ -111,7 +117,7 @@
             {% if missing %}
               <a class="button" href="{{ url_for('main.sync_item', item_id=item['id']) }}">Choose the {{ "level and patterns" if not item.details.difficulty and not item.details.patterns else ("level" if not item.details.difficulty else "patterns") }}</a>
             {% else %}
-              <form method="post" action="{{ url_for('main.sync_item', item_id=item['id']) }}" class="sync-outcomes">
+              <form method="post" action="{{ url_for('main.sync_item', item_id=item['id']) }}" class="sync-outcomes">{{ csrf_field() }}
                 <input type="hidden" name="next" value="{{ back }}">
                 {% if not item.hint %}
                   <button type="submit" name="outcome" value="solved_alone" title="{{ outcome_definitions['solved_alone'] }}">Solved alone</button>
@@ -133,7 +139,7 @@
                 {% endif %}
               </form>
             {% endif %}
-            <form method="post" action="{{ url_for('main.dismiss_sync_item', item_id=item['id']) }}" class="inline">
+            <form method="post" action="{{ url_for('main.dismiss_sync_item', item_id=item['id']) }}" class="inline">{{ csrf_field() }}
               <input type="hidden" name="next" value="{{ back }}">
               <button type="submit" class="text">Dismiss</button>
             </form>
