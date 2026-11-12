@@ -221,6 +221,10 @@ Deleting all data empties every table above that holds the user's data: `attempt
 
 Before deleting, the whole database is copied to a file beside it, named after the database with `-erased` added (for example `instance/codecompass.sqlite-erased`), and the `app_meta` table records the day of the deletion under the key `erased_on`. Undo copies the file back over the database, which also removes that key, and then deletes the file. Saving anything new, or a deletion older than one day, removes the file and the key, after which the deletion is final.
 
+## Backup and restore (R-46)
+
+A backup is the whole database as one SQLite file, so it holds every table above, including the catalog and reserve. Restoring first copies the current database aside, as deleting all data does (the `-erased` file and the `erased_on` key), then copies the backup over the database and runs the same setup as an app start, which adds any table, column, or setting a newer version has. Undo copies the earlier database back.
+
 ## Catalog and pattern files
 
 The catalog and pattern list are kept as reviewed CSV files, `codecompass/data/catalog.csv` and `codecompass/data/patterns.csv`. The unreviewed reserve (R-37) is `codecompass/data/reserve.csv`, in the same columns, built with `flask --app codecompass build-reserve` from a saved `problemset.problems` response. The app loads the files at each start, adding or updating problems by link and patterns by name, and skips the load when the files are unchanged since the last one. A reserve row whose link is in the catalog is ignored. Loading leaves attempts and custom problems alone, and a problem removed from the files stays in the database if it has attempts.

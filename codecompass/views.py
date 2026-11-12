@@ -8,7 +8,7 @@ from urllib.parse import quote
 from markupsafe import Markup
 from flask import Blueprint, Response, abort, current_app, flash, jsonify, redirect, render_template, request, url_for
 
-from . import erase, picker, queries, remote
+from . import backup, erase, picker, queries, remote
 from . import sync as syncing
 from .core.sync import (LEETCODE_NOTICE, PROFILE_URLS, batch_message, batch_outcome, batch_skip, new_problem_details,
                         outcome_choices, rating_changes, skip_message)
@@ -56,7 +56,7 @@ def now_seconds():
 def end_erase_undo():
     """Saving anything after deleting all data makes the deletion final, so Undo can never
     overwrite a fresh start (R-39). The copy also expires after c.UNDO_DAYS."""
-    if request.endpoint in ("main.erase_data", "main.undo_erase"):
+    if request.endpoint in ("main.erase_data", "main.undo_erase", "main.restore_backup"):
         return
     conn, database = get_db(), current_app.config["DATABASE"]
     if not conn.execute("SELECT 1 FROM app_meta WHERE key = ?", (erase.MARK,)).fetchone():
@@ -714,6 +714,36 @@ def erase_data():
         flash("All your data was deleted.", "undo-erase")
         return redirect(url_for("main.settings"))
     return render_template("erase.html")
+
+
+@bp.route("/settings/backup")
+def download_backup():
+    """Everything the user has, as one SQLite file (R-46)."""
+    data = backup.snapshot(get_db())
+    return Response(data, mimetype="application/vnd.sqlite3", headers={
+        "Content-Disposition": f'attachment; filename="codecompass-backup-{today()}.sqlite"'})
+
+
+@bp.route("/settings/restore", methods=["GET", "POST"])
+def restore_backup():
+    """Replace all data with a backup, after the user confirms, with Undo (R-46).
+
+    The settings page asks in a dialog; this page asks the same without JavaScript.
+    """
+    if request.method == "POST":
+        request.max_content_length = backup.MAX_BACKUP_BYTES
+        upload = request.files.get("file")
+        if request.form.get("confirm") != "restore" or upload is None or not upload.filename:
+            flash("Choose a backup file and confirm, or nothing is replaced.")
+            return render_template("restore.html"), 400
+        copy, error = backup.check(upload.read())
+        if error:
+            flash(error)
+            return render_template("restore.html"), 400
+        backup.restore(get_db(), current_app.config["DATABASE"], copy, today())
+        flash("Your data was replaced with the backup.", "undo-erase")
+        return redirect(url_for("main.settings"))
+    return render_template("restore.html")
 
 
 @bp.post("/settings/erase/undo")

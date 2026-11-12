@@ -23,8 +23,9 @@ def copy_path(database):
     return f"{database}-erased"
 
 
-def erase_all(conn, database, today):
-    """Copy the database for Undo, then delete all the user's data."""
+def keep_copy(conn, database):
+    """Copy the whole database aside, so the change about to be made can be undone.
+    Also used before restoring a backup (R-46)."""
     path = copy_path(database)
     _remove(path)
     copy = sqlite3.connect(path)
@@ -32,13 +33,24 @@ def erase_all(conn, database, today):
         conn.backup(copy)
     finally:
         copy.close()
+
+
+def mark(conn, today):
+    """Note the day of a change that can still be undone."""
+    with conn:
+        conn.execute("INSERT OR REPLACE INTO app_meta (key, value) VALUES (?, ?)", (MARK, today))
+
+
+def erase_all(conn, database, today):
+    """Copy the database for Undo, then delete all the user's data."""
+    keep_copy(conn, database)
     with conn:
         for table in USER_TABLES:
             conn.execute(f"DELETE FROM {table}")
         # Custom problems, and problems kept only because an attempt used them.
         conn.execute("""DELETE FROM problems WHERE is_custom = 1
                         OR (catalog_position IS NULL AND reserve_position IS NULL)""")
-        conn.execute("INSERT OR REPLACE INTO app_meta (key, value) VALUES (?, ?)", (MARK, today))
+    mark(conn, today)
 
 
 def undo_erase(conn, database, today):

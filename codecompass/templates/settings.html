@@ -146,6 +146,19 @@
   </form>
 
   {# R-39: asks first, in a dialog (or on its own page without JavaScript), and can be undone. #}
+  {# R-46: one file with everything, and restoring from it with Undo. #}
+  <section class="panel settings-card backup-panel" aria-labelledby="backup-heading">
+    <h2 id="backup-heading">Backup</h2>
+    <p class="small">Download everything (attempts, interviews, custom problems, notes, settings, goals, and synced data) as one file, and restore it on this or another computer. Restoring replaces what is here, and can be undone.</p>
+    <div class="backup-actions">
+      <a class="button" href="{{ url_for('main.download_backup') }}">Download a backup</a>
+      <a class="button quiet" href="{{ url_for('main.restore_backup') }}" data-dialog="restore-dialog">Restore from a backup…</a>
+    </div>
+  </section>
+  <dialog id="restore-dialog" class="confirm-dialog" aria-labelledby="restore-heading">
+    {% with in_dialog = true %}{% include "_restore_confirm.html" %}{% endwith %}
+  </dialog>
+
   <section class="panel settings-card danger-panel" aria-labelledby="delete-all-heading">
     <h2 id="delete-all-heading">Delete all data</h2>
     <p class="small">Start over by deleting your attempts, interviews, custom problems, settings, and synced data. The built-in problem list stays. You are asked first, and can undo it until you save something new.</p>

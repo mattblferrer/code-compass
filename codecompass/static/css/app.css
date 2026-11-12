@@ -3717,3 +3717,18 @@ kbd {
   }
 }
 
+/* Backup and restore (R-46). */
+.backup-panel {
+  margin-top: 1.5rem;
+}
+
+.backup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.restore-form label {
+  margin-bottom: 0.5rem;
+}
+
