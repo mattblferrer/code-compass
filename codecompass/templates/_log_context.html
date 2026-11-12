@@ -46,5 +46,5 @@
 {% endif %}
 
 {% if p['link'] and p['link'].startswith('http') and p['source'] != 'Demo' %}
-  <p class="context-actions"><a class="button small quiet" href="{{ p['link'] }}" target="_blank" rel="noopener">Open problem</a></p>
+  {% if p['link']|web_link %}<p class="context-actions"><a class="button small quiet" href="{{ p['link']|web_link }}" target="_blank" rel="noopener">Open problem</a></p>{% endif %}
 {% endif %}

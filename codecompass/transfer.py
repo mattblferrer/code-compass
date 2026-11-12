@@ -12,6 +12,8 @@ backup from the same account (as kept for Undo) keeps every id, so it comes back
 import sqlite3
 from pathlib import Path
 
+from .core.validation import web_link
+
 SCHEMA_PATH = Path(__file__).with_name("schema.sql")
 
 # Each user table, in an order that inserts a row only after the rows it refers to.
@@ -105,9 +107,13 @@ def clear_account(conn):
 
 def _new_problem(conn, problem, patterns):
     """Add a backup's problem as one of the account's custom problems, keeping its id when that
-    id is free. Returns the id it has now."""
-    values = (problem["title"], problem["link"], problem["difficulty"], problem["rating"])
-    free = problem["id"] is not None and not conn.execute(
+    id is free and was handed out before (as for Undo, or a backup of this account). Returns the
+    id it has now. An id not handed out yet is never taken: PostgreSQL would later hand it to
+    another account and fail (security review)."""
+    values = (problem["title"], web_link(problem["link"]), problem["difficulty"], problem["rating"])
+    issued = conn.execute("SELECT last_value FROM " + conn.execute(
+        "SELECT pg_get_serial_sequence('public.problems', 'id')").fetchone()[0]).fetchone()[0]
+    free = isinstance(problem["id"], int) and 0 < problem["id"] <= issued and not conn.execute(
         "SELECT 1 FROM public.problems WHERE id = ?", (problem["id"],)).fetchone()
     if free:
         conn.execute("INSERT INTO problems (id, title, link, difficulty, rating, source, is_custom)"
@@ -173,6 +179,8 @@ def import_account(conn, copy):
                         if c in row and c != "review_of_problem_id"]
             if any(row[c] is None for c in required):
                 continue  # A pattern this version does not have.
+            if table == "problem_links" and not web_link(row.get("url")):
+                continue  # Only web links are kept, as when added on the problem page.
             rows.append(tuple(row[c] for c in columns))
         if rows:
             conn.executemany(f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join('?' * len(columns))})",

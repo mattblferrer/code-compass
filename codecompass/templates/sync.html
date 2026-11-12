@@ -100,7 +100,7 @@
                  data-accepted="{{ 1 if item['accepted'] else 0 }}"
                  aria-label="Select {{ item['title'] }}, {{ item['date'] }}">
           <div class="sync-head">
-            <a href="{{ item['problem_link'] }}" rel="noreferrer" target="_blank"><strong>{{ item['title'] }}</strong></a>
+            {% if item['problem_link']|web_link %}<a href="{{ item['problem_link']|web_link }}" rel="noreferrer" target="_blank"><strong>{{ item['title'] }}</strong></a>{% else %}<strong>{{ item['title'] }}</strong>{% endif %}
             <span class="meta">{{ sites[item['site']] }} · {{ item['date']|when }} · <span class="verdict {{ 'ac' if item['accepted'] else 'wa' }}">{{ "Accepted" if item['accepted'] else "No accepted submission" }}</span></span>
             {% if item.details %}
               <small>

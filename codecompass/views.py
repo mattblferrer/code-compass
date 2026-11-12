@@ -39,6 +39,7 @@ from .core.validation import (
     validate_problem,
     validate_settings,
 )
+from .core.validation import local_path, web_link
 from .db import get_db, hosted
 
 bp = Blueprint("main", __name__)
@@ -86,6 +87,12 @@ def local_date(seconds):
     if has_request_context() and hosted():
         return (datetime.fromtimestamp(seconds, timezone.utc) + utc_offset()).date().isoformat()
     return datetime.fromtimestamp(seconds).date().isoformat()
+
+
+@bp.app_template_filter("web_link")
+def web_link_filter(url):
+    """A stored link, only if it is a web link; templates show anything else as text."""
+    return web_link(url)
 
 
 @bp.app_template_filter("clock")
@@ -311,10 +318,7 @@ def reveal_hint(problem_id):
     if not queries.unused_hint(conn, problem_id):
         with conn:
             conn.execute("INSERT INTO hint_reveals (problem_id, date) VALUES (?, ?)", (problem_id, today()))
-    target = request.form.get("next", "")
-    if not target.startswith("/") or target.startswith("//"):
-        target = url_for("main.dashboard")
-    return redirect(target)
+    return redirect(local_path(request.form.get("next", "")) or url_for("main.dashboard"))
 
 
 @bp.post("/problems/<int:problem_id>/not-now")

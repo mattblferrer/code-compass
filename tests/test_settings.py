@@ -89,8 +89,9 @@ def test_every_page_offers_the_light_and_dark_toggle(client):
     for path in ("/", "/log", "/history", "/sync", "/profile", "/settings"):
         page = client.get(path).get_data(as_text=True)
         assert 'id="theme-toggle"' in page and "js/theme.js" in page
-        # The saved choice is applied before the stylesheet loads, so the page never flashes.
-        assert page.index('localStorage.getItem("codecompass-theme")') < page.index("css/app.css")
+        # The saved choice is applied before the stylesheet loads, so the page never flashes. It is a
+        # file, not a script in the page, so hosted mode's content policy allows it (security review).
+        assert page.index("js/theme_early.js") < page.index("css/app.css") and "<script>" not in page
 
 
 def test_dark_tokens_match_for_the_system_setting_and_the_toggle():

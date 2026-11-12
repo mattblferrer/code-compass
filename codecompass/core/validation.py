@@ -263,3 +263,22 @@ def validate_link(url, label):
         return None, f"Keep the label under {c.MAX_LINK_LABEL} characters."
     return {"url": url, "label": label or None}, None
 
+
+def web_link(url):
+    """`url` if it is a web link (http or https), else None. Links reach pages from forms, CSV,
+    sync, and backups; only web links are ever shown as links, so a link in a backup file
+    cannot run script on the page (security review)."""
+    if isinstance(url, str) and url[:8].lower().startswith(("http://", "https://")) and not any(
+            ord(ch) < 32 for ch in url):
+        return url
+    return None
+
+
+def local_path(target):
+    """`target` if it is a path on this site, such as /history?q=1, else None. A backslash or
+    control character is refused, since browsers read "/\\example.com" as another site."""
+    if (not isinstance(target, str) or not target.startswith("/") or target.startswith("//")
+            or "\\" in target or any(ord(ch) < 32 for ch in target)):
+        return None
+    return target
+

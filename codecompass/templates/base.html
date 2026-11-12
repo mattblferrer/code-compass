@@ -6,13 +6,7 @@
     {% if csrf_token() %}<meta name="csrf-token" content="{{ csrf_token() }}">{% endif %}
     <title>{% block title %}CodeCompass{% endblock %}</title>
     {% if hosted_mode %}<script src="{{ url_for('static', filename='js/timezone.js') }}"></script>{% endif %}
-    <script>
-      // Apply a saved light or dark choice before the page paints, so it never flashes the other one.
-      try {
-        var theme = localStorage.getItem("codecompass-theme");
-        if (theme === "light" || theme === "dark") document.documentElement.setAttribute("data-theme", theme);
-      } catch (e) { /* Storage may be unavailable; the system setting is used. */ }
-    </script>
+    <script src="{{ url_for('static', filename='js/theme_early.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
   </head>

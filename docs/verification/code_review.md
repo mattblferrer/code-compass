@@ -81,6 +81,10 @@ This page records the reviews of the changes the AI wrote, for the plan item "re
 | CDN links (R-24) | Searched the changed templates and styles for external scripts, styles, and images | Pass. None were added. |
 | One shared validator (R-05) | Listed the new writes and their validators | Pass. Notes use `validate_note`, links `validate_link`, and interviews, with their daily target, `validate_interview`; restore replaces the whole database after checking the file. |
 
+## Security review
+
+The security review of hosted mode (R-53) is in [security_review.md](security_review.md).
+
 ## AI mistakes
 
 Mistakes in work the AI produced, in the order they were found. "Found by" says whether a test, the AI's own check, the author, or the code review caught it.
@@ -124,5 +128,10 @@ Mistakes in work the AI produced, in the order they were found. "Found by" says 
 | 35 | 2026-11-12 | Sync (R-33) | The second review's fix for a crashed sync reported every unfinished site as "could not reach", hiding their own errors; the first version of this fix also dropped the username from the message. | Third review, then a test | Each site keeps its error and username. |
 | 36 | 2026-11-12 | Docs | The AI's helper for adding requirements set the in-scope range to the last one added (R-46), not the highest (R-49), and appended rows out of order. | AI's check during the review | Range and order fixed. |
 | 37 | 2026-11-12 | Validation | `str.isdigit()` was used for whole numbers, and form limits were typed into templates. | Third review | ASCII digits only; limits from the constants. |
+| 38 | 2026-11-12 | Tests (R-50) | The AI's first hosted-mode test setup dropped each test's temporary database path, so the app fell back to the real `instance/codecompass.sqlite`, and the demo test overwrote the author's practice data with the demo history. | The AI, from the file's changed time during the run | The author restored the file from OneDrive's version history. Tests now refuse to open anything in `instance/` (`tests/test_isolation.py`). |
+| 39 | 2026-11-12 | Backup (R-46, R-55) | Restoring a backup kept `javascript:` links, which would run when clicked. | Security review | Only web links become links. |
+| 40 | 2026-11-12 | Hosted mode (R-52) | Restoring into an account could take ids PostgreSQL had not handed out yet, blocking other accounts from adding problems. | Security review | Only ids already handed out are kept. |
+| 41 | 2026-11-12 | Sign-in (R-51) | The return-to page after sign-in accepted `/\example.com`, another site. | Security review | Backslashes and control characters refused. |
+| 42 | 2026-11-12 | Hosted mode (R-53) | Form tokens were compared as text, so a non-ASCII token caused a server error. | Security review | Compared as bytes. |
 
-Most mistakes were caught by a test, a browser check, or a code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code. In the second review, items 26 and 28 repeat that pattern: limits and rules that existed in one place (AtCoder's paging guard, `core/` for rules) were not carried to new code, and items 20 to 23 show that most layout mistakes were caught only by looking at the page. In the third review, items 32 and 35 are mistakes introduced by the second review's own fixes, which argues for reviewing each fix with the same care as new work.
+Most mistakes were caught by a test, a browser check, or a code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code. In the second review, items 26 and 28 repeat that pattern: limits and rules that existed in one place (AtCoder's paging guard, `core/` for rules) were not carried to new code, and items 20 to 23 show that most layout mistakes were caught only by looking at the page. In the third review, items 32 and 35 are mistakes introduced by the second review's own fixes, which argues for reviewing each fix with the same care as new work. Item 38 is the most serious so far: test code reached real data, which a guard now prevents. Items 39 to 42 came from the security review of hosted mode, in `security_review.md`; three of them concern files or input from someone else, which the single-user design had never had to expect.

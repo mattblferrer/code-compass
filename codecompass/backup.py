@@ -31,10 +31,17 @@ def check(data):
         return None, "That file isn't a CodeCompass backup. Choose a .sqlite file saved from Settings."
     copy = sqlite3.connect(":memory:")
     try:
+        # The file comes from elsewhere, so SQLite reads it in the mode it advises for that.
+        copy.setconfig(sqlite3.SQLITE_DBCONFIG_DEFENSIVE, True)
+        copy.setconfig(sqlite3.SQLITE_DBCONFIG_TRUSTED_SCHEMA, False)
         copy.deserialize(data)
         names = {r[0] for r in copy.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
         if not REQUIRED <= names:
             raise sqlite3.DatabaseError("missing tables")
+        # CodeCompass's database has no triggers or views; a file with any could run its own SQL
+        # on later saves once restored (security review).
+        if copy.execute("SELECT 1 FROM sqlite_master WHERE type IN ('trigger', 'view')").fetchone():
+            raise sqlite3.DatabaseError("unexpected triggers or views")
         if copy.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
             raise sqlite3.DatabaseError("damaged")
     except sqlite3.Error:

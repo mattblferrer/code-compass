@@ -15,7 +15,7 @@
     <section class="panel side" aria-labelledby="submission-heading">
       <h2 id="submission-heading">The submission</h2>
       <p class="context-title">
-        <a href="{{ item['problem_link'] }}" rel="noreferrer" target="_blank">{{ item['title'] }}</a>
+        {% if item['problem_link']|web_link %}<a href="{{ item['problem_link']|web_link }}" rel="noreferrer" target="_blank">{{ item['title'] }}</a>{% else %}{{ item['title'] }}{% endif %}
       </p>
       <ul class="context-list">
         <li><span>Site</span><span>{{ sites[item['site']] }}</span></li>

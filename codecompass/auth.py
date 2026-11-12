@@ -9,17 +9,21 @@ local mode none of it runs: the app has one user and no sign-in.
 """
 import hashlib
 import hmac
+
+import click
 import secrets
 import time
 from datetime import date, timedelta
 from urllib.parse import urlparse
 
+from flask.cli import with_appcontext
 from flask import (Blueprint, abort, current_app, flash, g, jsonify, redirect, render_template, request, session,
                    url_for)
 from markupsafe import Markup
 
 from . import db, limits
 from .core import constants as c
+from .core.validation import local_path
 
 bp = Blueprint("auth", __name__)
 
@@ -37,6 +41,7 @@ def init_app(app):
     app.jinja_env.globals["csrf_token"] = csrf_token
     app.context_processor(_account)
     app.register_blueprint(bp)
+    app.cli.add_command(accounts_command)
     if not db.hosted(app.config):
         return
     from werkzeug.middleware.proxy_fix import ProxyFix
@@ -142,10 +147,18 @@ def _check_csrf():
         return
     sent = request.form.get("csrf_token") or request.headers.get("X-CSRF-Token") or ""
     expected = session.get("csrf", "")
-    if not expected or not hmac.compare_digest(sent, expected):
+    # Compared as bytes: compare_digest refuses text with non-ASCII characters.
+    if not expected or not hmac.compare_digest(sent.encode(), expected.encode()):
         if _wants_json():
             return jsonify({"error": "expired"}), 400
         return render_template("form_expired.html"), 400
+
+
+# Only this site's own scripts run; styles may sit in attributes (charts and score tiles use
+# them); forms post only here, or to GitHub when signing in; and no site may frame the pages.
+CONTENT_POLICY = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
+                  "connect-src 'self'; form-action 'self' https://github.com; frame-ancestors 'none'; "
+                  "base-uri 'none'; object-src 'none'")
 
 
 def _security_headers(response):
@@ -153,6 +166,10 @@ def _security_headers(response):
     response.headers.setdefault("X-Content-Type-Options", "nosniff")
     response.headers.setdefault("X-Frame-Options", "DENY")
     response.headers.setdefault("Referrer-Policy", "same-origin")
+    response.headers.setdefault("Content-Security-Policy", CONTENT_POLICY)
+    if request.endpoint != "static":
+        # Pages show one account's data, so no browser or shared cache keeps a copy.
+        response.headers["Cache-Control"] = "no-store"
     return response
 
 
@@ -160,7 +177,7 @@ def _security_headers(response):
 
 def _safe_next(target):
     """Only a path on this site, so signing in never sends anyone elsewhere."""
-    if target and target.startswith("/") and not target.startswith("//") and not urlparse(target).netloc:
+    if local_path(target) and not urlparse(target).netloc:
         return target
     return url_for("main.dashboard")
 
@@ -292,3 +309,60 @@ def delete_account(conn, user_id):
     with conn:
         pg.drop_user_schema(conn, user_id)
         conn.execute("DELETE FROM public.users WHERE id = ?", (user_id,))
+
+
+# --- The author's account tool (security review): run from a laptop against the database ---
+
+def _account_rows(conn):
+    rows = []
+    for user in conn.execute("""SELECT u.id, u.login, u.created, max(s.last_used) AS last_used
+                                FROM users u LEFT JOIN sessions s ON s.user_id = u.id
+                                GROUP BY u.id, u.login, u.created ORDER BY u.id""").fetchall():
+        from . import pg
+
+        schema = pg.schema_name(user["id"])
+        has = conn.execute("SELECT 1 FROM information_schema.tables WHERE table_schema = ? AND table_name = 'attempts'",
+                           (schema,)).fetchone()
+        attempts = conn.execute(f"SELECT count(*) FROM {schema}.attempts").fetchone()[0] if has else 0
+        seen = time.strftime("%Y-%m-%d", time.gmtime(user["last_used"])) if user["last_used"] else "-"
+        rows.append((user["login"], user["created"], seen, attempts))
+    return rows
+
+
+@click.group("accounts", invoke_without_command=True)
+@click.pass_context
+@with_appcontext
+def accounts_command(ctx):
+    """Hosted mode: list the accounts (GitHub username, created, last signed in, attempts)."""
+    if not db.hosted(current_app.config):
+        raise click.ClickException("Accounts exist only in hosted mode: set CODECOMPASS_MODE=hosted and "
+                                   "CODECOMPASS_DATABASE_URL first.")
+    if ctx.invoked_subcommand:
+        return
+    conn = db.open_db(current_app.config)
+    try:
+        rows = _account_rows(conn)
+    finally:
+        conn.close()
+    click.echo(f"{len(rows)} of {c.MAX_ACCOUNTS} accounts")
+    for login, created, seen, attempts in rows:
+        click.echo(f"{login:<40} created {created}  last signed in {seen}  {attempts} attempts")
+
+
+@accounts_command.command("delete")
+@click.argument("login")
+@click.option("--yes", is_flag=True, help="Do not ask to confirm.")
+@with_appcontext
+def delete_account_command(login, yes):
+    """Delete the account with this GitHub username and all its data. It cannot be undone."""
+    conn = db.open_db(current_app.config)
+    try:
+        row = conn.execute("SELECT id FROM users WHERE login = ?", (login,)).fetchone()
+        if row is None:
+            raise click.ClickException(f"No account has the GitHub username {login}.")
+        if not yes:
+            click.confirm(f"Delete {login}'s account and all its data? This cannot be undone.", abort=True)
+        delete_account(conn, row["id"])
+    finally:
+        conn.close()
+    click.echo(f"Deleted {login}'s account.")

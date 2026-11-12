@@ -6,7 +6,7 @@
   {% call page_head(problem['title']) %}
     <a class="button" href="{{ url_for('main.log_attempt', problem=problem['id']) }}">Log attempt</a>
     {% if problem['link'] and problem['link'].startswith('http') and problem['source'] != 'Demo' %}
-      <a class="button quiet" href="{{ problem['link'] }}" target="_blank" rel="noopener">Open problem</a>
+      {% if problem['link']|web_link %}<a class="button quiet" href="{{ problem['link']|web_link }}" target="_blank" rel="noopener">Open problem</a>{% endif %}
     {% endif %}
   {% endcall %}
 
@@ -97,7 +97,7 @@
           <ul class="link-list">
             {% for l in links %}
               <li>
-                <a href="{{ l['url'] }}" target="_blank" rel="noopener noreferrer">{{ l['label'] or l['url'] }}</a>
+                {% if l['url']|web_link %}<a href="{{ l['url']|web_link }}" target="_blank" rel="noopener noreferrer">{{ l['label'] or l['url'] }}</a>{% else %}{{ l['label'] or l['url'] }}{% endif %}
                 <form method="post" action="{{ url_for('main.delete_problem_link', problem_id=problem['id'], link_id=l['id']) }}" class="inline">{{ csrf_field() }}
                   <button type="submit" class="text" aria-label="Remove {{ l['label'] or l['url'] }}">Remove</button>
                 </form>

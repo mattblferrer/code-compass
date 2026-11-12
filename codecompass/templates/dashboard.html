@@ -140,7 +140,7 @@
                 <div class="actions">
                   <a class="button small" href="{{ url_for('main.log_attempt', problem=p['id']) }}">Log attempt</a>
                   {% if p['link'] and p['link'].startswith('http') and p['source'] != 'Demo' %}
-                    <a class="button small quiet" href="{{ p['link'] }}" target="_blank" rel="noopener">Open problem</a>
+                    {% if p['link']|web_link %}<a class="button small quiet" href="{{ p['link']|web_link }}" target="_blank" rel="noopener">Open problem</a>{% endif %}
                   {% endif %}
                   {% if r['kind'] == 'new' or r['is_sibling'] %}
                     <form method="post" action="{{ url_for('main.not_now', problem_id=p['id']) }}" class="inline" data-swap="#today, #next-panel, #messages">{{ csrf_field() }}

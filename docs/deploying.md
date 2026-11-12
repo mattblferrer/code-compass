@@ -14,7 +14,7 @@ Nothing here is automatic. Each step is done once, by hand, in the services' own
 ## 1. Make the database (Neon)
 
 1. In Neon, create a project. Pick the region nearest your users, and remember it: Vercel's functions should run in the same region (step 4).
-2. On the project's dashboard, open **Connect**, turn **Connection pooling off**, and copy the connection string. It looks like `postgresql://user:password@ep-....region.aws.neon.tech/neondb?sslmode=require`.
+2. On the project's dashboard, open **Connect**, turn **Connection pooling off**, and copy the connection string. It looks like `postgresql://user:password@ep-....region.aws.neon.tech/neondb?sslmode=require`. Change `sslmode=require` to `sslmode=verify-full`, so the app also checks that it is talking to Neon (security review), not only that the connection is encrypted.
 
    Use the direct connection, not the pooled one: each account's requests set which schema they read (R-52), and the pooler does not keep that setting between queries.
 3. Keep the string secret. It is the database password.
@@ -73,6 +73,17 @@ Changing the secret key signs everyone out. Changing the database string points 
 - **First visit after a pause:** Neon pauses an idle database, so the first page after a quiet spell takes a few seconds longer.
 - **Vercel's free plan** is for non-commercial use.
 
+## Seeing and removing accounts
+
+From the laptop, with the same three environment variables as in step 3:
+
+```
+flask --app codecompass accounts
+flask --app codecompass accounts delete <github-username>
+```
+
+The first lists every account with when it was made, when it last signed in, and how many attempts it has; the second deletes one, after asking. Use it if throwaway accounts fill the 50-account cap. The site itself has no admin page.
+
 ## Moving data between local mode and an account (R-55)
 
 - **Local to hosted:** in local mode, **Settings > Download backup**. Then on the site, **Settings > Restore from backup** with that file. It replaces the account's data, and can be undone for a day, until you save something new.
@@ -82,4 +93,4 @@ The two copies are separate; nothing keeps them in step.
 
 ## Before inviting testers
 
-R-53 asks for a security review before anyone but the author signs in: go through sign-in, the per-account separation (R-52), form tokens, limits, and the deployment settings above, and record what was checked and found in `docs/verification/`.
+R-53's security review is in `docs/verification/security_review.md`. It covers the code, not the live deployment: once deployed, check that the site redirects plain HTTP to HTTPS, that signing in and out works, and that the environment variables are set only in Vercel.

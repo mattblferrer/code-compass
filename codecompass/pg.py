@@ -141,7 +141,14 @@ class Connection:
         from psycopg import ClientCursor
 
         # Client-side binding, as sqlite3 does it, so untyped parameters such as `? IS NULL` work.
-        self._conn = psycopg.connect(url, cursor_factory=ClientCursor, row_factory=_row_factory)
+        extra = {}
+        if "sslmode=verify-full" in url and "sslrootcert" not in url:
+            # Check the database's certificate against certifi's authorities (installed with requests),
+            # since a host's system list may not be where the bundled libpq looks.
+            import certifi
+
+            extra["sslrootcert"] = certifi.where()
+        self._conn = psycopg.connect(url, cursor_factory=ClientCursor, row_factory=_row_factory, **extra)
         self.url, self.user_id = url, user_id
         path = f"{schema_name(user_id)}, public" if user_id is not None else "public"
         self._conn.execute(f"SET search_path TO {path}")
