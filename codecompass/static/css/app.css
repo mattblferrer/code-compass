@@ -3571,3 +3571,51 @@ table.sortable th[aria-sort="descending"] .sort-arrow::after {
   margin-bottom: 0.5rem;
 }
 
+/* Progress page (R-48): quiet lines, one picked out at a time. */
+figure.all-scores {
+  position: relative;
+}
+
+.all-scores .line.series {
+  stroke: var(--muted);
+  stroke-width: 1.4;
+  opacity: 0.45;
+  transition: opacity 0.15s ease;
+}
+
+.all-scores .line.series.picked {
+  stroke: var(--data);
+  stroke-width: 3;
+  opacity: 1;
+}
+
+.movers {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.movers li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: var(--radius);
+}
+
+.movers li span {
+  font-family: var(--font-brand);
+  font-weight: 600;
+}
+
+.movers li.picked {
+  background: var(--track);
+}
+
+.movers.legend {
+  max-height: 24rem;
+  overflow-y: auto;
+}
+

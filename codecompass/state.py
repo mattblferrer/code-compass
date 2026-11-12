@@ -186,6 +186,35 @@ class Snapshot:
         last = self.schedules[problem_id][1][-1]
         return {"due": last["due"], "interval": last["interval"]}
 
+    def all_score_histories(self, step_days=7):
+        """Every pattern's score at the same weekly points, from the first attempt on any
+        pattern to today, for the Progress page (R-48). Patterns without a score at any
+        point are left out; a point before a pattern's third attempt has no score.
+        """
+        if not self.attempts:
+            return [], {}
+        days = [self.attempts[0]["date"]]
+        while days[-1] < self.today:
+            days.append(min(add_days(days[-1], step_days), self.today))
+        series = {}
+        for p in self.patterns:
+            rows = self.by_pattern[p["name"]]
+            if len(rows) < c.MIN_ATTEMPTS:
+                continue
+            tier = self.pattern_info[p["name"]]["tier"]
+            scores = [pattern_score([r for r in rows if r["date"] <= day], tier, day) for day in days]
+            if any(s is not None for s in scores):
+                series[p["name"]] = scores
+        return days, series
+
+    def movers(self, days=c.MOVERS_DAYS, shown=c.MOVERS_SHOWN):
+        """The patterns whose scores rose and fell most over the last `days` days (R-48)."""
+        changes = [(name, self.score_change(name, days)) for name in self.scores]
+        changes = [(name, change) for name, change in changes if change]
+        rising = sorted((x for x in changes if x[1] > 0), key=lambda x: (-x[1], x[0]))[:shown]
+        falling = sorted((x for x in changes if x[1] < 0), key=lambda x: (x[1], x[0]))[:shown]
+        return rising, falling
+
     def activity(self, days=56):
         """Daily review activity for the strip on the dashboard (R-30); practice only with reviews off."""
         records = streak_days(self.schedules, self.today) if self.reviews_on else []

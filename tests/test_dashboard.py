@@ -536,3 +536,28 @@ def test_review_queue_with_reviews_off(client):
     save_reviews(client, on=False)
     html = page(client, "/reviews")
     assert "Reviews are turned off" in html and "Valid Parentheses" not in html
+
+
+# --- Progress page (R-48) ---
+
+def test_progress_page_charts_every_scored_pattern_and_the_movers(client, app):
+    assert "Scores appear here once a pattern has 3 attempts." in page(client, "/progress")
+    for days in (40, 33, 26, 5):
+        log(client, PARENS, days)  # Stack is scored from the third attempt.
+    html = page(client, "/progress")
+    assert 'data-pattern="Stack"' in html and "js/progress_chart.js" in html
+    assert 'data-pattern="Arrays and Hashing"' not in html  # No attempts, so no line.
+    with app.app_context():
+        from codecompass.state import Snapshot
+        snap = Snapshot(get_db(), date.today().isoformat())
+        days, series = snap.all_score_histories()
+        assert days[0] == ago(40) and days[-1] == date.today().isoformat()
+        assert all(later > earlier for earlier, later in zip(days, days[1:]))
+        assert series["Stack"][:2] == [None, None]  # Before the third attempt.
+        rising, falling = snap.movers()
+        change = snap.score_change("Stack", 30)
+    # Stack is the only scored pattern, so it is the one mover, in the direction its score went.
+    assert rising == ([("Stack", change)] if change and change > 0 else [])
+    assert falling == ([("Stack", change)] if change and change < 0 else [])
+    assert ("None rose." in html) == (not rising) and ("None fell." in html) == (not falling)
+    assert 'href="/progress"' in page(client)

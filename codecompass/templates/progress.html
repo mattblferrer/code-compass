@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% from "_page.html" import page_head %}
+{% block title %}Progress - CodeCompass{% endblock %}
+{% block content %}
+  {{ page_head("Progress", "Every scored pattern's score over time, and the patterns that moved most in the last " ~ days ~ " days.") }}
+
+  {% if not chart %}
+    <p class="empty">Scores appear here once a pattern has {{ min_attempts }} attempts. <a href="{{ url_for('main.log_attempt') }}">Log an attempt</a>.</p>
+  {% else %}
+    <div class="workbench">
+      <div class="workbench-main">
+        {# R-48: every line is quiet until pointed at, in the chart or in the list, so 30 lines stay readable. #}
+        <section class="panel lead" aria-labelledby="all-scores-heading">
+          <h2 id="all-scores-heading">Scores over time</h2>
+          <figure class="history all-scores" id="all-scores">
+            <svg viewBox="0 0 {{ chart.width }} {{ chart.height }}" role="img"
+                 aria-label="Weekly scores of {{ chart.lines|length }} patterns from {{ chart.first }} to {{ chart.last }}; the list beside it gives each pattern's latest score">
+              {% for g in chart.guides %}
+                <line class="guide{{ ' band' if g.value in (40, 70) }}" x1="{{ chart.left }}" x2="{{ chart.right }}" y1="{{ g.y }}" y2="{{ g.y }}"></line>
+                <text class="guide-label" x="{{ chart.left - 6 }}" y="{{ g.y + 4 }}" text-anchor="end">{{ g.value }}</text>
+              {% endfor %}
+              {% for l in chart.lines %}
+                <polyline class="line series" data-pattern="{{ l.name }}" data-points='{{ l.points|tojson }}' points="{{ l.line }}"><title>{{ l.name }}</title></polyline>
+              {% endfor %}
+            </svg>
+            <figcaption>
+              <span>{{ chart.first|short_day }}</span>
+              <span>Weekly, from each pattern's third attempt. Point at a line or a pattern to pick it out.</span>
+              <span>Today</span>
+            </figcaption>
+          </figure>
+        </section>
+      </div>
+      <aside class="workbench-side" aria-label="Patterns">
+        <section class="panel side" aria-labelledby="movers-heading">
+          <h2 id="movers-heading">Last {{ days }} days</h2>
+          <h3>Rising</h3>
+          {% if rising %}
+            <ul class="movers">{% for name, change in rising %}<li data-pattern="{{ name }}"><a href="{{ url_for('main.pattern', name=name) }}">{{ name }}</a><span class="delta up">{{ change|signed }}</span></li>{% endfor %}</ul>
+          {% else %}<p class="context-muted">None rose.</p>{% endif %}
+          <h3>Falling</h3>
+          {% if falling %}
+            <ul class="movers">{% for name, change in falling %}<li data-pattern="{{ name }}"><a href="{{ url_for('main.pattern', name=name) }}">{{ name }}</a><span class="delta down">{{ change|signed }}</span></li>{% endfor %}</ul>
+          {% else %}<p class="context-muted">None fell.</p>{% endif %}
+        </section>
+        <section class="panel side" aria-labelledby="latest-heading">
+          <h2 id="latest-heading">Scores now</h2>
+          <ul class="movers legend">
+            {% for name, score in latest %}<li data-pattern="{{ name }}"><a href="{{ url_for('main.pattern', name=name) }}">{{ name }}</a><span>{{ '%.0f'|format(score) }}</span></li>{% endfor %}
+          </ul>
+        </section>
+      </aside>
+    </div>
+  {% endif %}
+{% endblock %}
+{% block scripts %}
+  {% if chart %}
+    <script src="{{ url_for('static', filename='js/chart_tip.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/progress_chart.js') }}"></script>
+  {% endif %}
+{% endblock %}

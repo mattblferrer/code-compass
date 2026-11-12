@@ -72,6 +72,10 @@ MAX_NOTE_LENGTH = 20000
 MAX_LINK_LENGTH = 2000
 MAX_LINK_LABEL = 200
 
+# Progress page (R-48): the span risers and fallers are measured over, and how many of each.
+MOVERS_DAYS = 30
+MOVERS_SHOWN = 3
+
 # History calendar (R-40): the fewest problems solved in a day for each darker shade.
 CALENDAR_SHADES = (1, 2, 4, 6)
 

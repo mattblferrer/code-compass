@@ -162,6 +162,42 @@ def dashboard():
     )
 
 
+@bp.route("/progress")
+def progress_page():
+    """Every pattern's score over time on one chart, and the biggest movers (R-48)."""
+    snap = Snapshot(get_db(), today())
+    days, series = snap.all_score_histories()
+    rising, falling = snap.movers()
+    latest = sorted(((name, snap.scores[name]["score"]) for name in series if name in snap.scores),
+                    key=lambda x: -x[1])
+    return render_template("progress.html", chart=progress_chart(days, series), latest=latest,
+                           rising=rising, falling=falling, days=c.MOVERS_DAYS,
+                           min_attempts=c.MIN_ATTEMPTS)
+
+
+def progress_chart(days, series, width=760, height=300, left=40, right=16, top=14, bottom=30):
+    """Positions for every pattern's score line on one chart, on the same weekly points."""
+    if len(days) < 2 or not series:
+        return None
+    span = len(days) - 1
+
+    def x(i):
+        return round(left + (width - left - right) * i / span, 1)
+
+    def y(score):
+        return round(top + (height - top - bottom) * (1 - score / 100), 1)
+
+    lines = []
+    for name, scores in series.items():
+        points = [{"x": x(i), "y": y(s), "date": days[i], "score": round(s)} for i, s in enumerate(scores)
+                  if s is not None]
+        lines.append({"name": name, "points": points,
+                      "line": " ".join(f"{p['x']},{p['y']}" for p in points)})
+    return {"width": width, "height": height, "left": left, "right": width - right, "lines": lines,
+            "guides": [{"value": v, "y": y(v)} for v in (0, 40, 70, 100)], "first": days[0], "last": days[-1],
+            "axis": height - bottom}
+
+
 @bp.route("/patterns/<name>")
 def pattern(name):
     """A pattern's score over time and the attempts behind it (R-09, R-10).
