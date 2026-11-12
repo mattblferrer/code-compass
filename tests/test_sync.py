@@ -553,7 +553,8 @@ def test_an_unexpected_error_still_ends_the_background_sync(client, app, sites, 
     monkeypatch.setattr(syncing, "run", broken)
     link(client, codeforces="practice_user")
     start_background(client, app)
-    assert "Could not reach Codeforces" in client.get("/sync").get_data(as_text=True)
+    # The sync stopped before Codeforces ran, which is not a connection problem.
+    assert "Codeforces: the sync stopped because of an unexpected problem" in client.get("/sync").get_data(as_text=True)
 
 
 def test_one_sync_runs_at_a_time(client, app, sites, monkeypatch):
@@ -903,7 +904,7 @@ def test_a_crash_after_one_site_keeps_its_results(client, app, sites, monkeypatc
     syncing.current_job(app.config["DATABASE"]).thread.join(10)
     page = client.get("/sync").get_data(as_text=True)
     assert "Codeforces: 5 new submissions to confirm." in page
-    assert "Could not reach AtCoder, so the AtCoder sync stopped." in page
+    assert "AtCoder: the sync stopped because of an unexpected problem" in page
 
 
 def test_unseen_results_carry_into_the_next_sync(client, app, sites):
@@ -952,3 +953,35 @@ def test_batch_rules():
     assert rules.skip_message({"hint": 1, "details": 2}) == (
         "Left 3 on the list: 2 new to CodeCompass and needing a level or patterns; "
         "1 with a revealed hint, which cannot be solved alone.")
+
+
+def test_undoing_a_batch_keeps_a_new_problem_with_a_note(client, app, sites):
+    link(client, codeforces="practice_user")
+    sync(client)
+    item = items(app)[("1520/A", "2026-10-28")]["id"]
+    page = batch(client, c.SOLVED_ALONE, [item])
+    problem = rows(app, "SELECT id FROM problems WHERE link LIKE '%/1520/A'")[0]["id"]
+    client.post(f"/problems/{problem}/notes", data={"note": "written after saving"})
+    client.post(f"/sync/batches/{undo_batch_id(page)}/undo")
+    assert rows(app, "SELECT id FROM problems WHERE link LIKE '%/1520/A'") == [{"id": problem}]
+    assert rows(app, "SELECT count(*) AS n FROM attempts")[0]["n"] == 0
+
+
+def test_a_crash_keeps_another_sites_own_error(client, app, sites, monkeypatch):
+    from codecompass import sync as syncing
+
+    sites.fail["/users/practice_user/history/json"] = urllib.error.HTTPError("x", 404, "Not Found", {}, None)
+    real = remote.sync
+
+    def leetcode_breaks(site, *args, **kwargs):
+        if site == "leetcode":
+            raise KeyError("an unexpected response")
+        return real(site, *args, **kwargs)
+
+    monkeypatch.setattr(remote, "sync", leetcode_breaks)
+    link(client, atcoder="practice_user", leetcode="practice_user")
+    client.post("/sync", headers={"X-Sync-Background": "1"})
+    syncing.current_job(app.config["DATABASE"]).thread.join(10)
+    page = client.get("/sync").get_data(as_text=True)
+    assert "AtCoder: no user named practice_user was found." in page
+    assert "LeetCode: the sync stopped because of an unexpected problem" in page

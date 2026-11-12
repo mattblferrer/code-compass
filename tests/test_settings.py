@@ -178,3 +178,20 @@ def test_header_folds_its_later_links_into_more(client):
         assert f">{label}</a>" in menu, label
     assert ">Dashboard</a>" not in menu and ">Reviews</a>" not in menu
     assert '<summary aria-current="page"' in nav  # Sync is in More, so More is marked as the current page.
+
+
+def test_whole_numbers_are_ascii_digits(client, app):
+    """"²" passes str.isdigit() but not int(); it gets the usual message, not an error page."""
+    response = client.post("/settings", data={**ALL_SHOWN, "starting_difficulty": "easy", "weekly_goal": "²"})
+    assert response.status_code == 400 and "Enter a whole number from 0 to 100" in response.get_data(as_text=True)
+
+
+def test_forms_take_their_limits_from_the_constants(client, monkeypatch):
+    from codecompass.core import constants as c
+
+    monkeypatch.setattr(c, "MAX_WEEKLY_GOAL", 50)
+    monkeypatch.setattr(c, "PLAN_DAILY_MAX", 7)
+    monkeypatch.setattr(c, "PLAN_DAILY_DEFAULT", 2)
+    assert 'name="weekly_goal" min="0" max="50"' in client.get("/settings").get_data(as_text=True)
+    interviews = client.get("/interviews").get_data(as_text=True)
+    assert 'name="daily_target" min="1" max="7"' in interviews and 'value="2"' in interviews

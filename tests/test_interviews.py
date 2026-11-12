@@ -136,3 +136,13 @@ def test_plan_page_and_daily_target(client, app):
     assert "Mixed review" in plan and "of 2 solved" in plan
     bad = add(client, company="Beta", date=day(4), daily_target="0")
     assert bad.status_code == 400 and "Enter a whole number of problems a day from 1 to 20." in bad.get_data(as_text=True)
+
+
+def test_plan_for_a_past_interview_says_it_has_passed(client, app):
+    add(client, company="Old", date=day(-3), patterns=["Stack"])
+    with app.app_context():
+        interview_id = get_db().execute("SELECT id FROM interviews").fetchone()["id"]
+    page = client.get(f"/interviews/{interview_id}/plan").get_data(as_text=True)
+    assert "This interview has passed." in page and "The interview is today" not in page
+    bad = add(client, company="Beta", date=day(4), daily_target="³")
+    assert bad.status_code == 400 and "Enter a whole number of problems a day" in bad.get_data(as_text=True)

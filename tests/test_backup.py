@@ -78,3 +78,16 @@ def test_nothing_changes_without_a_sound_backup_and_a_confirmation(client, app):
     assert notes(app) == ["kept"]
     page = client.get("/settings/restore").get_data(as_text=True)
     assert "Replace all your data with a backup?" in page and 'href="/settings">Cancel</a>' in page
+
+
+def test_restore_loads_the_current_catalog(client, app):
+    data = client.get("/settings/backup").data
+    old = sqlite3.connect(":memory:")
+    old.deserialize(data)
+    # A backup from before a catalog change: an older fingerprint and a problem missing.
+    old.execute("UPDATE app_meta SET value = 'older' WHERE key = 'data_fingerprint'")
+    old.execute("DELETE FROM problems WHERE title = 'Two Sum'")
+    old.commit()
+    assert restore(client, old.serialize()).status_code == 302
+    with app.app_context():
+        assert get_db().execute("SELECT 1 FROM problems WHERE title = 'Two Sum'").fetchone()

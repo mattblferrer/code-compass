@@ -172,7 +172,7 @@ def validate_settings(data, pattern_names, sites, kinds):
     hidden = {(site, kind) for site in sites for kind in kinds if not data.get(f"show:{site}:{kind}")}
     # A weekly goal of problems solved (R-43); blank or 0 means no goal.
     goal = _text(data, "weekly_goal") or "0"
-    if not goal.isdigit() or int(goal) > c.MAX_WEEKLY_GOAL:
+    if not _WHOLE.fullmatch(goal) or int(goal) > c.MAX_WEEKLY_GOAL:
         errors["weekly_goal"] = f"Enter a whole number from 0 to {c.MAX_WEEKLY_GOAL}, or leave it blank for no goal."
         goal = "0"
     values = {
@@ -209,7 +209,7 @@ def validate_interview(data, patterns, pattern_names):
     if difficulty and difficulty not in c.LEVELS:
         errors["target_difficulty"] = "Choose a difficulty, or leave it as any."
     daily = _text(data, "daily_target") or str(c.PLAN_DAILY_DEFAULT)
-    if not daily.isdigit() or not 1 <= int(daily) <= c.PLAN_DAILY_MAX:
+    if not _WHOLE.fullmatch(daily) or not 1 <= int(daily) <= c.PLAN_DAILY_MAX:
         errors["daily_target"] = f"Enter a whole number of problems a day from 1 to {c.PLAN_DAILY_MAX}."
         daily = str(c.PLAN_DAILY_DEFAULT)
     chosen = [p for p in patterns if p in pattern_names]
@@ -217,6 +217,9 @@ def validate_interview(data, patterns, pattern_names):
               "patterns": [name for name in pattern_names if name in chosen], "daily_target": int(daily)}
     return values, errors
 
+
+# A whole number in ASCII digits: str.isdigit() also passes digits such as "²" that int() refuses.
+_WHOLE = re.compile(r"[0-9]+")
 
 # Usernames are sent to the site in a request, so only the characters the sites allow are accepted.
 _USERNAME = re.compile(r"^[A-Za-z0-9_.\-]{1,40}$")

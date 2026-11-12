@@ -53,6 +53,14 @@ def friendly_date(text, today, within=6):
     return short_date(text, today)
 
 
+def weekly_days(first, today, step=7):
+    """Dates from `first` every `step` days, ending with today, for the score charts."""
+    days = [first]
+    while days[-1] < today:
+        days.append(min(add_days(days[-1], step), today))
+    return days
+
+
 def undo_cutoff(today):
     """The earliest day a deletion or batch can still be undone from (c.UNDO_DAYS)."""
     return add_days(today, -c.UNDO_DAYS)

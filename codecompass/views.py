@@ -15,7 +15,7 @@ from .core.sync import (LEETCODE_NOTICE, PROFILE_URLS, batch_message, batch_outc
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
 from .core.exchange import COLUMNS, export_rows, plan_import, references
 from .core import filters, ordering, progress
-from .core.dates import countdown, friendly_date, full_date, short_date
+from .core.dates import countdown, days_between, friendly_date, full_date, short_date
 from .core.mastery import expected_level_index
 from .core.plan import plan_patterns, prep_plan
 from .core.timing import median_times
@@ -482,6 +482,13 @@ def history():
                            reviews_on=reviews_on)
 
 
+@bp.app_context_processor
+def form_limits():
+    """Limits the forms show, from core/constants.py, so a changed constant changes the form too."""
+    return {"limits": {"plan_daily_default": c.PLAN_DAILY_DEFAULT, "plan_daily_max": c.PLAN_DAILY_MAX,
+                       "max_weekly_goal": c.MAX_WEEKLY_GOAL}}
+
+
 @bp.app_template_filter("day_label")
 def day_label(text):
     """A date in full, such as "Tue 11 Nov 2026"."""
@@ -740,7 +747,9 @@ def restore_backup():
         if error:
             flash(error)
             return render_template("restore.html"), 400
-        backup.restore(get_db(), current_app.config["DATABASE"], copy, today())
+        config = current_app.config
+        backup.restore(get_db(), config["DATABASE"], copy, today(),
+                       (config["PATTERNS_PATH"], config["CATALOG_PATH"], config.get("RESERVE_PATH")))
         flash("Your data was replaced with the backup.", "undo-erase")
         return redirect(url_for("main.settings"))
     return render_template("restore.html")
@@ -815,6 +824,7 @@ def interview_plan(interview_id):
         day["today"] = day["date"] == snap.today
     return render_template("interview_plan.html", interview=interview, days=days, patterns=patterns,
                            scores=scores, target=target, own=bool(interview["patterns"]),
+                           days_left=days_between(snap.today, interview["date"]),
                            weakest=c.PLAN_WEAKEST)
 
 
@@ -914,6 +924,7 @@ SYNC_MESSAGES = {
     "no_user": "{label}: no user named {username} was found. Check the username in settings.",
     "refused": "{source} refused the request, so the {label} sync stopped. Try again later.",
     "failed": "Could not reach {source}, so the {label} sync stopped. Check your connection and try again.",
+    "stopped": "{label}: the sync stopped because of an unexpected problem, and nothing from it was saved. Try again.",
 }
 
 
@@ -1166,10 +1177,12 @@ def batch_sync_items():
         return back_to_sync()
 
     names = {p["name"] for p in queries.patterns(conn)}
-    # Which due review an attempt completes depends on the reviews due now, which change only
-    # when a saved attempt completes a review or lands on a problem that was due; the picture
-    # is read once and again only then.
+    # Which due review an attempt completes depends on the reviews due now and the siblings
+    # suggested for them, which change only when a saved attempt completes a review, lands
+    # on a problem that was due, or lands on a suggested sibling (even before its review is
+    # due, which stops it being a sibling); the picture is read once and again only then.
     reviews = Snapshot(conn, today())
+    siblings = reviews.reserved()
     done = {"items": [], "attempts": [], "problems": [], "hints": []}
     skipped = {}
     saved_as = {}
@@ -1193,8 +1206,9 @@ def batch_sync_items():
         if reason:
             skipped[reason] = skipped.get(reason, 0) + 1
             continue
-        if added["completes"] or added["problem_id"] in reviews.due_now:
+        if added["completes"] or added["problem_id"] in reviews.due_now or added["problem_id"] in siblings:
             reviews = Snapshot(conn, today())
+            siblings = reviews.reserved()
         done["items"].append(item["id"])
         saved_as[outcome] = saved_as.get(outcome, 0) + 1
         done["attempts"].append(added["attempt"])

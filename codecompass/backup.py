@@ -7,7 +7,7 @@ undone like deleting all data (R-39): the current database is copied aside first
 """
 import sqlite3
 
-from . import erase
+from . import catalog, erase
 from .db import init_db
 
 # The largest backup accepted; a database with the catalog and reserve is a few megabytes.
@@ -40,12 +40,13 @@ def check(data):
     return copy, None
 
 
-def restore(conn, database, copy, today):
+def restore(conn, database, copy, today, paths):
     """Replace the database with the checked backup `copy`, keeping the current one for Undo.
 
-    The restored database is brought up to date (init_db), since a backup may come from
-    an earlier version, and is marked so that Undo, and the rule that saving anything new
-    makes it final, work as after deleting all data.
+    The restored database is brought up to date as an app start would: its tables
+    (init_db), and the catalog, reserve, and patterns from `paths` (patterns, catalog,
+    reserve), since a backup may come from an earlier version. It is marked so that Undo,
+    and the rule that saving anything new makes it final, work as after deleting all data.
     """
     erase.keep_copy(conn, database)
     try:
@@ -53,4 +54,5 @@ def restore(conn, database, copy, today):
     finally:
         copy.close()
     init_db(database)
+    catalog.load_if_changed(conn, *paths)
     erase.mark(conn, today)

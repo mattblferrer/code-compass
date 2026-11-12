@@ -582,3 +582,49 @@ def test_pattern_page_shows_median_time_by_level(client):
     times = html.split("<h3>Median time</h3>")[1].split("</ul>")[0]
     assert "<strong>15:00</strong> <small>2 timed</small>" in times and "level-easy" in times
     assert "Median time" not in page(client, "/patterns/Trie")
+
+
+# --- Third code review fixes ---
+
+def test_a_batch_on_a_sibling_tried_early_does_not_complete_the_review_later(client, app):
+    """Saving the suggested sibling before the review is due makes it no longer a sibling,
+    so a later item on it in the same batch completes nothing, as single confirms do."""
+    log(client, PARENS, 30)  # Due 16 days ago.
+    page(client)  # Suggests Daily Temperatures as the sibling.
+    with app.app_context():
+        conn = get_db()
+        with conn:
+            for days in (20, 5):  # Before the due date, then after it.
+                conn.execute("""INSERT INTO sync_items (site, username, problem_link, title, date, accepted, status)
+                                VALUES ('codeforces', 'u', 'https://example.com/temps', 'Daily Temperatures', ?, 1,
+                                        'pending')""", (ago(days),))
+        ids = [r["id"] for r in conn.execute("SELECT id FROM sync_items ORDER BY date")]
+    client.post("/sync/items/batch", data={"action": c.SOLVED_WITH_HINTS, "item": [str(i) for i in ids]})
+    temps = pid(app, "Daily Temperatures")
+    assert query(app, f"SELECT date, review_of_problem_id FROM attempts WHERE problem_id = {temps} ORDER BY date") == [
+        {"date": ago(20), "review_of_problem_id": None}, {"date": ago(5), "review_of_problem_id": None}]
+
+
+def test_a_note_keeps_its_problem_when_the_catalog_drops_it(client, app, tmp_path):
+    import csv
+
+    from codecompass import catalog
+
+    two_sum = pid(app, "Two Sum")
+    client.post(f"/problems/{two_sum}/notes", data={"note": "keep me"})
+    smaller = tmp_path / "smaller.csv"
+    with open(app.config["CATALOG_PATH"], encoding="utf-8") as f, open(smaller, "w", encoding="utf-8", newline="") as out:
+        rows = [r for r in csv.reader(f) if r[0] != "Two Sum"]
+        csv.writer(out).writerows(rows)
+    with app.app_context():
+        catalog.load(get_db(), app.config["PATTERNS_PATH"], str(smaller))
+    assert query(app, f"SELECT title, catalog_position FROM problems WHERE id = {two_sum}") == [
+        {"title": "Two Sum", "catalog_position": None}]
+    assert query(app, "SELECT note FROM problem_notes") == [{"note": "keep me"}]
+
+
+def test_weekly_days():
+    from codecompass.core.dates import weekly_days
+
+    assert weekly_days("2026-11-01", "2026-11-12") == ["2026-11-01", "2026-11-08", "2026-11-12"]
+    assert weekly_days("2026-11-12", "2026-11-12") == ["2026-11-12"]

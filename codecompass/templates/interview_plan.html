@@ -7,7 +7,7 @@
   {% endcall %}
 
   {% if not days %}
-    <p class="empty">{% if not patterns %}No patterns to plan yet: add patterns to the interview, or log attempts so your weakest patterns are known.{% else %}The interview is today. Good luck.{% endif %}</p>
+    <p class="empty">{% if days_left < 0 %}This interview has passed.{% elif days_left == 0 %}The interview is today. Good luck.{% else %}No patterns to plan yet: add patterns to the interview, or log attempts so your weakest patterns are known.{% endif %}</p>
   {% else %}
     {# R-44: the plan names patterns, not problems, so it never goes stale; Practice next
        chooses problems by the interview focus rule (R-15). #}

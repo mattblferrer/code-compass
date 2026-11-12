@@ -76,8 +76,7 @@ def weeks(first, last, totals, today, goal=0):
             solved = found["solved"] if found else 0
             days.append({"date": text, "solved": solved, "shade": shade(solved), "future": text > today,
                          "totals": found})
-        solved = sum(t["solved"] for d, t in totals.items()
-                     if monday.isoformat() <= d <= (monday + timedelta(days=6)).isoformat())
+        solved = sum(totals.get((monday + timedelta(days=k)).isoformat(), {}).get("solved", 0) for k in range(7))
         columns.append({"days": days, "month": month, "met": bool(goal) and solved >= goal,
                         "solved": solved})
         monday += timedelta(days=7)

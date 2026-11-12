@@ -3,7 +3,7 @@
 Routes call this module; core/ never touches the database.
 """
 from .core import constants as c
-from .core.dates import add_days
+from .core.dates import add_days, weekly_days
 from .core.levels import current_level
 from .core.mastery import pattern_score
 from .core.reasons import hint_eligible, reason
@@ -163,9 +163,7 @@ class Snapshot:
         if not rows:
             return []
         tier = self.pattern_info[name]["tier"]
-        days = [rows[0]["date"]]
-        while days[-1] < self.today:
-            days.append(min(add_days(days[-1], step_days), self.today))
+        days = weekly_days(rows[0]["date"], self.today, step_days)
         points, previous = [], None
         for day in days:
             earlier = [r for r in rows if r["date"] <= day]
@@ -193,9 +191,7 @@ class Snapshot:
         """
         if not self.attempts:
             return [], {}
-        days = [self.attempts[0]["date"]]
-        while days[-1] < self.today:
-            days.append(min(add_days(days[-1], step_days), self.today))
+        days = weekly_days(self.attempts[0]["date"], self.today, step_days)
         series = {}
         for p in self.patterns:
             rows = self.by_pattern[p["name"]]
@@ -219,10 +215,6 @@ class Snapshot:
         """Daily review activity for the strip on the dashboard (R-30); practice only with reviews off."""
         records = streak_days(self.schedules, self.today) if self.reviews_on else []
         return activity(records, [a["date"] for a in self.attempts], self.today, days)
-
-    def review_attempts(self):
-        """Ids of attempts that completed a review, on the problem itself or as its sibling (R-12, R-28)."""
-        return review_attempt_ids(self.schedules)
 
     def level(self):
         history = [

@@ -70,7 +70,8 @@ def run(conn, now, local_date, report=None):
             result["error"], result["source"] = error.kind, error.site
             results.append(result)
             if report:
-                report(site, {"state": "error"})
+                report(site, {"state": "error", "error": error.kind, "source": error.site,
+                              "username": account["username"]})
             continue
         if report:
             report(site, {"state": "running", "step": "saving", "fraction": 1.0})
@@ -153,16 +154,21 @@ def _work(job, database, now, local_date):
     try:
         job.results = run(conn, now, local_date, job.report)
     except Exception:  # Never leave the page waiting on a sync that stopped.
-        # Sites that finished before the error keep their results; the rest say it failed.
+        # Each site keeps what happened to it: its results, its own error, or that the sync
+        # stopped before or while it ran.
         results = []
         for s in job.sites:
             state = job.sites[s]
+            result = {"site": s, "label": rules.SITES[s], "added": 0, "error": None, "username": ""}
             if state["state"] == "done":
-                results.append({"site": s, "label": rules.SITES[s], "added": state["added"] or 0, "error": None})
+                result["added"] = state["added"] or 0
+            elif state["state"] == "error" and state.get("error"):
+                result.update(error=state["error"], source=state.get("source") or rules.SITES[s],
+                              username=state.get("username", ""))
             else:
-                results.append({"site": s, "label": rules.SITES[s], "added": 0, "error": "failed",
-                                "source": rules.SITES[s], "username": ""})
+                result["error"] = "stopped"
                 job.report(s, {"state": "error"})
+            results.append(result)
         job.results = results
     finally:
         conn.close()
@@ -284,7 +290,9 @@ def undo_batch(conn, batch_id, today):
                          [(i,) for i in done["attempts"]])
         conn.executemany(
             """DELETE FROM problems WHERE id = ? AND is_custom = 1
-               AND NOT EXISTS (SELECT 1 FROM attempts WHERE problem_id = problems.id OR review_of_problem_id = problems.id)""",
+               AND NOT EXISTS (SELECT 1 FROM attempts WHERE problem_id = problems.id OR review_of_problem_id = problems.id)
+               AND NOT EXISTS (SELECT 1 FROM problem_notes WHERE problem_id = problems.id)
+               AND NOT EXISTS (SELECT 1 FROM problem_links WHERE problem_id = problems.id)""",
             [(i,) for i in done["problems"]])
         conn.executemany("UPDATE hint_reveals SET used = 0 WHERE id = ?", [(i,) for i in done["hints"]])
         back = 0

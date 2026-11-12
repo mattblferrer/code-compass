@@ -97,9 +97,11 @@ def load(conn, patterns_path, catalog_path, reserve_path=None):
         ]
         for row in stale:
             has_attempts = conn.execute(
-                "SELECT 1 FROM attempts WHERE problem_id = ? OR review_of_problem_id = ? LIMIT 1",
-                (row["id"], row["id"]),
-            ).fetchone()
+                """SELECT 1 FROM attempts WHERE problem_id = ? OR review_of_problem_id = ?
+                   UNION SELECT 1 FROM problem_notes WHERE problem_id = ?
+                   UNION SELECT 1 FROM problem_links WHERE problem_id = ? LIMIT 1""",
+                (row["id"], row["id"], row["id"], row["id"]),
+            ).fetchone()  # Attempts, or the user's notes or links (R-45), keep the problem.
             if has_attempts:
                 conn.execute(
                     "UPDATE problems SET catalog_position = NULL, reserve_position = NULL WHERE id = ?", (row["id"],)
