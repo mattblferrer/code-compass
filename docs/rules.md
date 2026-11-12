@@ -435,6 +435,15 @@ The interview in focus is the nearest one dated from today to 14 days ahead. Int
 
 Interviews never change a score. Because only 2 patterns supply new problems, the list can have fewer than 5 problems when those patterns run out.
 
+## Interview prep plan (R-44)
+
+The plan names patterns for each day; problems are still picked on the day by the interview focus rule (R-15), so the plan does not go stale. All values are provisional, in `core/constants.py`.
+
+- **Patterns:** the interview's own patterns, or, when it names none, the 4 weakest active patterns (`PLAN_WEAKEST`). Weakest first: patterns showing "not enough data" before scored ones, then by score, ties in pattern-list order.
+- **Days:** from today to the day before the interview. None when the interview is today or past.
+- **Each day:** the next 2 patterns in turn (`PLAN_PATTERNS_PER_DAY`), starting again from the weakest when the list runs out. When there is more than one day, the last one is a mixed review of all the patterns.
+- **Daily target:** problems solved a day, set per interview from 1 to 20 (`PLAN_DAILY_MAX`), 3 by default (`PLAN_DAILY_DEFAULT`). Today's row shows the problems solved so far, counted as in the History calendar.
+
 ## Weekly goal (R-43)
 
 - **What counts:** problems solved, by any solved outcome (alone, with hints, or after viewing the solution), the same count the History calendar shades by (R-40). "Not solved" attempts do not count.

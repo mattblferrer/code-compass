@@ -85,7 +85,7 @@ The two columns together are the primary key.
 
 The two columns together are the primary key. A row means that site is hidden for that kind of problem, so an empty table shows every site. A problem's site is found from its link, so it is not stored.
 
-### `interviews` (R-15)
+### `interviews` (R-15, R-44)
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -93,6 +93,7 @@ The two columns together are the primary key. A row means that site is hidden fo
 | `company` | Text | Required |
 | `date` | Text | Required |
 | `target_difficulty` | Text | Optional: `easy`, `medium`, `hard`, or `very hard` |
+| `daily_target` | Integer | Problems a day in the interview's prep plan (R-44); empty means the default of 3 |
 
 ### `interview_patterns` (R-15)
 

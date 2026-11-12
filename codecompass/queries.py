@@ -217,12 +217,13 @@ def save_interview(conn, values, interview_id=None):
     with conn:
         if interview_id is None:
             interview_id = conn.execute(
-                "INSERT INTO interviews (company, date, target_difficulty) VALUES (?, ?, ?)",
-                (values["company"], values["date"], values["target_difficulty"]),
+                "INSERT INTO interviews (company, date, target_difficulty, daily_target) VALUES (?, ?, ?, ?)",
+                (values["company"], values["date"], values["target_difficulty"], values.get("daily_target")),
             ).lastrowid
         else:
-            conn.execute("UPDATE interviews SET company = ?, date = ?, target_difficulty = ? WHERE id = ?",
-                         (values["company"], values["date"], values["target_difficulty"], interview_id))
+            conn.execute("UPDATE interviews SET company = ?, date = ?, target_difficulty = ?, daily_target = ? WHERE id = ?",
+                         (values["company"], values["date"], values["target_difficulty"], values.get("daily_target"),
+                          interview_id))
             conn.execute("DELETE FROM interview_patterns WHERE interview_id = ?", (interview_id,))
         conn.executemany("INSERT INTO interview_patterns (interview_id, pattern_id) VALUES (?, ?)",
                          [(interview_id, pattern_ids[name]) for name in values["patterns"]])
@@ -278,12 +279,13 @@ def restore_deleted(conn, item_id, today):
         else:
             taken = conn.execute("SELECT 1 FROM interviews WHERE id = ?", (row["id"],)).fetchone()
             if taken:
-                new_id = conn.execute("INSERT INTO interviews (company, date, target_difficulty) VALUES (?, ?, ?)",
-                                      (row["company"], row["date"], row["target_difficulty"])).lastrowid
+                new_id = conn.execute(
+                    "INSERT INTO interviews (company, date, target_difficulty, daily_target) VALUES (?, ?, ?, ?)",
+                    (row["company"], row["date"], row["target_difficulty"], row.get("daily_target"))).lastrowid
             else:
                 new_id = conn.execute(
-                    "INSERT INTO interviews (id, company, date, target_difficulty) VALUES (?, ?, ?, ?)",
-                    (row["id"], row["company"], row["date"], row["target_difficulty"])).lastrowid
+                    "INSERT INTO interviews (id, company, date, target_difficulty, daily_target) VALUES (?, ?, ?, ?, ?)",
+                    (row["id"], row["company"], row["date"], row["target_difficulty"], row.get("daily_target"))).lastrowid
             pattern_ids = {r["name"]: r["id"] for r in conn.execute("SELECT id, name FROM patterns")}
             conn.executemany("INSERT INTO interview_patterns (interview_id, pattern_id) VALUES (?, ?)",
                              [(new_id, pattern_ids[n]) for n in row["patterns"] if n in pattern_ids])

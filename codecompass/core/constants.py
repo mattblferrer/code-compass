@@ -76,6 +76,13 @@ MAX_LINK_LABEL = 200
 MOVERS_DAYS = 30
 MOVERS_SHOWN = 3
 
+# Interview prep plan (R-44), provisional: patterns a day, the weakest patterns used when an
+# interview names none, and the problems-a-day target an interview starts with.
+PLAN_PATTERNS_PER_DAY = 2
+PLAN_WEAKEST = 4
+PLAN_DAILY_DEFAULT = 3
+PLAN_DAILY_MAX = 20
+
 # History calendar (R-40): the fewest problems solved in a day for each darker shade.
 CALENDAR_SHADES = (1, 2, 4, 6)
 

@@ -33,6 +33,14 @@
         <small>Replaces your current level for new problems while this interview is in focus.</small>
         {{ error("target_difficulty") }}
       </label>
+      <label>
+        Problems a day
+        <input type="number" name="daily_target" min="1" max="20" step="1" inputmode="numeric"
+               value="{{ form.get('daily_target', '3') }}"
+               {% if errors.get('daily_target') %}aria-invalid="true" aria-describedby="daily_target-error"{% endif %}>
+        <small>The daily target in this interview's prep plan.</small>
+        {{ error("daily_target") }}
+      </label>
     </div>
     <fieldset>
       <legend>Patterns (optional)</legend>
@@ -94,6 +102,7 @@
             </ul>
           {% endif %}
           <div class="interview-actions">
+            {% if not cd.past and cd.days > 0 %}<a href="{{ url_for('main.interview_plan', interview_id=i['id']) }}">Prep plan</a>{% endif %}
             <a href="{{ url_for('main.edit_interview', interview_id=i['id']) }}">Edit</a>
             <form method="post" action="{{ url_for('main.delete_interview', interview_id=i['id']) }}" class="inline">
               <button type="submit" class="text">Delete</button>

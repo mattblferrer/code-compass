@@ -103,3 +103,36 @@ def test_no_focus_outside_the_window(client):
 def queries_id(app):
     with app.app_context():
         return queries.interviews(get_db())[0]["id"]
+
+
+# --- Prep plan (R-44) ---
+
+def test_plan_rule():
+    from codecompass.core.plan import plan_patterns, prep_plan, weakest_first
+
+    order = ["Arrays and Hashing", "Stack", "Heap", "Trie", "Greedy"]
+    scores = {"Stack": 60, "Heap": 30, "Greedy": 30}
+    # Unscored first (list order), then by score, ties in list order.
+    assert weakest_first(["Greedy", "Stack", "Trie", "Heap", "Arrays and Hashing"], scores, order) == [
+        "Arrays and Hashing", "Trie", "Heap", "Greedy", "Stack"]
+    assert plan_patterns(["Stack", "Heap"], scores, order, order) == ["Heap", "Stack"]
+    assert plan_patterns([], scores, order, order, weakest=3) == ["Arrays and Hashing", "Trie", "Heap"]
+    plan = prep_plan("2026-11-12", "2026-11-16", ["A", "B", "C"], per_day=2)
+    assert [(d["date"], d["patterns"], d["mixed"]) for d in plan] == [
+        ("2026-11-12", ["A", "B"], False), ("2026-11-13", ["C", "A"], False), ("2026-11-14", ["B", "C"], False),
+        ("2026-11-15", ["A", "B", "C"], True)]
+    assert [d["mixed"] for d in prep_plan("2026-11-12", "2026-11-13", ["A"])] == [False]  # One day: no mixed day.
+    assert prep_plan("2026-11-12", "2026-11-12", ["A"]) == [] and prep_plan("2026-11-12", "2026-11-20", []) == []
+
+
+def test_plan_page_and_daily_target(client, app):
+    response = add(client, company="Acme", date=day(4), patterns=["Stack", "Heap"], daily_target="2")
+    assert response.status_code == 302
+    page = client.get("/interviews").get_data(as_text=True)
+    plan_link = page.split('">Prep plan</a>')[0].rsplit('href="', 1)[1]
+    plan = client.get(plan_link).get_data(as_text=True)
+    assert "Prep plan: Acme" in plan and "The interview&#39;s patterns" in plan
+    assert plan.count('<li class="') == 4  # Today and the next three days; the last is mixed.
+    assert "Mixed review" in plan and "of 2 solved" in plan
+    bad = add(client, company="Beta", date=day(4), daily_target="0")
+    assert bad.status_code == 400 and "Enter a whole number of problems a day from 1 to 20." in bad.get_data(as_text=True)

@@ -17,6 +17,7 @@ from .core.exchange import COLUMNS, export_rows, plan_import, references
 from .core import filters, ordering, progress
 from .core.dates import countdown, friendly_date, full_date, short_date
 from .core.mastery import expected_level_index
+from .core.plan import plan_patterns, prep_plan
 from .core.timing import median_times
 from .core.recommend import active_interview
 from .core.reviews import ics, review_attempt_ids, schedules
@@ -766,12 +767,34 @@ def interviews():
     return redirect(url_for("main.interviews"))
 
 
+@bp.route("/interviews/<int:interview_id>/plan")
+def interview_plan(interview_id):
+    """A day-by-day plan of patterns until an interview, with each day's problems solved (R-44)."""
+    conn = get_db()
+    interview = queries.get_interview(conn, interview_id) or abort(404)
+    snap = Snapshot(conn, today())
+    scores = {name: s["score"] for name, s in snap.scores.items()}
+    order = [p["name"] for p in snap.patterns]
+    active = [p["name"] for p in snap.patterns if snap.active(p["name"])]
+    patterns = plan_patterns(interview["patterns"], scores, active, order)
+    days = prep_plan(snap.today, interview["date"], patterns)
+    solved = progress.day_totals(snap.attempts)
+    target = interview["daily_target"] or c.PLAN_DAILY_DEFAULT
+    for day in days:
+        day["solved"] = solved.get(day["date"], {}).get("solved", 0)
+        day["today"] = day["date"] == snap.today
+    return render_template("interview_plan.html", interview=interview, days=days, patterns=patterns,
+                           scores=scores, target=target, own=bool(interview["patterns"]),
+                           weakest=c.PLAN_WEAKEST)
+
+
 @bp.route("/interviews/<int:interview_id>/edit", methods=["GET", "POST"])
 def edit_interview(interview_id):
     conn = get_db()
     interview = queries.get_interview(conn, interview_id) or abort(404)
     if request.method == "GET":
         form = {"company": interview["company"], "date": interview["date"],
+                "daily_target": str(interview["daily_target"] or c.PLAN_DAILY_DEFAULT),
                 "target_difficulty": interview["target_difficulty"] or ""}
         return interview_page(conn, form, interview["patterns"], {}, editing=interview)
     values, errors = checked_interview(conn)

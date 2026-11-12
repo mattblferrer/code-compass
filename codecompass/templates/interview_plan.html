@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% from "_page.html" import page_head %}
+{% block title %}Prep plan: {{ interview['company'] }} - CodeCompass{% endblock %}
+{% block content %}
+  {% call page_head("Prep plan: " ~ interview['company'], "Patterns to work on each day until the interview, weakest first. Practice next picks the problems on the day.") %}
+    <a class="button quiet small" href="{{ url_for('main.interviews') }}">All interviews</a>
+  {% endcall %}
+
+  {% if not days %}
+    <p class="empty">{% if not patterns %}No patterns to plan yet: add patterns to the interview, or log attempts so your weakest patterns are known.{% else %}The interview is today. Good luck.{% endif %}</p>
+  {% else %}
+    {# R-44: the plan names patterns, not problems, so it never goes stale; Practice next
+       chooses problems by the interview focus rule (R-15). #}
+    <p class="lede">{{ "The interview's patterns" if own else "Your " ~ weakest ~ " weakest patterns" }}:
+      {% for name in patterns %}<a href="{{ url_for('main.pattern', name=name) }}">{{ name }}</a>{% if scores.get(name) is not none %} ({{ '%.0f'|format(scores[name]) }}){% endif %}{{ ", " if not loop.last }}{% endfor %}.
+      Target: {{ target }} {{ "problem" if target == 1 else "problems" }} a day.</p>
+    <ol class="plan">
+      {% for d in days %}
+        <li class="{{ 'today' if d.today }}{{ ' mixed' if d.mixed }}">
+          <div class="plan-day">{{ d.date|when }}</div>
+          <div class="plan-patterns">
+            {% if d.mixed %}<strong>Mixed review</strong>{% endif %}
+            <ul class="chips">{% for name in d.patterns %}<li>{{ name }}</li>{% endfor %}</ul>
+          </div>
+          <div class="plan-count">
+            {% if d.today %}
+              <strong>{{ d.solved }}</strong> of {{ target }} solved
+              <a class="button small" href="{{ url_for('main.dashboard') }}">Practice next</a>
+            {% else %}
+              {{ target }} {{ "problem" if target == 1 else "problems" }}
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+  {% endif %}
+{% endblock %}

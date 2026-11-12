@@ -3663,3 +3663,57 @@ kbd {
   text-align: center;
 }
 
+/* Interview prep plan (R-44): one row per day, today picked out. */
+.plan {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.plan li {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.65rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.plan li.today {
+  border-color: var(--data);
+  box-shadow: inset 3px 0 0 var(--data);
+}
+
+.plan .chips {
+  margin: 0;
+}
+
+.plan-day {
+  font-family: var(--font-brand);
+  font-weight: 600;
+}
+
+.plan-count {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.plan-count strong {
+  font-family: var(--font-brand);
+  font-size: var(--step-1);
+  color: var(--text);
+}
+
+@media (max-width: 40rem) {
+  .plan li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+

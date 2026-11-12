@@ -30,6 +30,7 @@ def close_db(_exc=None):
 ADDED_COLUMNS = [
     ("patterns", "family", "TEXT NOT NULL DEFAULT ''"),
     ("problems", "reserve_position", "INTEGER"),
+    ("interviews", "daily_target", "INTEGER"),
 ]
 
 

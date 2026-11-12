@@ -58,7 +58,8 @@ CREATE TABLE IF NOT EXISTS interviews (
     id INTEGER PRIMARY KEY,
     company TEXT NOT NULL,
     date TEXT NOT NULL,
-    target_difficulty TEXT CHECK (target_difficulty IS NULL OR target_difficulty IN ('easy', 'medium', 'hard', 'very hard'))
+    target_difficulty TEXT CHECK (target_difficulty IS NULL OR target_difficulty IN ('easy', 'medium', 'hard', 'very hard')),
+    daily_target INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS interview_patterns (

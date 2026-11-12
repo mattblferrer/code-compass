@@ -208,9 +208,13 @@ def validate_interview(data, patterns, pattern_names):
     difficulty = _text(data, "target_difficulty")
     if difficulty and difficulty not in c.LEVELS:
         errors["target_difficulty"] = "Choose a difficulty, or leave it as any."
+    daily = _text(data, "daily_target") or str(c.PLAN_DAILY_DEFAULT)
+    if not daily.isdigit() or not 1 <= int(daily) <= c.PLAN_DAILY_MAX:
+        errors["daily_target"] = f"Enter a whole number of problems a day from 1 to {c.PLAN_DAILY_MAX}."
+        daily = str(c.PLAN_DAILY_DEFAULT)
     chosen = [p for p in patterns if p in pattern_names]
     values = {"company": company, "date": day, "target_difficulty": difficulty or None,
-              "patterns": [name for name in pattern_names if name in chosen]}
+              "patterns": [name for name in pattern_names if name in chosen], "daily_target": int(daily)}
     return values, errors
 
 
