@@ -192,6 +192,8 @@ def sign_in():
 @bp.post("/signin/github")
 def github():
     """Send the visitor to GitHub to sign in. Posted, so another site cannot start it."""
+    if not db.hosted():
+        abort(404)  # Local mode has no sign-in; its landing page links to the dashboard instead.
     conn = db.open_db(current_app.config)
     try:
         if not limits.allow(conn, f"signin:{request.remote_addr}", c.SIGNIN_LIMIT, c.LIMIT_WINDOW_SECONDS):
@@ -212,6 +214,8 @@ def github_profile():
 
 @bp.route("/signin/github/callback")
 def github_callback():
+    if not db.hosted():
+        abort(404)
     try:
         profile = github_profile()
     except Exception:  # Declined on GitHub, an expired link, or GitHub could not be reached.

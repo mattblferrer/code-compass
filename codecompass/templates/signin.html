@@ -1,16 +1,21 @@
 {% extends "base.html" %}
-{% block title %}Sign in - CodeCompass{% endblock %}
+{% block title %}{% if hosted_mode %}Sign in - {% endif %}CodeCompass{% endblock %}
 {#- The sign-in page is also the landing page (R-57): what CodeCompass does, each feature
     with a small preview, and the sign-in button at the top and again at the end. The
     previews reuse the app's own classes with made-up data; their links have no href, so
     nothing in them can be clicked, and screen readers skip them because the text beside
-    each one says the same thing. -#}
+    each one says the same thing. Local mode has no sign-in (R-50), so there the buttons
+    lead straight to the dashboard. -#}
 {% macro sign_in_form() %}
-  <form method="post" action="{{ url_for('auth.github') }}">
-    {{ csrf_field() }}
-    <input type="hidden" name="next" value="{{ next }}">
-    <button type="submit" class="primary">Sign in with GitHub</button>
-  </form>
+  {% if hosted_mode %}
+    <form method="post" action="{{ url_for('auth.github') }}">
+      {{ csrf_field() }}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button type="submit" class="primary">Sign in with GitHub</button>
+    </form>
+  {% else %}
+    <p class="landing-go"><a class="button" href="{{ url_for('main.dashboard') }}">Continue to your dashboard</a></p>
+  {% endif %}
 {% endmacro %}
 {% macro tile(name, score=none, change=0, attempts=0) %}
   {% if score is not none %}
@@ -34,7 +39,11 @@
       <h1 id="signin-heading">Know which interview patterns you have mastered, and which you are forgetting</h1>
       <p class="lede">Practice sites count problems solved. CodeCompass scores what you can still do, pattern by pattern, tells you when a problem is due for another try, and picks what to practice next, with the reason.</p>
       {{ sign_in_form() }}
-      <p class="small-print">CodeCompass keeps only your GitHub username and display name, never a password, and nothing from your repositories. Each account sees only its own practice. <a href="{{ url_for('auth.privacy') }}">What is stored and how to delete it</a></p>
+      {% if hosted_mode %}
+        <p class="small-print">CodeCompass keeps only your GitHub username and display name, never a password, and nothing from your repositories. Each account sees only its own practice. <a href="{{ url_for('auth.privacy') }}">What is stored and how to delete it</a></p>
+      {% else %}
+        <p class="small-print">Your practice stays in one file on this computer, and everything works offline.</p>
+      {% endif %}
     </section>
 
     <ul class="features">
@@ -128,7 +137,11 @@
 
     <section class="landing-end" aria-labelledby="start-heading">
       <h2 id="start-heading">Start tracking</h2>
-      <p>Sign in to get your own empty account. To look around first, you can fill it with 8 weeks of made-up practice and delete it when you are ready to start for real.</p>
+      {% if hosted_mode %}
+        <p>Sign in to get your own empty account. To look around first, you can fill it with 8 weeks of made-up practice and delete it when you are ready to start for real.</p>
+      {% else %}
+        <p>The dashboard shows the ways to add your practice. To look around first, it also shows how to open the demo, with 8 weeks of made-up practice kept apart from yours.</p>
+      {% endif %}
       {{ sign_in_form() }}
     </section>
   </div>

@@ -3895,11 +3895,14 @@ kbd {
   color: var(--muted);
 }
 
-.landing form {
+.landing form,
+.landing-go {
   margin: 1.25rem 0 1rem;
 }
 
-.landing form button {
+/* Local mode has no sign-in, so a link to the dashboard takes the button's place. */
+.landing form button,
+.landing-go .button {
   font-size: var(--step-1);
   padding: 0.75rem 1.5rem;
 }
