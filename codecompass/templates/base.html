@@ -1,4 +1,5 @@
 <!doctype html>
+{% from "_shortcuts.html" import shortcut_list %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -11,7 +12,7 @@
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
   </head>
   <body>
-    {% set nav = [("main.dashboard", "Dashboard"), ("main.review_queue", "Reviews"), ("main.log_attempt", "Log"), ("main.history", "History"), ("main.progress_page", "Progress"), ("main.interviews", "Interviews"), ("main.sync_page", "Sync"), ("main.profile", "Profile"), ("main.settings", "Settings")] %}
+    {% set nav = [("main.dashboard", "Dashboard"), ("main.review_queue", "Reviews"), ("main.log_attempt", "Log"), ("main.history", "History"), ("main.progress_page", "Progress"), ("main.interviews", "Interviews"), ("main.sync_page", "Sync"), ("main.profile", "Profile"), ("main.settings", "Settings"), ("main.help_page", "Help")] %}
     <header class="site-header">
       <a class="wordmark" href="{{ url_for('main.dashboard') }}">
         {# A compass needle, north tip in needle red: the one mark of the brand. #}
@@ -26,7 +27,7 @@
         <span>CodeCompass</span>
       </a>
       {# The first links always show; on a narrower window the rest fold into More, so the
-         header stays one row (app.css): the last four below 75rem, and History and Progress
+         header stays one row (app.css): the last five below 75rem, and History and Progress
          too below 52rem. Phones use the tab bar instead. #}
       {% set later = nav[3:] %}
       {% if signed_in %}
@@ -104,7 +105,7 @@
     {# On a phone the main pages sit in a tab bar at the bottom, within thumb reach (R-23);
        the rest open from More. Wider screens use the links in the header instead. #}
     {% set tabs = [("main.dashboard", "Dashboard"), ("main.log_attempt", "Log"), ("main.history", "History")] %}
-    {% set more = [("main.review_queue", "Reviews"), ("main.progress_page", "Progress"), ("main.interviews", "Interviews"), ("main.sync_page", "Sync"), ("main.profile", "Profile"), ("main.settings", "Settings")] %}
+    {% set more = [("main.review_queue", "Reviews"), ("main.progress_page", "Progress"), ("main.interviews", "Interviews"), ("main.sync_page", "Sync"), ("main.profile", "Profile"), ("main.settings", "Settings"), ("main.help_page", "Help")] %}
     {% if signed_in %}
     <nav class="tab-bar" aria-label="Main">
       {% for endpoint, label in tabs %}
@@ -132,16 +133,11 @@
     {# R-47: keyboard shortcuts, listed here and opened with "?" (js/shortcuts.js). #}
     <dialog id="shortcuts" class="confirm-dialog shortcuts-dialog" aria-labelledby="shortcuts-heading" data-log-url="{{ url_for('main.log_attempt') }}">
       <h2 id="shortcuts-heading">Keyboard shortcuts</h2>
-      <dl class="shortcut-list">
-        <div><dt><kbd>/</kbd></dt><dd>Search for a problem to log</dd></div>
-        <div><dt><kbd>L</kbd></dt><dd>Log an attempt</dd></div>
-        <div><dt><kbd>1</kbd> to <kbd>4</kbd></dt><dd>On the log form: solved alone, with hints, after the solution, not solved</dd></div>
-        <div><dt><kbd>S</kbd></dt><dd>On the log form: save</dd></div>
-        <div><dt><kbd>?</kbd></dt><dd>Show this list</dd></div>
-        <div><dt><kbd>Esc</kbd></dt><dd>Close it</dd></div>
-      </dl>
-      <p class="small-print">Shortcuts wait while you type in a field.</p>
-      <form method="dialog" class="erase-actions"><button type="submit" class="quiet" autofocus>Close</button></form>
+      {{ shortcut_list() }}
+      <form method="dialog" class="erase-actions">
+        {% if signed_in %}<a class="button quiet" href="{{ url_for('main.help_page') }}">Open the help guide</a>{% endif %}
+        <button type="submit" class="quiet" autofocus>Close</button>
+      </form>
     </dialog>
     <script src="{{ url_for('static', filename='js/enhance.js') }}"></script>
     <script src="{{ url_for('static', filename='js/shortcuts.js') }}"></script>

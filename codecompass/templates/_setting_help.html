@@ -1,0 +1,39 @@
+{# Each setting's short help, in one place (R-58): the settings page shows it under the
+   setting, and the help page in its guide to settings, so the two never disagree. Numbers
+   from the rules come from core/constants.py, through `limits`. Import "with context". #}
+{% macro setting_help(key) -%}
+  {%- if key == "starting_difficulty" -%}
+    Used until you have logged attempts; after that, your level follows your recent results.
+  {%- elif key == "advanced_on" -%}
+    Recommend problems from all advanced patterns, such as segment trees and flows. When off, an advanced pattern is still used if you mark it as a target, and your attempts on any pattern always count.
+  {%- elif key == "reviews_on" -%}
+    Bring back problems you have attempted, at growing intervals, before new ones. When off, every recommendation is a new problem and nothing is shown as due; review dates are still kept, so turning this on again picks up where they are.
+  {%- elif key == "very_hard_on" -%}
+    Include very hard problems in recommendations. When off, they are left out, target patterns included, except as the review sibling of a very hard problem. Logging and scores are unaffected.
+  {%- elif key == "weekly_goal" -%}
+    Problems solved a week, Monday to Sunday, in any way: alone, with hints, or after the solution. The dashboard shows the week's progress, and History marks weeks that reached it. Leave blank for no goal.
+  {%- elif key == "sites" -%}
+    Choose which sites recommendations may use, separately for core and advanced problems. A problem with any advanced pattern counts as advanced. Hidden sites still keep their due reviews, scores, and logging.
+  {%- elif key == "pattern_goals" -%}
+    A target pattern gets up to {{ limits.target_slots }} recommendation slots after due reviews. A mastered pattern is offered new problems only when no other pattern has any. Neither changes a score, and due reviews are unaffected.
+  {%- elif key == "accounts" -%}
+    Link a public username to sync your submissions and contest ratings. CodeCompass contacts a site only when you press Sync now on the <a href="{{ url_for('main.sync_page') }}">sync page</a>. Leave a field blank to unlink that site.
+  {%- elif key == "backup" -%}
+    Download everything (attempts, interviews, custom problems, notes, settings, goals, and synced data) as one file, and restore it on this or another computer. Restoring replaces what is here, and can be undone.
+  {%- elif key == "erase" -%}
+    Start over by deleting your attempts, interviews, custom problems, settings, and synced data. The built-in problem list stays. You are asked first, and can undo it until you save something new.
+  {%- endif -%}
+{%- endmacro %}
+
+{# The settings the help page explains, grouped as on the settings page: (group, anchor on
+   the settings page, [(key, name)]). A group with one entry is a setting of its own. #}
+{% set setting_groups = [
+  ("Recommendations", "recommendations", [
+    ("starting_difficulty", "Starting difficulty"), ("advanced_on", "Advanced patterns"),
+    ("reviews_on", "Review problems"), ("very_hard_on", "Very hard problems"), ("weekly_goal", "Weekly goal")]),
+  ("Sites", "sites", [("sites", "Sites")]),
+  ("Pattern goals", "pattern-goals", [("pattern_goals", "Pattern goals")]),
+  ("Linked accounts", "accounts", [("accounts", "Linked accounts")]),
+  ("Backup", "backup", [("backup", "Backup")]),
+  ("Delete all data", "delete-all", [("erase", "Delete all data")]),
+] %}

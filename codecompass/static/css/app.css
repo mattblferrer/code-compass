@@ -4095,3 +4095,140 @@ kbd {
   border-radius: var(--radius);
   font-size: var(--step--1);
 }
+
+/* --- Help guide (R-58): the basics, shortcuts, and every setting on one page --- */
+.help-contents ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.help-contents a {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: var(--step--1);
+  text-decoration: none;
+}
+
+.help-contents a:hover {
+  border-color: var(--data);
+}
+
+.help {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 52rem;
+}
+
+.help-section > :last-child {
+  margin-bottom: 0;
+}
+
+.help-section h3 {
+  margin: 1.5rem 0 0.5rem;
+}
+
+.help-list {
+  margin: 0 0 1rem;
+  padding-left: 1.2rem;
+  max-width: 70ch;
+}
+
+.help-list li + li {
+  margin-top: 0.35rem;
+}
+
+.help-terms {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+  max-width: 70ch;
+}
+
+.help-terms dt {
+  font-weight: 600;
+}
+
+.help-terms dd {
+  margin: 0.15rem 0 0;
+  color: var(--muted);
+}
+
+.help-note {
+  color: var(--muted);
+}
+
+.help-group h3 {
+  margin-bottom: 0.25rem;
+}
+
+table.help-intervals {
+  width: auto;
+  margin-bottom: 1rem;
+}
+
+table.help-intervals td {
+  font-family: var(--font-number);
+}
+
+/* Links into a page land below the sticky header, and the setting reached is picked out. */
+.help-section,
+.help-group,
+.help-terms > div,
+.settings-card,
+.settings-card label[id] {
+  scroll-margin-top: 5rem;
+}
+
+.help-group:target,
+.help-terms > div:target,
+.settings-card:target,
+.settings-card label[id]:target {
+  outline: 2px solid var(--data);
+  outline-offset: 4px;
+  border-radius: var(--radius);
+}
+
+/* Wide screens: the contents stay in view beside the guide. */
+@media (min-width: 64rem) {
+  .help-layout {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 52rem);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .help-contents {
+    position: sticky;
+    top: 5rem;
+  }
+
+  .help-contents ul {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .help-contents a {
+    display: block;
+    padding: 0.35rem 0.75rem;
+    border-color: transparent;
+    background: none;
+    font-size: var(--step-0);
+  }
+
+  .help-contents a:hover {
+    border-color: transparent;
+    background: var(--track);
+  }
+}
+
+.help-table {
+  width: fit-content;
+  max-width: 100%;
+}

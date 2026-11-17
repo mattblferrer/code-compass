@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% from "_page.html" import page_head %}
+{% from "_shortcuts.html" import shortcut_list %}
+{% from "_setting_help.html" import setting_help, setting_groups with context %}
+{% block title %}Help - CodeCompass{% endblock %}
+{#- The help guide (R-58). Each setting's text and the shortcut list are shared with the
+    settings page and the "?" list, and every number comes from the rules' own values. -#}
+{% set topics = [("outcomes", "Outcomes"), ("scores", "Scores"), ("reviews", "Reviews"), ("syncing", "Syncing"),
+                 ("shortcuts", "Keyboard shortcuts"), ("settings", "Settings")] + ([("account", "Your account")] if hosted_mode else []) %}
+{% block content %}
+  {{ page_head("Help", "How CodeCompass works, what each setting does, and the keyboard shortcuts.") }}
+
+  <div class="help-layout">
+  <nav class="help-contents" aria-label="On this page">
+    <ul>
+      {% for anchor, label in topics %}<li><a href="#{{ anchor }}">{{ label }}</a></li>{% endfor %}
+    </ul>
+  </nav>
+
+  <div class="help">
+    <section class="panel help-section" id="outcomes" aria-labelledby="outcomes-heading">
+      <h2 id="outcomes-heading">Outcomes</h2>
+      <p>Every attempt you <a href="{{ url_for('main.log_attempt') }}">log</a> has one of four outcomes. Choose the one that matches the most help you used.</p>
+      <dl class="help-terms">
+        {% for key, label, definition, _ in outcomes %}
+          <div><dt><span class="o-mark o-{{ key }}" aria-hidden="true"></span>{{ label }}</dt><dd>{{ definition }}</dd></div>
+        {% endfor %}
+      </dl>
+      <p>On a problem from a pattern you have barely tried, you can reveal a beginner hint that names its patterns. A hint counts as help: after you reveal it, your next attempt on that problem cannot be saved as solved alone.</p>
+      <p>The timer on the log form is optional. Time taken is shown on pattern pages but never affects scores, review dates, or recommendations.</p>
+    </section>
+
+    <section class="panel help-section" id="scores" aria-labelledby="scores-heading">
+      <h2 id="scores-heading">Scores</h2>
+      <p>Each pattern gets a mastery score from 0 to 100: an estimate of how well you can solve its problems without help. A pattern shows "not enough data" until it has {{ min_attempts }} attempts.</p>
+      <ul class="help-list">
+        <li>Each attempt moves the score toward what its outcome is worth. Solving alone pulls it up the most, solving with help less, and not solving pulls it down.</li>
+        <li>A problem harder than the score suggests counts for more when you solve it, and less when you do not.</li>
+        <li>Scores fade without practice: a score halves over {{ fade_days }} days with no attempts.</li>
+        <li>An attempt counts toward every pattern its problem has.</li>
+        <li>Time taken, contest ratings, and target or mastered goals never change a score.</li>
+      </ul>
+      <p>The <a href="{{ url_for('main.dashboard') }}">dashboard</a> shows every pattern's score. Open a pattern to see the attempts behind it, and <a href="{{ url_for('main.progress_page') }}">Progress</a> for scores over time.</p>
+    </section>
+
+    <section class="panel help-section" id="reviews" aria-labelledby="reviews-heading">
+      <h2 id="reviews-heading">Reviews</h2>
+      <p>A problem you attempt comes back for review. The first wait depends on how it went:</p>
+      <div class="table-wrap help-table">
+        <table class="help-intervals">
+          <thead><tr><th scope="col">Outcome</th><th scope="col">Due again after</th></tr></thead>
+          <tbody>
+            {% for key, label, _, days in outcomes %}
+              <tr><th scope="row">{{ label }}</th><td>{{ days }} days</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <ul class="help-list">
+        <li>Each review solved alone doubles the wait. A review with any other outcome starts the wait again from that outcome's first value.</li>
+        <li>Trying a problem again before it is due starts its wait again, and does not count as a review.</li>
+        <li>When a review is due, you are usually offered a similar problem you have not tried: one that shares a pattern and is about as hard. Solving either one completes the review.</li>
+        <li>"Not now" hides a new problem for {{ not_now_days }} days. On a review's similar problem, it offers another one, and the review stays due.</li>
+        <li>The review of a problem last practiced more than {{ stale_days }} days ago waits while any more recent review is due.</li>
+      </ul>
+      <p><a href="{{ url_for('main.review_queue') }}">Reviews</a> lists what is due now and soon. To stop reviews, turn off <a href="#help-reviews_on">Review problems</a> in settings.</p>
+    </section>
+
+    <section class="panel help-section" id="syncing" aria-labelledby="syncing-heading">
+      <h2 id="syncing-heading">Syncing</h2>
+      <p>Link a public username for {{ sync_names }} in <a href="{{ url_for('main.settings', _anchor='accounts') }}">settings</a>, then press Sync now on the <a href="{{ url_for('main.sync_page') }}">Sync page</a>. CodeCompass never asks for another site's password, and contacts a site only when you start a sync.</p>
+      <ul class="help-list">
+        <li>A sync lists your new submissions with no outcome, because an accepted submission does not say whether you had help. Choose an outcome for each, or select several and choose once, to save them as attempts; dismiss the ones you do not want.</li>
+        <li>A sync also reads your contest rating history, shown on <a href="{{ url_for('main.profile') }}">Profile</a>. Ratings never affect scores, reviews, or recommendations.</li>
+        {% if not hosted_mode %}<li>{{ leetcode_notice }} A LeetCode sync reads only the recent accepted submissions LeetCode shows (about 20).</li>{% endif %}
+      </ul>
+      <p>You can also <a href="{{ url_for('main.import_csv') }}">import a CSV</a> of attempts from anywhere.</p>
+    </section>
+
+    <section class="panel help-section" id="shortcuts" aria-labelledby="shortcuts-help-heading">
+      <h2 id="shortcuts-help-heading">Keyboard shortcuts</h2>
+      {{ shortcut_list() }}
+    </section>
+
+    <section class="panel help-section" id="settings" aria-labelledby="settings-heading">
+      <h2 id="settings-heading">Settings</h2>
+      <p>Each setting below links to it on the <a href="{{ url_for('main.settings') }}">settings page</a>.</p>
+      {% for group, anchor, entries in setting_groups %}
+        {% if entries|length > 1 %}
+          {# A group of settings: its name, then each setting with a link to it. #}
+          <h3>{{ group }}</h3>
+          <dl class="help-terms">
+            {% for key, name in entries %}
+              <div id="help-{{ key }}">
+                <dt><a href="{{ url_for('main.settings', _anchor='setting-' ~ key) }}">{{ name }}</a></dt>
+                <dd data-setting="{{ key }}">{{ setting_help(key) }}</dd>
+              </div>
+            {% endfor %}
+          </dl>
+        {% else %}
+          {# A group that is one setting: its name links to it. #}
+          {% set key = entries[0][0] %}
+          <div class="help-group" id="help-{{ key }}">
+            <h3><a href="{{ url_for('main.settings', _anchor=anchor) }}">{{ group }}</a></h3>
+            <p class="help-note" data-setting="{{ key }}">{{ setting_help(key) }}</p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </section>
+
+    {% if hosted_mode %}
+      <section class="panel help-section" id="account" aria-labelledby="account-heading">
+        <h2 id="account-heading">Your account</h2>
+        <p>Your <a href="{{ url_for('auth.account') }}">account page</a> (your username at the top right, or Account under More on a phone) lets you sign out or delete your account. Deleting it removes everything in it and cannot be undone, so download a <a href="{{ url_for('main.settings', _anchor='backup') }}">backup</a> first if you may want your practice later.</p>
+        <p>A sign-in ends after {{ session_days }} days without use. <a href="{{ url_for('auth.privacy') }}">What is stored and how to delete it</a></p>
+      </section>
+    {% endif %}
+  </div>
+  </div>
+{% endblock %}

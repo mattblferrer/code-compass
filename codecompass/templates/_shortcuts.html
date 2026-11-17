@@ -1,0 +1,13 @@
+{# The keyboard shortcuts (R-47), in one place: the list "?" opens on every page, and the
+   help page (R-58), both show it. #}
+{% macro shortcut_list() %}
+  <dl class="shortcut-list">
+    <div><dt><kbd>/</kbd></dt><dd>Search for a problem to log</dd></div>
+    <div><dt><kbd>L</kbd></dt><dd>Log an attempt</dd></div>
+    <div><dt><kbd>1</kbd> to <kbd>4</kbd></dt><dd>On the log form: solved alone, with hints, after the solution, not solved</dd></div>
+    <div><dt><kbd>S</kbd></dt><dd>On the log form: save</dd></div>
+    <div><dt><kbd>?</kbd></dt><dd>Show this list</dd></div>
+    <div><dt><kbd>Esc</kbd></dt><dd>Close it</dd></div>
+  </dl>
+  <p class="small-print">Shortcuts wait while you type in a field, or while you hold Ctrl, Alt, or Cmd.</p>
+{% endmacro %}

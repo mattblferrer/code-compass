@@ -10,6 +10,7 @@ from flask import (Blueprint, Response, abort, current_app, flash, g, has_reques
                    render_template, request, url_for)
 
 from . import backup, demo, erase, limits, picker, queries, remote
+from .auth import SESSION_DAYS
 from . import sync as syncing
 from .core.sync import (LEETCODE_NOTICE, PROFILE_URLS, batch_message, batch_outcome, batch_skip, new_problem_details,
                         outcome_choices, rating_changes, skip_message)
@@ -535,7 +536,7 @@ def form_limits():
     and the sites this mode syncs (R-33), as the pages name them."""
     return {"sync_names": "Codeforces or AtCoder" if hosted() else "Codeforces, AtCoder, or LeetCode",
             "limits": {"plan_daily_default": c.PLAN_DAILY_DEFAULT, "plan_daily_max": c.PLAN_DAILY_MAX,
-                       "max_weekly_goal": c.MAX_WEEKLY_GOAL}}
+                       "max_weekly_goal": c.MAX_WEEKLY_GOAL, "target_slots": c.MAX_TARGET_SLOTS}}
 
 
 @bp.app_template_filter("day_label")
@@ -757,6 +758,18 @@ def link_accounts():
     syncing.link_accounts(conn, values)
     flash("Linked accounts saved." if any(values.values()) else "Linked accounts saved. No site is linked.")
     return redirect(url_for("main.settings") + "#accounts")
+
+
+@bp.route("/help")
+def help_page():
+    """The help guide (R-58): shortcuts, every setting, and the basics. Numbers come from the
+    rules' own values, so the guide changes when a rule's value does."""
+    return render_template(
+        "help.html",
+        outcomes=[(o, OUTCOME_LABELS[o], OUTCOME_DEFINITIONS[o], c.FIRST_INTERVAL_DAYS[o]) for o in c.OUTCOMES],
+        min_attempts=c.MIN_ATTEMPTS, fade_days=c.FADE_HALF_LIFE_DAYS, stale_days=c.STALE_REVIEW_DAYS,
+        not_now_days=c.NOT_NOW_DAYS, leetcode_notice=LEETCODE_NOTICE, session_days=SESSION_DAYS,
+    )
 
 
 @bp.route("/settings/erase", methods=["GET", "POST"])

@@ -320,6 +320,14 @@ def test_the_sign_in_page_shows_what_codecompass_does(hosted):
     assert "url(http" not in page
 
 
+def test_the_help_guide_needs_signing_in(hosted, monkeypatch):
+    """R-58: like every page but sign-in and the privacy notice (R-51)."""
+    response = hosted.test_client().get("/help")
+    assert response.status_code == 302 and response.location.startswith("/signin")
+    page = sign_in(hosted, monkeypatch, 101, "ada").get("/help").get_data(as_text=True)
+    assert "Your account" in page and 'href="/account"' in page
+
+
 def test_the_getting_started_panel_is_each_accounts_own(hosted, monkeypatch):
     ada = sign_in(hosted, monkeypatch, 101, "ada")
     bo = sign_in(hosted, monkeypatch, 202, "bo")

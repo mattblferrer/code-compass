@@ -1,0 +1,70 @@
+"""The help guide (R-58). Runs in local mode, and in hosted mode with CODECOMPASS_TEST_PG."""
+import re
+
+from codecompass.core import constants as c
+
+
+def page(client, path):
+    response = client.get(path)
+    assert response.status_code == 200, path
+    return response.get_data(as_text=True)
+
+
+def setting_texts(html):
+    """Each setting's short help on a page, by key, with spacing evened out."""
+    found = re.findall(r'data-setting="([^"]+)">(.*?)</(?:small|p|dd)>', html, re.S)
+    return {key: " ".join(text.split()) for key, text in found}
+
+
+def test_the_guide_lists_every_shortcut(client):
+    html = page(client, "/help")
+    for keys in ("<kbd>/</kbd>", "<kbd>L</kbd>", "<kbd>1</kbd> to <kbd>4</kbd>", "<kbd>S</kbd>", "<kbd>?</kbd>"):
+        assert keys in html, keys
+
+
+def test_every_setting_has_the_same_text_on_both_pages_and_links_to_itself(client):
+    settings, guide = page(client, "/settings"), page(client, "/help")
+    on_settings, in_guide = setting_texts(settings), setting_texts(guide)
+    assert len(on_settings) == 10
+    assert in_guide == on_settings  # Every setting, word for word.
+    # Each setting's link in the guide opens a place that exists on the settings page.
+    anchors = set(re.findall(r'href="/settings#([^"]+)"', guide))
+    assert {"setting-starting_difficulty", "setting-weekly_goal", "sites", "pattern-goals", "accounts",
+            "backup", "delete-all"} <= anchors
+    for anchor in anchors:
+        assert f'id="{anchor}"' in settings, anchor
+
+
+def test_the_guide_is_one_step_from_every_page(client):
+    for path in ("/", "/log", "/history", "/settings"):
+        html = page(client, path)
+        # In the header, both inline and in its More menu (the window's width shows one of
+        # them), in the phone's More sheet, and in the "?" list.
+        assert html.count('href="/help"') == 4, path
+    assert 'href="/help#settings"' in page(client, "/settings")
+
+
+def test_the_guides_numbers_follow_the_rules(client, monkeypatch):
+    monkeypatch.setattr(c, "MIN_ATTEMPTS", 4)
+    monkeypatch.setattr(c, "FADE_HALF_LIFE_DAYS", 90)
+    monkeypatch.setattr(c, "NOT_NOW_DAYS", 5)
+    monkeypatch.setattr(c, "STALE_REVIEW_DAYS", 200)
+    monkeypatch.setattr(c, "MAX_TARGET_SLOTS", 3)
+    monkeypatch.setitem(c.FIRST_INTERVAL_DAYS, c.SOLVED_ALONE, 21)
+    html = page(client, "/help")
+    for text in ("until it has 4 attempts", "halves over 90 days", "hides a new problem for 5 days",
+                 "more than 200 days ago", "<th scope=\"row\">Solved alone</th><td>21 days</td>",
+                 "up to 3 recommendation slots"):
+        assert text in html, text
+    assert "up to 3 recommendation slots" in page(client, "/settings")
+
+
+def test_the_guide_fits_the_mode_and_loads_nothing_from_outside(client, app):
+    html = page(client, "/help")
+    if app.config.get("MODE") == "hosted":
+        assert "for Codeforces or AtCoder in" in html and "LeetCode" not in html
+        assert 'id="account"' in html and "A sign-in ends after 30 days without use" in html
+    else:
+        assert "for Codeforces, AtCoder, or LeetCode in" in html and "about 20" in html
+        assert 'id="account"' not in html
+    assert not re.search(r'(?:href|src|action)="(?:https?:)?//', html)  # R-24
