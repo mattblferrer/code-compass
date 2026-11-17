@@ -3867,3 +3867,228 @@ kbd {
   }
 }
 
+
+/* --- Landing page (R-57): the sign-in page says what CodeCompass does ---
+   Each feature sits beside a small preview built from the app's own classes with made-up
+   data. Previews cannot be clicked; their links have no href. */
+.landing {
+  display: grid;
+  gap: 2.5rem;
+  max-width: 66rem;
+  margin: 0 auto;
+}
+
+.landing-hero {
+  padding-top: 1rem;
+}
+
+.landing-hero h1 {
+  max-width: 24ch;
+  margin-bottom: 0.9rem;
+  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.6rem);
+  line-height: 1.12;
+}
+
+.landing-hero .lede {
+  max-width: 62ch;
+  font-size: var(--step-1);
+  color: var(--muted);
+}
+
+.landing form {
+  margin: 1.25rem 0 1rem;
+}
+
+.landing form button {
+  font-size: var(--step-1);
+  padding: 0.75rem 1.5rem;
+}
+
+.features {
+  display: grid;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature {
+  display: grid;
+  gap: 1rem 2.5rem;
+  align-items: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+
+.feature h2 {
+  margin-bottom: 0.5rem;
+  font-size: var(--step-2);
+}
+
+.feature-text p {
+  margin: 0;
+}
+
+/* On wide screens text and preview sit side by side, swapping sides down the page. */
+@media (min-width: 52rem) {
+  .feature {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  }
+
+  .feature:nth-child(even) .feature-text {
+    order: 2;
+  }
+}
+
+.preview {
+  position: relative;
+  padding: 1.9rem 1rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  pointer-events: none;
+  user-select: none;
+}
+
+.preview-label {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.preview .tiles {
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+}
+
+.preview .today {
+  margin: 0;
+}
+
+.preview-heading {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-brand);
+  font-size: var(--step-2);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--due);
+}
+
+.preview .today .start {
+  font-size: var(--step-0);
+}
+
+.preview .next > li {
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+}
+
+.preview .next > li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.preview .next .reason {
+  margin-bottom: 0;
+}
+
+.preview-field {
+  margin: 0 0 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+.preview-outcomes {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.preview-outcomes li {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.preview-outcomes li.picked {
+  border-color: var(--data);
+  box-shadow: inset 3px 0 0 var(--data);
+}
+
+.landing-end {
+  padding: 1.5rem 1.5rem 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--data);
+  border-radius: var(--radius);
+}
+
+.landing-end h2 {
+  font-size: var(--step-2);
+}
+
+/* --- Getting started (R-57): the dashboard of a user with no attempts --- */
+.getting-started {
+  margin-bottom: 1.25rem;
+}
+
+.start-ways {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 48rem) {
+  .start-ways {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.start-ways li {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.start-ways a {
+  font-weight: 600;
+}
+
+.start-ways p {
+  margin: 0.25rem 0 0;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.start-demo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+
+.start-demo p {
+  flex: 1 1 24rem;
+  margin: 0;
+}
+
+.start-demo pre {
+  flex-basis: 100%;
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  overflow-x: auto;
+  background: var(--track);
+  border-radius: var(--radius);
+  font-size: var(--step--1);
+}

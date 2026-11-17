@@ -1,14 +1,135 @@
 {% extends "base.html" %}
-{% from "_page.html" import page_head %}
 {% block title %}Sign in - CodeCompass{% endblock %}
+{#- The sign-in page is also the landing page (R-57): what CodeCompass does, each feature
+    with a small preview, and the sign-in button at the top and again at the end. The
+    previews reuse the app's own classes with made-up data; their links have no href, so
+    nothing in them can be clicked, and screen readers skip them because the text beside
+    each one says the same thing. -#}
+{% macro sign_in_form() %}
+  <form method="post" action="{{ url_for('auth.github') }}">
+    {{ csrf_field() }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit" class="primary">Sign in with GitHub</button>
+  </form>
+{% endmacro %}
+{% macro tile(name, score=none, change=0, attempts=0) %}
+  {% if score is not none %}
+    <li class="tile scored" style="--fill: {{ (score * 0.45)|round(1) }}%"><a>
+      <span class="tile-name">{{ name }}</span>
+      <span class="tile-value"><strong>{{ score }}</strong>{% if change %}<span class="change {{ 'up' if change > 0 else 'down' }}">{{ "%+d"|format(change)|replace("-", "−") }}</span>{% endif %}</span>
+  {% elif attempts %}
+    <li class="tile started"><a>
+      <span class="tile-name">{{ name }}</span>
+      <span class="tile-value">{{ attempts }} of 3 attempts</span>
+  {% else %}
+    <li class="tile unstarted"><a>
+      <span class="tile-name">{{ name }}</span>
+      <span class="tile-value">Not started</span>
+  {% endif %}
+  </a></li>
+{% endmacro %}
 {% block content %}
-  <section class="panel signin-panel" aria-labelledby="signin-heading">
-    {{ page_head("Sign in", "Track which interview patterns you have mastered, what you are forgetting, and what to practice next.", heading_id="signin-heading") }}
-    <form method="post" action="{{ url_for('auth.github') }}">
-      {{ csrf_field() }}
-      <input type="hidden" name="next" value="{{ next }}">
-      <button type="submit" class="primary">Sign in with GitHub</button>
-    </form>
-    <p class="small-print">CodeCompass keeps only your GitHub username and display name, never a password, and nothing from your repositories. Each account sees only its own practice. <a href="{{ url_for('auth.privacy') }}">What is stored and how to delete it</a></p>
-  </section>
+  <div class="landing">
+    <section class="landing-hero" aria-labelledby="signin-heading">
+      <h1 id="signin-heading">Know which interview patterns you have mastered, and which you are forgetting</h1>
+      <p class="lede">Practice sites count problems solved. CodeCompass scores what you can still do, pattern by pattern, tells you when a problem is due for another try, and picks what to practice next, with the reason.</p>
+      {{ sign_in_form() }}
+      <p class="small-print">CodeCompass keeps only your GitHub username and display name, never a password, and nothing from your repositories. Each account sees only its own practice. <a href="{{ url_for('auth.privacy') }}">What is stored and how to delete it</a></p>
+    </section>
+
+    <ul class="features">
+      <li class="feature" aria-labelledby="feature-mastery">
+        <div class="feature-text">
+          <h2 id="feature-mastery">Mastery by pattern</h2>
+          <p>Every pattern, from two pointers to dynamic programming, gets a score from 0 to 100 after three attempts. Harder problems count for more, help counts for less, and old results fade, so the score shows what you can do now. Open any pattern to see the attempts behind it.</p>
+        </div>
+        <div class="preview" aria-hidden="true">
+          <span class="preview-label">Example</span>
+          <div class="bands">
+            <span class="band-weak" style="--share: 16.7%"></span>
+            <span class="band-developing" style="--share: 16.7%"></span>
+            <span class="band-strong" style="--share: 33.3%"></span>
+          </div>
+          <ul class="tiles">
+            {{ tile("Two Pointers", 84, 6) }}
+            {{ tile("Binary Search", 71, 3) }}
+            {{ tile("Stack", 55) }}
+            {{ tile("Sliding Window", 38, -5) }}
+            {{ tile("Graph Traversal", attempts=2) }}
+            {{ tile("Trie") }}
+          </ul>
+        </div>
+      </li>
+
+      <li class="feature" aria-labelledby="feature-reviews">
+        <div class="feature-text">
+          <h2 id="feature-reviews">Reviews before you forget</h2>
+          <p>A problem you solved comes back for review after a while, and sooner if you needed hints or the solution. Each review you pass waits longer for the next. A review usually brings a similar problem you have not tried rather than the same one, so you practice the pattern instead of recalling one answer.</p>
+        </div>
+        <div class="preview" aria-hidden="true">
+          <span class="preview-label">Example</span>
+          <div class="today due">
+            <div class="today-text">
+              <p class="preview-heading">2 reviews are due</p>
+              <p class="start">Start with <a>Koko Eating Bananas</a>. Review of Search In Rotated Sorted Array, due today.</p>
+              <dl class="stats facts">
+                <div><dt>Review streak</dt><dd>6 days</dd></div>
+                <div><dt>This week</dt><dd>4 of 7 solved</dd></div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="feature" aria-labelledby="feature-next">
+        <div class="feature-text">
+          <h2 id="feature-next">What to practice next, and why</h2>
+          <p>Up to five problems at a time: due reviews first, then patterns you have set as targets, patterns without enough attempts for a score, and your weakest patterns. Each one says why it was picked. Add an interview date and the list focuses on what that interview needs.</p>
+        </div>
+        <div class="preview" aria-hidden="true">
+          <span class="preview-label">Example</span>
+          <ol class="next">
+            <li><div>
+              <a class="title">Longest Substring Without Repeating Characters</a>
+              <span class="source">LeetCode</span><span class="mark level-medium">Medium</span>
+              <p class="reason">Sliding Window: score 38, last practiced 12 days ago</p>
+            </div></li>
+            <li><div>
+              <a class="title">Number of Islands</a>
+              <span class="source">LeetCode</span><span class="mark level-medium">Medium</span>
+              <p class="reason">Graph Traversal: not enough data yet</p>
+            </div></li>
+            <li><div>
+              <a class="title">Course Schedule</a>
+              <span class="source">CSES</span><span class="mark level-easy">Easy</span>
+              <p class="reason">Target pattern: Topological Sort</p>
+            </div></li>
+          </ol>
+        </div>
+      </li>
+
+      <li class="feature" aria-labelledby="feature-add">
+        <div class="feature-text">
+          <h2 id="feature-add">Your practice, wherever you did it</h2>
+          <p>Log an attempt in about 30 seconds: find the problem and say how it went. You can also import a CSV, or sync your submissions from {{ sync_names }} with just your public username. CodeCompass never asks for another site's password.</p>
+        </div>
+        <div class="preview" aria-hidden="true">
+          <span class="preview-label">Example</span>
+          <p class="preview-field">Daily Temperatures <span class="source">LeetCode</span></p>
+          <ul class="preview-outcomes">
+            <li><span class="o-mark o-solved_alone"></span>Solved alone</li>
+            <li class="picked"><span class="o-mark o-solved_with_hints"></span>Solved with hints</li>
+            <li><span class="o-mark o-solved_after_solution"></span>Solved after viewing the solution</li>
+            <li><span class="o-mark o-not_solved"></span>Not solved</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+
+    <section class="landing-end" aria-labelledby="start-heading">
+      <h2 id="start-heading">Start tracking</h2>
+      <p>Sign in to get your own empty account. To look around first, you can fill it with 8 weeks of made-up practice and delete it when you are ready to start for real.</p>
+      {{ sign_in_form() }}
+    </section>
+  </div>
 {% endblock %}

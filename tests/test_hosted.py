@@ -299,6 +299,35 @@ def test_an_empty_account_can_load_the_demo_history_once(hosted, monkeypatch):
     assert "Load demo history" in sign_in(hosted, monkeypatch, 202, "bo").get("/").get_data(as_text=True)
 
 
+# --- R-57: the sign-in page as a landing page, and getting started ---
+
+def test_the_sign_in_page_shows_what_codecompass_does(hosted):
+    page = hosted.test_client().get("/signin").get_data(as_text=True)
+    for heading in ("Mastery by pattern", "Reviews before you forget", "What to practice next, and why",
+                    "Your practice, wherever you did it"):
+        assert f">{heading}</h2>" in page, heading
+    assert page.count('class="preview"') == 4
+    assert page.count("Sign in with GitHub") == 2  # At the top, and again at the end.
+    assert "sync your submissions from Codeforces or AtCoder" in page  # No LeetCode in hosted mode (R-33).
+    # Nothing in a preview can be clicked: its links have no address.
+    # Each preview ends its feature, so it runs to the next feature or to the closing section.
+    previews = [chunk.split('<li class="feature"')[0].split('class="landing-end"')[0]
+                for chunk in page.split('class="preview"')[1:]]
+    assert len(previews) == 4 and all("href=" not in p for p in previews)
+    # Everything is served by the app itself (R-24): no address outside it, in a link, a
+    # script, an image, or a style.
+    assert not re.search(r'(?:href|src|action)="(?:https?:)?//', page)
+    assert "url(http" not in page
+
+
+def test_the_getting_started_panel_is_each_accounts_own(hosted, monkeypatch):
+    ada = sign_in(hosted, monkeypatch, 101, "ada")
+    bo = sign_in(hosted, monkeypatch, 202, "bo")
+    assert log(ada).status_code == 302
+    assert "Get started" not in ada.get("/").get_data(as_text=True)
+    assert "Get started" in bo.get("/").get_data(as_text=True)  # Bo has not logged anything yet.
+
+
 # --- R-55: moving data between local mode and an account ---
 
 def records(conn):

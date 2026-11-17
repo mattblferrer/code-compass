@@ -186,7 +186,7 @@ def dashboard():
         reviews_on=snap.reviews_on,
         week=progress.week_progress(progress.day_totals(snap.attempts), snap.today,
                                     int(snap.settings["weekly_goal"])),
-        offer_demo=hosted() and not snap.attempts,
+        new_user=not snap.attempts,  # R-57: the getting-started panel, in both modes.
     )
 
 

@@ -47,17 +47,6 @@
   {% set total = patterns|length or 1 %}
   {% set first = recommendations[0] if recommendations else none %}
 
-  {% if offer_demo %}
-    {# Hosted mode (R-25): a new account can try everything with made-up history first. #}
-    <section class="panel demo-offer" aria-labelledby="demo-heading">
-      <h2 id="demo-heading">New here?</h2>
-      <p>Log or sync your practice to see where you stand. To look around first, load 8 weeks of made-up practice into this account; deleting all data in settings removes it.</p>
-      <form method="post" action="{{ url_for('main.load_demo') }}">{{ csrf_field() }}
-        <button type="submit">Load demo history</button>
-      </form>
-    </section>
-  {% endif %}
-
   <section id="today" class="today {{ 'due' if due_count }}" aria-labelledby="today-heading" {% if due_count %}role="status"{% endif %}>
     <div class="today-text">
       <h1 id="today-heading">
@@ -97,6 +86,37 @@
       <a class="button big" href="{{ url_for('main.log_attempt', problem=first['problem']['id']) }}">Log attempt</a>
     {% endif %}
   </section>
+
+  {% if new_user %}
+    {# R-57: until the first attempt, the ways to add practice, and the demo history (R-25)
+       for looking around first. Hosted mode loads it into the account; local mode keeps it
+       in its own database, opened with the demo command. #}
+    <section class="panel getting-started" aria-labelledby="start-heading">
+      <h2 id="start-heading">Get started</h2>
+      <p>CodeCompass scores each pattern from your attempts, brings problems back for review before you forget them, and suggests what to practice next. Add some practice to begin:</p>
+      <ul class="start-ways">
+        <li><a href="{{ url_for('main.log_attempt') }}">Log an attempt</a>
+          <p>Find a problem and say how it went. It takes about 30 seconds.</p></li>
+        <li><a href="{{ url_for('main.import_csv') }}">Import a CSV</a>
+          <p>Bring in attempts you have kept in a spreadsheet.</p></li>
+        <li><a href="{{ url_for('main.settings', _anchor='accounts') }}">Link a username to sync</a>
+          <p>Sync your submissions from {{ sync_names }} by public username.</p></li>
+      </ul>
+      <div class="start-demo">
+        {% if hosted_mode %}
+          <p>To look around first, load 8 weeks of made-up practice into this account. Deleting all data in settings removes it.</p>
+          <form method="post" action="{{ url_for('main.load_demo') }}">{{ csrf_field() }}
+            <button type="submit" class="quiet">Load demo history</button>
+          </form>
+        {% else %}
+          <p>To look around first, open the demo: 8 weeks of made-up practice in a database of its own, so it never touches yours. Stop the app, then in PowerShell:</p>
+          <pre><code>$env:CODECOMPASS_DEMO = "1"
+flask --app codecompass demo
+flask --app codecompass run</code></pre>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
 
   <section class="activity" aria-labelledby="activity-heading">
     <h2 id="activity-heading" class="visually-hidden">Last 8 weeks</h2>
