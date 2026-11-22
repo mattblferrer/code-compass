@@ -47,7 +47,21 @@ def _database_for(path):
 
 
 if TEST_PG:
+    from datetime import datetime
+
+    from flask.testing import FlaskClient
+
     _local_create_app = codecompass.create_app
+
+    class _BrowserClient(FlaskClient):
+        """A test client that says its offset from UTC, as timezone.js does in a browser. Hosted
+        mode's "today" is UTC moved by that offset, so without it the app's date and the tests'
+        date.today() differ for part of each day (from local midnight until UTC's, east of UTC)."""
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            offset = datetime.now().astimezone().utcoffset()
+            self.set_cookie("tz", str(int(offset.total_seconds() // 60)))
 
     def _hosted_create_app(test_config=None):
         import psycopg
@@ -64,6 +78,7 @@ if TEST_PG:
         for key, value in (("TESTING_USER_ID", 1), ("FORCE_HTTPS", False), ("CSRF_CHECK", False)):
             config.setdefault(key, value)
         app = _local_create_app(config)
+        app.test_client_class = _BrowserClient
         with psycopg.connect(url, autocommit=True) as conn:
             conn.execute("INSERT INTO users (id, github_id, login, created) OVERRIDING SYSTEM VALUE"
                          " VALUES (1, 1, 'tester', '2026-01-01') ON CONFLICT DO NOTHING")
