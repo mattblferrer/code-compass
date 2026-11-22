@@ -4260,12 +4260,17 @@ table.help-intervals td {
   font-size: var(--step--1);
 }
 
+.guide-meta > span {
+  white-space: nowrap;
+}
+
 .guide-trick {
   color: var(--data);
 }
 
 .guide-list.compact {
   margin: 0.2rem 0 0.4rem;
+  padding-left: 0;
   gap: 0.2rem;
 }
 

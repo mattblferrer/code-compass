@@ -113,11 +113,12 @@ def test_a_pattern_page_lists_its_guides_in_order_with_labels(client, app):
     listed = app.extensions["pattern_guides"]["Two Pointers"]
     links = re.findall(r'<a href="(https://[^"]+)" target="_blank" rel="noopener noreferrer">', section)
     assert links == [g["link"] for g in listed]
-    assert "Hello Interview · Interview" in section and "USACO Guide · Competitive programming" in section
+    assert "<span>Hello Interview</span> <span>· Interview</span>" in section
+    assert "<span>USACO Guide</span> <span>· Competitive programming</span>" in section
     assert "counts as help" in section
 
     union_find = page(client, pattern_path("Union-Find"))
-    assert "· Needs account" in union_find and '<span class="guide-trick">Trick</span>' in union_find
+    assert "<span>· Needs account</span>" in union_find and '<span class="guide-trick">· Trick</span>' in union_find
     # A note on a guide shows after its title.
     assert '<span class="guide-note">(difference arrays)</span>' in page(client, pattern_path("Intervals"))
 

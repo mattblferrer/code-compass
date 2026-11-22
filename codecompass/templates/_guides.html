@@ -1,15 +1,16 @@
 {# Curated pattern guides (R-59), from data/resources.csv: the pattern page, a revealed
-   hint, and the help page. They open on other sites; CodeCompass never fetches them. #}
+   hint, and the help page. They open on other sites; CodeCompass never fetches them.
+   Each detail is kept whole on narrow screens, so lines break only between them. #}
 {% macro guide_list(guides, compact=False) %}
   <ul class="guide-list{{ ' compact' if compact }}">
     {% for g in guides %}
       <li{{ ' class="trick"'|safe if g['trick'] }}>
         <a href="{{ g['link']|web_link }}" target="_blank" rel="noopener noreferrer">{{ g['title'] }}</a>
         {%- if g['note'] %} <span class="guide-note">({{ g['note'] }})</span>{% endif %}
-        <span class="guide-meta">{{ g['site'] }}
-          {%- if not compact %} · {{ g['audience']|audience }}{% endif %}
-          {%- if g['needs_account'] %} · Needs account{% endif %}
-          {%- if g['trick'] %} · <span class="guide-trick">Trick</span>{% endif %}</span>
+        <span class="guide-meta"><span>{{ g['site'] }}</span>
+          {%- if not compact %} <span>· {{ g['audience']|audience }}</span>{% endif %}
+          {%- if g['needs_account'] %} <span>· Needs account</span>{% endif %}
+          {%- if g['trick'] %} <span class="guide-trick">· Trick</span>{% endif %}</span>
       </li>
     {% endfor %}
   </ul>
