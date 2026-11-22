@@ -47,7 +47,7 @@ The last line matters: it puts the shell back in local mode, so the next `flask 
 
 ## 4. Deploy (Vercel)
 
-1. In Vercel, **Add New > Project**, and import the repository. Vercel reads `vercel.json`, which sends every request to `api/index.py`.
+1. In Vercel, **Add New > Project**, and import the repository. Vercel reads `vercel.json`, which sends every request to `api/index.py`, and `.python-version`, which sets Python 3.14 to match the tests in CI. Without it, Vercel would use its default, Python 3.12.
 2. Under **Environment Variables**, add:
 
    | Name | Value |
