@@ -581,6 +581,28 @@ input[type="checkbox"] {
   box-shadow: inset 3px 0 0 var(--data);
 }
 
+.choice.outcome-choice {
+  position: relative;
+  grid-template-columns: 1fr;
+}
+
+.choice.outcome-choice input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.choice.outcome-choice:has(input:checked) {
+  background: color-mix(in srgb, var(--data) 8%, var(--surface));
+}
+
+.choice.outcome-choice:has(input:focus-visible) {
+  outline: 2px solid var(--data);
+  outline-offset: 2px;
+}
+
 .choice small {
   display: block;
   font-weight: 400;
@@ -707,6 +729,13 @@ tr:last-child td {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: start;
   }
+
+  /* Practice next stays in view while the pattern map scrolls. js/sticky_column.js moves it
+     up when it is taller than the window, so its end can still be reached. */
+  .next-column {
+    position: sticky;
+    top: calc(var(--header-height) + 1rem);
+  }
 }
 
 .panel {
@@ -800,6 +829,30 @@ tr:last-child td {
 .next .reason {
   margin: 0.15rem 0 0.5rem;
   color: var(--muted);
+}
+
+.due-inline {
+  display: none;
+  color: var(--due);
+}
+
+/* On phones the due date moves into the reason line, and the actions get the full width. */
+@media (max-width: 40rem) {
+  .next > li {
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+  }
+
+  .next > li > .due-date {
+    display: none;
+  }
+
+  .due-inline {
+    display: inline;
+  }
+
+  .next .actions {
+    gap: 0.4rem 0.6rem;
+  }
 }
 
 .actions {
@@ -1129,9 +1182,9 @@ tr:last-child td {
 .days li.missed { background: var(--due); }
 
 .activity-key {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
   gap: 0.25rem 1rem;
   margin-top: 0.4rem;
   font-size: var(--step--1);
@@ -1140,10 +1193,25 @@ tr:last-child td {
 
 .activity-key ul {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1rem;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* On phones the first and last dates share a line, with the legend below them. */
+@media (max-width: 40rem) {
+  .activity-key {
+    grid-template-columns: 1fr auto;
+  }
+
+  .activity-key ul {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
+  }
 }
 
 .activity-key li::before {
@@ -1249,6 +1317,7 @@ tr:last-child td {
 }
 
 .tile-tags {
+  margin-left: auto;
   font-size: var(--step--1);
   color: var(--data);
 }
@@ -2736,8 +2805,49 @@ h1 {
   margin-left: 0.4rem;
 }
 
-.outcome-cell {
+.outcome-cell,
+.date-cell {
   white-space: nowrap;
+}
+
+/* A problem's attempts on phones: date, outcome, and Edit on one line, then the time and
+   notes, so the table fits without scrolling sideways. */
+@media (max-width: 40rem) {
+  table.attempt-rows thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  table.attempt-rows tr {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: 0.75rem;
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  table.attempt-rows tr:last-child {
+    border-bottom: 0;
+  }
+
+  table.attempt-rows td {
+    padding: 0;
+    border: 0;
+  }
+
+  table.attempt-rows .date-cell { grid-area: 1 / 1; }
+  table.attempt-rows .outcome-cell { grid-area: 1 / 2; }
+  table.attempt-rows .edit-cell { grid-area: 1 / 3; }
+  table.attempt-rows .time-cell { grid-area: 2 / 1; }
+  table.attempt-rows .note-cell { grid-area: 2 / 2 / 3 / 4; }
+
+  table.attempt-rows .time-cell:empty,
+  table.attempt-rows .note-cell:empty {
+    display: none;
+  }
 }
 
 /* Filled: alone. Half: hints. Ring: after the solution. Cross: not solved. */
@@ -2914,8 +3024,15 @@ h1 {
   display: none;
 }
 
-.add-interview[open] > summary {
+.add-interview[open] > summary.button {
   margin-bottom: 1rem;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  color: var(--text);
+  font-size: var(--step-1);
+  font-weight: 600;
 }
 
 .interview-fields {
@@ -3442,6 +3559,8 @@ table.sortable th[aria-sort="descending"] .sort-arrow::after {
 
 .filters select,
 .filters input[type="date"] {
+  box-sizing: border-box;
+  height: 2.1rem;
   min-width: 0;
   max-width: 13rem;
   padding: 0.3rem 0.45rem;
@@ -3628,10 +3747,33 @@ figure.all-scores {
   transition: opacity 0.15s ease;
 }
 
+/* The patterns listed as rising or falling keep their color, as in the list beside the chart. */
+.all-scores .line.series.rising {
+  stroke: var(--up);
+  stroke-width: 2;
+  opacity: 0.9;
+}
+
+.all-scores .line.series.falling {
+  stroke: var(--due);
+  stroke-width: 2;
+  opacity: 0.9;
+}
+
 .all-scores .line.series.picked {
   stroke: var(--data);
   stroke-width: 3;
   opacity: 1;
+}
+
+.all-scores .key-up {
+  color: var(--up);
+  font-weight: 600;
+}
+
+.all-scores .key-down {
+  color: var(--due);
+  font-weight: 600;
 }
 
 .movers {
@@ -3657,11 +3799,6 @@ figure.all-scores {
 
 .movers li.picked {
   background: var(--track);
-}
-
-.movers.legend {
-  max-height: 24rem;
-  overflow-y: auto;
 }
 
 /* Time per pattern (R-49). */
@@ -4222,10 +4359,6 @@ table.help-intervals td {
 }
 
 /* Pattern guides (R-59): the pattern page, a revealed hint, and the help page. */
-.guides-card {
-  margin-top: 1.5rem;
-}
-
 .guide-list {
   list-style: none;
   margin: 0 0 0.75rem;

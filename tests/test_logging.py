@@ -236,4 +236,4 @@ def test_history_and_problem_pages_show_minutes_and_seconds(client, app):
     history = client.get("/history").get_data(as_text=True)
     assert "<th>Time</th>" in history and "<td>46:22</td>" in history
     page = client.get(f"/problems/{problem_id(app, 'Two Sum')}").get_data(as_text=True)
-    assert "<td>46:22</td>" in page
+    assert '<td class="time-cell">46:22</td>' in page

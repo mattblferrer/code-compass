@@ -54,7 +54,7 @@
             <tbody>
               {% for r in h.rows|reverse %}
                 <tr>
-                  <td>{{ r['date']|short_day }}</td>
+                  <td class="date-cell">{{ r['date']|short_day }}</td>
                   <td>{{ r['contest'] }}</td>
                   <td class="number">{{ r['rating'] }}</td>
                   <td class="number delta {{ 'up' if r['change'] and r['change'] > 0 else ('down' if r['change'] and r['change'] < 0 else '') }}">{{ r['change']|signed }}</td>

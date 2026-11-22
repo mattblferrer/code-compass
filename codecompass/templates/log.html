@@ -67,7 +67,7 @@
     <fieldset>
       <legend>How did it go?</legend>
       {% for outcome in outcomes %}
-        <label class="choice">
+        <label class="choice outcome-choice">
           <input type="radio" name="outcome" value="{{ outcome }}" {% if form.get('outcome') == outcome %}checked{% endif %}>
           <span>
             <span class="choice-title">{{ outcome|outcome_mark }}{{ outcome_labels[outcome] }}</span>

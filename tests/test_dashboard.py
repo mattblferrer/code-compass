@@ -46,7 +46,7 @@ def test_new_user_dashboard(client):
     assert "reviews are due" not in html and "review is due" not in html
     assert html.count('class="tile unstarted"') == 28  # Every core pattern, and no advanced ones.
     assert "FFT and NTT" not in html
-    assert "New pattern for you" in html and "Hint available" in html
+    assert "New pattern for you" in html and "Show beginner hint" in html
 
 
 def test_scores_match_the_rule(client, app):

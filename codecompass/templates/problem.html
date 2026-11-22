@@ -36,16 +36,16 @@
         <h2 id="attempts-heading">Attempts</h2>
         {% if attempts %}
           <div class="table-wrap plain">
-            <table>
+            <table class="attempt-rows">
               <thead><tr><th>Date</th><th>Outcome</th><th>Time</th><th>Notes</th><th><span class="visually-hidden">Edit</span></th></tr></thead>
               <tbody>
                 {% for a in attempts %}
                   <tr>
-                    <td>{{ a['date']|when }}</td>
+                    <td class="date-cell">{{ a['date']|when }}</td>
                     <td class="outcome-cell">{{ a['outcome']|outcome_mark }}{{ a['outcome']|outcome }}</td>
-                    <td>{{ a['time_seconds']|clock }}</td>
+                    <td class="time-cell">{{ a['time_seconds']|clock }}</td>
                     <td class="note-cell">{{ a['notes'] or "" }}</td>
-                    <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
+                    <td class="edit-cell"><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
                   </tr>
                 {% endfor %}
               </tbody>

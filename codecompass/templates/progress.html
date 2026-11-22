@@ -9,7 +9,10 @@
   {% else %}
     <div class="workbench">
       <div class="workbench-main">
-        {# R-48: every line is quiet until pointed at, in the chart or in the list, so 30 lines stay readable. #}
+        {# R-48: the patterns that rose or fell most are colored as in the list beside the chart; the rest
+           stay quiet until pointed at, in the chart or in the list, so 30 lines stay readable. #}
+        {% set rising_names = rising|map('first')|list %}
+        {% set falling_names = falling|map('first')|list %}
         <section class="panel lead" aria-labelledby="all-scores-heading">
           <h2 id="all-scores-heading">Scores over time</h2>
           <figure class="history all-scores" id="all-scores">
@@ -20,18 +23,18 @@
                 <text class="guide-label" x="{{ chart.left - 6 }}" y="{{ g.y + 4 }}" text-anchor="end">{{ g.value }}</text>
               {% endfor %}
               {% for l in chart.lines %}
-                <polyline class="line series" data-pattern="{{ l.name }}" data-points='{{ l.points|tojson }}' points="{{ l.line }}"><title>{{ l.name }}</title></polyline>
+                <polyline class="line series{{ ' rising' if l.name in rising_names }}{{ ' falling' if l.name in falling_names }}" data-pattern="{{ l.name }}" data-points='{{ l.points|tojson }}' points="{{ l.line }}"><title>{{ l.name }}</title></polyline>
               {% endfor %}
             </svg>
             <figcaption>
               <span>{{ chart.first|short_day }}</span>
-              <span>Weekly, from each pattern's third attempt. Point at a line or a pattern to pick it out.</span>
+              <span>Weekly, from each pattern's third attempt. <span class="key-up">Rising</span> and <span class="key-down">falling</span> patterns are colored; point at any line or pattern to pick it out.</span>
               <span>Today</span>
             </figcaption>
           </figure>
         </section>
       </div>
-      <aside class="workbench-side" aria-label="Patterns">
+      <aside class="workbench-side" aria-label="Patterns" data-sticky>
         <section class="panel side" aria-labelledby="movers-heading">
           <h2 id="movers-heading">Last {{ days }} days</h2>
           <h3>Rising</h3>
@@ -55,6 +58,7 @@
 {% endblock %}
 {% block scripts %}
   {% if chart %}
+    <script src="{{ url_for('static', filename='js/sticky_column.js') }}"></script>
     <script src="{{ url_for('static', filename='js/chart_tip.js') }}"></script>
     <script src="{{ url_for('static', filename='js/progress_chart.js') }}"></script>
   {% endif %}

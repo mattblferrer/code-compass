@@ -17,6 +17,9 @@
     <section class="panel lead" aria-labelledby="due-heading">
       <h2 id="due-heading">Due now <small>{{ queue.due|length }}</small></h2>
       {% if queue.due %}
+        {% if queue.due|rejectattr('sibling')|rejectattr('none_left')|list %}
+          <p class="small-print">Try instead names a similar problem to review in place of the original. A dash means one is picked when the review reaches Practice next.</p>
+        {% endif %}
         <div class="table-wrap plain">
           <table class="queue">
             <thead><tr><th>Problem</th><th>Source</th><th>Difficulty</th><th>Due</th><th>Interval</th><th>Try instead</th><th><span class="visually-hidden">Actions</span></th></tr></thead>
@@ -25,7 +28,7 @@
                 {% set p = r.problem %}
                 <tr id="review-{{ p['id'] }}">
                   {{ problem_cells(p) }}
-                  <td>{{ r.due|when }}</td>
+                  <td class="date-cell">{{ r.due|when }}</td>
                   <td>{{ r.interval }} {{ "day" if r.interval == 1 else "days" }}</td>
                   <td>
                     {% if r.sibling %}
@@ -38,7 +41,7 @@
                     {% elif r.none_left %}
                       <span class="context-muted">No other sibling left; review it itself</span>
                     {% else %}
-                      <span class="context-muted">Picked when it reaches Practice next</span>
+                      <span class="context-muted" title="Picked when this review reaches Practice next">–</span>
                     {% endif %}
                   </td>
                   <td class="queue-actions">
@@ -63,7 +66,7 @@
             {% for r in queue.upcoming %}
               <tr>
                 {{ problem_cells(r.problem) }}
-                <td>{{ r.due|when }}</td>
+                <td class="date-cell">{{ r.due|when }}</td>
                 <td>{{ r.interval }} {{ "day" if r.interval == 1 else "days" }}</td>
               </tr>
             {% endfor %}
