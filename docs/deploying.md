@@ -69,7 +69,7 @@ Changing the secret key signs everyone out. Changing the database string points 
 
 - **Accounts:** at most 50 can sign up (`MAX_ACCOUNTS` in `core/constants.py`); after that, new accounts are refused and existing ones still sign in. Free plans have usage limits, so watch Vercel's and Neon's usage pages as testers join.
 - **Sync:** Codeforces and AtCoder only; LeetCode stays in local mode (R-33). A sync runs in steps of up to 8 seconds while any CodeCompass page of that account is open, and pauses when they are all closed (R-54). Requests to each site are spaced across every account, so syncs wait their turn when several run at once.
-- **Uploads:** Vercel refuses requests over about 4.5 MB. A backup from an account is small; a backup from local mode holds the whole catalog, about 4 MB, so it may be near the limit.
+- **Uploads:** Vercel refuses requests over about 4.5 MB. Backups from either mode hold only the problems their records use, and the restore form compresses them with gzip before sending, so they are far under the limit. A backup saved by an older local version holds the whole catalog, about 4 MB, but compressed it is about 1 MB.
 - **First visit after a pause:** Neon pauses an idle database, so the first page after a quiet spell takes a few seconds longer.
 - **Vercel's free plan** is for non-commercial use.
 

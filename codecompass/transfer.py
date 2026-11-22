@@ -1,14 +1,16 @@
 """An account's data as a CodeCompass backup file, and back (R-46, R-55).
 
-Local mode's backup is its whole SQLite file. In hosted mode an account's data is written
-in the same format: a SQLite database built from schema.sql, holding the patterns, the
-problems the account's records use, its custom problems, and every user table. So a backup
-from either mode restores in the other.
+Both modes write a backup the same way: a SQLite database built from schema.sql, holding
+the patterns, the problems the user's records use, their custom problems, and every user
+table, but not the rest of the catalog and reserve, which each copy of the app has. So a
+backup from either mode restores in the other, and stays small enough for the host's
+upload limit. Restoring one in local mode loads the current catalog and reserve around it.
 
 Reading a backup into an account matches problems by link to the shared catalog and
 reserve, and adds the rest as the account's custom problems; patterns match by name. A
 backup from the same account (as kept for Undo) keeps every id, so it comes back exactly.
 """
+import json
 import sqlite3
 from pathlib import Path
 
@@ -85,13 +87,26 @@ def _join_notes(rows, columns):
 
 
 def _used_problems(conn):
-    """Ids of every problem the account's records use, and of its custom problems."""
+    """Ids of every problem the account's records use, and of its custom problems.
+
+    That includes the problems of deleted attempts kept for Undo, which name them only in
+    their saved text. A local restore loads the rest of the catalog under new ids, so a
+    problem left out here could come back under an id Undo would read as another problem.
+    """
     ids = set()
     for table, columns in PROBLEM_COLUMNS.items():
         for column in columns:
             ids |= {r[0] for r in conn.execute(f"SELECT {column} FROM {table} WHERE {column} IS NOT NULL")}
     ids |= {r[0] for r in conn.execute("SELECT id FROM problems WHERE is_custom = 1")}
-    return ids
+    for (payload,) in conn.execute("SELECT payload FROM deleted_items WHERE kind = 'attempt'"):
+        row = json.loads(payload)
+        ids |= {row.get(c) for c in ("problem_id", "review_of_problem_id") if isinstance(row.get(c), int)}
+    # Only problems that exist; an Undo record can name one a catalog reload has since removed.
+    found = set()
+    for chunk in _chunks(sorted(ids)):
+        found |= {r[0] for r in conn.execute(
+            f"SELECT id FROM problems WHERE id IN ({', '.join('?' * len(chunk))})", chunk)}
+    return found
 
 
 def export_account(conn):

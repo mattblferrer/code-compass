@@ -1,32 +1,58 @@
 """A full backup of the user's data, and restoring one (R-46).
 
-The backup is the whole database as one SQLite file, so it holds everything exactly:
-attempts, interviews, custom problems, notes and links, settings and goals, sync items,
-and rating history. Restoring replaces everything after the user confirms, and can be
-undone like deleting all data (R-39): the current database is copied aside first.
+The backup is one SQLite file holding all of the user's data: attempts, interviews, custom
+problems, notes and links, settings and goals, sync items, and rating history, with only the
+catalog and reserve problems those records use (transfer.py). It is the same in both modes,
+so it moves between them (R-55), and small enough for the host's upload limit. Restoring
+replaces everything after the user confirms, and can be undone like deleting all data
+(R-39): the current data is kept aside first.
+
+The restore form compresses a backup with gzip before uploading it (restore_gzip.js), so a
+gzipped file is unpacked here, up to the same size limit.
 """
 import sqlite3
+import zlib
 
 from . import catalog, erase, sync, transfer
 from .db import init_db
 
-# The largest backup accepted; a database with the catalog and reserve is a few megabytes.
+# The largest backup accepted, once unpacked. An older backup that holds the whole catalog
+# and reserve is a few megabytes; one in the current form is far smaller.
 MAX_BACKUP_BYTES = 100 * 1024 * 1024
 HEADER = b"SQLite format 3\x00"
+GZIP_HEADER = b"\x1f\x8b"
 # Tables every CodeCompass database has; a file without them is not a backup.
 REQUIRED = {"app_meta", "patterns", "problems", "attempts", "settings", "interviews"}
 
 
 def snapshot(conn):
-    """The database as bytes, for the backup download: the whole file in local mode, and in
-    hosted mode the account's data in the same format (transfer.py, R-55)."""
-    if getattr(conn, "hosted", False):
-        return transfer.export_account(conn)
-    return conn.serialize()
+    """The user's data as the bytes of a backup file, the same in both modes (transfer.py, R-55)."""
+    return transfer.export_account(conn)
+
+
+def unpack(data):
+    """A gzipped upload unpacked, or None if it is damaged or larger than MAX_BACKUP_BYTES
+    once unpacked. Anything not gzipped comes back as it is."""
+    if not data or not data.startswith(GZIP_HEADER):
+        return data
+    unzip = zlib.decompressobj(16 + zlib.MAX_WBITS)
+    try:
+        out = unzip.decompress(data, MAX_BACKUP_BYTES + 1)
+    except zlib.error:
+        return None
+    if len(out) > MAX_BACKUP_BYTES or unzip.unconsumed_tail or not unzip.eof:
+        return None
+    return out
 
 
 def check(data):
-    """An open in-memory copy of a backup, or an error message if it is not a sound one."""
+    """An open in-memory copy of a backup, or an error message if it is not a sound one.
+    `data` may be gzipped."""
+    if data and data.startswith(GZIP_HEADER):
+        data = unpack(data)
+        if data is None:
+            return None, (f"That file is damaged, or larger than {MAX_BACKUP_BYTES // 2**20} MB once unpacked. "
+                          "Nothing was changed.")
     if not data or not data.startswith(HEADER):
         return None, "That file isn't a CodeCompass backup. Choose a .sqlite file saved from Settings."
     copy = sqlite3.connect(":memory:")

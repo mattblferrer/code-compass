@@ -234,7 +234,9 @@ Before deleting, the whole database is copied to a file beside it, named after t
 
 ## Backup and restore (R-46)
 
-A backup is the whole database as one SQLite file, so it holds every table above, including the catalog and reserve. Restoring first copies the current database aside, as deleting all data does (the `-erased` file and the `erased_on` key), then copies the backup over the database and runs the same setup as an app start, which adds any table, column, or setting a newer version has. Undo copies the earlier database back.
+A backup is one SQLite file built from `schema.sql`, the same in both modes (R-55). It holds the patterns, every user table above, the custom problems, and only the catalog and reserve problems that the user's records use, including the problems of deleted attempts kept for Undo, with their ids. The rest of the catalog and reserve is left out, since every copy of the app has it, so a backup stays far under the host's upload limit. A backup from an earlier version holds the whole database, catalog and reserve included, and still restores. Restoring first copies the current database aside, as deleting all data does (the `-erased` file and the `erased_on` key), then copies the backup over the database and runs the same setup as an app start, which adds any table, column, or setting a newer version has and loads the current catalog and reserve around the backup's problems. Undo copies the earlier database back.
+
+The restore form compresses the file with gzip in the browser before sending it, and the server unpacks it, refusing a file larger than 100 MB once unpacked (`MAX_BACKUP_BYTES`). Without JavaScript, or in a browser without the compression, the file is sent as it is.
 
 ## Hosted mode (R-50 to R-56)
 
