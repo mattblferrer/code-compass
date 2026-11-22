@@ -51,7 +51,8 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     env:
-      CODECOMPASS_TEST_PG: postgresql://postgres:test@localhost:5432/postgres
+      # An address, not "localhost": the offline tests block every name lookup (tests/test_offline.py).
+      CODECOMPASS_TEST_PG: postgresql://postgres:test@127.0.0.1:5432/postgres
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
