@@ -38,9 +38,9 @@ def test_every_setting_has_the_same_text_on_both_pages_and_links_to_itself(clien
 def test_the_guide_is_one_step_from_every_page(client):
     for path in ("/", "/log", "/history", "/settings"):
         html = page(client, path)
-        # In the header, both inline and in its More menu (the window's width shows one of
-        # them), in the phone's More sheet, and in the "?" list.
-        assert html.count('href="/help"') == 4, path
+        # In the header's More menu, the phone's More sheet, and the "?" list.
+        assert html.count('href="/help"') == 3, path
+        assert 'href="/help"' in html.split('class="nav-more-menu"', 1)[1].split("</nav>", 1)[0], path
     assert 'href="/help#settings"' in page(client, "/settings")
 
 

@@ -7,7 +7,6 @@
   var root = document.documentElement;
   var button = document.getElementById("theme-toggle");
   if (!button) return;
-  var label = button.querySelector(".theme-label");
   var system = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
 
   function systemTheme() {
@@ -20,8 +19,7 @@
 
   function update() {
     var dark = current() === "dark";
-    // The button names the mode it switches to.
-    label.textContent = dark ? "Light" : "Dark";
+    // The button shows only an icon; its label and tooltip name the mode it switches to.
     button.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
     button.title = button.getAttribute("aria-label");
     button.classList.toggle("is-dark", dark);

@@ -1827,8 +1827,7 @@ figure.score-chart {
 button.theme-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.7rem;
+  padding: 0.4rem;
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: var(--on-band-muted);
@@ -3778,10 +3777,9 @@ kbd {
   margin-bottom: 0.5rem;
 }
 
-/* Below 75rem the header's later links fold into More, so the header stays one row. */
+/* The less used pages are always in the header's More menu, so the header stays short. */
 .nav-more {
   position: relative;
-  display: none;
 }
 
 .nav-more > summary {
@@ -3834,16 +3832,6 @@ kbd {
 .site-nav .nav-more-menu a[aria-current="page"] {
   background: var(--track);
   color: var(--text);
-}
-
-@media (max-width: 75rem) {
-  .site-nav a.later {
-    display: none;
-  }
-
-  .nav-more {
-    display: block;
-  }
 }
 
 /* History and Progress sit in the header until 52rem, and in More below it. */

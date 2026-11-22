@@ -170,13 +170,17 @@ def test_every_page_lists_the_keyboard_shortcuts(client):
     assert 'id="problem-search"' in log_form and 'id="attempt-form"' in log_form
 
 
-def test_header_folds_its_later_links_into_more(client):
-    """The header keeps every link, and repeats the later ones in More for narrower windows."""
+def test_header_keeps_the_daily_pages_and_puts_the_rest_in_more(client):
+    """The header shows the five daily pages; the less used ones are always in More, which
+    also repeats History and Progress for narrower windows."""
     page = client.get("/sync").get_data(as_text=True)
     nav = page.split('<nav class="site-nav"', 1)[1].split("</nav>", 1)[0]
-    menu = nav.split('class="nav-more-menu"', 1)[1]
-    for label in ("History", "Progress", "Interviews", "Sync", "Profile", "Settings"):
-        assert f">{label}</a>" in menu, label
+    bar, menu = nav.split('class="nav-more-menu"', 1)
+    for label in ("Dashboard", "Reviews", "Log", "History", "Progress"):
+        assert f">{label}</a>" in bar, label
+    for label in ("Interviews", "Sync", "Profile", "Settings", "Help"):
+        assert f">{label}</a>" in menu and f">{label}</a>" not in bar, label
+    assert ">History</a>" in menu and ">Progress</a>" in menu
     assert ">Dashboard</a>" not in menu and ">Reviews</a>" not in menu
     assert '<summary aria-current="page"' in nav  # Sync is in More, so More is marked as the current page.
 
