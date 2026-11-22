@@ -2,11 +2,12 @@
 {% from "_page.html" import page_head %}
 {% from "_shortcuts.html" import shortcut_list %}
 {% from "_setting_help.html" import setting_help, setting_groups with context %}
+{% from "_guides.html" import guide_list %}
 {% block title %}Help - CodeCompass{% endblock %}
 {#- The help guide (R-58). Each setting's text and the shortcut list are shared with the
     settings page and the "?" list, and every number comes from the rules' own values. -#}
 {% set topics = [("outcomes", "Outcomes"), ("scores", "Scores"), ("reviews", "Reviews"), ("syncing", "Syncing"),
-                 ("shortcuts", "Keyboard shortcuts"), ("settings", "Settings")] + ([("account", "Your account")] if hosted_mode else []) %}
+                 ("guides", "Pattern guides"), ("shortcuts", "Keyboard shortcuts"), ("settings", "Settings")] + ([("account", "Your account")] if hosted_mode else []) %}
 {% block content %}
   {{ page_head("Help", "How CodeCompass works, what each setting does, and the keyboard shortcuts.") }}
 
@@ -75,6 +76,24 @@
         {% if not hosted_mode %}<li>{{ leetcode_notice }} A LeetCode sync reads only the recent accepted submissions LeetCode shows (about 20).</li>{% endif %}
       </ul>
       <p>You can also <a href="{{ url_for('main.import_csv') }}">import a CSV</a> of attempts from anywhere.</p>
+    </section>
+
+    <section class="panel help-section" id="guides" aria-labelledby="guides-help-heading">
+      <h2 id="guides-help-heading">Pattern guides</h2>
+      <p>Each pattern's page lists guides from other sites that teach it, and you can add your own links there. Guides aimed at interviews come first for core patterns, and guides for competitive programming first for advanced ones. A guide marked "trick" teaches a technique from another topic that helps with the pattern. Some sites need a free account.</p>
+      <p>Reading a guide during an attempt counts as help, so log that attempt as solved with hints. Reading one beforehand, to learn the pattern, does not.</p>
+      <div class="help-guides">
+        {% for p in patterns %}
+          {% set guides = pattern_guides(p['name']) %}
+          {% if guides %}
+            <details>
+              <summary>{{ p['name'] }} <small>{{ guides|length }}</small></summary>
+              {{ guide_list(guides) }}
+              <p><a href="{{ url_for('main.pattern', name=p['name']) }}#guides">Your links for {{ p['name'] }}</a></p>
+            </details>
+          {% endif %}
+        {% endfor %}
+      </div>
     </section>
 
     <section class="panel help-section" id="shortcuts" aria-labelledby="shortcuts-help-heading">

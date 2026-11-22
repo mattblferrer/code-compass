@@ -72,6 +72,9 @@ MAX_NOTE_LENGTH = 20000
 MAX_LINK_LENGTH = 2000
 MAX_LINK_LABEL = 200
 
+# Pattern guides (R-59): the most curated guides one pattern lists, tricks included.
+MAX_GUIDES_PER_PATTERN = 6
+
 # Progress page (R-48): the span risers and fallers are measured over, and how many of each.
 MOVERS_DAYS = 30
 MOVERS_SHOWN = 3

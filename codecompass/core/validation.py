@@ -20,7 +20,7 @@ OUTCOME_LABELS = {
 OUTCOME_DEFINITIONS = {
     c.SOLVED_ALONE: "No outside help of any kind.",
     c.SOLVED_WITH_HINTS: "Any help short of a full solution, such as AI chat, discussion posts, "
-                         "topic tags, a friend, or a beginner hint.",
+                         "topic tags, a friend, a pattern guide, or a beginner hint.",
     c.SOLVED_AFTER_SOLUTION: "You read or watched a full solution, or used AI-written code.",
     c.NOT_SOLVED: "You did not reach a working solution.",
 }
@@ -249,7 +249,8 @@ def validate_note(text):
 
 
 def validate_link(url, label):
-    """A solution or editorial link for a problem (R-45). Returns (values, error).
+    """A link the user keeps: a solution or editorial for a problem (R-45), or a guide for a
+    pattern (R-59). Returns (values, error).
 
     Only web links are kept, since the user opens them in a browser; CodeCompass never
     fetches them (R-03).

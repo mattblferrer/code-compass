@@ -408,6 +408,30 @@ def delete_link(conn, problem_id, link_id):
                             (link_id, problem_id)).rowcount
 
 
+# --- Pattern links (R-59) ---
+
+def pattern_id(conn, name):
+    row = conn.execute("SELECT id FROM patterns WHERE name = ?", (name,)).fetchone()
+    return row["id"] if row else None
+
+
+def pattern_links_for(conn, pattern_id):
+    return conn.execute("SELECT id, url, label FROM pattern_links WHERE pattern_id = ? ORDER BY id",
+                        (pattern_id,)).fetchall()
+
+
+def add_pattern_link(conn, pattern_id, values):
+    with conn:
+        conn.execute("INSERT INTO pattern_links (pattern_id, url, label) VALUES (?, ?, ?)",
+                     (pattern_id, values["url"], values["label"]))
+
+
+def delete_pattern_link(conn, pattern_id, link_id):
+    with conn:
+        return conn.execute("DELETE FROM pattern_links WHERE id = ? AND pattern_id = ?",
+                            (link_id, pattern_id)).rowcount
+
+
 def search_notes(conn, text, limit):
     """Problems whose note contains `text`, for the log form's search after title matches."""
     pattern = "%" + text.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"

@@ -215,9 +215,20 @@ Saving or dismissing several sync items at once keeps a row here so Undo can rev
 | `url` | Text | An http or https link; CodeCompass never fetches it |
 | `label` | Text | Optional name shown instead of the link |
 
+### `pattern_links` (R-59)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| `id` | Integer | Primary key |
+| `pattern_id` | Integer | The pattern; matched by name when a backup is read into another account |
+| `url` | Text | An http or https link; CodeCompass never fetches it |
+| `label` | Text | Optional name shown instead of the link |
+
+The curated guides beside them are not stored in the database. They are the same for every user, so the app reads `data/resources.csv` (built from `docs/resources.md`) once when it starts and keeps them in memory. Its columns are `pattern`, `audience` (`interview` or `competitive`), `site`, `title`, `link`, `note` (shown after the title), and `needs_account` and `trick` (`yes` or empty).
+
 ## Deleting all data (R-39)
 
-Deleting all data empties every table above that holds the user's data: `attempts`, `interviews`, `interview_patterns`, `settings`, `hidden_sites`, `pattern_preferences`, `sibling_suggestions`, `not_now`, `hint_reveals`, `linked_accounts`, `sync_items`, `sync_batches`, `rating_history`, `deleted_items`, `problem_notes`, and `problem_links`. It also removes custom problems and any problem kept only because an attempt used it. Patterns and the catalog and reserve problems stay, and settings fall back to their defaults.
+Deleting all data empties every table above that holds the user's data: `attempts`, `interviews`, `interview_patterns`, `settings`, `hidden_sites`, `pattern_preferences`, `sibling_suggestions`, `not_now`, `hint_reveals`, `linked_accounts`, `sync_items`, `sync_batches`, `rating_history`, `deleted_items`, `problem_notes`, `problem_links`, and `pattern_links`. It also removes custom problems and any problem kept only because an attempt used it. Patterns and the catalog and reserve problems stay, and settings fall back to their defaults.
 
 Before deleting, the whole database is copied to a file beside it, named after the database with `-erased` added (for example `instance/codecompass.sqlite-erased`), and the `app_meta` table records the day of the deletion under the key `erased_on`. Undo copies the file back over the database, which also removes that key, and then deletes the file. Saving anything new, or a deletion older than one day, removes the file and the key, after which the deletion is final.
 
@@ -230,7 +241,7 @@ A backup is the whole database as one SQLite file, so it holds every table above
 Local mode keeps all the tables above in one SQLite file for one user. Hosted mode keeps them in PostgreSQL (`codecompass/schema_pg_shared.sql` and `codecompass/schema_pg_user.sql`), with the same columns and meanings, split in two:
 
 - **Shared, in the `public` schema:** `app_meta` (the catalog's fingerprint), `patterns`, `problems`, and `problem_patterns`, plus the tables below. `problems` gains an `owner` column: empty for the catalog and reserve, and the account's id for its custom problems. Shared problems and their patterns change only while the catalog loads; a database trigger refuses any other change. Links are unique among shared problems and within each account's custom problems, so two accounts can each add a custom problem with the same link.
-- **Per account, in its own schema `u<account id>`:** every user table above, from `attempts` to `problem_links`, its own `app_meta` (the `erased_on` key), and a view named `problems` that shows the shared catalog and reserve with that account's own custom problems only. A connection for an account searches its schema first, so every query reaches only that account's tables (R-52). `rating_history` gains a `rowid` column that keeps the order ratings were stored in, as SQLite's built-in rowid does.
+- **Per account, in its own schema `u<account id>`:** every user table above, from `attempts` to `pattern_links`, its own `app_meta` (the `erased_on` key), and a view named `problems` that shows the shared catalog and reserve with that account's own custom problems only. A connection for an account searches its schema first, so every query reaches only that account's tables (R-52). `rating_history` gains a `rowid` column that keeps the order ratings were stored in, as SQLite's built-in rowid does.
 
 ### `users` (R-51)
 

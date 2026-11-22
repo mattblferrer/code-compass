@@ -1,12 +1,19 @@
-{# Beginner hint (R-27): hidden until revealed, then shown until the next attempt is logged. #}
+{# Beginner hint (R-27): hidden until revealed, then shown until the next attempt is logged.
+   Once revealed, each pattern's guides (R-59) follow its description. #}
+{% from "_guides.html" import guide_list %}
 {% macro hint_block(problem, eligible, hint, next_url, swap) %}
   {% if hint %}
     <details class="hint" open data-hint-id="{{ problem['id'] }}">
       <summary>Hint</summary>
       <ul>
-        {% for p in hint %}<li><strong>{{ p['name'] }}</strong>: {{ p['description'] }}</li>{% endfor %}
+        {% for p in hint %}
+          <li><strong>{{ p['name'] }}</strong>: {{ p['description'] }}
+            {% set guides = pattern_guides(p['name']) %}
+            {% if guides %}{{ guide_list(guides, compact=True) }}{% endif %}
+          </li>
+        {% endfor %}
       </ul>
-      <small>You've seen the hint, so your next attempt on this problem can't be saved as "solved alone."</small>
+      <small>You've seen the hint, so your next attempt on this problem can't be saved as "solved alone." Reading a guide counts as help too.</small>
     </details>
   {% elif eligible %}
     <form method="post" action="{{ url_for('main.reveal_hint', problem_id=problem['id']) }}" class="inline" data-swap="{{ swap }}">{{ csrf_field() }}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "_page.html" import page_head %}
+{% from "_guides.html" import guide_list %}
 {% block title %}{{ pattern['name'] }} - CodeCompass{% endblock %}
 {% block content %}
   {{ page_head(pattern['name'], pattern['description']) }}
@@ -62,6 +63,37 @@
       {% else %}
         <p class="empty">No attempts in this pattern yet.</p>
       {% endif %}
+
+      {# R-59: curated guides, then the user's own links for this pattern. #}
+      <section class="panel guides-card" id="guides" aria-labelledby="guides-heading">
+        <h2 id="guides-heading">Guides</h2>
+        {% if guides %}
+          {{ guide_list(guides) }}
+        {% else %}
+          <p class="context-muted">No curated guides for this pattern yet. Add your own below.</p>
+        {% endif %}
+        <p class="small-print">Guides open on other sites. Reading one during an attempt counts as help, so log that attempt as solved with hints.</p>
+        <h3>Your links</h3>
+        {% if links %}
+          <ul class="link-list">
+            {% for l in links %}
+              <li>
+                {% if l['url']|web_link %}<a href="{{ l['url']|web_link }}" target="_blank" rel="noopener noreferrer">{{ l['label'] or l['url'] }}</a>{% else %}{{ l['label'] or l['url'] }}{% endif %}
+                <form method="post" action="{{ url_for('main.delete_pattern_link', name=pattern['name'], link_id=l['id']) }}" class="inline">{{ csrf_field() }}
+                  <button type="submit" class="text" aria-label="Remove {{ l['label'] or l['url'] }}">Remove</button>
+                </form>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="context-muted">Keep a guide, video, or write-up you like for this pattern.</p>
+        {% endif %}
+        <form method="post" action="{{ url_for('main.add_pattern_link', name=pattern['name']) }}" class="link-form">{{ csrf_field() }}
+          <label>Link <input type="url" name="url" placeholder="https://" required></label>
+          <label>Label (optional) <input name="label" maxlength="200"></label>
+          <button type="submit" class="small">Add link</button>
+        </form>
+      </section>
     </div>
 
     <aside class="workbench-side" aria-label="This pattern">

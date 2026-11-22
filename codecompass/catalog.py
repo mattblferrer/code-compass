@@ -7,10 +7,12 @@ from pathlib import Path
 import click
 
 from .core.catalog_rows import parse_catalog, parse_patterns
+from .core import resources as guides
 from .core.reserve import UNMAPPED_HEADER, atcoder_rows, atcoder_unmapped, reserve_rows, unmapped_rows
 from .db import open_db
 
 DATA_DIR = Path(__file__).with_name("data")
+RESOURCES_DOC = Path(__file__).resolve().parent.parent / "docs" / "resources.md"
 HEADER = ["title", "link", "difficulty", "rating", "source", "patterns"]
 
 # Change this when the loader's behavior changes, so unchanged files load again.
@@ -208,10 +210,35 @@ def build_reserve_command(problemset):
                f"cannot hold to {DATA_DIR / 'reserve_unmapped.csv'}.")
 
 
+def load_resources(patterns_path, resources_path):
+    """The curated pattern guides (R-59) as {pattern name: [guide, ...]}. They are the same for
+    every user and never change while the app runs, so they are read once at start and kept in
+    memory rather than stored per user. With no file (as before build-resources first runs),
+    there are none. Raises DataFileError if the file is invalid."""
+    if not resources_path or not Path(resources_path).exists():
+        return {}
+    categories = {p["name"]: p["category"] for p in parse_patterns(read_rows(patterns_path), Path(patterns_path).name)}
+    return guides.by_pattern(guides.parse_resources(read_rows(resources_path), categories, Path(resources_path).name))
+
+
+@click.command("build-resources")
+def build_resources_command():
+    """Write data/resources.csv from docs/resources.md, the reviewed list of pattern guides (R-59)."""
+    try:
+        rows = guides.from_markdown(RESOURCES_DOC.read_text(encoding="utf-8"))
+    except ValueError as error:
+        raise click.ClickException(str(error))
+    _write_csv(DATA_DIR / "resources.csv", guides.HEADER, rows)
+    load_resources(DATA_DIR / "patterns.csv", DATA_DIR / "resources.csv")  # Stops on an invalid list.
+    click.echo(f"Wrote {len(rows)} guides to {DATA_DIR / 'resources.csv'}.")
+
+
 def init_app(app):
     conn = open_db(app.config)
     try:
         load_if_changed(conn, app.config["PATTERNS_PATH"], app.config["CATALOG_PATH"], app.config.get("RESERVE_PATH"))
     finally:
         conn.close()
+    app.extensions["pattern_guides"] = load_resources(app.config["PATTERNS_PATH"], app.config["RESOURCES_PATH"])
     app.cli.add_command(build_reserve_command)
+    app.cli.add_command(build_resources_command)

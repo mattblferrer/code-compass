@@ -41,6 +41,17 @@ curl -o problemset.json https://codeforces.com/api/problemset.problems
 flask --app codecompass build-reserve problemset.json
 ```
 
+## Update the pattern guides
+
+The curated guides for each pattern (R-59) are reviewed in `docs/resources.md`. After editing it, rebuild the data file the app reads, then check that no link has stopped working:
+
+```
+flask --app codecompass build-resources
+python scripts/check_resource_links.py
+```
+
+The check script is the only code that requests the guides. The app never fetches them, and the tests never run the script.
+
 ## Hosted mode
 
 The same app can run as a website where people sign in with GitHub and each account keeps its own data (R-50 to R-56), on Vercel with a Neon PostgreSQL database. See [docs/deploying.md](docs/deploying.md).

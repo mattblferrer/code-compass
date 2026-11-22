@@ -299,6 +299,25 @@ def test_an_empty_account_can_load_the_demo_history_once(hosted, monkeypatch):
     assert "Load demo history" in sign_in(hosted, monkeypatch, 202, "bo").get("/").get_data(as_text=True)
 
 
+# --- R-59: each account's own pattern links ---
+
+def test_pattern_links_belong_to_one_account_and_move_with_its_backup(hosted, monkeypatch):
+    ada = sign_in(hosted, monkeypatch, 101, "ada")
+    ada.post("/patterns/Two%20Pointers/links", data={"url": "https://example.org/ada", "label": "Ada's notes"})
+    [link] = query(hosted, user_id(hosted, "ada"), "SELECT id FROM pattern_links")
+    bo = sign_in(hosted, monkeypatch, 202, "bo")
+    page = bo.get("/patterns/Two%20Pointers").get_data(as_text=True)
+    assert "https://example.org/ada" not in page and "Hello Interview" in page  # Curated guides are shared.
+    assert bo.post(f"/patterns/Two%20Pointers/links/{link['id']}/delete").status_code == 404
+    assert len(query(hosted, user_id(hosted, "ada"), "SELECT id FROM pattern_links")) == 1
+    # Ada's backup, restored into Bo's account, brings the link with its pattern matched by name.
+    backup = ada.get("/settings/backup").data
+    bo.post("/settings/restore", data={"file": (io.BytesIO(backup), "ada.sqlite"), "confirm": "restore"},
+            content_type="multipart/form-data")
+    assert "https://example.org/ada" in bo.get("/patterns/Two%20Pointers").get_data(as_text=True)
+    assert "https://example.org/ada" not in bo.get("/patterns/Sliding%20Window").get_data(as_text=True)
+
+
 # --- R-57: the sign-in page as a landing page, and getting started ---
 
 def test_the_sign_in_page_shows_what_codecompass_does(hosted):

@@ -161,3 +161,11 @@ CREATE TABLE IF NOT EXISTS problem_links (
     label TEXT
 );
 
+-- Guides the user keeps for a pattern, beside the curated ones (R-59). Only opened by the user.
+CREATE TABLE IF NOT EXISTS pattern_links (
+    id INTEGER PRIMARY KEY,
+    pattern_id INTEGER NOT NULL REFERENCES patterns (id),
+    url TEXT NOT NULL,
+    label TEXT
+);
+

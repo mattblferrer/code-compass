@@ -67,4 +67,11 @@ def test_the_guide_fits_the_mode_and_loads_nothing_from_outside(client, app):
     else:
         assert "for Codeforces, AtCoder, or LeetCode in" in html and "about 20" in html
         assert 'id="account"' not in html
-    assert not re.search(r'(?:href|src|action)="(?:https?:)?//', html)  # R-24
+    # R-24: nothing loads from outside. The only outside addresses are the curated pattern
+    # guides (R-59), which are plain links the user opens; no script, style, image, or form.
+    assert not re.search(r'(?:src|action)="(?:https?:)?//', html)
+    assert not re.search(r'<link[^>]*href="(?:https?:)?//', html)
+    guides = {g["link"] for gs in app.extensions["pattern_guides"].values() for g in gs}
+    outside = set(re.findall(r'<a href="((?:https?:)?//[^"]*)"', html))
+    assert outside and outside <= guides
+    assert not re.search(r'<(?!a )[^>]*href="(?:https?:)?//', html)

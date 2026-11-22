@@ -28,7 +28,8 @@ USER_SCHEMA_PATH = Path(__file__).with_name("schema_pg_user.sql")
 
 # Tables whose INSERTs return the new row's id, for cursor.lastrowid.
 ID_TABLES = {"attempts", "interviews", "problems", "sibling_suggestions", "not_now", "hint_reveals",
-             "sync_items", "deleted_items", "sync_batches", "problem_links", "users", "sync_jobs"}
+             "sync_items", "deleted_items", "sync_batches", "problem_links", "pattern_links", "users",
+             "sync_jobs"}
 
 _INSERT = re.compile(r"^\s*INSERT\s+INTO\s+([A-Za-z_][A-Za-z0-9_.]*)", re.IGNORECASE)
 _LIKE = re.compile(r"\bLIKE\b")

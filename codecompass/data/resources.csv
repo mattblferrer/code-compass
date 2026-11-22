@@ -1,0 +1,231 @@
+pattern,audience,site,title,link,note,needs_account,trick
+Arrays and Hashing,interview,Tech Interview Handbook,Hash table,https://techinterviewhandbook.org/algorithms/hash-table/,,,
+Arrays and Hashing,interview,Tech Interview Handbook,Array,https://techinterviewhandbook.org/algorithms/array/,,,
+Arrays and Hashing,interview,LeetCode Explore,Hash Table card,https://leetcode.com/explore/learn/,,yes,
+Arrays and Hashing,competitive,USACO Guide,Introduction to Sets & Maps,https://usaco.guide/bronze/intro-sets,,,
+Arrays and Hashing,competitive,USACO Guide,Hashmaps,https://usaco.guide/gold/hashmaps,,,
+Arrays and Hashing,competitive,USACO Guide,Custom Comparators and Coordinate Compression,https://usaco.guide/silver/sorting-custom,,,yes
+Prefix Sums,interview,Hello Interview,Prefix Sum,https://www.hellointerview.com/learn/code/prefix-sum/overview,,,
+Prefix Sums,competitive,USACO Guide,Introduction to Prefix Sums,https://usaco.guide/silver/prefix-sums,,,
+Prefix Sums,competitive,USACO Guide,More on Prefix Sums,https://usaco.guide/silver/more-prefix-sums,,,
+Prefix Sums,competitive,cp-algorithms,Sparse table,https://cp-algorithms.com/data_structures/sparse-table.html,,,yes
+Two Pointers,interview,Hello Interview,Two Pointers,https://www.hellointerview.com/learn/code/two-pointers/overview,,,
+Two Pointers,competitive,USACO Guide,Two Pointers,https://usaco.guide/silver/two-pointers,,,
+Sliding Window,interview,Hello Interview,Sliding Window,https://www.hellointerview.com/learn/code/sliding-window/fixed-length,,,
+Sliding Window,competitive,USACO Guide,Sliding Window,https://usaco.guide/gold/sliding-window,,,
+Sliding Window,competitive,cp-algorithms,Minimum stack / Minimum queue,https://cp-algorithms.com/data_structures/stack_queue_modification.html,,,yes
+Stack,interview,Hello Interview,Stack,https://www.hellointerview.com/learn/code/stack/overview,,,
+Stack,interview,Tech Interview Handbook,Stack,https://techinterviewhandbook.org/algorithms/stack/,,,
+Stack,interview,LeetCode Explore,Queue & Stack card,https://leetcode.com/explore/learn/,,yes,
+Stack,interview,Tech Interview Handbook,Queue,https://techinterviewhandbook.org/algorithms/queue/,,,yes
+Stack,competitive,cp-algorithms,Expression parsing,https://cp-algorithms.com/string/expression_parsing.html,,,yes
+Monotonic Stack and Queue,interview,AlgoMonster,Monotonic Stack,https://algo.monster/problems/mono_stack_intro,,,
+Monotonic Stack and Queue,competitive,USACO Guide,Stacks,https://usaco.guide/gold/stacks,,,
+Monotonic Stack and Queue,competitive,cp-algorithms,Minimum stack / Minimum queue,https://cp-algorithms.com/data_structures/stack_queue_modification.html,,,
+Monotonic Stack and Queue,competitive,USACO Guide,Sliding Window,https://usaco.guide/gold/sliding-window,,,yes
+Linked List,interview,Hello Interview,Linked List,https://www.hellointerview.com/learn/code/linked-list/overview,,,
+Linked List,interview,Tech Interview Handbook,Linked list,https://techinterviewhandbook.org/algorithms/linked-list/,,,
+Linked List,interview,LeetCode Explore,Linked List card,https://leetcode.com/explore/learn/,,yes,
+Linked List,competitive,USACO Guide,Introduction to Functional Graphs,https://usaco.guide/silver/func-graphs,cycle finding,,yes
+Binary Search,interview,Hello Interview,Binary Search,https://www.hellointerview.com/learn/code/binary-search/overview,,,
+Binary Search,interview,LeetCode Explore,Binary Search card,https://leetcode.com/explore/learn/,,yes,
+Binary Search,competitive,USACO Guide,Binary Search on a Sorted Array,https://usaco.guide/silver/binary-search-sorted-array,,,
+Binary Search,competitive,USACO Guide,Binary Search,https://usaco.guide/silver/binary-search,,,
+Binary Search,competitive,cp-algorithms,Binary search,https://cp-algorithms.com/num_methods/binary_search.html,,,
+Binary Search,competitive,Codeforces EDU,ITMO Academy: Binary Search lesson,https://codeforces.com/edu/course/2,,yes,
+Sorting,interview,Tech Interview Handbook,Sorting and searching,https://techinterviewhandbook.org/algorithms/sorting-searching/,,,
+Sorting,interview,VisuAlgo,Sorting,https://visualgo.net/en/sorting,,,
+Sorting,competitive,USACO Guide,Introduction to Sorting,https://usaco.guide/bronze/intro-sorting,,,
+Sorting,competitive,USACO Guide,Custom Comparators and Coordinate Compression,https://usaco.guide/silver/sorting-custom,,,
+Sorting,competitive,USACO Guide,Sorted Sets with Custom Comparators,https://usaco.guide/gold/custom-cpp-stl,,,yes
+Intervals,interview,Hello Interview,Intervals,https://www.hellointerview.com/learn/code/intervals/overview,,,
+Intervals,interview,Tech Interview Handbook,Interval,https://techinterviewhandbook.org/algorithms/interval/,,,
+Intervals,competitive,USACO Guide,Greedy Algorithms with Sorting,https://usaco.guide/silver/greedy-sorting,,,yes
+Intervals,competitive,USACO Guide,More on Prefix Sums,https://usaco.guide/silver/more-prefix-sums,difference arrays,,yes
+Intervals,competitive,USACO Guide,Sweep Line,https://usaco.guide/plat/sweep-line,,,yes
+Heap,interview,Hello Interview,Heap,https://www.hellointerview.com/learn/code/heap/overview,,,
+Heap,interview,Tech Interview Handbook,Heap,https://techinterviewhandbook.org/algorithms/heap/,,,
+Heap,competitive,USACO Guide,Priority Queues,https://usaco.guide/silver/priority-queues,,,
+Heap,competitive,USACO Guide,More Operations on Sorted Sets,https://usaco.guide/gold/intro-sorted-sets,,,yes
+Tree Traversal,interview,Hello Interview,Depth-First Search,https://www.hellointerview.com/learn/code/depth-first-search/introduction,,,
+Tree Traversal,interview,Hello Interview,Breadth-First Search,https://www.hellointerview.com/learn/code/breadth-first-search/introduction,,,
+Tree Traversal,interview,Tech Interview Handbook,Tree,https://techinterviewhandbook.org/algorithms/tree/,,,
+Tree Traversal,interview,LeetCode Explore,Binary Tree card,https://leetcode.com/explore/learn/,,yes,
+Tree Traversal,competitive,USACO Guide,Introduction to Tree Algorithms,https://usaco.guide/silver/intro-tree,,,
+Tree Traversal,competitive,USACO Guide,Euler Tour Technique,https://usaco.guide/gold/tree-euler,,,yes
+Binary Search Trees,interview,VisuAlgo,"Binary Search Tree, AVL Tree",https://visualgo.net/en/bst,,,
+Binary Search Trees,interview,Hello Interview,Validate Binary Search Tree,https://www.hellointerview.com/learn/code/depth-first-search/validate-binary-search-tree,,,
+Binary Search Trees,interview,LeetCode Explore,Binary Search Tree card,https://leetcode.com/explore/learn/,,yes,
+Binary Search Trees,competitive,USACO Guide,More Operations on Sorted Sets,https://usaco.guide/gold/intro-sorted-sets,,,
+Binary Search Trees,competitive,USACO Guide,Treaps,https://usaco.guide/adv/treaps,,,yes
+Trie,interview,Hello Interview,Trie,https://www.hellointerview.com/learn/code/trie/overview,,,
+Trie,interview,Tech Interview Handbook,Trie,https://techinterviewhandbook.org/algorithms/trie/,,,
+Trie,interview,LeetCode Explore,Trie card,https://leetcode.com/explore/learn/,,yes,
+Trie,competitive,cp-algorithms,Aho-Corasick algorithm,https://cp-algorithms.com/string/aho_corasick.html,,,yes
+Backtracking and Brute Force,interview,Hello Interview,Backtracking,https://www.hellointerview.com/learn/code/backtracking/overview,,,
+Backtracking and Brute Force,interview,Tech Interview Handbook,Recursion,https://techinterviewhandbook.org/algorithms/recursion/,,,
+Backtracking and Brute Force,competitive,USACO Guide,Basic Complete Search,https://usaco.guide/bronze/intro-complete,,,
+Backtracking and Brute Force,competitive,USACO Guide,Complete Search with Recursion,https://usaco.guide/bronze/complete-rec,,,
+Backtracking and Brute Force,competitive,cp-algorithms,Enumerating submasks,https://cp-algorithms.com/algebra/all-submasks.html,,,yes
+Backtracking and Brute Force,competitive,USACO Guide,Meet In The Middle,https://usaco.guide/gold/meet-in-the-middle,,,yes
+Graph Traversal,interview,Tech Interview Handbook,Graph,https://techinterviewhandbook.org/algorithms/graph/,,,
+Graph Traversal,interview,Hello Interview,Breadth-First Search,https://www.hellointerview.com/learn/code/breadth-first-search/introduction,,,
+Graph Traversal,competitive,USACO Guide,Graph Traversal,https://usaco.guide/silver/graph-traversal,,,
+Graph Traversal,competitive,USACO Guide,Flood Fill,https://usaco.guide/silver/flood-fill,,,
+Graph Traversal,competitive,USACO Guide,Introduction to Functional Graphs,https://usaco.guide/silver/func-graphs,,,yes
+Graph Traversal,competitive,cp-algorithms,0-1 BFS,https://cp-algorithms.com/graph/01_bfs.html,,,yes
+Topological Sort,interview,Hello Interview,Topological Sort,https://www.hellointerview.com/learn/code/graphs/topological-sort,,,
+Topological Sort,competitive,USACO Guide,Topological Sort,https://usaco.guide/gold/toposort,,,
+Topological Sort,competitive,cp-algorithms,Topological sorting,https://cp-algorithms.com/graph/topological-sort.html,,,
+Topological Sort,competitive,cp-algorithms,Strongly connected components,https://cp-algorithms.com/graph/strongly-connected-components.html,condensation graph,,yes
+Union-Find,interview,AlgoMonster,Union-Find,https://algo.monster/problems/dsu_intro,,yes,
+Union-Find,competitive,USACO Guide,Disjoint Set Union,https://usaco.guide/gold/dsu,,,
+Union-Find,competitive,cp-algorithms,Disjoint Set Union,https://cp-algorithms.com/data_structures/disjoint_set_union.html,,,
+Union-Find,competitive,Codeforces EDU,ITMO Academy: Disjoint Sets Union lesson,https://codeforces.com/edu/course/2,,yes,
+Union-Find,competitive,USACO Guide,Minimum Spanning Trees,https://usaco.guide/gold/mst,,,yes
+Union-Find,competitive,USACO Guide,Offline Deletion,https://usaco.guide/adv/offline-del,,,yes
+Shortest Paths,competitive,USACO Guide,Shortest Paths with Unweighted Edges,https://usaco.guide/gold/unweighted-shortest-paths,,,
+Shortest Paths,competitive,USACO Guide,Shortest Paths with Non-Negative Edge Weights,https://usaco.guide/gold/shortest-paths,,,
+Shortest Paths,competitive,cp-algorithms,Dijkstra's algorithm,https://cp-algorithms.com/graph/dijkstra.html,,,
+Shortest Paths,competitive,cp-algorithms,Bellman-Ford algorithm,https://cp-algorithms.com/graph/bellman_ford.html,,,
+Shortest Paths,competitive,cp-algorithms,Floyd-Warshall algorithm,https://cp-algorithms.com/graph/all-pair-shortest-path-floyd-warshall.html,,,
+Shortest Paths,competitive,cp-algorithms,0-1 BFS,https://cp-algorithms.com/graph/01_bfs.html,,,yes
+Minimum Spanning Tree,competitive,USACO Guide,Minimum Spanning Trees,https://usaco.guide/gold/mst,,,
+Minimum Spanning Tree,competitive,cp-algorithms,Kruskal's algorithm,https://cp-algorithms.com/graph/mst_kruskal.html,,,
+Minimum Spanning Tree,competitive,cp-algorithms,Prim's algorithm,https://cp-algorithms.com/graph/mst_prim.html,,,
+Minimum Spanning Tree,competitive,USACO Guide,Kruskal Reconstruction Tree,https://usaco.guide/plat/kruskal-tree,,,yes
+1-D Dynamic Programming,interview,Hello Interview,Dynamic Programming Fundamentals,https://www.hellointerview.com/learn/code/dynamic-programming/fundamentals,,,
+1-D Dynamic Programming,interview,Tech Interview Handbook,Dynamic programming,https://techinterviewhandbook.org/algorithms/dynamic-programming/,,,
+1-D Dynamic Programming,competitive,USACO Guide,Introduction to DP,https://usaco.guide/gold/intro-dp,,,
+1-D Dynamic Programming,competitive,USACO Guide,Longest Increasing Subsequence,https://usaco.guide/gold/lis,,,
+1-D Dynamic Programming,competitive,cp-algorithms,Longest increasing subsequence,https://cp-algorithms.com/dynamic_programming/longest_increasing_subsequence.html,,,
+1-D Dynamic Programming,competitive,USACO Guide,Digit DP,https://usaco.guide/gold/digit-dp,,,yes
+2-D Dynamic Programming,competitive,USACO Guide,Paths on Grids,https://usaco.guide/gold/paths-grids,,,
+2-D Dynamic Programming,competitive,USACO Guide,Knapsack DP,https://usaco.guide/gold/knapsack,,,
+2-D Dynamic Programming,competitive,USACO Guide,Range DP,https://usaco.guide/gold/dp-ranges,,,
+2-D Dynamic Programming,competitive,cp-algorithms,Knapsack problem,https://cp-algorithms.com/dynamic_programming/knapsack.html,,,
+2-D Dynamic Programming,competitive,cp-algorithms,Divide and conquer DP,https://cp-algorithms.com/dynamic_programming/divide-and-conquer-dp.html,,,yes
+2-D Dynamic Programming,competitive,cp-algorithms,Knuth's optimization,https://cp-algorithms.com/dynamic_programming/knuth-optimization.html,,,yes
+Greedy,interview,Hello Interview,Greedy,https://www.hellointerview.com/learn/code/greedy/overview,,,
+Greedy,competitive,USACO Guide,Introduction to Greedy Algorithms,https://usaco.guide/bronze/intro-greedy,,,
+Greedy,competitive,USACO Guide,Greedy Algorithms with Sorting,https://usaco.guide/silver/greedy-sorting,,,
+Greedy,competitive,USACO Guide,Priority Queues,https://usaco.guide/silver/priority-queues,,,yes
+Bit Manipulation,interview,Tech Interview Handbook,Binary,https://techinterviewhandbook.org/algorithms/binary/,,,
+Bit Manipulation,competitive,USACO Guide,Intro to Bitwise Operators,https://usaco.guide/silver/intro-bitwise,,,
+Bit Manipulation,competitive,cp-algorithms,Bit manipulation,https://cp-algorithms.com/algebra/bit-manipulation.html,,,
+Bit Manipulation,competitive,cp-algorithms,Enumerating submasks,https://cp-algorithms.com/algebra/all-submasks.html,,,yes
+Bit Manipulation,competitive,USACO Guide,XOR Basis,https://usaco.guide/adv/xor-basis,,,yes
+Bit Manipulation,competitive,USACO Guide,Bitsets,https://usaco.guide/plat/bitsets,,,yes
+Math,interview,Tech Interview Handbook,Math,https://techinterviewhandbook.org/algorithms/math/,,,
+Math,competitive,USACO Guide,Divisibility,https://usaco.guide/gold/divisibility,,,
+Math,competitive,USACO Guide,Modular Arithmetic,https://usaco.guide/gold/modular,,,
+Math,competitive,cp-algorithms,Binary exponentiation,https://cp-algorithms.com/algebra/binary-exp.html,,,yes
+Math,competitive,USACO Guide,Casework,https://usaco.guide/bronze/casework,,,yes
+Strings,interview,Tech Interview Handbook,String,https://techinterviewhandbook.org/algorithms/string/,,,
+Strings,competitive,cp-algorithms,String hashing,https://cp-algorithms.com/string/string-hashing.html,,,yes
+Strings,competitive,cp-algorithms,"Prefix function, Knuth-Morris-Pratt",https://cp-algorithms.com/string/prefix-function.html,,,yes
+Simulation and Implementation,interview,Hello Interview,Spiral Matrix,https://www.hellointerview.com/learn/code/matrices/spiral-matrix,,,
+Simulation and Implementation,interview,Tech Interview Handbook,Matrix,https://techinterviewhandbook.org/algorithms/matrix/,,,
+Simulation and Implementation,competitive,USACO Guide,Simulation,https://usaco.guide/bronze/simulation,,,
+Simulation and Implementation,competitive,USACO Guide,Rectangle Geometry,https://usaco.guide/bronze/rect-geo,,,yes
+Simulation and Implementation,competitive,USACO Guide,Casework,https://usaco.guide/bronze/casework,,,yes
+Data Structure Design,competitive,cp-algorithms,Minimum stack / Minimum queue,https://cp-algorithms.com/data_structures/stack_queue_modification.html,,,yes
+Number Theory,competitive,USACO Guide,Divisibility,https://usaco.guide/gold/divisibility,,,
+Number Theory,competitive,USACO Guide,Modular Arithmetic,https://usaco.guide/gold/modular,,,
+Number Theory,competitive,cp-algorithms,Sieve of Eratosthenes,https://cp-algorithms.com/algebra/sieve-of-eratosthenes.html,,,
+Number Theory,competitive,cp-algorithms,Euclidean algorithm,https://cp-algorithms.com/algebra/euclid-algorithm.html,,,
+Number Theory,competitive,cp-algorithms,Extended Euclidean algorithm,https://cp-algorithms.com/algebra/extended-euclid-algorithm.html,,,
+Number Theory,competitive,cp-algorithms,Modular inverse,https://cp-algorithms.com/algebra/module-inverse.html,,,yes
+Chinese Remainder Theorem,competitive,cp-algorithms,Chinese remainder theorem,https://cp-algorithms.com/algebra/chinese-remainder-theorem.html,,,
+Chinese Remainder Theorem,competitive,USACO Guide,Extended Euclidean Algorithm,https://usaco.guide/adv/extend-euclid,,,
+Chinese Remainder Theorem,competitive,cp-algorithms,Modular inverse,https://cp-algorithms.com/algebra/module-inverse.html,,,yes
+Combinatorics,competitive,USACO Guide,Combinatorics,https://usaco.guide/gold/combo,,,
+Combinatorics,competitive,cp-algorithms,Binomial coefficients,https://cp-algorithms.com/combinatorics/binomial-coefficients.html,,,
+Combinatorics,competitive,USACO Guide,Inclusion-Exclusion Principle,https://usaco.guide/plat/PIE,,,
+Combinatorics,competitive,USACO Guide,Catalan Numbers,https://usaco.guide/adv/catalan,,,
+Combinatorics,competitive,cp-algorithms,Modular inverse,https://cp-algorithms.com/algebra/module-inverse.html,,,yes
+Probability and Expected Value,competitive,Codeforces blog,"Expected value, part 1 (Errichto)",https://codeforces.com/blog/entry/62690,,,
+Probability and Expected Value,competitive,Codeforces blog,"Expected value, part 2 (Errichto)",https://codeforces.com/blog/entry/62792,,,
+Probability and Expected Value,competitive,USACO Guide,Combinatorics,https://usaco.guide/gold/combo,,,yes
+Game Theory,competitive,cp-algorithms,"Sprague-Grundy theorem, Nim",https://cp-algorithms.com/game_theory/sprague-grundy-nim.html,,,
+Game Theory,competitive,cp-algorithms,Games on arbitrary graphs,https://cp-algorithms.com/game_theory/games_on_graphs.html,,,
+Game Theory,competitive,USACO Guide,Game Theory,https://usaco.guide/adv/game-theory,,,
+Geometry,competitive,USACO Guide,Geometry Primitives,https://usaco.guide/plat/geo-pri,,,
+Geometry,competitive,cp-algorithms,Basic geometry,https://cp-algorithms.com/geometry/basic-geometry.html,,,
+Geometry,competitive,cp-algorithms,Convex hull,https://cp-algorithms.com/geometry/convex-hull.html,,,
+Geometry,interview,Tech Interview Handbook,Geometry,https://techinterviewhandbook.org/algorithms/geometry/,,,
+Geometry,competitive,USACO Guide,Sweep Line,https://usaco.guide/plat/sweep-line,,,yes
+Geometry,competitive,USACO Guide,Rectangle Geometry,https://usaco.guide/bronze/rect-geo,,,yes
+Matrices and Matrix Exponentiation,competitive,USACO Guide,Matrix Exponentiation,https://usaco.guide/plat/matrix-expo,,,
+Matrices and Matrix Exponentiation,competitive,cp-algorithms,Binary exponentiation,https://cp-algorithms.com/algebra/binary-exp.html,,,
+Matrices and Matrix Exponentiation,interview,Tech Interview Handbook,Matrix,https://techinterviewhandbook.org/algorithms/matrix/,,,
+FFT and NTT,competitive,cp-algorithms,Fast Fourier transform,https://cp-algorithms.com/algebra/fft.html,,,
+FFT and NTT,competitive,USACO Guide,Introduction to Fast Fourier Transform,https://usaco.guide/adv/fft,,,
+FFT and NTT,competitive,USACO Guide,More Complex Operations Using FFT,https://usaco.guide/adv/fft-ext,,,
+Constructive Algorithms,competitive,USACO Guide,Ad Hoc Problems,https://usaco.guide/bronze/ad-hoc,,,
+Constructive Algorithms,competitive,USACO Guide,Casework,https://usaco.guide/bronze/casework,,,yes
+Divide and Conquer,competitive,USACO Guide,Divide & Conquer - SRQ,https://usaco.guide/plat/DC-SRQ,,,
+Divide and Conquer,interview,AlgoMonster,Divide and Conquer,https://algo.monster/problems/divide_and_conquer_intro,,,
+Divide and Conquer,interview,VisuAlgo,Sorting (merge sort),https://visualgo.net/en/sorting,,,
+Divide and Conquer,competitive,USACO Guide,Divide & Conquer - DP,https://usaco.guide/plat/DC-DP,,,yes
+Divide and Conquer,competitive,cp-algorithms,Divide and conquer DP,https://cp-algorithms.com/dynamic_programming/divide-and-conquer-dp.html,,,yes
+Divide and Conquer,competitive,USACO Guide,Centroid Decomposition,https://usaco.guide/plat/centroid,,,yes
+Meet in the Middle,competitive,USACO Guide,Meet In The Middle,https://usaco.guide/gold/meet-in-the-middle,,,
+Ternary Search,competitive,USACO Guide,Optimizing Unimodal Functions,https://usaco.guide/gold/ternary-search,,,
+Ternary Search,competitive,cp-algorithms,Ternary search,https://cp-algorithms.com/num_methods/ternary_search.html,,,
+Segment Tree and Fenwick Tree,competitive,Codeforces EDU,"ITMO Academy: Segment Tree lessons, parts 1 and 2",https://codeforces.com/edu/course/2,,yes,
+Segment Tree and Fenwick Tree,competitive,cp-algorithms,Segment tree,https://cp-algorithms.com/data_structures/segment_tree.html,,,
+Segment Tree and Fenwick Tree,competitive,cp-algorithms,Fenwick tree,https://cp-algorithms.com/data_structures/fenwick.html,,,
+Segment Tree and Fenwick Tree,competitive,USACO Guide,Point Update Range Sum,https://usaco.guide/gold/PURS,,,
+Segment Tree and Fenwick Tree,competitive,USACO Guide,Range Update Range Query,https://usaco.guide/plat/RURQ,,,
+Segment Tree and Fenwick Tree,competitive,cp-algorithms,Sparse table,https://cp-algorithms.com/data_structures/sparse-table.html,,,yes
+Tree DP,competitive,USACO Guide,DP on Trees - Introduction,https://usaco.guide/gold/dp-trees,,,
+Tree DP,competitive,USACO Guide,DP on Trees - Solving For All Roots,https://usaco.guide/gold/all-roots,,,
+Tree DP,competitive,USACO Guide,DP on Trees - Combining Subtrees,https://usaco.guide/adv/comb-sub,,,
+Tree DP,competitive,USACO Guide,Euler Tour Technique,https://usaco.guide/gold/tree-euler,,,yes
+Tree DP,competitive,USACO Guide,Small-To-Large Merging,https://usaco.guide/plat/merging,,,yes
+Bitmask DP,competitive,USACO Guide,Bitmask DP,https://usaco.guide/gold/dp-bitmasks,,,
+Bitmask DP,competitive,cp-algorithms,Enumerating submasks,https://cp-algorithms.com/algebra/all-submasks.html,,,
+Bitmask DP,competitive,USACO Guide,Sum over Subsets DP,https://usaco.guide/plat/dp-sos,,,
+Bitmask DP,competitive,USACO Guide,DP on Broken Profile,https://usaco.guide/adv/dp-broken-profile,,,yes
+Lowest Common Ancestor and Tree Queries,competitive,cp-algorithms,LCA with binary lifting,https://cp-algorithms.com/graph/lca_binary_lifting.html,,,
+Lowest Common Ancestor and Tree Queries,competitive,USACO Guide,Binary Jumping,https://usaco.guide/plat/binary-jump,,,
+Lowest Common Ancestor and Tree Queries,competitive,USACO Guide,LCA with Euler Tour,https://usaco.guide/gold/lca-euler,,,
+Lowest Common Ancestor and Tree Queries,competitive,cp-algorithms,Heavy-light decomposition,https://cp-algorithms.com/graph/hld.html,,,
+Lowest Common Ancestor and Tree Queries,competitive,USACO Guide,Euler Tour Technique,https://usaco.guide/gold/tree-euler,,,yes
+Lowest Common Ancestor and Tree Queries,competitive,USACO Guide,Centroid Decomposition,https://usaco.guide/plat/centroid,,,yes
+String Hashing,competitive,cp-algorithms,String hashing,https://cp-algorithms.com/string/string-hashing.html,,,
+String Hashing,competitive,USACO Guide,Hashing,https://usaco.guide/gold/hashing,,,
+String Matching,competitive,cp-algorithms,"Prefix function, Knuth-Morris-Pratt",https://cp-algorithms.com/string/prefix-function.html,,,
+String Matching,competitive,cp-algorithms,Z-function,https://cp-algorithms.com/string/z-function.html,,,
+String Matching,competitive,USACO Guide,String Searching,https://usaco.guide/adv/string-search,,,
+String Matching,competitive,cp-algorithms,Aho-Corasick algorithm,https://cp-algorithms.com/string/aho_corasick.html,,,
+String Matching,competitive,Codeforces EDU,ITMO Academy: Z-function lesson,https://codeforces.com/edu/course/2,,yes,
+String Matching,competitive,cp-algorithms,String hashing,https://cp-algorithms.com/string/string-hashing.html,Rabin-Karp,,yes
+Suffix Structures,competitive,cp-algorithms,Suffix array,https://cp-algorithms.com/string/suffix-array.html,,,
+Suffix Structures,competitive,cp-algorithms,Suffix automaton,https://cp-algorithms.com/string/suffix-automaton.html,,,
+Suffix Structures,competitive,USACO Guide,Suffix Array,https://usaco.guide/adv/suffix-array,,,
+Suffix Structures,competitive,Codeforces EDU,ITMO Academy: Suffix Array lesson,https://codeforces.com/edu/course/2,,yes,
+Suffix Structures,competitive,USACO Guide,String Suffix Structures,https://usaco.guide/adv/string-suffix,,,
+Strongly Connected Components and Bridges,competitive,cp-algorithms,Strongly connected components,https://cp-algorithms.com/graph/strongly-connected-components.html,,,
+Strongly Connected Components and Bridges,competitive,cp-algorithms,Finding bridges,https://cp-algorithms.com/graph/bridge-searching.html,,,
+Strongly Connected Components and Bridges,competitive,USACO Guide,Strongly Connected Components,https://usaco.guide/adv/SCC,,,
+Strongly Connected Components and Bridges,competitive,USACO Guide,BCCs and 2CCs,https://usaco.guide/adv/BCC-2CC,,,
+Strongly Connected Components and Bridges,competitive,cp-algorithms,2-SAT,https://cp-algorithms.com/graph/2SAT.html,,,yes
+Max Flow and Min Cut,competitive,cp-algorithms,Dinic's algorithm,https://cp-algorithms.com/graph/dinic.html,,,
+Max Flow and Min Cut,competitive,USACO Guide,Maximum Flow,https://usaco.guide/adv/max-flow,,,
+Max Flow and Min Cut,competitive,USACO Guide,Minimum Cut,https://usaco.guide/adv/min-cut,,,
+Max Flow and Min Cut,competitive,USACO Guide,Minimum Cost Flow,https://usaco.guide/adv/min-cost-flow,,,
+Max Flow and Min Cut,competitive,USACO Guide,Flow with Lower Bounds,https://usaco.guide/adv/flow-lb,,,yes
+Bipartite Matching,competitive,cp-algorithms,Kuhn's algorithm for maximum bipartite matching,https://cp-algorithms.com/graph/kuhn_maximum_bipartite_matching.html,,,
+Bipartite Matching,competitive,cp-algorithms,Dinic's algorithm,https://cp-algorithms.com/graph/dinic.html,matching as a flow,,yes
+2-SAT,competitive,cp-algorithms,2-SAT,https://cp-algorithms.com/graph/2SAT.html,,,
+2-SAT,competitive,cp-algorithms,Strongly connected components,https://cp-algorithms.com/graph/strongly-connected-components.html,,,yes
+Interactive Problems,competitive,USACO Guide,Interactive and Communication Problems,https://usaco.guide/adv/interactive,,,
+Interactive Problems,competitive,cp-algorithms,Binary search,https://cp-algorithms.com/num_methods/binary_search.html,,,yes
+Expression Parsing,competitive,cp-algorithms,Expression parsing,https://cp-algorithms.com/string/expression_parsing.html,,,
+Expression Parsing,interview,Tech Interview Handbook,Stack,https://techinterviewhandbook.org/algorithms/stack/,,,yes
+JavaScript,interview,javascript.info,"Variable scope, closure",https://javascript.info/closure,,,
+JavaScript,interview,javascript.info,Promise,https://javascript.info/promise-basics,,,
+JavaScript,interview,javascript.info,Prototypal inheritance,https://javascript.info/prototype-inheritance,,,
+JavaScript,interview,MDN Web Docs,Closures,https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures,,,

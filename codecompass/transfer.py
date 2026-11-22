@@ -19,7 +19,8 @@ SCHEMA_PATH = Path(__file__).with_name("schema.sql")
 # Each user table, in an order that inserts a row only after the rows it refers to.
 USER_TABLES = ("settings", "hidden_sites", "pattern_preferences", "interviews", "interview_patterns",
                "attempts", "sibling_suggestions", "not_now", "hint_reveals", "linked_accounts", "sync_items",
-               "rating_history", "deleted_items", "sync_batches", "problem_notes", "problem_links")
+               "rating_history", "deleted_items", "sync_batches", "problem_notes", "problem_links",
+               "pattern_links")
 PROBLEM_COLUMNS = {
     "attempts": ("problem_id", "review_of_problem_id"),
     "sibling_suggestions": ("due_problem_id", "sibling_problem_id"),
@@ -28,7 +29,8 @@ PROBLEM_COLUMNS = {
     "problem_notes": ("problem_id",),
     "problem_links": ("problem_id",),
 }
-PATTERN_COLUMNS = {"interview_patterns": ("pattern_id",), "pattern_preferences": ("pattern_id",)}
+PATTERN_COLUMNS = {"interview_patterns": ("pattern_id",), "pattern_preferences": ("pattern_id",),
+                   "pattern_links": ("pattern_id",)}
 # Undo records name problems and attempts inside their saved text, so they are kept only
 # when every id is unchanged.
 ID_BOUND = ("deleted_items", "sync_batches")
@@ -179,8 +181,8 @@ def import_account(conn, copy):
                         if c in row and c != "review_of_problem_id"]
             if any(row[c] is None for c in required):
                 continue  # A pattern this version does not have.
-            if table == "problem_links" and not web_link(row.get("url")):
-                continue  # Only web links are kept, as when added on the problem page.
+            if table in ("problem_links", "pattern_links") and not web_link(row.get("url")):
+                continue  # Only web links are kept, as when added on the problem or pattern page.
             rows.append(tuple(row[c] for c in columns))
         if rows:
             conn.executemany(f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join('?' * len(columns))})",

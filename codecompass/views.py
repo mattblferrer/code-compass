@@ -23,6 +23,7 @@ from .core.plan import plan_patterns, prep_plan
 from .core.timing import median_times
 from .core.recommend import active_interview
 from .core.reviews import ics, review_attempt_ids, schedules
+from .core.resources import AUDIENCES
 from .core.sites import FILTER_SITES, KINDS, site_label
 from .state import Snapshot
 from .core import constants as c
@@ -94,6 +95,17 @@ def local_date(seconds):
 def web_link_filter(url):
     """A stored link, only if it is a web link; templates show anything else as text."""
     return web_link(url)
+
+
+@bp.app_template_global()
+def pattern_guides(name):
+    """The curated guides for a pattern (R-59), in the order its page lists them."""
+    return current_app.extensions.get("pattern_guides", {}).get(name, [])
+
+
+@bp.app_template_filter("audience")
+def audience_filter(audience):
+    return AUDIENCES.get(audience, audience)
 
 
 @bp.app_template_filter("clock")
@@ -267,7 +279,32 @@ def pattern(name):
         levels=c.LEVELS, outcomes=c.OUTCOMES,
         min_attempts=c.MIN_ATTEMPTS,
         chart=history_chart(snap.score_history(name)),
+        guides=pattern_guides(name),
+        links=queries.pattern_links_for(snap.conn, queries.pattern_id(snap.conn, name)),
     )
+
+
+@bp.post("/patterns/<name>/links")
+def add_pattern_link(name):
+    """Keep the user's own guide for a pattern, beside the curated ones (R-59)."""
+    conn = get_db()
+    pattern_id = queries.pattern_id(conn, name) or abort(404)
+    values, error = validate_link(request.form.get("url"), request.form.get("label"))
+    if error:
+        flash(error)
+    else:
+        queries.add_pattern_link(conn, pattern_id, values)
+        flash("Link added.")
+    return redirect(url_for("main.pattern", name=name) + "#guides")
+
+
+@bp.post("/patterns/<name>/links/<int:link_id>/delete")
+def delete_pattern_link(name, link_id):
+    conn = get_db()
+    pattern_id = queries.pattern_id(conn, name) or abort(404)
+    queries.delete_pattern_link(conn, pattern_id, link_id) or abort(404)
+    flash("Link removed.")
+    return redirect(url_for("main.pattern", name=name) + "#guides")
 
 
 def history_chart(points, width=640, height=180, pad=28):
@@ -769,6 +806,7 @@ def help_page():
         outcomes=[(o, OUTCOME_LABELS[o], OUTCOME_DEFINITIONS[o], c.FIRST_INTERVAL_DAYS[o]) for o in c.OUTCOMES],
         min_attempts=c.MIN_ATTEMPTS, fade_days=c.FADE_HALF_LIFE_DAYS, stale_days=c.STALE_REVIEW_DAYS,
         not_now_days=c.NOT_NOW_DAYS, leetcode_notice=LEETCODE_NOTICE, session_days=SESSION_DAYS,
+        patterns=queries.patterns(get_db()),
     )
 
 
