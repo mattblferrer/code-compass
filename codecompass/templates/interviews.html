@@ -44,7 +44,7 @@
     </div>
     <fieldset>
       <legend>Patterns (optional)</legend>
-      <small>Patterns this company is known to ask. With none, the focus uses your 2 weakest patterns.</small>
+      <small>Patterns this company is known to ask. With none, its prep plan uses your {{ weakest }} weakest patterns.</small>
       <div class="chip-grid">
         {% for p in patterns if p['category'] == 'core' %}{{ pattern_chip(p) }}{% endfor %}
       </div>
@@ -60,7 +60,7 @@
   </form>
 {% endmacro %}
 {% block content %}
-  {{ page_head("Interviews", "When your nearest interview is within " ~ window ~ " days, recommendations focus on it: its patterns, or else your 2 weakest patterns, and its target difficulty. Interviews on the same date are combined. Past interviews are kept but no longer count.") }}
+  {{ page_head("Interviews", "When your nearest interview is within " ~ window ~ " days, recommendations follow today's patterns in its prep plan, and its target difficulty. Interviews on the same date are combined. Past interviews are kept but no longer count.") }}
 
   {% if editing %}{{ interview_form() }}{% endif %}
 

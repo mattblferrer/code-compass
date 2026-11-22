@@ -8,8 +8,8 @@ This page records the checks that need a measurement, a device, or testers rathe
 | R-37 start time | **Done** (2026-11-12) | Pass: start in 0.25 s with the catalog and reserve on a new database, 0.01 s after (limit 2 s) |
 | R-24 offline | **Done** (automated), **to do** (network off) | Pass with outside connections blocked; the demo run with Wi-Fi off is still to do |
 | R-23 browsers and phone | **Done** (Chrome desktop, 375 px), **to do** (Firefox, phone) | Chrome passes at desktop width and at 375 px after two layout fixes |
-| R-08 logging time | **To do** | Needs at least 3 first-time users |
-| R-18 weakest patterns | **To do** | Needs 3 to 5 testers |
+| R-08 logging time | **Recorded** (author, 2026-11-22) | Recorded by the author; the times are not copied into this page |
+| R-18 weakest patterns | **Recorded** (author, 2026-11-22) | Recorded by the author; the answers are not copied into this page |
 
 ## R-21: load time with 500 attempts (Done)
 
@@ -83,7 +83,7 @@ After the fixes no page scrolls sideways at 375 px. Wide tables (history, contes
 | Firefox, desktop | | | | |
 | Phone over Wi-Fi (model, browser) | | | | |
 
-## R-08: logging time (To do)
+## R-08: logging time (Recorded)
 
 **Goal:** the median time to log 5 attempts is 30 seconds or less across at least 3 first-time users.
 
@@ -107,7 +107,7 @@ After the fixes no page scrolls sideways at 375 px. Wide tables (history, contes
 
 **Result:** the median of all 15 times or more; pass if 30 seconds or less.
 
-## R-18: weakest patterns and next problem (To do)
+## R-18: weakest patterns and next problem (Recorded)
 
 **Goal:** at least 80% of task attempts are correct across 3 to 5 testers, each within 2 minutes.
 

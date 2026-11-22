@@ -171,12 +171,16 @@ def interval_section():
 # --- Review streak (R-30) ---
 
 def streak(days, today):
+    # Any day without a completed review ends the streak, even one with nothing due;
+    # today cannot end it.
+    done = {r["date"] for r in days if r["completed"]}
     count = 0
-    for row in sorted(days, key=lambda r: r["date"], reverse=True):
-        if row["completed"]:
-            count += 1
-        elif row["due"] and row["date"] != today:
-            break
+    current = d(today)
+    if str(current) not in done:
+        current -= timedelta(days=1)
+    while str(current) in done:
+        count += 1
+        current -= timedelta(days=1)
     return count
 
 
@@ -196,7 +200,7 @@ STREAK_CASES = [
      [day("2026-11-08", True, True), day("2026-11-09", True, False), day("2026-11-10", True, False)]),
     ("new_problems_only_breaks", "2026-11-10",
      [day("2026-11-08", True, True), day("2026-11-09", True, False), day("2026-11-10", True, True)]),
-    ("nothing_due_neither_adds_nor_breaks", "2026-11-10",
+    ("nothing_due_still_breaks", "2026-11-10",
      [day("2026-11-07", True, True), day("2026-11-08", False, False),
       day("2026-11-09", False, False), day("2026-11-10", True, True)]),
     ("month_boundary", "2026-12-01",
@@ -374,7 +378,22 @@ def recommend(s):
     unscored = sorted((p for p in PATTERNS if active(p) and p not in scores), key=unscored_key)
     target_list = [p for p in unscored if p in targets] + [p for p in scored if p in targets]
 
-    focus = interview is not None and (bool(company) or bool(scored))
+    # Near an interview, new problems come from today's patterns in its prep plan (R-15, R-44).
+    plan_today = []
+    if interview is not None:
+        def plan_key(p):
+            return (p in mastered, p in scores, scores.get(p, {"score": 0})["score"], order(p))
+
+        if company:
+            plan = sorted(company, key=plan_key)
+        else:
+            plan = sorted((p for p in PATTERNS if active(p)), key=plan_key)[:4]
+        days_left = (d(interview["date"]) - d(TODAY)).days
+        if days_left == 0:
+            plan_today = plan  # The interview day has no row of its own, so all of the plan's patterns.
+        else:
+            plan_today = plan[:2]  # Today is the plan's first day, never its mixed review day.
+    focus = bool(plan_today)
     level_name = s["level"]
     if focus and interview.get("difficulty"):
         level_name = interview["difficulty"]
@@ -449,16 +468,19 @@ def recommend(s):
 
     fill(target_list, min(2, 5 - len(chosen)), is_target=True)
     if focus:
-        if company:
-            ranked = [p for p in unscored if p in company] + [p for p in scored if p in company]
-        else:
-            ranked = scored
-        fill(ranked[:2], 5 - len(chosen))
+        groups = [("interview", plan_today, 5)]
     elif not scored:
-        fill(unscored, 5 - len(chosen))
+        groups = [("unscored", unscored, 5)]
     else:
-        fill(unscored, min(1, 5 - len(chosen)))
-        fill(scored, 5 - len(chosen))
+        groups = [("unscored", unscored, 1), ("weak", scored, 5)]
+    # Mastered patterns supply only once no other pattern has a problem left (R-32).
+    used = {}
+    for want_mastered in (False, True):
+        for name, group, most in groups:
+            room = min(most - used.get(name, 0), 5 - len(chosen))
+            if room > 0:
+                used[name] = used.get(name, 0) + fill(
+                    [p for p in group if (p in mastered) == want_mastered], room)
     for r in reviews[3:]:
         if len(chosen) < 5:
             chosen.append(f"review:{r['problem']}")
@@ -492,7 +514,7 @@ RECOMMENDATION_CASES = [
      "due": [due("Sorting/old", "Sorting", "2026-10-30", 100), due("Heap/old", "Heap", "2026-11-01", 300),
              due("Stack/old", "Stack", "2026-11-01", 410), due("Greedy/old", "Greedy", "2026-11-05", 500)]},
     {"name": "interview_within_14_days", "level": "medium", "scores": WORKED_SCORES,
-     "mastered": ["Intervals"], "interview": {"patterns": [], "difficulty": None},
+     "mastered": ["Intervals"], "interview": {"date": "2026-11-15", "patterns": [], "difficulty": None},
      "unscored_attempts": {"Linked List": 2},
      "due": [due("Heap/old", "Heap", "2026-11-01", 300), due("Stack/old", "Stack", "2026-11-03", 410)]},
     {"name": "exclusions", "level": "hard", "scores": WORKED_SCORES, "mastered": ["Intervals"],
@@ -502,14 +524,14 @@ RECOMMENDATION_CASES = [
      "targets": [FFT], "unscored_attempts": {"Linked List": 2}},
     {"name": "interview_company_patterns_and_difficulty", "level": "medium", "scores": WORKED_SCORES,
      "mastered": ["Intervals"], "unscored_attempts": {"Trie": 1},
-     "interview": {"patterns": ["Heap", "Sorting", "Trie"], "difficulty": "hard"},
+     "interview": {"date": "2026-11-15", "patterns": ["Heap", "Sorting", "Trie"], "difficulty": "hard"},
      "due": [due("Sorting/old", "Sorting", "2026-11-01", 100), due("Greedy/old", "Greedy", "2026-11-03", 500)]},
     {"name": "interview_advanced_pattern_very_hard", "level": "easy", "scores": WORKED_SCORES,
-     "interview": {"patterns": [FFT], "difficulty": "very hard"}},
+     "interview": {"date": "2026-11-15", "patterns": [FFT], "difficulty": "very hard"}},
     {"name": "interview_patterns_with_no_scores", "level": "easy",
-     "interview": {"patterns": ["Greedy", "Stack"], "difficulty": None}},
+     "interview": {"date": "2026-11-15", "patterns": ["Greedy", "Stack"], "difficulty": None}},
     {"name": "interview_without_patterns_or_scores", "level": "easy",
-     "interview": {"patterns": [], "difficulty": None}},
+     "interview": {"date": "2026-11-15", "patterns": [], "difficulty": None}},
     {"name": "single_target_fills_both_slots", "level": "medium", "scores": WORKED_SCORES,
      "targets": ["Trie"], "unscored_attempts": {"Linked List": 2}},
     {"name": "advanced_and_very_hard_on", "level": "hard", "scores": WORKED_SCORES,
@@ -541,7 +563,7 @@ def interview_section():
 
 
 def recommendation_section():
-    return [{**c, "patterns": PATTERNS, "advanced": ADVANCED, "catalog": base_catalog(),
+    return [{**c, "today": TODAY, "patterns": PATTERNS, "advanced": ADVANCED, "catalog": base_catalog(),
              "expected_list": recommend(c)} for c in RECOMMENDATION_CASES]
 
 

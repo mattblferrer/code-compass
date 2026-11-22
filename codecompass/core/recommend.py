@@ -59,7 +59,8 @@ def recommend(state):
       excluded: problem ids that cannot be new (attempted, not now, reserved)
       targets, mastered: pattern names
       level, advanced_on, very_hard_on
-      interview: the result of active_interview, or None
+      interview: the result of active_interview with "plan" added, today's
+        patterns from its prep plan (plan.today_patterns), or None
 
     Returns dicts with "kind" (review or new), "problem", "group", and "pattern".
     """
@@ -91,7 +92,7 @@ def recommend(state):
     )
     target_patterns = [p for p in unscored if p in targets] + [p for p in scored if p in targets]
 
-    focus = interview is not None and (bool(company) or bool(scored))
+    focus = interview is not None and bool(interview.get("plan"))
     level_name = state["level"]
     if focus and interview.get("difficulty"):
         level_name = interview["difficulty"]
@@ -172,21 +173,29 @@ def recommend(state):
             else:
                 just_reset = False
 
+        return added
+
     def free():
         return c.LIST_SIZE - len(result)
 
     fill(TARGET, target_patterns, min(c.MAX_TARGET_SLOTS, free()), is_target=True)
+    # The new-problem groups, each with its most slots (None for every free one). Near an
+    # interview, they come only from today's patterns in its prep plan (R-15, R-44).
     if focus:
-        if company:
-            ranked = [p for p in unscored if p in company] + [p for p in scored if p in company]
-            fill(INTERVIEW, ranked[: c.FOCUS_WEAKEST_PATTERNS], free())
-        else:
-            fill(WEAK, scored[: c.FOCUS_WEAKEST_PATTERNS], free())
+        groups = [(INTERVIEW, list(interview["plan"]), None)]
     elif not scored:
-        fill(UNSCORED, unscored, free())
+        groups = [(UNSCORED, unscored, None)]
     else:
-        fill(UNSCORED, unscored, min(c.MAX_UNSCORED_SLOTS, free()))
-        fill(WEAK, scored, free())
+        groups = [(UNSCORED, unscored, c.MAX_UNSCORED_SLOTS), (WEAK, scored, None)]
+    # Mastered patterns come strictly last: they supply a new problem only once no other
+    # pattern in any group has one left (R-32).
+    used = {}
+    for mastered_pass in (False, True):
+        for name, group, most in groups:
+            room = free() if most is None else min(most - used.get(name, 0), free())
+            if room > 0:
+                chosen = [p for p in group if (p in mastered) == mastered_pass]
+                used[name] = used.get(name, 0) + fill(name, chosen, room)
     for r in reviews[c.MAX_REVIEW_SLOTS:]:
         if free() <= 0:
             break

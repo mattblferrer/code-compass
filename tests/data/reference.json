@@ -846,7 +846,7 @@
       "expected_streak": 1
     },
     {
-      "name": "nothing_due_neither_adds_nor_breaks",
+      "name": "nothing_due_still_breaks",
       "today": "2026-11-10",
       "days": [
         {
@@ -870,7 +870,7 @@
           "completed": true
         }
       ],
-      "expected_streak": 2
+      "expected_streak": 1
     },
     {
       "name": "month_boundary",
@@ -1565,6 +1565,7 @@
     {
       "name": "new_user",
       "level": "easy",
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -1896,6 +1897,7 @@
           "position": 410
         }
       ],
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -2243,6 +2245,7 @@
           "position": 500
         }
       ],
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -2557,6 +2560,7 @@
         "Intervals"
       ],
       "interview": {
+        "date": "2026-11-15",
         "patterns": [],
         "difficulty": null
       },
@@ -2577,6 +2581,7 @@
           "position": 410
         }
       ],
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -2857,9 +2862,9 @@
       "expected_list": [
         "review:Stack/old",
         "review:Heap/old",
-        "new:Greedy/medium",
-        "new:Stack/medium",
-        "new:Greedy/easy"
+        "new:Arrays and Hashing/medium",
+        "new:Prefix Sums/medium",
+        "new:Arrays and Hashing/easy"
       ]
     },
     {
@@ -2902,6 +2907,7 @@
       "unscored_attempts": {
         "Linked List": 2
       },
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -3218,6 +3224,7 @@
       "unscored_attempts": {
         "Linked List": 2
       },
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -3535,6 +3542,7 @@
         "Trie": 1
       },
       "interview": {
+        "date": "2026-11-15",
         "patterns": [
           "Heap",
           "Sorting",
@@ -3556,6 +3564,7 @@
           "position": 500
         }
       ],
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -3867,11 +3876,13 @@
         }
       },
       "interview": {
+        "date": "2026-11-15",
         "patterns": [
           "FFT and NTT"
         ],
         "difficulty": "very hard"
       },
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -4157,12 +4168,14 @@
       "name": "interview_patterns_with_no_scores",
       "level": "easy",
       "interview": {
+        "date": "2026-11-15",
         "patterns": [
           "Greedy",
           "Stack"
         ],
         "difficulty": null
       },
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -4451,9 +4464,11 @@
       "name": "interview_without_patterns_or_scores",
       "level": "easy",
       "interview": {
+        "date": "2026-11-15",
         "patterns": [],
         "difficulty": null
       },
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -4734,9 +4749,8 @@
       "expected_list": [
         "new:Arrays and Hashing/easy",
         "new:Prefix Sums/easy",
-        "new:Stack/easy",
-        "new:Linked List/easy",
-        "new:Binary Search/easy"
+        "new:Arrays and Hashing/medium",
+        "new:Prefix Sums/medium"
       ]
     },
     {
@@ -4770,6 +4784,7 @@
       "unscored_attempts": {
         "Linked List": 2
       },
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",
@@ -5085,6 +5100,7 @@
       "unscored_attempts": {
         "Linked List": 2
       },
+      "today": "2026-11-10",
       "patterns": [
         "Arrays and Hashing",
         "Prefix Sums",

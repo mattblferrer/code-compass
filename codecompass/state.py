@@ -6,6 +6,7 @@ from .core import constants as c
 from .core.dates import add_days, weekly_days
 from .core.levels import current_level
 from .core.mastery import pattern_score
+from .core.plan import plan_patterns, today_patterns
 from .core.reasons import hint_eligible, reason
 from .core.recommend import REVIEW, active_interview, recommend
 from .core.reviews import (activity, due_dates, is_stale, last_attempts, review_attempt_ids, schedules,
@@ -88,6 +89,11 @@ class Snapshot:
             if score is not None:
                 self.scores[name] = {"score": score, "last": rows[-1]["date"]}
 
+        # Near an interview, new problems come from today's patterns in its prep plan (R-15, R-44).
+        if self.interview:
+            self.interview["plan"] = today_patterns(today, self.interview["date"],
+                                                    self.plan_patterns(self.interview["patterns"]))
+
         self.schedules = schedules(self.attempts)
         self.due = due_dates(self.schedules)
         self.last_attempt = last_attempts(self.schedules)
@@ -121,6 +127,12 @@ class Snapshot:
 
     def active(self, name):
         return name not in self.advanced or self.advanced_on or name in self.targets or name in self.focus_patterns
+
+    def plan_patterns(self, interview_patterns):
+        """The patterns an interview's prep plan covers, weakest first (R-44)."""
+        order = [p["name"] for p in self.patterns]
+        return plan_patterns(interview_patterns, {n: s["score"] for n, s in self.scores.items()},
+                             [n for n in order if self.active(n)], order, self.mastered)
 
     def pattern_rows(self):
         """Patterns shown on the dashboard (R-17): active ones and any with attempts."""

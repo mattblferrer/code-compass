@@ -188,13 +188,15 @@ R-13 sets the order of the slots. These rules decide what fills each one.
 
 ### Sharing slots across patterns
 
-New-problem slots go to one problem per pattern, in ranked order. A pattern that has already supplied a new problem to the list is skipped until every other ranked pattern has supplied one, then the order starts again. This applies across the target, unscored, and weakest-pattern groups. Due reviews do not count. A group with a single pattern loops back to it, so one target pattern can fill both target slots.
+New-problem slots go to one problem per pattern, in ranked order. A pattern that has already supplied a new problem to the list is skipped until every other ranked pattern has supplied one, then the order starts again. This applies across the target, unscored, weakest-pattern, and interview groups. Due reviews do not count. A group with a single pattern loops back to it, so one target pattern can fill both target slots.
+
+Mastered patterns come strictly last (R-32). They are left out of every group until no other pattern in the unscored, weakest-pattern, or interview groups has a qualifying problem left; only then do they fill the remaining slots, in the same groups and order, within each group's slot limit. A pattern cannot be both a target and mastered, so target slots are unaffected.
 
 ### Ranking patterns
 
 | Group | Order |
 | --- | --- |
-| Scored patterns | Lowest score first, then longest since the last attempt, then pattern-list order. Mastered patterns come after all others (R-32), including when choosing the 2 weakest patterns near an interview (R-15). |
+| Scored patterns | Lowest score first, then longest since the last attempt, then pattern-list order. Mastered patterns come after all others (R-32). |
 | Unscored patterns | Most attempts first, then pattern-list order. |
 | Target patterns | Unscored targets first, in the unscored order above, then scored targets in the scored order above. |
 
@@ -428,18 +430,17 @@ The interview in focus is the nearest one dated from today to 14 days ahead. Int
 - **Due reviews:** weakest pattern first, then due date, then catalog order.
 - **Target slots:** unchanged (R-32).
 - **Unscored slot:** dropped.
-- **New problems with interview patterns:** they come only from the 2 weakest of the interview's patterns. Unscored patterns rank first, in the unscored order, then scored patterns, weakest first, with mastered patterns last. This applies even when no pattern has a score yet.
-- **New problems without interview patterns:** they come only from the 2 weakest scored active patterns. If no active pattern has a score, the interview has no effect.
+- **New problems:** they come only from today's patterns in the interview's prep plan (R-44): the plan's patterns for today, or all of them on the mixed review day. On the interview day itself, which has no row in the plan, all of the plan's patterns are used. Interviews on the same date share one plan, made from their joined patterns. Mastered patterns among today's patterns come last, as everywhere (R-32).
 - **Advanced patterns:** an interview's patterns are active while it is in focus, even if advanced patterns are off.
 - **Target difficulty:** it replaces the current difficulty level for new problems, still allowing one level either way. If it is very hard, very hard problems are allowed while that interview is in focus.
 
-Interviews never change a score. Because only 2 patterns supply new problems, the list can have fewer than 5 problems when those patterns run out.
+Interviews never change a score. Because only today's patterns supply new problems, the list can have fewer than 5 problems when those patterns run out.
 
 ## Interview prep plan (R-44)
 
-The plan names patterns for each day; problems are still picked on the day by the interview focus rule (R-15), so the plan does not go stale. All values are provisional, in `core/constants.py`.
+The plan names patterns for each day, not problems, so it does not go stale. Once the interview is within the focus window (14 days), Practice next picks new problems from today's patterns in the plan (R-15), so the plan and the list agree. All values are provisional, in `core/constants.py`.
 
-- **Patterns:** the interview's own patterns, or, when it names none, the 4 weakest active patterns (`PLAN_WEAKEST`). Weakest first: patterns showing "not enough data" before scored ones, then by score, ties in pattern-list order.
+- **Patterns:** the interview's own patterns, or, when it names none, the 4 weakest active patterns (`PLAN_WEAKEST`). Weakest first: patterns showing "not enough data" before scored ones, then by score, ties in pattern-list order, with mastered patterns after all others (R-32).
 - **Days:** from today to the day before the interview. None when the interview is today or past.
 - **Each day:** the next 2 patterns in turn (`PLAN_PATTERNS_PER_DAY`), starting again from the weakest when the list runs out. When there is more than one day, the last one is a mixed review of all the patterns.
 - **Daily target:** problems solved a day, set per interview from 1 to 20 (`PLAN_DAILY_MAX`), 3 by default (`PLAN_DAILY_DEFAULT`). Today's row shows the problems solved so far, counted as in the History calendar.

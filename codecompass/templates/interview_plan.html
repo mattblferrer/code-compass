@@ -2,15 +2,15 @@
 {% from "_page.html" import page_head %}
 {% block title %}Prep plan: {{ interview['company'] }} - CodeCompass{% endblock %}
 {% block content %}
-  {% call page_head("Prep plan: " ~ interview['company'], "Patterns to work on each day until the interview, weakest first. Practice next picks the problems on the day.") %}
+  {% call page_head("Prep plan: " ~ interview['company'], "Patterns to work on each day until the interview, weakest first. From " ~ window ~ " days before it, Practice next picks new problems from that day's patterns.") %}
     <a class="button quiet small" href="{{ url_for('main.interviews') }}">All interviews</a>
   {% endcall %}
 
   {% if not days %}
     <p class="empty">{% if days_left < 0 %}This interview has passed.{% elif days_left == 0 %}The interview is today. Good luck.{% else %}No patterns to plan yet: add patterns to the interview, or log attempts so your weakest patterns are known.{% endif %}</p>
   {% else %}
-    {# R-44: the plan names patterns, not problems, so it never goes stale; Practice next
-       chooses problems by the interview focus rule (R-15). #}
+    {# R-44: the plan names patterns, not problems, so it never goes stale; within the focus
+       window, Practice next picks new problems from today's row (R-15). #}
     <p class="lede">{{ "The interview's patterns" if own else "Your " ~ weakest ~ " weakest patterns" }}:
       {% for name in patterns %}<a href="{{ url_for('main.pattern', name=name) }}">{{ name }}</a>{% if scores.get(name) is not none %} ({{ '%.0f'|format(scores[name]) }}){% endif %}{{ ", " if not loop.last }}{% endfor %}.
       Target: {{ target }} {{ "problem" if target == 1 else "problems" }} a day.</p>

@@ -11,6 +11,7 @@ import pytest
 from codecompass.core import constants as c
 from codecompass.core.levels import atcoder_level, codeforces_level, current_level
 from codecompass.core.mastery import pattern_score
+from codecompass.core.plan import plan_patterns, today_patterns
 from codecompass.core.recommend import active_interview, recommend
 from codecompass.core.schedule import review_schedule
 from codecompass.core.siblings import choose_sibling
@@ -69,6 +70,20 @@ def test_sibling(case):
     assert (chosen["position"] if chosen else "original") == expected
 
 
+def _interview(case):
+    """The case's interview with today's patterns from its prep plan, as the app adds them (R-15, R-44)."""
+    interview = case.get("interview")
+    if not interview:
+        return None
+    advanced, targets = set(case["advanced"]), set(case.get("targets", []))
+    company = set(interview["patterns"])
+    active = [p for p in case["patterns"]
+              if p not in advanced or case.get("advanced_on") or p in targets or p in company]
+    scores = {name: s["score"] for name, s in case.get("scores", {}).items()}
+    plan = plan_patterns(interview["patterns"], scores, active, case["patterns"], set(case.get("mastered", [])))
+    return {**interview, "plan": today_patterns(case["today"], interview["date"], plan)}
+
+
 @cases("recommendations")
 def test_recommendations(case):
     state = {
@@ -84,7 +99,7 @@ def test_recommendations(case):
         "level": case["level"],
         "advanced_on": case.get("advanced_on", False),
         "very_hard_on": case.get("very_hard_on", False),
-        "interview": case.get("interview"),
+        "interview": _interview(case),
     }
     result = [f"{item['kind']}:{item['problem']}" for item in recommend(state)]
     assert result == case["expected_list"]
@@ -124,7 +139,7 @@ def _state(case, skipped=()):
         "excluded": case.get("attempted", []) + case.get("not_now", []) + case.get("reserved", []) + list(skipped),
         "targets": case.get("targets", []), "mastered": case.get("mastered", []), "level": case["level"],
         "advanced_on": case.get("advanced_on", False), "very_hard_on": case.get("very_hard_on", False),
-        "interview": case.get("interview"),
+        "interview": _interview(case),
     }
 
 
@@ -147,11 +162,10 @@ def test_every_reason_is_stated_and_a_hint_never_names_the_pattern(case):
 
 
 # The cases where the skipped problem's pattern has another problem at the level in use;
-# in the other three, an interview limits that pattern to the skipped problem.
+# in the other four, an interview limits that pattern to the skipped problem.
 REFILLED_BY_THE_SAME_PATTERN = {
     "new_user", "worked_example", "review_backlog_with_targets", "interview_within_14_days", "exclusions",
-    "advanced_target_with_settings_off", "interview_without_patterns_or_scores", "single_target_fills_both_slots",
-    "advanced_and_very_hard_on",
+    "advanced_target_with_settings_off", "single_target_fills_both_slots", "advanced_and_very_hard_on",
 }
 
 

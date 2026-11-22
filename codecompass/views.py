@@ -19,7 +19,7 @@ from .core.exchange import COLUMNS, export_rows, plan_import, references
 from .core import filters, ordering, progress
 from .core.dates import countdown, days_between, friendly_date, full_date, short_date
 from .core.mastery import expected_level_index
-from .core.plan import plan_patterns, prep_plan
+from .core.plan import prep_plan
 from .core.timing import median_times
 from .core.recommend import active_interview
 from .core.reviews import ics, review_attempt_ids, schedules
@@ -898,7 +898,7 @@ def interview_page(conn, form, chosen, errors, editing=None, status=200):
     return render_template(
         "interviews.html", interviews=upcoming + past, focus_date=focus["date"] if focus else None, today=now,
         window=c.FOCUS_WINDOW_DAYS, form=form, chosen=chosen, errors=errors, editing=editing,
-        patterns=queries.patterns(conn), levels=c.LEVELS,
+        patterns=queries.patterns(conn), levels=c.LEVELS, weakest=c.PLAN_WEAKEST,
     ), status
 
 
@@ -930,9 +930,7 @@ def interview_plan(interview_id):
     interview = queries.get_interview(conn, interview_id) or abort(404)
     snap = Snapshot(conn, today())
     scores = {name: s["score"] for name, s in snap.scores.items()}
-    order = [p["name"] for p in snap.patterns]
-    active = [p["name"] for p in snap.patterns if snap.active(p["name"])]
-    patterns = plan_patterns(interview["patterns"], scores, active, order)
+    patterns = snap.plan_patterns(interview["patterns"])
     days = prep_plan(snap.today, interview["date"], patterns)
     solved = progress.day_totals(snap.attempts)
     target = interview["daily_target"] or c.PLAN_DAILY_DEFAULT
@@ -942,7 +940,7 @@ def interview_plan(interview_id):
     return render_template("interview_plan.html", interview=interview, days=days, patterns=patterns,
                            scores=scores, target=target, own=bool(interview["patterns"]),
                            days_left=days_between(snap.today, interview["date"]),
-                           weakest=c.PLAN_WEAKEST)
+                           weakest=c.PLAN_WEAKEST, window=c.FOCUS_WINDOW_DAYS)
 
 
 @bp.route("/interviews/<int:interview_id>/edit", methods=["GET", "POST"])
