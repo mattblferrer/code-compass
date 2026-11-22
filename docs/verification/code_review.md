@@ -85,6 +85,37 @@ This page records the reviews of the changes the AI wrote, for the plan item "re
 
 The security review of hosted mode (R-53) is in [security_review.md](security_review.md).
 
+## Fourth review
+
+- **Date:** 2026-11-22
+- **Changes reviewed:** the 10 commits after `ac5a645`, from `45f01af` (hosted mode) to `1c795ec` (phone layouts): hosted mode on Vercel and Neon (R-50 to R-56) and the security review's fixes, the landing page and getting-started panel (R-57), the help guide (R-58), pattern guides (R-59), the shorter header, and two rounds of fixes from a UI review: 89 files and about 6,000 changed lines, data files included.
+- **Method:** an automated code review of that range, which reported 10 findings; the AI checked each against the code, and the author chose to fix all of them, picking the approach for findings 6 and 8. The four checks below were repeated by searching the code. The hosted-mode tests ran against a local PostgreSQL server.
+- **Tests:** 496 passing in local mode and 529 in hosted mode after the fixes, in `ef46226`. The new tests for findings 3, 4, and 6 were checked to fail without their fixes.
+
+### Findings
+
+| # | Finding | Fix |
+| --- | --- | --- |
+| 1 | Hosted sign-in always landed on the dashboard: `start_session` cleared the session before the page asked for was read from it. | The page is read first. |
+| 2 | Loading the demo into a hosted account checked only for attempts, then deleted the account's custom problems (with their notes and links) and pattern goals, and numbered attempts from 1 again, which could clash with undo records. | The demo loads only into an account with nothing of its own. |
+| 3 | While a hosted sync ran, the step each open page sends every second counted as saving something new, so Undo for deleting all data or a restore ended within a second; and the running sync went on writing into the cleared account. | Sync steps leave Undo alone, and clearing an account stops its sync. |
+| 4 | In hosted mode the form-token check read a restore's upload under the app's 5 MB limit, before restore raised it to 100 MB. Vercel's own 4.5 MB limit applies first, so this could not happen there. | Restore's limit applies before the token is read. |
+| 5 | Two hosted instances starting at once after a catalog change could both load it, and the second failed on the shared problems the first had just added. | A lock held for the whole check and load; the second waits, then skips. |
+| 6 | A hosted backup, and the copy kept for Undo, dropped a custom problem's link when the shared catalog later gained a problem with the same link, since a backup holds each link once. | Author's choice: the backup writes the custom problem as that catalog problem, as local mode merges them, with its attempts and links; two notes on them are joined. |
+| 7 | Hosted lookups (R-35) were spaced only within one app instance, not across accounts as sync steps are (R-54). | Lookups take turns through the shared site clock and say the site is busy if its turn is more than 10 seconds away. |
+| 8 | `requirements.txt` gave local installs the hosted-only libraries, against CLAUDE.md. | Author's choice: `requirements-local.txt` lists only Flask; `requirements.txt` stays as Vercel's file. |
+| 9 | An account's first day was the server's date, against the rule that the route layer resolves "today". It shows only in the maintainer's account list. | The route passes the user's date. |
+| 10 | `pg.py` listed a `sync_jobs` table that does not exist (the table is `sync_job`). | Removed. |
+
+### Checks
+
+| Check | How | Result |
+| --- | --- | --- |
+| Dates and time zones | Searched for every clock read | Pass after finding 9. `core/` never reads the clock. Besides `views.py`, the clock is read for session and rate-limit timestamps (`auth.py`, `limits.py`) and in the `demo` command. |
+| Outgoing requests (R-03) | Searched for request code and `fetch(` | Pass. Only `remote.py` (sync and lookup) and `auth.py` (GitHub sign-in, R-51) contact other sites; `scripts/check_resource_links.py` runs only by hand and is never imported. The JavaScript fetches only this app's routes, and pattern guides are links the user opens. |
+| CDN links (R-24) | Searched templates and styles for external scripts, styles, images, `url(`, and `@import` | Pass. None; the only outside addresses are guide and problem links. |
+| One shared validator (R-05) | Listed every write to attempts, problems, and links and their validators | Pass. The form, edits, CSV import, and sync share `validate_attempt` and `validate_problem`; pattern links use the same `validate_link` as problem links, and a backup keeps only web links in both. |
+
 ## AI mistakes
 
 Mistakes in work the AI produced, in the order they were found. "Found by" says whether a test, the AI's own check, the author, or the code review caught it.
@@ -133,5 +164,17 @@ Mistakes in work the AI produced, in the order they were found. "Found by" says 
 | 40 | 2026-11-12 | Hosted mode (R-52) | Restoring into an account could take ids PostgreSQL had not handed out yet, blocking other accounts from adding problems. | Security review | Only ids already handed out are kept. |
 | 41 | 2026-11-12 | Sign-in (R-51) | The return-to page after sign-in accepted `/\example.com`, another site. | Security review | Backslashes and control characters refused. |
 | 42 | 2026-11-12 | Hosted mode (R-53) | Form tokens were compared as text, so a non-ASCII token caused a server error. | Security review | Compared as bytes. |
+| 43 | 2026-11-12 | Sign-in (R-51) | Signing in always went to the dashboard, because the session was cleared before the page asked for was read. | Fourth review | `ef46226` |
+| 44 | 2026-11-12 | Demo (R-25) | Loading the demo into a hosted account deleted the account's custom problems and pattern goals. | Fourth review | `ef46226` |
+| 45 | 2026-11-12 | Hosted mode (R-39, R-54) | A running sync ended Undo within a second and kept writing into an account that had just been cleared. | Fourth review | `ef46226` |
+| 46 | 2026-11-12 | Hosted mode (R-50) | Two instances starting together could both load the catalog, and one failed. | Fourth review | `ef46226` |
+| 47 | 2026-11-12 | Backup (R-46, R-55) | A hosted backup dropped a custom problem's link once the catalog had the same link. | Fourth review | `ef46226` |
+| 48 | 2026-11-12 | Lookup (R-35, R-54) | Hosted lookups were not spaced across accounts, as the rule for sync requires. | Fourth review | `ef46226` |
+| 49 | 2026-11-12 | Backup (R-46, R-53) | The form-token check read a restore's upload under the smaller limit for other uploads. | Fourth review | `ef46226` |
+| 50 | 2026-11-12 | Code rules | Hosted-only libraries went into the file local installs use, and an account's first day used the server's clock, both against CLAUDE.md. | Fourth review | `ef46226` |
+| 51 | 2026-11-12 | Hosted mode | A table name in `pg.py` was misspelled. | Fourth review | `ef46226` |
+| 52 | 2026-11-22 | Pattern guides (R-59) | The feature was committed after only the local tests, since no PostgreSQL server was running; the hosted run then failed a help-page test, whose check that hosted mode never names LeetCode also caught the LeetCode Explore guides. | Hosted test run | The check covers the page outside the guides (`f7aca34`). |
+| 53 | 2026-11-22 | Layout (R-59) | At phone width, a guide's site name split across lines and "Trick" sat alone on a line. | Browser check | Each detail kept whole (`f7aca34`). |
+| 54 | 2026-11-22 | Layout | The first UI review pass looked at History only on a wide screen, so its list's sideways scroll on phones was found a pass later than the same problem on Reviews and pattern pages. | AI's second browser pass | `1c795ec` |
 
-Most mistakes were caught by a test, a browser check, or a code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code. In the second review, items 26 and 28 repeat that pattern: limits and rules that existed in one place (AtCoder's paging guard, `core/` for rules) were not carried to new code, and items 20 to 23 show that most layout mistakes were caught only by looking at the page. In the third review, items 32 and 35 are mistakes introduced by the second review's own fixes, which argues for reviewing each fix with the same care as new work. Item 38 is the most serious so far: test code reached real data, which a guard now prevents. Items 39 to 42 came from the security review of hosted mode, in `security_review.md`; three of them concern files or input from someone else, which the single-user design had never had to expect.
+Most mistakes were caught by a test, a browser check, or a code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code. In the second review, items 26 and 28 repeat that pattern: limits and rules that existed in one place (AtCoder's paging guard, `core/` for rules) were not carried to new code, and items 20 to 23 show that most layout mistakes were caught only by looking at the page. In the third review, items 32 and 35 are mistakes introduced by the second review's own fixes, which argues for reviewing each fix with the same care as new work. Item 38 is the most serious so far: test code reached real data, which a guard now prevents. Items 39 to 42 came from the security review of hosted mode, in `security_review.md`; three of them concern files or input from someone else, which the single-user design had never had to expect. In the fourth review, nine of the ten findings are in hosted mode, which the security review had checked against attackers but not for ordinary use across accounts, instances, and serverless steps: items 45, 46, and 48 each follow from many requests sharing one database and one address, which local mode never meets. Item 52 shows a change that touched hosted mode committed after only the local tests.
