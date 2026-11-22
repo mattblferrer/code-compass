@@ -13,7 +13,7 @@ import hmac
 import click
 import secrets
 import time
-from datetime import date, timedelta
+from datetime import timedelta
 from urllib.parse import urlparse
 
 from flask.cli import with_appcontext
@@ -145,6 +145,11 @@ def _check_csrf():
     """Refuse a form post or script request made from another site (R-53)."""
     if request.method != "POST" or not current_app.config["CSRF_CHECK"]:
         return
+    if request.endpoint == "main.restore_backup":
+        from .backup import MAX_BACKUP_BYTES
+
+        # Reading the token below reads the upload, so a backup's own limit must apply first.
+        request.max_content_length = MAX_BACKUP_BYTES
     sent = request.form.get("csrf_token") or request.headers.get("X-CSRF-Token") or ""
     expected = session.get("csrf", "")
     # Compared as bytes: compare_digest refuses text with non-ASCII characters.
@@ -224,9 +229,13 @@ def github_callback():
     if not isinstance(profile, dict) or not isinstance(profile.get("id"), int) or not profile.get("login"):
         flash("GitHub did not say who you are. Try again.")
         return redirect(url_for("auth.sign_in"))
+    from .views import today
+
+    # Read before start_session, which clears the session.
+    next_page = _safe_next(session.pop("next", None))
     conn = db.open_db(current_app.config)
     try:
-        user_id = account_for(conn, profile)
+        user_id = account_for(conn, profile, today())
         if user_id is None:
             flash("CodeCompass is full for now: it has reached its limit of accounts. "
                   "Existing accounts can still sign in.")
@@ -234,11 +243,12 @@ def github_callback():
         start_session(conn, user_id)
     finally:
         conn.close()
-    return redirect(_safe_next(session.pop("next", None)))
+    return redirect(next_page)
 
 
-def account_for(conn, profile):
-    """The account for a GitHub profile, made if new and there is room (R-51). None when full."""
+def account_for(conn, profile, today):
+    """The account for a GitHub profile, made if new and there is room (R-51). None when full.
+    `today` is the user's date, kept as the day the account was made."""
     with conn:
         conn.execute("SELECT pg_advisory_xact_lock(726356)")  # One sign-up at a time, so the cap holds.
         row = conn.execute("SELECT id FROM users WHERE github_id = ?", (profile["id"],)).fetchone()
@@ -249,7 +259,7 @@ def account_for(conn, profile):
         if conn.execute("SELECT count(*) FROM users").fetchone()[0] >= c.MAX_ACCOUNTS:
             return None
         user_id = conn.execute("INSERT INTO users (github_id, login, name, created) VALUES (?, ?, ?, ?)",
-                               (profile["id"], profile["login"], profile.get("name"), date.today().isoformat())
+                               (profile["id"], profile["login"], profile.get("name"), today)
                                ).lastrowid
     from . import pg
 

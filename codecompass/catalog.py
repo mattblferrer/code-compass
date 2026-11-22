@@ -130,20 +130,38 @@ def load(conn, patterns_path, catalog_path, reserve_path=None):
                 conn.execute("DELETE FROM problems WHERE id = ?", (row["id"],))
 
 
+# Hosted mode: held while one app instance checks and loads the shared catalog.
+CATALOG_LOCK = 726357
+
+
 def load_if_changed(conn, patterns_path, catalog_path, reserve_path=None):
-    """Load the files unless they are unchanged since the last load. Returns True if loaded."""
+    """Load the files unless they are unchanged since the last load. Returns True if loaded.
+
+    In hosted mode several instances can start at once after a deploy. A lock held for the
+    whole check and load makes the others wait, then find the new fingerprint and skip, so
+    no two add the same shared problems. It is a session lock, since load commits as it goes.
+    """
     stamp = fingerprint(patterns_path, catalog_path, reserve_path)
-    row = conn.execute("SELECT value FROM app_meta WHERE key = 'data_fingerprint'").fetchone()
-    if row and row["value"] == stamp:
-        return False
-    load(conn, patterns_path, catalog_path, reserve_path)
-    with conn:
-        conn.execute(
-            """INSERT INTO app_meta (key, value) VALUES ('data_fingerprint', ?)
-               ON CONFLICT (key) DO UPDATE SET value = excluded.value""",
-            (stamp,),
-        )
-    return True
+    hosted = getattr(conn, "hosted", False)
+    if hosted:
+        conn.execute("SELECT pg_advisory_lock(?)", (CATALOG_LOCK,))
+    try:
+        row = conn.execute("SELECT value FROM app_meta WHERE key = 'data_fingerprint'").fetchone()
+        if row and row["value"] == stamp:
+            return False
+        load(conn, patterns_path, catalog_path, reserve_path)
+        with conn:
+            conn.execute(
+                """INSERT INTO app_meta (key, value) VALUES ('data_fingerprint', ?)
+                   ON CONFLICT (key) DO UPDATE SET value = excluded.value""",
+                (stamp,),
+            )
+        return True
+    finally:
+        if hosted:
+            conn.rollback()  # Ends any read left open, so the unlock below is not held back.
+            conn.execute("SELECT pg_advisory_unlock(?)", (CATALOG_LOCK,))
+            conn.commit()
 
 
 def _write_csv(path, header, rows):

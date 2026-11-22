@@ -73,8 +73,10 @@ def now_seconds():
 @bp.before_request
 def end_erase_undo():
     """Saving anything after deleting all data makes the deletion final, so Undo can never
-    overwrite a fresh start (R-39). The copy also expires after c.UNDO_DAYS."""
-    if request.endpoint in ("main.erase_data", "main.undo_erase", "main.restore_backup"):
+    overwrite a fresh start (R-39). The copy also expires after c.UNDO_DAYS. A hosted sync step
+    is not something the user saved: every open page sends one each second while a sync runs,
+    and deleting all data or restoring stops that sync (transfer.clear_account)."""
+    if request.endpoint in ("main.erase_data", "main.undo_erase", "main.restore_backup", "main.sync_step"):
         return
     conn, database = get_db(), current_app.config["DATABASE"]
     if not conn.execute("SELECT 1 FROM app_meta WHERE key = ?", (erase.MARK,)).fetchone():
@@ -210,8 +212,9 @@ def load_demo():
     conn = get_db()
     if not hosted():
         abort(404)
-    if queries.recent_attempts(conn, limit=1):
-        flash("The demo history can only be loaded into an account with no attempts.")
+    if demo.has_own_data(conn):
+        flash("The demo history can only be loaded into an account with no practice of its own yet. "
+              "Delete all data in settings first if you want to try it.")
         return redirect(url_for("main.dashboard"))
     demo.build(conn, today())
     flash("Loaded 8 weeks of made-up practice. Delete all data in settings when you want to start for real.")
@@ -711,6 +714,7 @@ LOOKUP_MESSAGES = {
     "not_found": "{site} has no problem with that ID. Check it, or enter the details by hand.",
     "refused": "{site} refused the request, so the lookup stopped. Try again later, or enter the details by hand.",
     "failed": "Could not reach {site}. Check your connection, or enter the details by hand.",
+    "busy": "{site} is busy with other requests from CodeCompass. Try again in a few seconds, or enter the details by hand.",
 }
 
 
@@ -730,11 +734,21 @@ def run_lookup(conn, form, lookup, pattern_names):
     if existing:
         # No request is needed: the problem is already here, so it is shown instead of a duplicate.
         return {**form, "link": link}, [], {**lookup, "site": site, "existing": dict(existing)}
+    # Hosted mode: every account shares the server's address, so lookups take turns with the
+    # other accounts' requests to the site, as sync steps do (R-54).
+    token = (remote.pacer.set(syncing.shared_pacer(conn, remote.wall_clock() + c.LOOKUP_WAIT_SECONDS))
+             if hosted() else None)
     try:
         details = remote.lookup(site, link, pattern_names)
+    except syncing.Later:
+        message = LOOKUP_MESSAGES["busy"].format(site=SITES[site])
+        return {**form, "link": link}, [], {**lookup, "site": site, "message": message}
     except remote.RequestFailed as error:
         message = LOOKUP_MESSAGES[error.kind].format(site=error.site)
         return {**form, "link": link}, [], {**lookup, "site": site, "message": message}
+    finally:
+        if token is not None:
+            remote.pacer.reset(token)
     filled = {"title": details["title"], "link": details["link"], "difficulty": details["difficulty"],
               "rating": "" if details["rating"] is None else str(details["rating"])}
     missing = [name for name, value in (("level", details["difficulty"]), ("patterns", details["patterns"])) if not value]

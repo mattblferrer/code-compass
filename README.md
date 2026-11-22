@@ -7,10 +7,10 @@ A web app for tracking coding-interview practice by pattern. See [docs/requireme
 ```
 python -m venv .venv
 .venv\Scripts\activate
-pip install -r requirements-dev.txt
+pip install -r requirements-local.txt
 ```
 
-`requirements.txt` lists what the app runs on; `requirements-dev.txt` adds pytest. Local mode needs only Flask; the other libraries are for hosted mode.
+Local mode needs only Flask, which `requirements-local.txt` installs. `requirements.txt` adds hosted mode's libraries (PostgreSQL, GitHub sign-in), and is what Vercel installs. To run the tests, install `requirements-dev.txt` instead: it adds pytest to both, since the hosted-mode tests need the hosted libraries.
 
 ## Run
 

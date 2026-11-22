@@ -122,6 +122,20 @@ def simulate(problems, today, seed=SEED):
     return attempts
 
 
+# What build replaces, or would collide with once it numbers attempts from 1 again: an account
+# holding any of these is not loaded with the demo in hosted mode, so nothing of the user's is lost.
+REPLACED = ("attempts", "sibling_suggestions", "not_now", "hint_reveals", "pattern_preferences",
+            "deleted_items", "sync_batches")
+
+
+def has_own_data(conn):
+    """Whether loading the demo would delete or clash with anything the user made."""
+    for table in REPLACED:
+        if conn.execute(f"SELECT 1 FROM {table} LIMIT 1").fetchone():
+            return True
+    return conn.execute("SELECT 1 FROM problems WHERE is_custom = 1 LIMIT 1").fetchone() is not None
+
+
 def build(conn, today, seed=SEED):
     """Replace all practice data in `conn` with the demo history.
 

@@ -99,6 +99,9 @@ SYNC_OVERLAP_HOURS = 24
 SYNC_STEP_SECONDS = 8.0
 MAX_ACCOUNTS = 50
 
+# Hosted mode: the longest a lookup (R-35) waits for its site's turn among every account's requests.
+LOOKUP_WAIT_SECONDS = 10.0
+
 # Hosted mode's limits (R-53), provisional: sign-ins per address, and backup or CSV uploads
 # and sync starts per account, in each window of LIMIT_WINDOW_SECONDS.
 LIMIT_WINDOW_SECONDS = 600

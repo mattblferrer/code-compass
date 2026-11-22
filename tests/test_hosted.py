@@ -84,6 +84,23 @@ def test_signing_in_starts_with_github_and_keeps_only_a_local_next_page(hosted):
         assert session["next"] == "/"
 
 
+def test_signing_in_returns_to_the_page_asked_for(hosted, monkeypatch):
+    client = hosted.test_client()
+    assert client.get("/history?outcome=not_solved").location.startswith("/signin")
+    client.post("/signin/github", data={"next": "/history?outcome=not_solved"})
+    monkeypatch.setattr(auth, "github_profile", lambda: {"id": 303, "login": "cy", "name": "Cy"})
+    assert client.get("/signin/github/callback").location == "/history?outcome=not_solved"
+    # The account's first day is the user's date, from the browser's offset (R-51).
+    client.set_cookie("tz", str(-14 * 60))
+    other = hosted.test_client()
+    other.set_cookie("tz", str(14 * 60))
+    monkeypatch.setattr(auth, "github_profile", lambda: {"id": 304, "login": "di", "name": "Di"})
+    other.get("/signin/github/callback")
+    made = query(hosted, None, "SELECT created FROM users WHERE github_id = 304")[0]["created"]
+    from datetime import datetime, timedelta, timezone
+    assert made == (datetime.now(timezone.utc) + timedelta(hours=14)).date().isoformat()
+
+
 def test_sign_in_makes_an_account_and_signing_out_ends_that_session_everywhere(hosted, monkeypatch):
     client = sign_in(hosted, monkeypatch, 101, "ada")
     page = client.get("/").get_data(as_text=True)
@@ -293,7 +310,7 @@ def test_an_empty_account_can_load_the_demo_history_once(hosted, monkeypatch):
     assert "Loaded 8 weeks of made-up practice." in page and "Load demo history" not in page
     count = query(hosted, user_id(hosted, "ada"), "SELECT count(*) AS n FROM attempts")[0]["n"]
     assert count > 0  # The test catalog is small, so the history is short.
-    assert "only be loaded into an account with no attempts" in client.post("/demo", follow_redirects=True).get_data(as_text=True)
+    assert "only be loaded into an account with no practice" in client.post("/demo", follow_redirects=True).get_data(as_text=True)
     assert query(hosted, user_id(hosted, "ada"), "SELECT count(*) AS n FROM attempts")[0]["n"] == count
     # Another account stays empty.
     assert "Load demo history" in sign_in(hosted, monkeypatch, 202, "bo").get("/").get_data(as_text=True)
@@ -316,6 +333,130 @@ def test_pattern_links_belong_to_one_account_and_move_with_its_backup(hosted, mo
             content_type="multipart/form-data")
     assert "https://example.org/ada" in bo.get("/patterns/Two%20Pointers").get_data(as_text=True)
     assert "https://example.org/ada" not in bo.get("/patterns/Sliding%20Window").get_data(as_text=True)
+
+
+def test_the_demo_never_replaces_an_accounts_own_data(hosted, monkeypatch):
+    client = sign_in(hosted, monkeypatch, 101, "ada")
+    client.post("/problems/new", data={"title": "My own problem", "link": "", "difficulty": "easy",
+                                       "patterns": "Stack"})
+    client.post("/settings", data={"starting_difficulty": "easy", "pref:Heap": "mastered"})
+    me = user_id(hosted, "ada")
+    assert query(hosted, me, "SELECT count(*) AS n FROM problems WHERE is_custom = 1")[0]["n"] == 1
+    page = client.post("/demo", follow_redirects=True).get_data(as_text=True)
+    assert "only be loaded into an account with no practice" in page
+    assert query(hosted, me, "SELECT count(*) AS n FROM attempts")[0]["n"] == 0
+    assert query(hosted, me, "SELECT count(*) AS n FROM problems WHERE is_custom = 1")[0]["n"] == 1
+    assert query(hosted, me, "SELECT preference FROM pattern_preferences") == [{"preference": "mastered"}]
+
+
+def test_a_running_sync_neither_ends_undo_nor_outlives_deleting_all_data(hosted, monkeypatch):
+    import json
+
+    client = sign_in(hosted, monkeypatch, 101, "ada")
+    log(client, notes="before")
+    me = user_id(hosted, "ada")
+    conn = _as(hosted, me)
+    try:
+        with conn:
+            conn.execute("INSERT INTO sync_job (id, data, lease) VALUES (1, ?, 0)", (json.dumps(
+                {"now": 0, "order": [], "sites": {}, "index": 0, "state": None, "results": [], "earlier": [],
+                 "done": False, "shown": False}),))
+    finally:
+        conn.close()
+    client.post("/settings/erase", data={"confirm": "erase"})
+    assert query(hosted, me, "SELECT count(*) AS n FROM sync_job")[0]["n"] == 0  # The sync stopped.
+    # Open pages keep asking for sync steps, which must not make the deletion final.
+    client.post("/sync/step", headers={"Accept": "application/json"})
+    assert query(hosted, me, "SELECT count(*) AS n FROM kept_copy")[0]["n"] == 1
+    client.post("/settings/erase/undo")
+    assert [r["notes"] for r in query(hosted, me, "SELECT notes FROM attempts")] == ["before"]
+
+
+def test_only_one_instance_loads_the_catalog_at_a_time(hosted, catalog_path):
+    """Instances starting together after a deploy wait for the one loading the catalog, then skip."""
+    import threading
+
+    from codecompass import catalog
+
+    holder = app_db(hosted)
+    holder.execute("SELECT pg_advisory_lock(?)", (catalog.CATALOG_LOCK,))
+    result = {}
+
+    def start():
+        conn = app_db(hosted)
+        try:
+            result["loaded"] = catalog.load_if_changed(conn, hosted.config["PATTERNS_PATH"], catalog_path)
+        finally:
+            conn.close()
+
+    waiting = threading.Thread(target=start)
+    waiting.start()
+    waiting.join(0.5)
+    assert waiting.is_alive()  # Held back while another instance loads.
+    holder.execute("SELECT pg_advisory_unlock(?)", (catalog.CATALOG_LOCK,))
+    holder.commit()
+    holder.close()
+    waiting.join(10)
+    assert result == {"loaded": False}  # The catalog was already loaded, so it skipped.
+
+
+def test_a_custom_problem_the_catalog_gained_is_merged_in_backups(hosted, monkeypatch):
+    """A backup holds each link once, so a custom problem whose link the shared catalog later
+    gained is written as that catalog problem, with its attempts and notes (R-46, R-55)."""
+    client = sign_in(hosted, monkeypatch, 101, "ada")
+    me = user_id(hosted, "ada")
+    client.post("/problems/new", data={"title": "Mine first", "link": "https://example.com/later", "difficulty": "easy",
+                                       "patterns": "Stack"})
+    mine = query(hosted, me, "SELECT id FROM problems WHERE is_custom = 1")[0]["id"]
+    log(client, notes="on my copy", problem="Mine first (custom)")
+    client.post(f"/problems/{mine}/notes", data={"note": "my note"})
+    shared = app_db(hosted)
+    try:
+        with shared:
+            shared.execute("SET LOCAL codecompass.catalog = 'on'")
+            shared.execute("INSERT INTO problems (title, link, difficulty, source, is_custom, catalog_position) "
+                           "VALUES ('Added later', 'https://example.com/later', 'easy', 'Test list', 0, 99)")
+    finally:
+        shared.close()
+    later = query(hosted, me, "SELECT id FROM problems WHERE link = 'https://example.com/later' AND is_custom = 0")[0]["id"]
+    client.post(f"/problems/{later}/notes", data={"note": "catalog note"})
+    client.post("/settings/erase", data={"confirm": "erase"})
+    client.post("/settings/erase/undo")
+    rows = query(hosted, me, "SELECT p.link, p.is_custom, a.notes FROM attempts a JOIN problems p ON p.id = a.problem_id")
+    assert rows == [{"link": "https://example.com/later", "is_custom": 0, "notes": "on my copy"}]
+    assert query(hosted, me, "SELECT note FROM problem_notes") == [{"note": "my note\n\ncatalog note"}]
+
+
+def test_a_large_backup_upload_reaches_restore_with_form_tokens_on(tmp_path, catalog_path, monkeypatch):
+    """The form-token check reads the upload, so a backup's own size limit applies before it."""
+    app = create_app({"TESTING": True, "DATABASE": str(tmp_path / "tokens.sqlite"), "CATALOG_PATH": catalog_path,
+                      "RESERVE_PATH": None, "UNMAPPED_PATH": None, "TESTING_USER_ID": None, "CSRF_CHECK": True,
+                      "GITHUB_CLIENT_ID": "test-client", "GITHUB_CLIENT_SECRET": "test-secret"})
+    client = sign_in(app, monkeypatch, 101, "ada")
+    token = re.search(r'name="csrf_token" value="([^"]+)"', client.get("/settings/restore").get_data(as_text=True))[1]
+    big = b"x" * (6 * 1024 * 1024)  # Over the app's 5 MB limit for other uploads.
+    response = client.post("/settings/restore", data={"csrf_token": token, "confirm": "restore",
+                                                      "file": (io.BytesIO(big), "big.sqlite")},
+                           content_type="multipart/form-data")
+    # Refused as not a backup by restore itself, not as too large before it.
+    assert response.status_code == 400 and "t a CodeCompass backup" in response.get_data(as_text=True)
+
+
+def test_a_lookup_waits_its_turn_among_every_accounts_requests(hosted, monkeypatch):
+    from codecompass import remote
+
+    client = sign_in(hosted, monkeypatch, 101, "ada")
+    sent = []
+    monkeypatch.setattr(remote, "fetch", lambda url, data=None: sent.append(url))
+    shared = app_db(hosted)
+    try:
+        with shared:  # Another account's requests hold Codeforces for the next ten minutes.
+            shared.execute("INSERT INTO site_clock (host, next_at) VALUES ('codeforces.com', ?)"
+                           " ON CONFLICT (host) DO UPDATE SET next_at = excluded.next_at", (remote.wall_clock() + 600,))
+    finally:
+        shared.close()
+    page = client.get("/problems/new?lookup=1&site=codeforces&ref=1520A").get_data(as_text=True)
+    assert "Codeforces is busy with other requests from CodeCompass" in page and sent == []
 
 
 # --- R-57: the sign-in page as a landing page, and getting started ---

@@ -338,7 +338,7 @@ class Later(Exception):
     """The site's next turn falls after this step ends, so the sync goes on at the next step."""
 
 
-def _shared_pacer(conn, deadline):
+def shared_pacer(conn, deadline):
     """Wait for the host's turn across every account, reserving it, or raise Later."""
 
     def pace(host, spacing):
@@ -428,7 +428,7 @@ def advance(conn, local_date, budget):
     if row is None:
         return stored_job(conn)
     data = json.loads(row["data"])
-    token = remote.pacer.set(_shared_pacer(conn, deadline))
+    token = remote.pacer.set(shared_pacer(conn, deadline))
     try:
         while not data["done"] and remote.wall_clock() < deadline:
             _step(conn, data, local_date)

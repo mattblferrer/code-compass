@@ -49,6 +49,41 @@ def _chunks(items, size=500):
         yield items[start:start + size]
 
 
+def _merge_into_catalog(conn, problems):
+    """Problems for the backup, with each custom problem whose link the shared catalog now also
+    has replaced by that catalog problem, as local mode merges them when the catalog gains the
+    link. A backup holds each link once, so otherwise the custom problem would lose its link.
+    Returns (problems, {custom id: catalog id})."""
+    by_id = {p["id"]: p for p in problems}
+    merged = {}
+    for p in problems:
+        if not p["is_custom"] or not p["link"]:
+            continue
+        shared = conn.execute(f"SELECT {', '.join(PROBLEM_FIELDS)} FROM problems WHERE link = ? AND is_custom = 0",
+                              (p["link"],)).fetchone()
+        if shared is None:
+            continue
+        shared = dict(zip(PROBLEM_FIELDS, shared))
+        merged[p["id"]] = shared["id"]
+        by_id.setdefault(shared["id"], shared)
+        del by_id[p["id"]]
+    return list(by_id.values()), merged
+
+
+def _join_notes(rows, columns):
+    """Notes that now belong to one problem, as one note: both texts, newest date."""
+    problem, note, updated = (columns.index(c) for c in ("problem_id", "note", "updated"))
+    joined = {}
+    for row in rows:
+        kept = joined.get(row[problem])
+        if kept is None:
+            joined[row[problem]] = row
+        else:
+            kept[note] = kept[note] + "\n\n" + row[note]
+            kept[updated] = max(kept[updated], row[updated])
+    return list(joined.values())
+
+
 def _used_problems(conn):
     """Ids of every problem the account's records use, and of its custom problems."""
     ids = set()
@@ -72,6 +107,7 @@ def export_account(conn):
             marks = ", ".join("?" * len(chunk))
             problems += [dict(zip(PROBLEM_FIELDS, r)) for r in conn.execute(
                 f"SELECT {', '.join(PROBLEM_FIELDS)} FROM problems WHERE id IN ({marks})", chunk)]
+        problems, merged = _merge_into_catalog(conn, problems)
         # Shared problems first, so a custom problem with the same link loses its link, not the catalog's.
         for p in sorted(problems, key=lambda p: p["is_custom"]):
             if p["link"] in links:
@@ -90,7 +126,13 @@ def export_account(conn):
             if table == "rating_history":
                 columns.append("rowid")  # Kept, so ratings keep their stored order.
             order = "rowid" if table == "rating_history" else ", ".join(columns)
-            rows = conn.execute(f"SELECT {', '.join(columns)} FROM {table} ORDER BY {order}").fetchall()
+            rows = [list(r) for r in conn.execute(f"SELECT {', '.join(columns)} FROM {table} ORDER BY {order}")]
+            for column in PROBLEM_COLUMNS.get(table, ()):
+                i = columns.index(column)
+                for row in rows:
+                    row[i] = merged.get(row[i], row[i])
+            if table == "problem_notes":
+                rows = _join_notes(rows, columns)
             out.executemany(f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join('?' * len(columns))})",
                             [tuple(r) for r in rows])
         out.commit()
@@ -101,10 +143,11 @@ def export_account(conn):
 
 def clear_account(conn):
     """Delete every user row and the account's custom problems, inside the caller's transaction.
-    Shared problems stay."""
+    Shared problems stay. A sync still running stops, so it cannot add to the cleared account."""
     for table in reversed(USER_TABLES):
         conn.execute(f"DELETE FROM {table}")
     conn.execute("DELETE FROM problems WHERE is_custom = 1")
+    conn.execute("DELETE FROM sync_job")
 
 
 def _new_problem(conn, problem, patterns):
