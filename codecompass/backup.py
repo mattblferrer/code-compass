@@ -7,7 +7,7 @@ undone like deleting all data (R-39): the current database is copied aside first
 """
 import sqlite3
 
-from . import catalog, erase, transfer
+from . import catalog, erase, sync, transfer
 from .db import init_db
 
 # The largest backup accepted; a database with the catalog and reserve is a few megabytes.
@@ -70,6 +70,7 @@ def restore(conn, database, copy, today, paths):
             copy.close()
         erase.mark(conn, today)
         return
+    sync.stop(database)  # A running sync's results belong to the data being replaced.
     erase.keep_copy(conn, database)
     try:
         copy.backup(conn)

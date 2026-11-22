@@ -999,3 +999,49 @@ def test_a_crash_keeps_another_sites_own_error(client, app, sites, monkeypatch):
     page = client.get("/sync").get_data(as_text=True)
     assert "AtCoder: no user named practice_user was found." in page
     assert "LeetCode: the sync stopped because of an unexpected problem" in page
+
+
+# --- A local sync never writes into data the user just deleted or replaced (fourth review, finding 3) ---
+
+def _held_sync(monkeypatch):
+    """A Codeforces sync that waits until released, so something can happen while it runs."""
+    import threading
+    import time
+
+    started, release = threading.Event(), threading.Event()
+
+    def held(site, username, since, known, read):
+        started.set()
+        release.wait(10)
+        return ([{"link": "https://codeforces.com/problemset/problem/4/A", "title": "Watermelon",
+                  "time": int(time.time()), "accepted": True, "rating": 800, "tags": ["math"]}],
+                [{"contest": "Round 1", "time": int(time.time()), "rating": 1500}])
+
+    monkeypatch.setattr(remote, "sync", held)
+    return started, release
+
+
+@pytest.mark.local_only
+@pytest.mark.parametrize("change", ["erase", "restore"])
+def test_a_running_sync_stops_when_the_data_is_deleted_or_replaced(client, app, monkeypatch, change):
+    from codecompass import sync as syncing
+
+    link(client, codeforces="practice_user")
+    backup = client.get("/settings/backup").data
+    started, release = _held_sync(monkeypatch)
+    client.post("/sync", headers={"X-Sync-Background": "1"})
+    assert started.wait(5)
+    if change == "erase":
+        client.post("/settings/erase", data={"confirm": "erase"})
+    else:
+        client.post("/settings/restore", data={"file": (io.BytesIO(backup), "b.sqlite"), "confirm": "restore"},
+                    content_type="multipart/form-data")
+    release.set()
+    job = syncing.current_job(app.config["DATABASE"])
+    job.thread.join(10)
+    assert job.done
+    with app.app_context():
+        conn = get_db()
+        assert conn.execute("SELECT count(*) FROM sync_items").fetchone()[0] == 0
+        assert conn.execute("SELECT count(*) FROM rating_history").fetchone()[0] == 0
+    assert "to confirm." not in client.get("/sync").get_data(as_text=True)  # No results message for that data.

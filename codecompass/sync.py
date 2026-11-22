@@ -49,7 +49,7 @@ def _seconds(text):
     return int(datetime.fromisoformat(text).timestamp()) if text else None
 
 
-def run(conn, now, local_date, report=None):
+def run(conn, now, local_date, report=None, stopped=None):
     """Sync every linked account. Returns one result per site: its label, username, items added,
     and any error kind.
 
@@ -57,9 +57,13 @@ def run(conn, now, local_date, report=None):
     succeed, so a failed or refused sync changes nothing and leaves the previous
     sync time in place. `report`, if given, is called as report(site, fields) as
     each site starts, reads, and finishes, for the progress shown while syncing.
+    `stopped`, if given, says when the user's data was deleted or replaced while this
+    ran; the sync then ends without storing anything more.
     """
     results = []
     for site, account in sorted(accounts(conn).items(), key=lambda kv: SYNC_SITES.index(kv[0])):
+        if stopped is not None and stopped():
+            break
         result = {"site": site, "label": rules.SITES[site], "username": account["username"], "added": 0,
                   "error": None}
         since = rules.sync_since(_seconds(account["last_synced"]), now)
@@ -85,7 +89,9 @@ def run(conn, now, local_date, report=None):
             continue
         if report:
             report(site, {"state": "running", "step": "saving", "fraction": 1.0})
-        result["added"] = _store(conn, site, account["username"], submissions, ratings, now, local_date)
+        result["added"] = _store(conn, site, account["username"], submissions, ratings, now, local_date, stopped)
+        if result["added"] is None:
+            break  # The data changed under the sync, so nothing was stored.
         results.append(result)
         if report:
             report(site, {"state": "done", "added": result["added"], "fraction": 1.0})
@@ -108,6 +114,7 @@ class Job:
         self.results = None
         self.done = False
         self.shown = False
+        self.stopped = False  # Set when the user's data is deleted or replaced while this runs.
 
     def report(self, site, fields):
         with self._lock:
@@ -133,6 +140,17 @@ _jobs_lock = threading.Lock()
 
 def current_job(database):
     return _jobs.get(database)
+
+
+def stop(database):
+    """Local mode: stop a running sync before the user's data is deleted, restored, or put back
+    by Undo, so its results never land in the changed data. Its results are not shown, since
+    they belong to data that is gone."""
+    with _jobs_lock:
+        job = _jobs.get(database)
+        if job is not None and not job.done:
+            job.stopped = True
+            job.shown = True
 
 
 def start(database, now, local_date):
@@ -162,7 +180,7 @@ def start(database, now, local_date):
 def _work(job, database, now, local_date):
     conn = connect(database)
     try:
-        job.results = run(conn, now, local_date, job.report)
+        job.results = run(conn, now, local_date, job.report, lambda: job.stopped)
     except Exception:  # Never leave the page waiting on a sync that stopped.
         # Each site keeps what happened to it: its results, its own error, or that the sync
         # stopped before or while it ran.
@@ -185,9 +203,17 @@ def _work(job, database, now, local_date):
         job.done = True
 
 
-def _store(conn, site, username, submissions, ratings, now, local_date):
+def _store(conn, site, username, submissions, ratings, now, local_date, stopped=None):
+    """Store one site's results. Returns the items added, or None if `stopped` says the data
+    changed, in which case nothing is stored."""
     added = 0
     with conn:
+        if stopped is not None:
+            # Local mode: take SQLite's write lock before checking, so deleting or restoring
+            # either finished first (and stopped this sync) or waits until this site is stored.
+            conn.execute("BEGIN IMMEDIATE")
+            if stopped():
+                return None
         for item in rules.group_by_day(submissions, local_date):
             existing = conn.execute("SELECT id, accepted FROM sync_items WHERE site = ? AND problem_link = ? AND date = ?",
                                     (site, item["link"], item["date"])).fetchone()

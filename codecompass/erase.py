@@ -11,7 +11,7 @@ kept_copy table, and Undo reads it back (transfer.py). `database` is unused ther
 import os
 import sqlite3
 
-from . import transfer
+from . import sync, transfer
 from .core.dates import undo_cutoff
 
 # Everything the user entered, synced, or chose. The built-in catalog and reserve
@@ -62,6 +62,7 @@ def erase_all(conn, database, today):
             transfer.clear_account(conn)
         mark(conn, today)
         return
+    sync.stop(database)
     keep_copy(conn, database)
     with conn:
         for table in USER_TABLES:
@@ -88,6 +89,7 @@ def undo_erase(conn, database, today):
         finally:
             copy.close()
         return True
+    sync.stop(database)
     copy = sqlite3.connect(path)
     try:
         copy.backup(conn)  # The copy was made before the mark was set, so the mark goes too.
