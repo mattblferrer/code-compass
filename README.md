@@ -1,5 +1,7 @@
 # CodeCompass
 
+[![Tests](https://github.com/mattblferrer/code-compass/actions/workflows/tests.yml/badge.svg)](https://github.com/mattblferrer/code-compass/actions/workflows/tests.yml)
+
 A web app for tracking coding-interview practice by pattern. See [docs/requirements.md](docs/requirements.md).
 
 ## Setup
@@ -71,6 +73,8 @@ pytest
 ```
 
 Each test gets its own database there. Tests never open the real data in `instance/`; one that tries stops with an error.
+
+GitHub Actions runs the suite in both modes on every push to `main` and every pull request, with a PostgreSQL server made for each run (`.github/workflows/tests.yml`).
 
 ## Layout
 
