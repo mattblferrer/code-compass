@@ -168,6 +168,29 @@ small {
   outline-offset: 2px;
 }
 
+/* Skip to content: out of sight until the Tab key reaches it. */
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* The page is focused only by the skip link, so it needs no outline of its own. */
+main:focus {
+  outline: none;
+}
+
 /* --- Page frame --- */
 
 .site-header,
@@ -2231,7 +2254,9 @@ p.small {
 
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .site-header {
-    background: color-mix(in srgb, var(--band) 80%, transparent);
+    /* 90%, not less: in the light theme the page behind would otherwise wash the header's
+       links out below 4.5:1 contrast (accessibility pass). */
+    background: color-mix(in srgb, var(--band) 90%, transparent);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
     backdrop-filter: blur(18px) saturate(160%);
   }

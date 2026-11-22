@@ -7,7 +7,7 @@
 {#- The help guide (R-58). Each setting's text and the shortcut list are shared with the
     settings page and the "?" list, and every number comes from the rules' own values. -#}
 {% set topics = [("outcomes", "Outcomes"), ("scores", "Scores"), ("reviews", "Reviews"), ("syncing", "Syncing"),
-                 ("guides", "Pattern guides"), ("shortcuts", "Keyboard shortcuts"), ("settings", "Settings")] + ([("account", "Your account")] if hosted_mode else []) %}
+                 ("guides", "Pattern guides"), ("keyboard-shortcuts", "Keyboard shortcuts"), ("settings", "Settings")] + ([("account", "Your account")] if hosted_mode else []) %}
 {% block content %}
   {{ page_head("Help", "How CodeCompass works, what each setting does, and the keyboard shortcuts.") }}
 
@@ -96,7 +96,8 @@
       </div>
     </section>
 
-    <section class="panel help-section" id="shortcuts" aria-labelledby="shortcuts-help-heading">
+    {# Not id="shortcuts": that is the "?" dialog's id on every page (base.html, js/shortcuts.js). #}
+    <section class="panel help-section" id="keyboard-shortcuts" aria-labelledby="shortcuts-help-heading">
       <h2 id="shortcuts-help-heading">Keyboard shortcuts</h2>
       {{ shortcut_list() }}
     </section>
