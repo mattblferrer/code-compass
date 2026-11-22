@@ -12,7 +12,7 @@
       <th scope="row">{{ p['name'] }}</th>
       <td>
         <select name="pref:{{ p['name'] }}" aria-label="Goal for {{ p['name'] }}">
-          <option value="" {% if not chosen %}selected{% endif %}>Neither</option>
+          <option value="" {% if not chosen %}selected{% endif %}>No goal</option>
           <option value="target" {% if chosen == 'target' %}selected{% endif %}>Target</option>
           <option value="mastered" {% if chosen == 'mastered' %}selected{% endif %}>Mastered</option>
         </select>
@@ -103,21 +103,36 @@
         <legend>Pattern goals</legend>
         <p class="small" data-setting="pattern_goals">{{ setting_help("pattern_goals") }}</p>
         {{ error("preferences") }}
-        {% set advanced = patterns|selectattr('category', 'equalto', 'advanced')|list %}
-        <div class="goals-pair">
-          <div class="table-wrap">
+        {# The patterns with a goal come first; the rest wait under Other patterns. #}
+        {% set with_goal = patterns|selectattr('name', 'in', current.preferences)|list %}
+        {% set others = patterns|rejectattr('name', 'in', current.preferences)|list %}
+        {% if with_goal %}
+          <div class="table-wrap goals-set">
             <table class="goals">
-              <thead><tr><th scope="col">Core pattern</th><th scope="col">Goal</th></tr></thead>
-              <tbody>{{ goal_rows(patterns|selectattr('category', 'equalto', 'core')) }}</tbody>
+              <thead><tr><th scope="col">Pattern with a goal</th><th scope="col">Goal</th></tr></thead>
+              <tbody>{{ goal_rows(with_goal) }}</tbody>
             </table>
           </div>
-          <div class="table-wrap">
-            <table class="goals">
-              <thead><tr><th scope="col">Advanced pattern</th><th scope="col">Goal</th></tr></thead>
-              <tbody>{{ goal_rows(advanced) }}</tbody>
-            </table>
+        {% else %}
+          <p class="context-muted">No pattern has a goal yet. Choose one below.</p>
+        {% endif %}
+        <details class="goals-more" {% if not with_goal %}open{% endif %}>
+          <summary>Other patterns <small>{{ others|length }}</small></summary>
+          <div class="goals-pair">
+            <div class="table-wrap">
+              <table class="goals">
+                <thead><tr><th scope="col">Core pattern</th><th scope="col">Goal</th></tr></thead>
+                <tbody>{{ goal_rows(others|selectattr('category', 'equalto', 'core')) }}</tbody>
+              </table>
+            </div>
+            <div class="table-wrap">
+              <table class="goals">
+                <thead><tr><th scope="col">Advanced pattern</th><th scope="col">Goal</th></tr></thead>
+                <tbody>{{ goal_rows(others|selectattr('category', 'equalto', 'advanced')) }}</tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        </details>
       </fieldset>
     </div>
     <div class="settings-save">

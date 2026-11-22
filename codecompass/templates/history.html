@@ -155,10 +155,10 @@
                 </td>
                 <td class="source-cell">{{ a.site }}</td>
                 {# The same coloured pill as Practice next on the dashboard. #}
-                <td><span class="mark level-{{ a['difficulty']|replace(' ', '-') }}">{{ a['difficulty']|capitalize }}</span></td>
+                <td class="level-cell"><span class="mark level-{{ a['difficulty']|replace(' ', '-') }}">{{ a['difficulty']|capitalize }}</span></td>
                 <td class="outcome-cell"><span class="o-mark o-{{ a['outcome'] }}" aria-hidden="true"></span>{{ a['outcome']|outcome }}</td>
-                <td>{{ a['time_seconds']|clock }}</td>
-                <td><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
+                <td class="time-cell">{{ a['time_seconds']|clock }}</td>
+                <td class="edit-cell"><a href="{{ url_for('main.edit_attempt', attempt_id=a['id']) }}">Edit</a></td>
               </tr>
             {% endfor %}
           </tbody>

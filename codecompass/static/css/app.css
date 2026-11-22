@@ -385,6 +385,29 @@ button.quiet:hover,
   filter: none;
 }
 
+/* File pickers (Import, Restore): the browser's own button, styled as a quiet button. */
+input[type="file"] {
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+input[type="file"]::file-selector-button {
+  margin-right: 0.75rem;
+  padding: 0.4rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: var(--track);
+}
+
 button.text {
   background: none;
   border: 0;
@@ -1387,6 +1410,24 @@ tr:last-child td {
   text-align: center;
 }
 
+@media (max-width: 40rem) {
+  .history .guide-label {
+    font-size: 20px;
+  }
+
+  .history figcaption {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.2rem 1rem;
+  }
+
+  .history figcaption > span:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    text-align: left;
+  }
+}
+
 /* A revealed hint can be hidden again. */
 details.hint > summary {
   color: var(--data);
@@ -1472,6 +1513,23 @@ details.hint[open] > summary {
   display: grid;
   gap: 1rem;
   align-items: start;
+}
+
+.goals-set {
+  max-width: 32rem;
+  margin-bottom: 0.75rem;
+}
+
+.goals-more > summary {
+  cursor: pointer;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+}
+
+.goals-more > summary small {
+  margin-left: 0.35rem;
+  font-weight: 400;
+  color: var(--muted);
 }
 
 @media (min-width: 48rem) {
@@ -2810,6 +2868,163 @@ h1 {
   white-space: nowrap;
 }
 
+/* The review queue on phones: each review is a short card, the problem and its Log attempt
+   button first, then its source, difficulty, due date, and interval, then Try instead, so
+   nothing hides past the edge of the screen. */
+@media (max-width: 40rem) {
+  table.queue thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  table.queue tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 0.75rem;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  table.queue tr:last-child {
+    border-bottom: 0;
+  }
+
+  table.queue td {
+    padding: 0;
+    border: 0;
+  }
+
+  table.queue .problem-cell { order: 0; flex: 1 1 100%; font-weight: 600; }
+  table.queue tr:has(.queue-actions) .problem-cell { flex-basis: calc(100% - 8rem); }
+  table.queue .queue-actions { order: 1; margin-left: auto; }
+  table.queue .source-cell { order: 2; }
+  table.queue .level-cell { order: 3; }
+  table.queue .date-cell { order: 4; }
+  table.queue .interval-cell { order: 5; }
+  table.queue .sibling-cell { order: 6; flex-basis: 100%; }
+
+  table.queue .source-cell,
+  table.queue .date-cell,
+  table.queue .interval-cell,
+  table.queue .sibling-cell {
+    font-size: var(--step--1);
+  }
+
+  table.queue .source-cell,
+  table.queue .interval-cell {
+    color: var(--muted);
+  }
+
+  table.queue .date-cell::before {
+    content: "Due ";
+    color: var(--muted);
+  }
+
+  table.queue .interval-cell::before {
+    content: "Interval ";
+  }
+
+  table.queue .sibling-cell::before {
+    content: "Try instead: ";
+    color: var(--muted);
+  }
+}
+
+/* A pattern's attempts on phones: the problem on one line, then its date, difficulty, and
+   outcome. The column headers stay as a row of sort links. */
+@media (max-width: 40rem) {
+  #pattern-attempts thead tr {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #pattern-attempts thead th {
+    border: 0;
+    padding: 0.5rem 0.9rem 0.25rem 0;
+  }
+
+  #pattern-attempts thead th:first-child {
+    padding-left: 0.9rem;
+  }
+
+  #pattern-attempts tbody tr {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    column-gap: 0.75rem;
+    padding: 0.55rem 0.9rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  #pattern-attempts td {
+    padding: 0;
+    border: 0;
+  }
+
+  #pattern-attempts .problem-cell { grid-area: 1 / 1 / 2 / 4; }
+  #pattern-attempts .date-cell { grid-area: 2 / 1; }
+  #pattern-attempts .level-cell { grid-area: 2 / 2; }
+  #pattern-attempts .outcome-cell { grid-area: 2 / 3; }
+
+  #pattern-attempts .date-cell,
+  #pattern-attempts .level-cell,
+  #pattern-attempts .outcome-cell {
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+}
+
+/* History's list on phones: each attempt's problem and Edit on one line, then its source,
+   difficulty, outcome, and time. The day headings stay as they are. */
+@media (max-width: 40rem) {
+  .table-wrap.log thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .table-wrap.log tbody tr:not(.day-head) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 0.75rem;
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .table-wrap.log tbody tr:not(.day-head) td {
+    padding: 0;
+    border: 0;
+  }
+
+  .table-wrap.log .problem-cell { order: 0; flex: 1 1 calc(100% - 3.5rem); }
+  .table-wrap.log .edit-cell { order: 1; margin-left: auto; }
+  .table-wrap.log .source-cell { order: 2; }
+  .table-wrap.log .level-cell { order: 3; }
+  .table-wrap.log .outcome-cell { order: 4; }
+  .table-wrap.log .time-cell { order: 5; }
+
+  .table-wrap.log .source-cell,
+  .table-wrap.log .outcome-cell,
+  .table-wrap.log .time-cell {
+    font-size: var(--step--1);
+  }
+
+  .table-wrap.log .source-cell,
+  .table-wrap.log .time-cell {
+    color: var(--muted);
+  }
+
+  .table-wrap.log .time-cell:empty {
+    display: none;
+  }
+}
+
 /* A problem's attempts on phones: date, outcome, and Edit on one line, then the time and
    notes, so the table fits without scrolling sideways. */
 @media (max-width: 40rem) {
@@ -3280,6 +3495,16 @@ a.cell:focus-visible {
 
   .year-stats .wide {
     grid-column: auto;
+  }
+}
+
+@media (max-width: 40rem) {
+  .year-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .year-stats .wide {
+    grid-column: 1 / -1;
   }
 }
 

@@ -43,6 +43,8 @@
     <p class="notice" role="note">{{ leetcode_notice }}</p>
   {% endif %}
 
+  {# With no account linked and nothing waiting, there is nothing to list. #}
+  {% if accounts or waiting %}
   <h2>Waiting for an outcome</h2>
   {% if waiting %}
     <p class="small">Sites show that you submitted, not how much help you had. Choose what happened for each one, or select several and choose once; "Had external help" covers hints, AI chat, discussion posts, or a full solution.</p>
@@ -150,6 +152,7 @@
     {% endif %}
   {% else %}
     <p class="empty">Nothing is waiting. {% if accounts %}Press Sync now to check for new submissions.{% endif %}</p>
+  {% endif %}
   {% endif %}
 
 {% endblock %}

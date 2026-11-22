@@ -16,7 +16,7 @@ def test_defaults_shown_before_anything_is_saved(client):
     assert '<option value="easy" selected>' in page
     assert 'name="advanced_on" value="1" checked' not in page
     assert 'name="very_hard_on" value="1" checked' not in page
-    assert page.count('<option value="" selected>Neither</option>') == 54
+    assert page.count('<option value="" selected>No goal</option>') == 54
     # Every site switch, and Review problems (R-41), start on.
     assert page.count('value="1" checked>') == len(FILTER_SITES) * len(KINDS) + 1
     assert 'name="reviews_on" value="1" checked' in page
@@ -40,9 +40,10 @@ def test_saving_every_setting(client, app):
     assert '<option value="medium" selected>' in page
     assert 'name="show:cses:core" value="1" checked' not in page
     assert 'name="show:cses:advanced" value="1" checked' in page
-    # Advanced goals sit beside the core ones, not in a closed section, so an advanced target shows.
+    # Patterns with a goal are listed before the folded Other patterns, so an advanced target shows.
     goals = page.split("Pattern goals")[1].split("</fieldset>")[0]
-    assert 'name="pref:Tree DP"' in goals and "<details" not in goals
+    shown = goals.split("<details")[0]
+    assert 'name="pref:Tree DP"' in shown and 'name="pref:Tree DP"' not in goals.split("<details")[1]
 
 
 def test_saving_again_replaces_earlier_choices(client, app):

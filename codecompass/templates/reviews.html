@@ -4,7 +4,7 @@
 {% macro problem_cells(p) %}
   <td class="problem-cell"><a href="{{ url_for('main.problem', problem_id=p['id']) }}">{{ p['title'] }}</a></td>
   <td class="source-cell">{{ p['link']|site }}</td>
-  <td><span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span></td>
+  <td class="level-cell"><span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span></td>
 {% endmacro %}
 {% block content %}
   {{ page_head("Reviews", "Problems coming back for review: every one due now, and the next " ~ days ~ " days.") }}
@@ -29,8 +29,8 @@
                 <tr id="review-{{ p['id'] }}">
                   {{ problem_cells(p) }}
                   <td class="date-cell">{{ r.due|when }}</td>
-                  <td>{{ r.interval }} {{ "day" if r.interval == 1 else "days" }}</td>
-                  <td>
+                  <td class="interval-cell">{{ r.interval }} {{ "day" if r.interval == 1 else "days" }}</td>
+                  <td class="sibling-cell">
                     {% if r.sibling %}
                       <a href="{{ url_for('main.problem', problem_id=r.sibling['id']) }}">{{ r.sibling['title'] }}</a>
                       <form method="post" action="{{ url_for('main.not_now', problem_id=r.sibling['id']) }}" class="inline">{{ csrf_field() }}
@@ -67,7 +67,7 @@
               <tr>
                 {{ problem_cells(r.problem) }}
                 <td class="date-cell">{{ r.due|when }}</td>
-                <td>{{ r.interval }} {{ "day" if r.interval == 1 else "days" }}</td>
+                <td class="interval-cell">{{ r.interval }} {{ "day" if r.interval == 1 else "days" }}</td>
               </tr>
             {% endfor %}
           </tbody>

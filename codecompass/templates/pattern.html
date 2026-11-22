@@ -52,8 +52,8 @@
                 <tr data-date="{{ r['date'] }}" data-id="{{ r['attempt']['id'] }}" data-problem="{{ r['problem']['title']|lower }}"
                     data-difficulty="{{ levels.index(r['difficulty']) }}" data-outcome="{{ outcomes.index(r['outcome']) }}">
                   <td class="date-cell">{{ r['date']|when }}</td>
-                  <td><a href="{{ url_for('main.problem', problem_id=r['problem']['id']) }}">{{ r['problem']['title'] }}</a></td>
-                  <td>{{ r['difficulty']|capitalize }}</td>
+                  <td class="problem-cell"><a href="{{ url_for('main.problem', problem_id=r['problem']['id']) }}">{{ r['problem']['title'] }}</a></td>
+                  <td class="level-cell">{{ r['difficulty']|capitalize }}</td>
                   <td class="outcome-cell">{{ r['outcome']|outcome_mark }}{{ r['outcome']|outcome }}</td>
                 </tr>
               {% endfor %}

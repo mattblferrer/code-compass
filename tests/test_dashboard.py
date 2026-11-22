@@ -511,7 +511,7 @@ def test_review_queue_lists_due_and_upcoming_reviews(client, app):
     html = page(client, "/reviews")
     due = html.split('id="due-heading"')[1].split('id="upcoming-heading"')[0]
     upcoming = html.split('id="upcoming-heading"')[1]
-    assert "Valid Parentheses" in due and f'datetime="{ago(16)}"' in due and "<td>14 days</td>" in due
+    assert "Valid Parentheses" in due and f'datetime="{ago(16)}"' in due and '<td class="interval-cell">14 days</td>' in due
     assert "Course Schedule" in upcoming and "Course Schedule" not in due
     assert "Two Sum" not in html
     # No sibling is chosen just by opening the queue.
