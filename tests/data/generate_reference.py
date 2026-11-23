@@ -389,10 +389,15 @@ def recommend(s):
         else:
             plan = sorted((p for p in PATTERNS if active(p)), key=plan_key)[:4]
         days_left = (d(interview["date"]) - d(TODAY)).days
-        if days_left == 0:
-            plan_today = plan  # The interview day has no row of its own, so all of the plan's patterns.
+        if days_left <= 1:
+            # The interview day has no row of its own, and the day before is the mixed review:
+            # all of the plan's patterns either way.
+            plan_today = plan
         else:
-            plan_today = plan[:2]  # Today is the plan's first day, never its mixed review day.
+            # Counted back from the interview: two days before takes the first 2, three days
+            # before the next 2, and so on, starting again when the list runs out.
+            back = days_left - 2
+            plan_today = [plan[(back * 2 + k) % len(plan)] for k in range(min(2, len(plan)))]
     focus = bool(plan_today)
     level_name = s["level"]
     if focus and interview.get("difficulty"):

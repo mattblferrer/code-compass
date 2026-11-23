@@ -1022,26 +1022,58 @@ def _held_sync(monkeypatch):
 
 
 @pytest.mark.local_only
+@pytest.mark.parametrize("script", [True, False], ids=["background", "no_script"])
 @pytest.mark.parametrize("change", ["erase", "restore"])
-def test_a_running_sync_stops_when_the_data_is_deleted_or_replaced(client, app, monkeypatch, change):
+def test_a_running_sync_stops_when_the_data_is_deleted_or_replaced(client, app, monkeypatch, change, script):
+    import threading
+
     from codecompass import sync as syncing
 
     link(client, codeforces="practice_user")
     backup = client.get("/settings/backup").data
     started, release = _held_sync(monkeypatch)
-    client.post("/sync", headers={"X-Sync-Background": "1"})
+    if script:
+        client.post("/sync", headers={"X-Sync-Background": "1"})
+    else:  # Without the sync page's script the sync runs within its request (fifth review, finding 3).
+        request = threading.Thread(target=lambda: app.test_client().post("/sync"))
+        request.start()
     assert started.wait(5)
+    job = syncing.current_job(app.config["DATABASE"])
     if change == "erase":
         client.post("/settings/erase", data={"confirm": "erase"})
     else:
         client.post("/settings/restore", data={"file": (io.BytesIO(backup), "b.sqlite"), "confirm": "restore"},
                     content_type="multipart/form-data")
     release.set()
-    job = syncing.current_job(app.config["DATABASE"])
-    job.thread.join(10)
-    assert job.done
+    (job.thread if script else request).join(10)
+    assert job.done and job.stopped
     with app.app_context():
         conn = get_db()
         assert conn.execute("SELECT count(*) FROM sync_items").fetchone()[0] == 0
         assert conn.execute("SELECT count(*) FROM rating_history").fetchone()[0] == 0
     assert "to confirm." not in client.get("/sync").get_data(as_text=True)  # No results message for that data.
+
+
+@pytest.mark.local_only
+def test_a_new_sync_can_start_while_a_stopped_one_waits(client, app, monkeypatch):
+    from codecompass import sync as syncing
+
+    link(client, codeforces="practice_user")
+    started, release = _held_sync(monkeypatch)
+    client.post("/sync", headers={"X-Sync-Background": "1"})
+    assert started.wait(5)
+    stopped = syncing.current_job(app.config["DATABASE"])
+    client.post("/settings/erase", data={"confirm": "erase"})
+    assert "data-progress='" not in client.get("/sync").get_data(as_text=True)  # Not shown as running.
+    link(client, codeforces="practice_user")
+    started.clear()
+    response = client.post("/sync", headers={"X-Sync-Background": "1"})
+    fresh = syncing.current_job(app.config["DATABASE"])
+    assert fresh is not stopped and response.get_json()["running"]
+    assert started.wait(5)
+    release.set()
+    stopped.thread.join(10)
+    fresh.thread.join(10)
+    assert stopped.done and fresh.done
+    with app.app_context():  # Only the fresh sync stored anything.
+        assert get_db().execute("SELECT count(*) FROM sync_items").fetchone()[0] == 1

@@ -442,7 +442,8 @@ The plan names patterns for each day, not problems, so it does not go stale. Onc
 
 - **Patterns:** the interview's own patterns, or, when it names none, the 4 weakest active patterns (`PLAN_WEAKEST`). Weakest first: patterns showing "not enough data" before scored ones, then by score, ties in pattern-list order, with mastered patterns after all others (R-32).
 - **Days:** from today to the day before the interview. None when the interview is today or past.
-- **Each day:** the next 2 patterns in turn (`PLAN_PATTERNS_PER_DAY`), starting again from the weakest when the list runs out. When there is more than one day, the last one is a mixed review of all the patterns.
+- **Each day:** days are counted back from the interview, so each date keeps its patterns whichever day the plan is seen from: the day before the interview is a mixed review of all the patterns, two days before takes the first 2 (`PLAN_PATTERNS_PER_DAY`), three days before the next 2, and so on, starting again from the weakest when the list runs out.
+- **Same date:** interviews on the same date share one plan, made from their joined patterns.
 - **Daily target:** problems solved a day, set per interview from 1 to 20 (`PLAN_DAILY_MAX`), 3 by default (`PLAN_DAILY_DEFAULT`). Today's row shows the problems solved so far, counted as in the History calendar.
 
 ## Weekly goal (R-43)

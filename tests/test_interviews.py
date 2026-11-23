@@ -117,11 +117,15 @@ def test_plan_rule():
         "Arrays and Hashing", "Trie", "Heap", "Greedy", "Stack"]
     assert plan_patterns(["Stack", "Heap"], scores, order, order) == ["Heap", "Stack"]
     assert plan_patterns([], scores, order, order, weakest=3) == ["Arrays and Hashing", "Trie", "Heap"]
+    # Counted back from the interview: the day before is the mixed review, two days before takes the
+    # first two, three days before the next two, and so on.
     plan = prep_plan("2026-11-12", "2026-11-16", ["A", "B", "C"], per_day=2)
     assert [(d["date"], d["patterns"], d["mixed"]) for d in plan] == [
-        ("2026-11-12", ["A", "B"], False), ("2026-11-13", ["C", "A"], False), ("2026-11-14", ["B", "C"], False),
+        ("2026-11-12", ["B", "C"], False), ("2026-11-13", ["C", "A"], False), ("2026-11-14", ["A", "B"], False),
         ("2026-11-15", ["A", "B", "C"], True)]
-    assert [d["mixed"] for d in prep_plan("2026-11-12", "2026-11-13", ["A"])] == [False]  # One day: no mixed day.
+    # Seen from a later day, each date keeps its row, so the rotation advances and the mixed day comes.
+    assert prep_plan("2026-11-13", "2026-11-16", ["A", "B", "C"], per_day=2) == plan[1:]
+    assert prep_plan("2026-11-15", "2026-11-16", ["A", "B", "C"], per_day=2) == plan[3:]
     assert prep_plan("2026-11-12", "2026-11-12", ["A"]) == [] and prep_plan("2026-11-12", "2026-11-20", []) == []
 
 
@@ -136,6 +140,33 @@ def test_plan_page_and_daily_target(client, app):
     assert "Mixed review" in plan and "of 2 solved" in plan
     bad = add(client, company="Beta", date=day(4), daily_target="0")
     assert bad.status_code == 400 and "Enter a whole number of problems a day from 1 to 20." in bad.get_data(as_text=True)
+
+
+def plan_page(client, app, company):
+    with app.app_context():
+        interview_id = get_db().execute("SELECT id FROM interviews WHERE company = ?", (company,)).fetchone()["id"]
+    return client.get(f"/interviews/{interview_id}/plan").get_data(as_text=True)
+
+
+def test_interviews_on_the_same_date_share_one_plan(client, app):
+    # Fifth review, finding 1: the plan page used only its own interview's patterns.
+    add(client, company="Acme", date=day(6), patterns=["Heap", "Trie"])
+    add(client, company="Beta", date=day(6))
+    page = plan_page(client, app, "Beta")
+    assert "The interviews&#39; patterns" in page and "Shared with Acme, on the same date." in page
+    assert '>Heap</a>' in page and '>Trie</a>' in page and "weakest patterns" not in page
+
+
+def test_another_interviews_patterns_stay_out_of_a_plan(client, app):
+    # Fifth review, finding 5: an advanced pattern of the interview in focus entered another's plan.
+    with app.app_context():
+        core = [r["name"] for r in get_db().execute("SELECT name FROM patterns WHERE category = 'core'")]
+    # With every core pattern mastered, any active advanced pattern would be the weakest.
+    client.post("/settings", data={"starting_difficulty": "easy", **{f"pref:{n}": "mastered" for n in core}})
+    add(client, company="Acme", date=day(5), patterns=["FFT and NTT"])
+    add(client, company="Beta", date=day(30))
+    assert "FFT and NTT" in plan_page(client, app, "Acme")
+    assert "FFT and NTT" not in plan_page(client, app, "Beta")
 
 
 def test_plan_for_a_past_interview_says_it_has_passed(client, app):

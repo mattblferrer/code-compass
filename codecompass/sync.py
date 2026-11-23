@@ -115,6 +115,7 @@ class Job:
         self.done = False
         self.shown = False
         self.stopped = False  # Set when the user's data is deleted or replaced while this runs.
+        self.thread = None  # None while it runs within a request (start's `wait`).
 
     def report(self, site, fields):
         with self._lock:
@@ -151,13 +152,18 @@ def stop(database):
         if job is not None and not job.done:
             job.stopped = True
             job.shown = True
+            # It no longer counts as running, so a new sync of the changed data can start
+            # while the stopped one waits on its requests.
+            del _jobs[database]
 
 
-def start(database, now, local_date):
+def start(database, now, local_date, wait=False):
     """Start syncing every linked account in the background, unless a sync is already running.
 
     Returns the running job. The sync uses its own database connection, since the
-    request that started it ends right away.
+    request that started it ends right away. With `wait`, for the sync page without
+    its script, the sync runs within this request instead, still registered as the
+    running job so that deleting, restoring, or Undo stops it.
     """
     with _jobs_lock:
         job = _jobs.get(database)
@@ -172,6 +178,9 @@ def start(database, now, local_date):
         unseen = job.take_results() if job is not None else None
         job = Job(sites, unseen)
         _jobs[database] = job
+    if wait:
+        _work(job, database, now, local_date)
+        return job
     job.thread = threading.Thread(target=_work, args=(job, database, now, local_date), daemon=True)
     job.thread.start()
     return job

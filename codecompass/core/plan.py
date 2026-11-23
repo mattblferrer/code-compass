@@ -17,6 +17,16 @@ def weakest_first(names, scores, order, mastered=()):
                                         position.get(n, len(order))))
 
 
+def joined_patterns(interviews, date):
+    """The patterns of every interview on `date`, joined in their order, since interviews on
+    the same date share one plan (R-15)."""
+    joined = []
+    for interview in interviews:
+        if interview["date"] == date:
+            joined.extend(p for p in interview.get("patterns") or () if p not in joined)
+    return joined
+
+
 def plan_patterns(interview_patterns, scores, active, order, mastered=(), weakest=c.PLAN_WEAKEST):
     """The patterns a plan covers: the interview's own, or else the `weakest` active
     patterns. Either way weakest first."""
@@ -28,9 +38,11 @@ def plan_patterns(interview_patterns, scores, active, order, mastered=(), weakes
 def prep_plan(today, interview_date, patterns, per_day=c.PLAN_PATTERNS_PER_DAY):
     """One entry per day from today to the day before the interview.
 
-    Each day takes the next `per_day` patterns in turn, weakest first, starting again
-    from the weakest when the list runs out; the last day, when there is more than one,
-    reviews all of them. Empty when the interview is today or past, or there are no patterns.
+    Days are counted back from the interview, so each date keeps its place in the plan
+    whichever day it is seen from: the day before the interview reviews all the patterns,
+    the day before that takes the first `per_day` patterns (the weakest), the day before
+    that the next `per_day`, and so on, starting again from the weakest when the list runs
+    out. Empty when the interview is today or past, or there are no patterns.
     """
     days = days_between(today, interview_date)
     if days <= 0 or not patterns:
@@ -38,10 +50,11 @@ def prep_plan(today, interview_date, patterns, per_day=c.PLAN_PATTERNS_PER_DAY):
     plan = []
     for i in range(days):
         day = add_days(today, i)
-        if i == days - 1 and days > 1:
+        back = days - i - 2  # 0 for two days before the interview, 1 for three days before, ...
+        if back < 0:
             plan.append({"date": day, "patterns": list(patterns), "mixed": True})
             continue
-        take = [patterns[(i * per_day + k) % len(patterns)] for k in range(min(per_day, len(patterns)))]
+        take = [patterns[(back * per_day + k) % len(patterns)] for k in range(min(per_day, len(patterns)))]
         plan.append({"date": day, "patterns": take, "mixed": False})
     return plan
 

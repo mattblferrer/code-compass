@@ -19,7 +19,7 @@ from .core.exchange import COLUMNS, export_rows, plan_import, references
 from .core import filters, ordering, progress
 from .core.dates import countdown, days_between, friendly_date, full_date, short_date
 from .core.mastery import expected_level_index
-from .core.plan import prep_plan
+from .core.plan import joined_patterns, prep_plan
 from .core.timing import median_times
 from .core.recommend import active_interview
 from .core.reviews import ics, review_attempt_ids, schedules
@@ -930,15 +930,16 @@ def interview_plan(interview_id):
     interview = queries.get_interview(conn, interview_id) or abort(404)
     snap = Snapshot(conn, today())
     scores = {name: s["score"] for name, s in snap.scores.items()}
-    patterns = snap.plan_patterns(interview["patterns"])
+    patterns = snap.plan_patterns(interview["date"])  # Shared with interviews on the same date.
     days = prep_plan(snap.today, interview["date"], patterns)
     solved = progress.day_totals(snap.attempts)
     target = interview["daily_target"] or c.PLAN_DAILY_DEFAULT
     for day in days:
         day["solved"] = solved.get(day["date"], {}).get("solved", 0)
         day["today"] = day["date"] == snap.today
-    return render_template("interview_plan.html", interview=interview, days=days, patterns=patterns,
-                           scores=scores, target=target, own=bool(interview["patterns"]),
+    shared = [i["company"] for i in snap.interviews if i["date"] == interview["date"] and i["id"] != interview_id]
+    return render_template("interview_plan.html", interview=interview, days=days, patterns=patterns, shared=shared,
+                           scores=scores, target=target, own=bool(joined_patterns(snap.interviews, interview["date"])),
                            days_left=days_between(snap.today, interview["date"]),
                            weakest=c.PLAN_WEAKEST, window=c.FOCUS_WINDOW_DAYS)
 
@@ -1147,7 +1148,8 @@ def run_sync():
 
     The sync page's script asks for it to run in the background (X-Sync-Background),
     then shows its progress from /sync/progress. Without the script, the sync runs
-    within this request and the page shows the results when it ends.
+    within this request, registered like a background one so that deleting, restoring,
+    or Undo stops it, and the page shows the results when it ends.
     """
     conn = get_db()
     database = current_app.config["DATABASE"]
@@ -1175,11 +1177,11 @@ def run_sync():
     if request.headers.get("X-Sync-Background") == "1":
         job = syncing.start(database, now_seconds(), local_date)
         return jsonify(job.progress()), 202
-    running = syncing.current_job(database)
-    if running and not running.done:
+    job = syncing.start(database, now_seconds(), local_date, wait=True)
+    if not job.done:
         flash("A sync is already running.")
-        return redirect(url_for("main.sync_page"))
-    flash_sync_results(syncing.run(conn, now_seconds(), local_date))
+    else:
+        flash_sync_results(job.take_results() or [])
     return redirect(url_for("main.sync_page"))
 
 

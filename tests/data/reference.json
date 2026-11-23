@@ -2862,9 +2862,9 @@
       "expected_list": [
         "review:Stack/old",
         "review:Heap/old",
-        "new:Arrays and Hashing/medium",
-        "new:Prefix Sums/medium",
-        "new:Arrays and Hashing/easy"
+        "new:Linked List/medium",
+        "new:Binary Search/medium",
+        "new:Linked List/easy"
       ]
     },
     {
@@ -4747,10 +4747,10 @@
         }
       ],
       "expected_list": [
-        "new:Arrays and Hashing/easy",
-        "new:Prefix Sums/easy",
-        "new:Arrays and Hashing/medium",
-        "new:Prefix Sums/medium"
+        "new:Stack/easy",
+        "new:Linked List/easy",
+        "new:Stack/medium",
+        "new:Linked List/medium"
       ]
     },
     {
