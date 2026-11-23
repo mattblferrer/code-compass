@@ -116,6 +116,32 @@ The security review of hosted mode (R-53) is in [security_review.md](security_re
 | CDN links (R-24) | Searched templates and styles for external scripts, styles, images, `url(`, and `@import` | Pass. None; the only outside addresses are guide and problem links. |
 | One shared validator (R-05) | Listed every write to attempts, problems, and links and their validators | Pass. The form, edits, CSV import, and sync share `validate_attempt` and `validate_problem`; pattern links use the same `validate_link` as problem links, and a backup keeps only web links in both. |
 
+## Fifth review
+
+- **Date:** 2026-11-23
+- **Changes reviewed:** the 9 commits after v0.3.0, from `94e66ac` (tests on GitHub Actions) to `19c9afb` (smaller, gzipped backups): CI in both modes, Python 3.14 for Vercel, stopping a local sync when the data changes, the accessibility pass, mastered patterns last, Practice next following the prep plan near an interview (R-15, R-44), the streak rule (R-30), and backups that keep only the problems they use (R-46): 33 files and about 700 changed lines, data files included.
+- **Method:** an automated code review of that range, which reported 5 findings; the AI checked each against the code, and the author chose to fix all of them, picking the approach for finding 2. The four checks below were repeated by searching the code. The hosted-mode tests ran against a local PostgreSQL server.
+- **Tests:** 550 passing in local mode and 578 in hosted mode after the fixes, in `09f78e2`. The new tests for all five findings were checked to fail without their fixes.
+
+### Findings
+
+| # | Finding | Fix |
+| --- | --- | --- |
+| 1 | A prep plan page used only its own interview's patterns, while Practice next joined those of every interview on the same date, so the plan and the list disagreed (R-44). | Interviews on the same date share one plan, and its page names the others. |
+| 2 | The plan was rebuilt from today on every visit, so today's row was always the 2 weakest patterns: the rotation the page showed for later days never came, and the day before the interview was never the mixed review. | Author's choice: days are counted back from the interview, so each date keeps its patterns and the day before is always the mixed review. rules.md and R-44 updated. |
+| 3 | Without the sync page's script, the sync ran inside the request without being registered, so deleting, restoring, or Undo could not stop it and its results could land in the changed data. | It runs as a registered job within the request. |
+| 4 | A stopped local sync still counted as running until its requests returned, so "A sync is already running." blocked a fresh sync of the changed data. | Stopping a sync frees its place. |
+| 5 | An interview with no patterns could get advanced patterns in its plan because a different interview was in focus. | A plan counts only its own interviews' patterns as active. |
+
+### Checks
+
+| Check | How | Result |
+| --- | --- | --- |
+| Dates and time zones | Searched for every clock read | Pass. `core/` never reads the clock. Besides `views.py`, the clock is read for session and rate-limit timestamps (`auth.py`, `limits.py`) and in the `demo` command, as before. |
+| Outgoing requests (R-03) | Searched for request code and `fetch(` | Pass. Only `remote.py` contacts practice sites and `auth.py` GitHub; the JavaScript fetches only this app's routes. `restore_gzip.js` compresses in the browser and sends nothing itself. |
+| CDN links (R-24) | Searched templates and styles for external scripts, styles, images, `url(`, and `@import` | Pass. None. |
+| One shared validator (R-05) | Listed the callers of `validate_attempt` and `validate_problem` | Pass. The form, edits, CSV import, and sync still share them. |
+
 ## AI mistakes
 
 Mistakes in work the AI produced, in the order they were found. "Found by" says whether a test, the AI's own check, the author, or the code review caught it.
@@ -176,5 +202,11 @@ Mistakes in work the AI produced, in the order they were found. "Found by" says 
 | 52 | 2026-11-22 | Pattern guides (R-59) | The feature was committed after only the local tests, since no PostgreSQL server was running; the hosted run then failed a help-page test, whose check that hosted mode never names LeetCode also caught the LeetCode Explore guides. | Hosted test run | The check covers the page outside the guides (`f7aca34`). |
 | 53 | 2026-11-22 | Layout (R-59) | At phone width, a guide's site name split across lines and "Trick" sat alone on a line. | Browser check | Each detail kept whole (`f7aca34`). |
 | 54 | 2026-11-22 | Layout | The first UI review pass looked at History only on a wide screen, so its list's sideways scroll on phones was found a pass later than the same problem on Reviews and pattern pages. | AI's second browser pass | `1c795ec` |
+| 55 | 2026-11-22 | Prep plan (R-44) | A plan page used only its own interview's patterns, though interviews on the same date share one plan. | Fifth review | `09f78e2` |
+| 56 | 2026-11-22 | Prep plan (R-15, R-44) | The plan was rebuilt from each new today, so its rotation and mixed review day never reached Practice next. The tests built the plan from one day only. | Fifth review | Counted back from the interview (`09f78e2`). |
+| 57 | 2026-11-22 | Sync (R-33) | Stopping a sync when the data changed covered the background sync but not the one run within the request without the page's script. | Fifth review | `09f78e2` |
+| 58 | 2026-11-22 | Sync (R-33) | A stopped sync still blocked a new one until its requests returned. | Fifth review | `09f78e2` |
+| 59 | 2026-11-22 | Prep plan (R-44) | Another interview's advanced patterns could enter a plan. | Fifth review | `09f78e2` |
+| 60 | 2026-11-23 | Testing | Before the release, the AI reported the suite as passing in both modes after one run with `CODECOMPASS_TEST_PG` set, which runs hosted mode only. | AI's check of the test counts | Local mode run separately, and passed, before the fixes were committed. |
 
-Most mistakes were caught by a test, a browser check, or a code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code. In the second review, items 26 and 28 repeat that pattern: limits and rules that existed in one place (AtCoder's paging guard, `core/` for rules) were not carried to new code, and items 20 to 23 show that most layout mistakes were caught only by looking at the page. In the third review, items 32 and 35 are mistakes introduced by the second review's own fixes, which argues for reviewing each fix with the same care as new work. Item 38 is the most serious so far: test code reached real data, which a guard now prevents. Items 39 to 42 came from the security review of hosted mode, in `security_review.md`; three of them concern files or input from someone else, which the single-user design had never had to expect. In the fourth review, nine of the ten findings are in hosted mode, which the security review had checked against attackers but not for ordinary use across accounts, instances, and serverless steps: items 45, 46, and 48 each follow from many requests sharing one database and one address, which local mode never meets. Item 52 shows a change that touched hosted mode committed after only the local tests.
+Most mistakes were caught by a test, a browser check, or a code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code. In the second review, items 26 and 28 repeat that pattern: limits and rules that existed in one place (AtCoder's paging guard, `core/` for rules) were not carried to new code, and items 20 to 23 show that most layout mistakes were caught only by looking at the page. In the third review, items 32 and 35 are mistakes introduced by the second review's own fixes, which argues for reviewing each fix with the same care as new work. Item 38 is the most serious so far: test code reached real data, which a guard now prevents. Items 39 to 42 came from the security review of hosted mode, in `security_review.md`; three of them concern files or input from someone else, which the single-user design had never had to expect. In the fourth review, nine of the ten findings are in hosted mode, which the security review had checked against attackers but not for ordinary use across accounts, instances, and serverless steps: items 45, 46, and 48 each follow from many requests sharing one database and one address, which local mode never meets. Item 52 shows a change that touched hosted mode committed after only the local tests. In the fifth review, item 57 repeats the pattern of item 15: a fix made for one way into the code (the background sync) was not carried to the other, and item 56 shows a rule tested only on the day it was first seen, which a check of the same plan from a later day would have caught.
