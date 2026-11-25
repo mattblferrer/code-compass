@@ -308,6 +308,22 @@ The catalog and pattern list are kept as reviewed CSV files, `codecompass/data/c
 
 `patterns.csv` is copied from `docs/patterns.md`.
 
+### Company presets (R-60)
+
+The company presets are not stored in the database. They are the same for every user, so the app reads `codecompass/data/companies.csv` once when it starts and keeps it in memory, as it does the curated guides. The file is built with `flask --app codecompass build-companies <snapshot folder> --snapshot YYYY-MM-DD` from a local copy of the company-tag snapshot (`docs/rules.md`), and the same command writes `docs/companies.md`. It has one row per company and pattern with a share above zero:
+
+| Column | Notes |
+| --- | --- |
+| `company` | The company's name as the snapshot spells it |
+| `problems` | Rows in the company's all-time list |
+| `counted` | Rows that added to the shares |
+| `catalog_share` | Percentage of the company's total frequency from rows matched to catalog problems, one decimal |
+| `snapshot` | The snapshot's date, `YYYY-MM-DD` |
+| `pattern` | A pattern name from `patterns.csv` |
+| `share` | The pattern's share, as a percentage with one decimal |
+
+Rows for one company are next to each other, highest share first, and repeat the company's columns. With no file there are no presets, and the interview form works as before.
+
 ## CSV import and export (R-19, R-20)
 
 Exports and imports use the same columns, in this order:

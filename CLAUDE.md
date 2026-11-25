@@ -1,6 +1,6 @@
 # CodeCompass
 
-A web app for tracking coding-interview practice by pattern, for one user per local copy or, in hosted mode (R-50), one user per account. `docs/requirements.md` is the source of truth for behavior; cite requirement IDs (R-01 to R-58) when working on a feature.
+A web app for tracking coding-interview practice by pattern, for one user per local copy or, in hosted mode (R-50), one user per account. `docs/requirements.md` is the source of truth for behavior; cite requirement IDs (R-01 to R-60) when working on a feature.
 
 ## Commands
 

@@ -446,6 +446,37 @@ The plan names patterns for each day, not problems, so it does not go stale. Onc
 - **Same date:** interviews on the same date share one plan, made from their joined patterns.
 - **Daily target:** problems solved a day, set per interview from 1 to 20 (`PLAN_DAILY_MAX`), 3 by default (`PLAN_DAILY_DEFAULT`). Today's row shows the problems solved so far, counted as in the History calendar.
 
+## Company presets (R-60)
+
+A preset only fills in an interview's patterns on the form. It changes no score, due date, or recommendation, and a saved interview does not remember that a preset was used. Values are provisional, in `core/constants.py`.
+
+### Source
+
+The all-time list (`5. All.csv`) for each company in a snapshot of [liquidslr/leetcode-company-wise-problems](https://github.com/liquidslr/leetcode-company-wise-problems), a mirror of LeetCode's company tags. Each row is a problem with its link, LeetCode's topics, and a frequency from 5 to 100, relative within the company. The snapshot is read from a local copy by `flask --app codecompass build-companies`, which writes `data/companies.csv` and `docs/companies.md`. Only the shares below are shipped.
+
+### Pattern shares
+
+1. A company with fewer than 25 rows (`COMPANY_MIN_PROBLEMS`) gets no preset.
+2. Each row is matched to a catalog problem by link, ignoring case, `www.`, and a trailing slash. A matched row takes the catalog's patterns.
+3. An unmatched row takes the patterns its LeetCode topics map to, by the table in `core/companies.py` (reproduced in `docs/companies.md`):
+   - A **specific** topic maps to one pattern, for example Sliding Window, Trie, Union-Find, Monotonic Stack, or Shortest Path.
+   - A **generic** topic (Hash Table, Counting, String, Math, Sorting, and the sorting algorithms) maps to its pattern only when none of the row's topics is specific, so a sliding-window problem tagged Hash Table and String counts only as Sliding Window.
+   - Depth-First Search and Breadth-First Search map to Graph Traversal only when the row has no tree topic (Tree, Binary Tree, Binary Search Tree), since on trees they are Tree Traversal.
+   - **Ambiguous** topics map to nothing: Array, Matrix, Dynamic Programming (1-D or 2-D?), Memoization, Recursion, Queue, Bitmask, and other topics not in the table. So do Database, Shell, and Concurrency, which are not algorithm patterns.
+   - A row whose topics map to nothing is left out of the shares.
+4. Each counted row adds its frequency to its patterns, split evenly among them.
+5. A pattern's share is its total over the total of all counted rows, as a percentage rounded to one decimal.
+
+`docs/companies.md` also lists, for each company, how many rows were counted and the percentage of its total frequency that came from catalog matches, so it shows how much rests on reviewed tags.
+
+### The preset
+
+A company's preset is its core patterns with a share of at least 5% (`COMPANY_PRESET_MIN_SHARE`), highest share first, ties in pattern-list order, at most 6 (`COMPANY_PRESET_MAX`). Advanced patterns are left out: they are rarely asked in interviews, and an interview's patterns are active while it is in focus (R-15), so one would plan whole days around a niche topic.
+
+### Names
+
+A company is found by its name ignoring case and surrounding spaces, or by an alias in `core/companies.py` (for example Facebook for Meta, or Twitter for X). Names are shown as the snapshot spells them, except a few written in lowercase there (for example tcs, shown as TCS).
+
 ## Weekly goal (R-43)
 
 - **What counts:** problems solved, by any solved outcome (alone, with hints, or after viewing the solution), the same count the History calendar shades by (R-40). "Not solved" attempts do not count.
