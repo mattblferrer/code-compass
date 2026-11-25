@@ -114,3 +114,13 @@ LIMIT_WINDOW_SECONDS = 600
 SIGNIN_LIMIT = 20
 UPLOAD_LIMIT = 10
 SYNC_START_LIMIT = 10
+# Password tries per username in each window, from any address, so spreading guesses across
+# addresses does not get around SIGNIN_LIMIT.
+PASSWORD_TRY_LIMIT = 10
+
+# Username and password sign-in in hosted mode (R-51), provisional. No rules on which kinds of
+# characters a password must have: length is what makes it hard to guess.
+USERNAME_MIN_LENGTH = 3
+USERNAME_MAX_LENGTH = 30
+PASSWORD_MIN_LENGTH = 12
+PASSWORD_MAX_LENGTH = 256

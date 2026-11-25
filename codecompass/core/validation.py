@@ -1,4 +1,5 @@
-"""Validation for attempts and custom problems.
+"""Validation for attempts, custom problems, settings, interviews, and hosted mode's usernames
+and passwords.
 
 The logging form and CSV import share these functions (R-05, R-20). Each
 returns (values, errors), where errors maps a field name to a message.
@@ -283,3 +284,34 @@ def local_path(target):
         return None
     return target
 
+
+
+_ACCOUNT_USERNAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*")
+
+
+def validate_password(data, username=""):
+    """A new password, typed twice in `password` and `password_again` (R-51). It is taken as
+    typed, spaces included, so a passphrase works. Returns (values, errors)."""
+    password, again = data.get("password") or "", data.get("password_again") or ""
+    errors = {}
+    if not c.PASSWORD_MIN_LENGTH <= len(password) <= c.PASSWORD_MAX_LENGTH:
+        errors["password"] = (f"Use {c.PASSWORD_MIN_LENGTH} to {c.PASSWORD_MAX_LENGTH} characters. "
+                              "A few words in a row are easy to remember.")
+    elif username and password.lower() == username.lower():
+        errors["password"] = "Choose a password that is not your username."
+    elif password != again:
+        errors["password_again"] = "The two passwords differ. Type the same password twice."
+    return {"password": password}, errors
+
+
+def validate_new_login(data):
+    """A username and password for a new account (R-51). The username has letters, digits,
+    dots, dashes, and underscores, starting with a letter or digit. Returns (values, errors)."""
+    username = _text(data, "username")
+    errors = {}
+    if not (c.USERNAME_MIN_LENGTH <= len(username) <= c.USERNAME_MAX_LENGTH and _ACCOUNT_USERNAME.fullmatch(username)):
+        errors["username"] = (f"Use {c.USERNAME_MIN_LENGTH} to {c.USERNAME_MAX_LENGTH} letters, digits, dots, "
+                              "dashes, or underscores, starting with a letter or digit.")
+    values, password_errors = validate_password(data, username)
+    errors.update(password_errors)
+    return {"username": username, **values}, errors

@@ -281,6 +281,15 @@ main {
   width: 100%;
 }
 
+/* Signing in with a username, making an account, or changing a password (R-51). */
+.password-form {
+  max-width: 26rem;
+}
+
+.password-switch {
+  margin-top: 1rem;
+}
+
 .signin-panel form {
   margin: 1.25rem 0 1rem;
 }
@@ -4302,8 +4311,22 @@ kbd {
   margin: 1.25rem 0 1rem;
 }
 
+/* Hosted mode's ways to sign in (R-51), side by side, wrapping on a phone. */
+.sign-in-choices {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.25rem 0 1rem;
+}
+
+.landing .sign-in-choices form {
+  margin: 0;
+}
+
 /* Local mode has no sign-in, so a link to the dashboard takes the button's place. */
 .landing form button,
+.sign-in-choices .button,
 .landing-go .button {
   font-size: var(--step-1);
   padding: 0.75rem 1.5rem;

@@ -8,11 +8,18 @@
     lead straight to the dashboard. -#}
 {% macro sign_in_form() %}
   {% if hosted_mode %}
-    <form method="post" action="{{ url_for('auth.github') }}">
-      {{ csrf_field() }}
-      <input type="hidden" name="next" value="{{ next }}">
-      <button type="submit" class="primary">Sign in with GitHub</button>
-    </form>
+    {#- R-51: each way of signing in is its own account. GitHub and Google show only when the
+        site has set them up; a username and password always works. -#}
+    <div class="sign-in-choices">
+      {% for key, label in providers %}
+        <form method="post" action="{{ url_for('auth.' ~ key) }}">
+          {{ csrf_field() }}
+          <input type="hidden" name="next" value="{{ next }}">
+          <button type="submit">Sign in with {{ label }}</button>
+        </form>
+      {% endfor %}
+      <a class="button {{ 'quiet' if providers }}" href="{{ url_for('auth.password_sign_in', next=next) }}">Sign in with a username</a>
+    </div>
   {% else %}
     <p class="landing-go"><a class="button" href="{{ url_for('main.dashboard') }}">Continue to your dashboard</a></p>
   {% endif %}
@@ -40,7 +47,7 @@
       <p class="lede">Practice sites count problems solved. CodeCompass scores what you can still do, pattern by pattern, tells you when a problem is due for another try, and picks what to practice next, with the reason.</p>
       {{ sign_in_form() }}
       {% if hosted_mode %}
-        <p class="small-print">CodeCompass keeps only your GitHub username and display name, never a password, and nothing from your repositories. Each account sees only its own practice. <a href="{{ url_for('auth.privacy') }}">What is stored and how to delete it</a></p>
+        <p class="small-print">From GitHub or Google, CodeCompass keeps only your account's ID and name, nothing else. A password you make here is kept only as a one-way hash, never as typed. Each account sees only its own practice. <a href="{{ url_for('auth.privacy') }}">What is stored and how to delete it</a></p>
       {% else %}
         <p class="small-print">Your practice stays in one file on this computer, and everything works offline.</p>
       {% endif %}
@@ -138,7 +145,7 @@
     <section class="landing-end" aria-labelledby="start-heading">
       <h2 id="start-heading">Start tracking</h2>
       {% if hosted_mode %}
-        <p>Sign in to get your own empty account. To look around first, you can fill it with 8 weeks of made-up practice and delete it when you are ready to start for real.</p>
+        <p>Sign in to get your own empty account. To look around first, you can fill it with 8 weeks of made-up practice and delete it when you are ready to start for real.{% if providers %} No {{ providers|map(attribute="1")|join(" or ") }} account? <a href="{{ url_for('auth.sign_up', next=next) }}">Make one with a username and password</a>.{% endif %}</p>
       {% else %}
         <p>The dashboard shows the ways to add your practice. To look around first, it also shows how to open the demo, with 8 weeks of made-up practice kept apart from yours.</p>
       {% endif %}

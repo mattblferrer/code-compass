@@ -52,6 +52,11 @@ def test_local_mode_shows_the_landing_page_with_a_way_into_the_app(client):
     assert "Sign in with GitHub" not in html and "/signin/github" not in html
     assert html.count('<a class="button" href="/">Continue to your dashboard</a>') == 2
     assert "<title>CodeCompass</title>" in html
-    # The GitHub routes exist only in hosted mode.
+    # The sign-in routes exist only in hosted mode.
     assert client.post("/signin/github").status_code == 404
     assert client.get("/signin/github/callback").status_code == 404
+    assert client.post("/signin/google").status_code == 404
+    assert client.get("/signin/google/callback").status_code == 404
+    assert client.get("/signin/password").status_code == 404
+    assert client.get("/signup").status_code == 404
+    assert "Sign in with a username" not in html

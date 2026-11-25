@@ -143,7 +143,7 @@
     {% if hosted_mode %}
       <section class="panel help-section" id="account" aria-labelledby="account-heading">
         <h2 id="account-heading">Your account</h2>
-        <p>Your <a href="{{ url_for('auth.account') }}">account page</a> (your username at the top right, or Account under More on a phone) lets you sign out or delete your account. Deleting it removes everything in it and cannot be undone, so download a <a href="{{ url_for('main.settings', _anchor='backup') }}">backup</a> first if you may want your practice later.</p>
+        <p>Your <a href="{{ url_for('auth.account') }}">account page</a> (your username at the top right, or Account under More on a phone) lets you sign out, change your password if you sign in with a username, or delete your account. Deleting it removes everything in it and cannot be undone, so download a <a href="{{ url_for('main.settings', _anchor='backup') }}">backup</a> first if you may want your practice later.</p>
         <p>A sign-in ends after {{ session_days }} days without use. <a href="{{ url_for('auth.privacy') }}">What is stored and how to delete it</a></p>
       </section>
     {% endif %}

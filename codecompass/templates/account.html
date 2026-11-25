@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 {% from "_page.html" import page_head %}
 {% block title %}Account - CodeCompass{% endblock %}
+{% macro error(field) %}
+  {% if errors.get(field) %}<small class="field-error" id="{{ field }}-error">{{ errors[field] }}</small>{% endif %}
+{% endmacro %}
+{% macro invalid(field) %}{% if errors.get(field) %}aria-invalid="true" aria-describedby="{{ field }}-error"{% endif %}{% endmacro %}
 {% block content %}
-  {{ page_head("Account", "Signed in with GitHub as " ~ g.user.login ~ ".") }}
+  {% if provider %}
+    {{ page_head("Account", "Signed in with " ~ provider ~ " as " ~ g.user.login ~ ".") }}
+  {% else %}
+    {{ page_head("Account", "Signed in with the username " ~ g.user.login ~ ".") }}
+  {% endif %}
   <section class="panel" aria-labelledby="signout-heading">
     <h2 id="signout-heading">Sign out</h2>
     <p>Ends this browser's sign-in. Your data stays.</p>
@@ -11,12 +19,38 @@
       <button type="submit">Sign out</button>
     </form>
   </section>
+  {% if g.user.method == "password" %}
+    <section class="panel" id="password" aria-labelledby="password-heading">
+      <h2 id="password-heading">Change your password</h2>
+      <p>Any other browser signed in to this account is signed out.</p>
+      <form method="post" action="{{ url_for('auth.change_password') }}" class="sheet password-form" novalidate>
+        {{ csrf_field() }}
+        <label>
+          Current password
+          <input name="current_password" type="password" autocomplete="current-password" required {{ invalid("current_password") }}>
+          {{ error("current_password") }}
+        </label>
+        <label>
+          New password
+          <input name="password" type="password" autocomplete="new-password" required {{ invalid("password") }}>
+          <small>At least {{ password_min }} characters.</small>
+          {{ error("password") }}
+        </label>
+        <label>
+          New password again
+          <input name="password_again" type="password" autocomplete="new-password" required {{ invalid("password_again") }}>
+          {{ error("password_again") }}
+        </label>
+        <button type="submit">Change password</button>
+      </form>
+    </section>
+  {% endif %}
   <section class="panel danger-panel" aria-labelledby="delete-account-heading">
     <h2 id="delete-account-heading">Delete your account</h2>
     <p>This deletes your account and everything in it: attempts, notes, interviews, problems you added, settings, linked usernames, synced submissions, and rating history. It cannot be undone. To keep a copy, <a href="{{ url_for('main.download_backup') }}">download a backup</a> first; it opens in a local copy of CodeCompass, or in a new account here.</p>
     <form method="post" action="{{ url_for('auth.account') }}" class="account-delete">
       {{ csrf_field() }}
-      <label for="confirm-account">Type your GitHub username, <strong>{{ g.user.login }}</strong>, to confirm</label>
+      <label for="confirm-account">Type your {{ method_name }}, <strong>{{ g.user.login }}</strong>, to confirm</label>
       <input id="confirm-account" name="confirm" autocomplete="off" spellcheck="false" required>
       <button type="submit" class="danger">Delete my account</button>
     </form>

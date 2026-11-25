@@ -250,12 +250,14 @@ Local mode keeps all the tables above in one SQLite file for one user. Hosted mo
 | Column | Type | Notes |
 | --- | --- | --- |
 | `id` | Integer | Primary key; names the account's schema |
-| `github_id` | Integer | The GitHub account's id; unique |
-| `login` | Text | The GitHub username, updated at each sign-in |
-| `name` | Text | The GitHub display name, if any |
+| `github_id` | Integer | The GitHub account's id, for an account that signs in with GitHub; unique |
+| `google_id` | Text | The Google account's id (the ID token's `sub`), for an account that signs in with Google; unique |
+| `password_hash` | Text | For an account that signs in with a username: Werkzeug's salted scrypt hash of the password, never the password |
+| `login` | Text | The GitHub username or Google name, updated at each sign-in, or the username chosen here, unique among username accounts ignoring case |
+| `name` | Text | The GitHub or Google display name, if any |
 | `created` | Text | The date the account was made |
 
-No password is stored. New accounts stop at `MAX_ACCOUNTS` (`core/constants.py`).
+Exactly one of `github_id`, `google_id`, and `password_hash` is set, so each way of signing in is its own account, even for the same person. No email is stored. New accounts of every kind stop at `MAX_ACCOUNTS` (`core/constants.py`).
 
 ### `sessions` (R-51)
 

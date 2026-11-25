@@ -24,6 +24,31 @@ def test_only_web_links_and_local_paths_pass():
         assert local_path(bad) is None, bad
 
 
+def test_usernames_and_passwords_for_hosted_accounts_are_checked():
+    """R-51: the rules for a username and password made in hosted mode."""
+    from codecompass.core.validation import validate_new_login, validate_password
+
+    good = "correct horse battery"
+    values, errors = validate_new_login({"username": " ada.l_2-x ", "password": good, "password_again": good})
+    assert errors == {} and values == {"username": "ada.l_2-x", "password": good}
+    # Spaces in a password are kept, so a passphrase works as typed.
+    assert validate_password({"password": "  " + good, "password_again": "  " + good})[0]["password"] == "  " + good
+    bad = {
+        "ab": "username", "a" * (c.USERNAME_MAX_LENGTH + 1): "username", "_ada": "username", "ada!": "username",
+        "adá": "username", "": "username",
+    }
+    for username, field in bad.items():
+        assert field in validate_new_login({"username": username, "password": good, "password_again": good})[1]
+    short = "x" * (c.PASSWORD_MIN_LENGTH - 1)
+    assert "password" in validate_password({"password": short, "password_again": short})[1]
+    exact = "x" * c.PASSWORD_MIN_LENGTH
+    assert validate_password({"password": exact, "password_again": exact})[1] == {}
+    assert "password" in validate_password({"password": "SameAsUsername", "password_again": "SameAsUsername"},
+                                           "sameasusername")[1]
+    assert validate_password({"password": good, "password_again": good + " "})[1] == {
+        "password_again": "The two passwords differ. Type the same password twice."}
+
+
 def tampered_backup(client, change):
     """The app's own backup, changed by `change(conn)` as someone handing over a file might."""
     copy = sqlite3.connect(":memory:")

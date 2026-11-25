@@ -12,7 +12,7 @@ python -m venv .venv
 pip install -r requirements-local.txt
 ```
 
-Local mode needs only Flask, which `requirements-local.txt` installs. `requirements.txt` adds hosted mode's libraries (PostgreSQL, GitHub sign-in), and is what Vercel installs. To run the tests, install `requirements-dev.txt` instead: it adds pytest to both, since the hosted-mode tests need the hosted libraries.
+Local mode needs only Flask, which `requirements-local.txt` installs. `requirements.txt` adds hosted mode's libraries (PostgreSQL, GitHub and Google sign-in), and is what Vercel installs. To run the tests, install `requirements-dev.txt` instead: it adds pytest to both, since the hosted-mode tests need the hosted libraries.
 
 ## Run
 
@@ -56,7 +56,7 @@ The check script is the only code that requests the guides. The app never fetche
 
 ## Hosted mode
 
-The same app can run as a website where people sign in with GitHub and each account keeps its own data (R-50 to R-56), on Vercel with a Neon PostgreSQL database. See [docs/deploying.md](docs/deploying.md).
+The same app can run as a website where people sign in with GitHub, Google, or a username and password, and each account keeps its own data (R-50 to R-56), on Vercel with a Neon PostgreSQL database. See [docs/deploying.md](docs/deploying.md).
 
 ## Test
 
@@ -83,7 +83,7 @@ GitHub Actions runs the suite in both modes on every push to `main` and every pu
 - `codecompass/views.py`: routes
 - `codecompass/db.py` and `codecompass/schema.sql`: SQLite connection and tables
 - `codecompass/pg.py`, `schema_pg_shared.sql`, and `schema_pg_user.sql`: hosted mode's PostgreSQL connection, shared tables, and per-account tables
-- `codecompass/auth.py` and `codecompass/limits.py`: hosted mode's GitHub sign-in, form tokens, and limits
+- `codecompass/auth.py` and `codecompass/limits.py`: hosted mode's sign-in (GitHub, Google, and username and password), form tokens, and limits
 - `codecompass/transfer.py`: an account's data as a backup file, and back
 - `api/index.py` and `vercel.json`: hosted mode's entry point on Vercel
 - `codecompass/catalog.py` and `codecompass/data/`: the pattern list, catalog, and reserve, loaded at each start when they change

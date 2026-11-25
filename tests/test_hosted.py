@@ -2,7 +2,8 @@
 between modes, and deleting an account (R-25, R-33, R-50 to R-53, R-55, R-56).
 
 These run only when CODECOMPASS_TEST_PG names a PostgreSQL server for tests. Signing in
-never contacts GitHub: auth.github_profile is replaced by a fixed profile.
+never contacts GitHub or Google: auth.github_profile and auth.google_profile are replaced by
+fixed replies.
 """
 import io
 import re
@@ -26,7 +27,8 @@ def hosted(tmp_path, catalog_path):
     """A hosted app where every request must be signed in."""
     return create_app({"TESTING": True, "DATABASE": str(tmp_path / "hosted.sqlite"), "CATALOG_PATH": catalog_path,
                        "RESERVE_PATH": None, "UNMAPPED_PATH": None, "TESTING_USER_ID": None,
-                       "GITHUB_CLIENT_ID": "test-client", "GITHUB_CLIENT_SECRET": "test-secret"})
+                       "GITHUB_CLIENT_ID": "test-client", "GITHUB_CLIENT_SECRET": "test-secret",
+                       "GOOGLE_CLIENT_ID": "test-google", "GOOGLE_CLIENT_SECRET": "test-google-secret"})
 
 
 def sign_in(app, monkeypatch, github_id, login):
@@ -34,6 +36,26 @@ def sign_in(app, monkeypatch, github_id, login):
     client = app.test_client()
     monkeypatch.setattr(auth, "github_profile", lambda: {"id": github_id, "login": login, "name": login.title()})
     response = client.get("/signin/github/callback")
+    assert response.status_code == 302, response.get_data(as_text=True)
+    return client
+
+
+def sign_in_with_google(app, monkeypatch, sub, name):
+    """A test client signed in as the Google account `sub`."""
+    client = app.test_client()
+    monkeypatch.setattr(auth, "google_profile", lambda: {"sub": sub, "name": name})
+    response = client.get("/signin/google/callback")
+    assert response.status_code == 302, response.get_data(as_text=True)
+    return client
+
+
+PASSWORD = "correct horse battery"
+
+
+def sign_up(app, username, password=PASSWORD):
+    """A test client signed in to a new account made with a username and password."""
+    client = app.test_client()
+    response = client.post("/signup", data={"username": username, "password": password, "password_again": password})
     assert response.status_code == 302, response.get_data(as_text=True)
     return client
 
@@ -115,12 +137,17 @@ def test_sign_in_makes_an_account_and_signing_out_ends_that_session_everywhere(h
     assert query(hosted, None, "SELECT count(*) AS n FROM sessions")[0]["n"] == 0
 
 
-def test_no_password_is_stored(hosted, monkeypatch):
+def test_github_and_google_accounts_keep_no_password_and_a_password_is_kept_only_as_a_hash(hosted, monkeypatch):
     sign_in(hosted, monkeypatch, 101, "ada")
+    sign_in_with_google(hosted, monkeypatch, "g-202", "Bo")
+    sign_up(hosted, "cyd")
     columns = {r["column_name"] for r in query(hosted, None, """SELECT column_name FROM information_schema.columns
                                                               WHERE table_schema = 'public'""")}
-    assert not any("password" in name for name in columns)
-    assert query(hosted, None, "SELECT count(*) AS n FROM sessions WHERE length(token_hash) = 64")[0]["n"] == 1
+    assert {name for name in columns if "password" in name} == {"password_hash"}
+    rows = {r["login"]: r["password_hash"] for r in query(hosted, None, "SELECT login, password_hash FROM users")}
+    assert rows["ada"] is None and rows["Bo"] is None
+    assert rows["cyd"].startswith("scrypt:") and PASSWORD not in rows["cyd"]
+    assert query(hosted, None, "SELECT count(*) AS n FROM sessions WHERE length(token_hash) = 64")[0]["n"] == 3
 
 
 def test_a_session_ends_after_30_days_without_use(hosted, monkeypatch):
@@ -159,6 +186,217 @@ def test_a_failed_or_odd_github_reply_signs_no_one_in(hosted, monkeypatch):
 
 
 # --- R-52: each account's data is its own ---
+
+# --- R-51: signing in with Google ---
+
+def test_signing_in_with_google_asks_only_for_the_id_and_name(hosted):
+    client = hosted.test_client()
+    page = client.get("/signin?next=/history").get_data(as_text=True)
+    assert page.count("Sign in with Google") == 2 and page.count("Sign in with a username") == 2
+    response = client.post("/signin/google", data={"next": "/history"})
+    assert response.status_code == 302
+    assert response.location.startswith("https://accounts.google.com/o/oauth2/v2/auth?")
+    assert "client_id=test-google" in response.location and "scope=openid+profile&" in response.location
+    assert "nonce=" in response.location and "email" not in response.location
+    with client.session_transaction() as session:
+        assert session["next"] == "/history"
+
+
+def test_a_google_account_is_its_own_account(hosted, monkeypatch):
+    client = sign_in_with_google(hosted, monkeypatch, "1234567890", "Ada Lovelace")
+    page = client.get("/account").get_data(as_text=True)
+    assert "Signed in with Google as Ada Lovelace." in page and "Type your Google name" in page
+    # A GitHub account with the same name is another account.
+    sign_in(hosted, monkeypatch, 101, "Ada Lovelace")
+    rows = query(hosted, None, "SELECT github_id, google_id FROM users WHERE login = 'Ada Lovelace' ORDER BY id")
+    assert rows == [{"github_id": None, "google_id": "1234567890"}, {"github_id": 101, "google_id": None}]
+    # Signing in again finds the same account, and keeps its name current.
+    sign_in_with_google(hosted, monkeypatch, "1234567890", "Ada King")
+    assert query(hosted, None, "SELECT login FROM users WHERE google_id = '1234567890'") == [{"login": "Ada King"}]
+
+
+def test_a_failed_or_odd_google_reply_signs_no_one_in(hosted, monkeypatch):
+    client = hosted.test_client()
+
+    def declined():
+        raise RuntimeError("access_denied")
+
+    monkeypatch.setattr(auth, "google_profile", declined)
+    assert "did not finish" in client.get("/signin/google/callback", follow_redirects=True).get_data(as_text=True)
+    for reply in (None, {"name": "No id"}, {"sub": 5}, {"sub": ""}):
+        monkeypatch.setattr(auth, "google_profile", lambda: reply)
+        page = client.get("/signin/google/callback", follow_redirects=True).get_data(as_text=True)
+        assert "Google did not say who you are" in page, reply
+    assert query(hosted, None, "SELECT count(*) AS n FROM sessions")[0]["n"] == 0
+
+
+def test_a_sign_in_the_site_has_not_set_up_is_not_offered(tmp_path, catalog_path):
+    app = create_app({"TESTING": True, "DATABASE": str(tmp_path / "bare.sqlite"), "CATALOG_PATH": catalog_path,
+                      "RESERVE_PATH": None, "UNMAPPED_PATH": None, "TESTING_USER_ID": None,
+                      "GITHUB_CLIENT_ID": "test-client", "GOOGLE_CLIENT_ID": None})
+    client = app.test_client()
+    page = client.get("/signin").get_data(as_text=True)
+    assert "Sign in with GitHub" in page and "Sign in with Google" not in page and "Sign in with a username" in page
+    assert client.post("/signin/google").status_code == 404
+
+
+# --- R-51: signing in with a username and password ---
+
+def test_making_an_account_with_a_username_signs_in_and_signs_back_in(hosted):
+    client = hosted.test_client()
+    assert "Make an account" in client.get("/signup").get_data(as_text=True)
+    response = client.post("/signup", data={"username": "ada.l", "password": PASSWORD, "password_again": PASSWORD,
+                                            "next": "/history"})
+    assert response.location == "/history"
+    page = client.get("/account").get_data(as_text=True)
+    assert "Signed in with the username ada.l." in page and "Change your password" in page
+    client.post("/signout")
+    assert client.get("/").location.startswith("/signin")
+    # The username ignores case; the password does not.
+    again = hosted.test_client()
+    wrong = again.post("/signin/password", data={"username": "ADA.L", "password": PASSWORD.upper()})
+    assert wrong.status_code == 400 and "The username or password is wrong." in wrong.get_data(as_text=True)
+    assert again.get("/").location.startswith("/signin")
+    right = again.post("/signin/password", data={"username": "ADA.L", "password": PASSWORD, "next": "/progress"})
+    assert right.location == "/progress" and again.get("/").status_code == 200
+
+
+def test_an_unknown_username_gets_the_same_answer_as_a_wrong_password(hosted):
+    sign_up(hosted, "ada")
+    client = hosted.test_client()
+    unknown = client.post("/signin/password", data={"username": "nobody", "password": PASSWORD})
+    wrong = client.post("/signin/password", data={"username": "ada", "password": "not the password"})
+    for response in (unknown, wrong):
+        assert response.status_code == 400
+        assert "The username or password is wrong." in response.get_data(as_text=True)
+    assert query(hosted, None, "SELECT count(*) AS n FROM sessions")[0]["n"] == 1  # Only the sign-up's.
+
+
+def test_a_bad_username_or_password_makes_no_account(hosted):
+    client = hosted.test_client()
+    long = "x" * (c.PASSWORD_MAX_LENGTH + 1)
+    cases = [
+        ({"username": "ab", "password": PASSWORD, "password_again": PASSWORD}, "username"),
+        ({"username": "-ada", "password": PASSWORD, "password_again": PASSWORD}, "username"),
+        ({"username": "ada lovelace", "password": PASSWORD, "password_again": PASSWORD}, "username"),
+        ({"username": "ada", "password": "short", "password_again": "short"}, "password"),
+        ({"username": "ada", "password": long, "password_again": long}, "password"),
+        ({"username": "longusername1", "password": "LongUsername1", "password_again": "LongUsername1"}, "password"),
+        ({"username": "ada", "password": PASSWORD, "password_again": PASSWORD + "!"}, "password_again"),
+    ]
+    for data, field in cases:
+        response = client.post("/signup", data=data)
+        assert response.status_code == 400, data
+        assert f'id="{field}-error"' in response.get_data(as_text=True), data
+    assert query(hosted, None, "SELECT count(*) AS n FROM users WHERE password_hash IS NOT NULL")[0]["n"] == 0
+
+
+def test_a_username_is_taken_whatever_its_case_but_not_by_other_ways_of_signing_in(hosted, monkeypatch):
+    sign_in(hosted, monkeypatch, 101, "ada")  # A GitHub account named ada does not take the username.
+    sign_up(hosted, "ada")
+    response = hosted.test_client().post("/signup", data={"username": "ADA", "password": PASSWORD,
+                                                          "password_again": PASSWORD})
+    assert response.status_code == 400 and "That username is taken." in response.get_data(as_text=True)
+    assert query(hosted, None, "SELECT count(*) AS n FROM users WHERE lower(login) = 'ada'")[0]["n"] == 2
+
+
+def test_new_password_accounts_stop_at_the_cap_too(hosted, monkeypatch):
+    sign_up(hosted, "ada")
+    monkeypatch.setattr(c, "MAX_ACCOUNTS", query(hosted, None, "SELECT count(*) AS n FROM users")[0]["n"])
+    page = hosted.test_client().post("/signup", data={"username": "bob", "password": PASSWORD,
+                                                      "password_again": PASSWORD},
+                                     follow_redirects=True).get_data(as_text=True)
+    assert "reached its limit of accounts" in page
+    assert query(hosted, None, "SELECT count(*) AS n FROM users WHERE login = 'bob'")[0]["n"] == 0
+    signed_in = hosted.test_client().post("/signin/password", data={"username": "ada", "password": PASSWORD})
+    assert signed_in.status_code == 302
+
+
+def test_password_tries_are_limited_per_username_from_any_address(hosted, monkeypatch):
+    monkeypatch.setattr(c, "PASSWORD_TRY_LIMIT", 2)
+    sign_up(hosted, "ada")
+    for address in ("10.0.0.1", "10.0.0.2"):
+        hosted.test_client().post("/signin/password", data={"username": "ada", "password": "guess"},
+                                  environ_base={"REMOTE_ADDR": address})
+    third = hosted.test_client().post("/signin/password", data={"username": "Ada", "password": PASSWORD},
+                                      environ_base={"REMOTE_ADDR": "10.0.0.3"}, follow_redirects=True)
+    assert "Too many sign-in attempts for this username" in third.get_data(as_text=True)
+    assert query(hosted, None, "SELECT count(*) AS n FROM sessions")[0]["n"] == 1  # Only the sign-up's.
+
+
+def test_changing_the_password_needs_the_current_one_and_signs_out_other_browsers(hosted):
+    client = sign_up(hosted, "ada")
+    other = hosted.test_client()
+    other.post("/signin/password", data={"username": "ada", "password": PASSWORD})
+    new = "a different long passphrase"
+    wrong = client.post("/account/password", data={"current_password": "nope", "password": new, "password_again": new})
+    assert wrong.status_code == 400 and "That is not your current password." in wrong.get_data(as_text=True)
+    mismatch = client.post("/account/password", data={"current_password": PASSWORD, "password": new,
+                                                      "password_again": new + "!"})
+    assert mismatch.status_code == 400 and 'id="password_again-error"' in mismatch.get_data(as_text=True)
+    changed = client.post("/account/password", data={"current_password": PASSWORD, "password": new,
+                                                     "password_again": new}, follow_redirects=True)
+    assert "Your password was changed." in changed.get_data(as_text=True)
+    assert client.get("/").status_code == 200  # This browser stays signed in.
+    assert other.get("/").location.startswith("/signin")  # The other is signed out.
+    fresh = hosted.test_client()
+    assert fresh.post("/signin/password", data={"username": "ada", "password": PASSWORD}).status_code == 400
+    assert fresh.post("/signin/password", data={"username": "ada", "password": new}).status_code == 302
+
+
+def test_only_a_password_account_has_a_password_to_change(hosted, monkeypatch):
+    client = sign_in(hosted, monkeypatch, 101, "ada")
+    assert "Change your password" not in client.get("/account").get_data(as_text=True)
+    assert client.post("/account/password", data={"current_password": "x", "password": PASSWORD,
+                                                   "password_again": PASSWORD}).status_code == 404
+
+
+def test_the_account_tool_resets_a_password_and_signs_the_account_out(hosted):
+    client = sign_up(hosted, "ada")
+    runner = hosted.test_cli_runner()
+    missing = runner.invoke(args=["accounts", "reset-password", "nobody"]).output
+    assert "No account signs in with the username nobody" in missing
+    output = runner.invoke(args=["accounts", "reset-password", "ADA"]).output
+    temporary = re.search(r"ada's new password is (\S+)", output).group(1)
+    assert len(temporary) >= c.PASSWORD_MIN_LENGTH
+    assert client.get("/").location.startswith("/signin")
+    fresh = hosted.test_client()
+    assert fresh.post("/signin/password", data={"username": "ada", "password": PASSWORD}).status_code == 400
+    assert fresh.post("/signin/password", data={"username": "ada", "password": temporary}).status_code == 302
+
+
+def test_the_account_tool_asks_which_account_when_names_are_shared(hosted, monkeypatch):
+    sign_in(hosted, monkeypatch, 101, "ada")
+    sign_up(hosted, "ada")
+    runner = hosted.test_cli_runner()
+    listed = runner.invoke(args=["accounts"]).output
+    assert "(github)" in listed and "(password)" in listed
+    assert "Add --method" in runner.invoke(args=["accounts", "delete", "ada", "--yes"]).output
+    deleted = runner.invoke(args=["accounts", "delete", "ada", "--method", "password", "--yes"]).output
+    assert "Deleted ada's account." in deleted
+    assert query(hosted, None, "SELECT github_id FROM users WHERE login = 'ada'") == [{"github_id": 101}]
+
+
+def test_deleting_a_password_account_asks_for_its_username(hosted):
+    client = sign_up(hosted, "ada")
+    page = client.get("/account").get_data(as_text=True)
+    assert "Type your username, <strong>ada</strong>, to confirm" in page
+    deleted = client.post("/account", data={"confirm": "ada"}, follow_redirects=True).get_data(as_text=True)
+    assert "Your account and all its data were deleted." in deleted
+    assert query(hosted, None, "SELECT count(*) AS n FROM users WHERE password_hash IS NOT NULL")[0]["n"] == 0
+
+
+def test_a_password_account_and_a_github_account_with_the_same_name_keep_their_data_apart(hosted, monkeypatch):
+    github = sign_in(hosted, monkeypatch, 101, "ada")
+    password = sign_up(hosted, "ada")
+    assert log(github, "from github").status_code == 302
+    assert log(password, "from password").status_code == 302
+    ids = {r["kind"]: r["id"] for r in query(hosted, None, """SELECT id, CASE WHEN github_id IS NULL THEN 'password'
+                                                                  ELSE 'github' END AS kind
+                                                              FROM users WHERE login = 'ada'""")}
+    for kind in ("github", "password"):
+        assert [r["notes"] for r in query(hosted, ids[kind], "SELECT notes FROM attempts")] == [f"from {kind}"]
+
 
 def test_two_accounts_see_and_change_only_their_own_data(hosted, monkeypatch):
     ada = sign_in(hosted, monkeypatch, 101, "ada")

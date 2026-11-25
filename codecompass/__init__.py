@@ -25,9 +25,12 @@ def create_app(test_config=None):
     app.config["DATABASE_URL"] = os.environ.get("CODECOMPASS_DATABASE_URL")
     # Signs the session cookie. Hosted mode needs a fixed secret, so sign-ins survive restarts.
     app.config["SECRET_KEY"] = os.environ.get("CODECOMPASS_SECRET_KEY") or os.urandom(16).hex()
-    # Hosted mode's GitHub sign-in (R-51): the OAuth app registered for this site.
+    # Hosted mode's GitHub and Google sign-in (R-51): the OAuth clients registered for this
+    # site. Each sign-in button shows only when its client ID is set.
     app.config["GITHUB_CLIENT_ID"] = os.environ.get("CODECOMPASS_GITHUB_CLIENT_ID")
     app.config["GITHUB_CLIENT_SECRET"] = os.environ.get("CODECOMPASS_GITHUB_CLIENT_SECRET")
+    app.config["GOOGLE_CLIENT_ID"] = os.environ.get("CODECOMPASS_GOOGLE_CLIENT_ID")
+    app.config["GOOGLE_CLIENT_SECRET"] = os.environ.get("CODECOMPASS_GOOGLE_CLIENT_SECRET")
     app.config["PATTERNS_PATH"] = str(catalog.DATA_DIR / "patterns.csv")
     # Largest accepted upload, for CSV import (R-19).
     app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
