@@ -2,17 +2,21 @@
 import csv
 import hashlib
 import json
+from datetime import date
 from pathlib import Path
 
 import click
 
+from .core import constants as c
 from .core.catalog_rows import parse_catalog, parse_patterns
+from .core import companies as presets
 from .core import resources as guides
 from .core.reserve import UNMAPPED_HEADER, atcoder_rows, atcoder_unmapped, reserve_rows, unmapped_rows
 from .db import open_db
 
 DATA_DIR = Path(__file__).with_name("data")
 RESOURCES_DOC = Path(__file__).resolve().parent.parent / "docs" / "resources.md"
+COMPANIES_DOC = Path(__file__).resolve().parent.parent / "docs" / "companies.md"
 HEADER = ["title", "link", "difficulty", "rating", "source", "patterns"]
 
 # Change this when the loader's behavior changes, so unchanged files load again.
@@ -251,6 +255,69 @@ def build_resources_command():
     click.echo(f"Wrote {len(rows)} guides to {DATA_DIR / 'resources.csv'}.")
 
 
+def load_companies(patterns_path, companies_path):
+    """The company presets (R-60) as `core.companies.parse_companies` returns them. Like the
+    guides, they are the same for every user, so they are read once at start and kept in
+    memory. With no file there are none. Raises DataFileError if the file is invalid."""
+    if not companies_path or not Path(companies_path).exists():
+        return {}
+    categories = {p["name"]: p["category"] for p in parse_patterns(read_rows(patterns_path), Path(patterns_path).name)}
+    return presets.parse_companies(read_rows(companies_path), categories, Path(companies_path).name)
+
+
+def write_companies(snapshot_dir, snapshot, patterns_path, catalog_path, out_path, doc_path):
+    """Write companies.csv and docs/companies.md from a local copy of the company-tag snapshot,
+    one folder per company holding its all-time list, "5. All.csv". Returns the number of
+    companies written."""
+    patterns = parse_patterns(read_rows(patterns_path), Path(patterns_path).name)
+    categories = {p["name"]: p["category"] for p in patterns}
+    order = [p["name"] for p in patterns]
+    problems = parse_catalog(read_rows(catalog_path), categories, Path(catalog_path).name)
+    catalog_patterns = {presets.link_key(p["link"]): p["patterns"] for p in problems}
+    lists = {}
+    for folder in sorted(Path(snapshot_dir).iterdir()):
+        all_time = folder / "5. All.csv"
+        if folder.is_dir() and all_time.exists():
+            lists[folder.name] = read_rows(all_time)
+    if not lists:
+        raise click.ClickException(f'No company folders with a "5. All.csv" in {snapshot_dir}.')
+    try:
+        rows = presets.build_rows(lists, catalog_patterns, order, snapshot)
+    except ValueError as error:
+        raise click.ClickException(str(error))
+    known = set(presets.SPECIFIC) | set(presets.GENERIC) | presets.TRAVERSAL
+    unmapped = {}
+    for name, company_rows in lists.items():
+        if len(company_rows) < c.COMPANY_MIN_PROBLEMS:
+            continue
+        for row in company_rows:
+            for topic in (t.strip() for t in (row.get("Topics") or "").split(",")):
+                if topic and topic not in known:
+                    unmapped[topic] = unmapped.get(topic, 0) + 1
+    _write_csv(out_path, presets.HEADER, rows)
+    companies = load_companies(patterns_path, out_path)  # Stops on an invalid file.
+    Path(doc_path).write_text(presets.to_markdown(companies, categories, order, unmapped), encoding="utf-8")
+    return len(companies)
+
+
+@click.command("build-companies")
+@click.argument("snapshot_dir", type=click.Path(exists=True, file_okay=False))
+@click.option("--snapshot", required=True, help="The snapshot's date, YYYY-MM-DD.")
+def build_companies_command(snapshot_dir, snapshot):
+    """Write data/companies.csv and docs/companies.md, the company presets (R-60), from a local
+    copy of a company-tag snapshot. It makes no requests: download the snapshot yourself first,
+    for example with git clone https://github.com/liquidslr/leetcode-company-wise-problems
+    """
+    try:
+        if date.fromisoformat(snapshot).isoformat() != snapshot:
+            raise ValueError
+    except ValueError:
+        raise click.BadParameter("Give the date as YYYY-MM-DD.", param_hint="--snapshot")
+    count = write_companies(snapshot_dir, snapshot, DATA_DIR / "patterns.csv", DATA_DIR / "catalog.csv",
+                            DATA_DIR / "companies.csv", COMPANIES_DOC)
+    click.echo(f"Wrote {count} companies to {DATA_DIR / 'companies.csv'} and {COMPANIES_DOC}.")
+
+
 def init_app(app):
     conn = open_db(app.config)
     try:
@@ -258,5 +325,7 @@ def init_app(app):
     finally:
         conn.close()
     app.extensions["pattern_guides"] = load_resources(app.config["PATTERNS_PATH"], app.config["RESOURCES_PATH"])
+    app.extensions["company_presets"] = load_companies(app.config["PATTERNS_PATH"], app.config.get("COMPANIES_PATH"))
     app.cli.add_command(build_reserve_command)
     app.cli.add_command(build_resources_command)
+    app.cli.add_command(build_companies_command)

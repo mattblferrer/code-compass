@@ -1,0 +1,2530 @@
+company,problems,counted,catalog_share,snapshot,pattern,share
+Accenture,101,91,73.2,2026-10-20,Two Pointers,14.7
+Accenture,101,91,73.2,2026-10-20,Arrays and Hashing,13.8
+Accenture,101,91,73.2,2026-10-20,Math,8.5
+Accenture,101,91,73.2,2026-10-20,Binary Search,7.5
+Accenture,101,91,73.2,2026-10-20,Simulation and Implementation,5.4
+Accenture,101,91,73.2,2026-10-20,Greedy,5.3
+Accenture,101,91,73.2,2026-10-20,Strings,4.5
+Accenture,101,91,73.2,2026-10-20,Prefix Sums,4.0
+Accenture,101,91,73.2,2026-10-20,1-D Dynamic Programming,4.0
+Accenture,101,91,73.2,2026-10-20,Sliding Window,3.8
+Accenture,101,91,73.2,2026-10-20,Backtracking and Brute Force,3.5
+Accenture,101,91,73.2,2026-10-20,Bit Manipulation,3.2
+Accenture,101,91,73.2,2026-10-20,Heap,3.1
+Accenture,101,91,73.2,2026-10-20,Monotonic Stack and Queue,2.8
+Accenture,101,91,73.2,2026-10-20,Sorting,2.6
+Accenture,101,91,73.2,2026-10-20,Linked List,2.5
+Accenture,101,91,73.2,2026-10-20,Tree Traversal,2.2
+Accenture,101,91,73.2,2026-10-20,Graph Traversal,1.7
+Accenture,101,91,73.2,2026-10-20,Number Theory,1.6
+Accenture,101,91,73.2,2026-10-20,2-D Dynamic Programming,1.2
+Accenture,101,91,73.2,2026-10-20,Stack,0.8
+Accenture,101,91,73.2,2026-10-20,Intervals,0.6
+Accenture,101,91,73.2,2026-10-20,String Hashing,0.6
+Accenture,101,91,73.2,2026-10-20,String Matching,0.6
+Accenture,101,91,73.2,2026-10-20,Binary Search Trees,0.5
+Accenture,101,91,73.2,2026-10-20,Data Structure Design,0.5
+Accenture,101,91,73.2,2026-10-20,Union-Find,0.4
+Accolite,17,,,2026-10-20,,
+Acko,4,,,2026-10-20,,
+Activision,3,,,2026-10-20,,
+Adobe,147,141,61.6,2026-10-20,Graph Traversal,8.0
+Adobe,147,141,61.6,2026-10-20,Binary Search,7.7
+Adobe,147,141,61.6,2026-10-20,Greedy,7.5
+Adobe,147,141,61.6,2026-10-20,Arrays and Hashing,7.4
+Adobe,147,141,61.6,2026-10-20,Two Pointers,7.4
+Adobe,147,141,61.6,2026-10-20,Sliding Window,6.6
+Adobe,147,141,61.6,2026-10-20,Tree Traversal,5.6
+Adobe,147,141,61.6,2026-10-20,Linked List,5.1
+Adobe,147,141,61.6,2026-10-20,Strings,4.8
+Adobe,147,141,61.6,2026-10-20,Bit Manipulation,4.3
+Adobe,147,141,61.6,2026-10-20,1-D Dynamic Programming,4.2
+Adobe,147,141,61.6,2026-10-20,Simulation and Implementation,3.7
+Adobe,147,141,61.6,2026-10-20,Backtracking and Brute Force,3.1
+Adobe,147,141,61.6,2026-10-20,Stack,2.9
+Adobe,147,141,61.6,2026-10-20,Data Structure Design,2.9
+Adobe,147,141,61.6,2026-10-20,Math,2.8
+Adobe,147,141,61.6,2026-10-20,Heap,2.6
+Adobe,147,141,61.6,2026-10-20,Prefix Sums,2.3
+Adobe,147,141,61.6,2026-10-20,Monotonic Stack and Queue,2.1
+Adobe,147,141,61.6,2026-10-20,Sorting,2.1
+Adobe,147,141,61.6,2026-10-20,Divide and Conquer,1.6
+Adobe,147,141,61.6,2026-10-20,Topological Sort,0.9
+Adobe,147,141,61.6,2026-10-20,Game Theory,0.9
+Adobe,147,141,61.6,2026-10-20,Number Theory,0.7
+Adobe,147,141,61.6,2026-10-20,2-D Dynamic Programming,0.6
+Adobe,147,141,61.6,2026-10-20,Intervals,0.5
+Adobe,147,141,61.6,2026-10-20,Binary Search Trees,0.5
+Adobe,147,141,61.6,2026-10-20,Combinatorics,0.4
+Adobe,147,141,61.6,2026-10-20,Union-Find,0.3
+Adobe,147,141,61.6,2026-10-20,Segment Tree and Fenwick Tree,0.2
+Adobe,147,141,61.6,2026-10-20,Tree DP,0.2
+Affirm,10,,,2026-10-20,,
+Agoda,38,37,73.6,2026-10-20,Stack,12.5
+Agoda,38,37,73.6,2026-10-20,Sorting,10.4
+Agoda,38,37,73.6,2026-10-20,Sliding Window,10.0
+Agoda,38,37,73.6,2026-10-20,Binary Search,9.2
+Agoda,38,37,73.6,2026-10-20,Two Pointers,8.3
+Agoda,38,37,73.6,2026-10-20,1-D Dynamic Programming,8.3
+Agoda,38,37,73.6,2026-10-20,Greedy,7.1
+Agoda,38,37,73.6,2026-10-20,Arrays and Hashing,6.2
+Agoda,38,37,73.6,2026-10-20,Monotonic Stack and Queue,5.9
+Agoda,38,37,73.6,2026-10-20,Prefix Sums,3.8
+Agoda,38,37,73.6,2026-10-20,Tree Traversal,3.4
+Agoda,38,37,73.6,2026-10-20,Simulation and Implementation,3.3
+Agoda,38,37,73.6,2026-10-20,Math,3.1
+Agoda,38,37,73.6,2026-10-20,2-D Dynamic Programming,2.7
+Agoda,38,37,73.6,2026-10-20,Strings,2.5
+Agoda,38,37,73.6,2026-10-20,Backtracking and Brute Force,1.2
+Agoda,38,37,73.6,2026-10-20,Bit Manipulation,1.2
+Agoda,38,37,73.6,2026-10-20,Heap,1.0
+Airbnb,62,62,51.8,2026-10-20,Graph Traversal,10.8
+Airbnb,62,62,51.8,2026-10-20,Bit Manipulation,9.4
+Airbnb,62,62,51.8,2026-10-20,Simulation and Implementation,7.2
+Airbnb,62,62,51.8,2026-10-20,Math,6.9
+Airbnb,62,62,51.8,2026-10-20,Sliding Window,6.0
+Airbnb,62,62,51.8,2026-10-20,Arrays and Hashing,4.9
+Airbnb,62,62,51.8,2026-10-20,Backtracking and Brute Force,4.7
+Airbnb,62,62,51.8,2026-10-20,Data Structure Design,4.5
+Airbnb,62,62,51.8,2026-10-20,Trie,4.1
+Airbnb,62,62,51.8,2026-10-20,Linked List,3.5
+Airbnb,62,62,51.8,2026-10-20,1-D Dynamic Programming,3.5
+Airbnb,62,62,51.8,2026-10-20,Stack,3.4
+Airbnb,62,62,51.8,2026-10-20,2-D Dynamic Programming,3.4
+Airbnb,62,62,51.8,2026-10-20,Shortest Paths,3.3
+Airbnb,62,62,51.8,2026-10-20,Two Pointers,3.0
+Airbnb,62,62,51.8,2026-10-20,Heap,2.7
+Airbnb,62,62,51.8,2026-10-20,Greedy,2.7
+Airbnb,62,62,51.8,2026-10-20,Strings,2.7
+Airbnb,62,62,51.8,2026-10-20,Topological Sort,2.0
+Airbnb,62,62,51.8,2026-10-20,Tree Traversal,1.9
+Airbnb,62,62,51.8,2026-10-20,Binary Search,1.8
+Airbnb,62,62,51.8,2026-10-20,String Hashing,1.7
+Airbnb,62,62,51.8,2026-10-20,Union-Find,1.2
+Airbnb,62,62,51.8,2026-10-20,Lowest Common Ancestor and Tree Queries,1.1
+Airbnb,62,62,51.8,2026-10-20,Monotonic Stack and Queue,0.9
+Airbnb,62,62,51.8,2026-10-20,Intervals,0.9
+Airbnb,62,62,51.8,2026-10-20,Binary Search Trees,0.9
+Airbnb,62,62,51.8,2026-10-20,Sorting,0.8
+Airbus SE,4,,,2026-10-20,,
+Airtel,6,,,2026-10-20,,
+Airwallex,3,,,2026-10-20,,
+Akamai,15,,,2026-10-20,,
+Akuna Capital,18,,,2026-10-20,,
+Alibaba,5,,,2026-10-20,,
+Altimetrik,5,,,2026-10-20,,
+Amadeus,1,,,2026-10-20,,
+Amazon,2015,1793,43.7,2026-10-20,Greedy,8.4
+Amazon,2015,1793,43.7,2026-10-20,Binary Search,7.2
+Amazon,2015,1793,43.7,2026-10-20,Two Pointers,6.9
+Amazon,2015,1793,43.7,2026-10-20,Arrays and Hashing,6.7
+Amazon,2015,1793,43.7,2026-10-20,Tree Traversal,6.4
+Amazon,2015,1793,43.7,2026-10-20,Graph Traversal,5.0
+Amazon,2015,1793,43.7,2026-10-20,Strings,4.6
+Amazon,2015,1793,43.7,2026-10-20,Math,4.5
+Amazon,2015,1793,43.7,2026-10-20,Sliding Window,4.3
+Amazon,2015,1793,43.7,2026-10-20,Simulation and Implementation,4.0
+Amazon,2015,1793,43.7,2026-10-20,Prefix Sums,3.7
+Amazon,2015,1793,43.7,2026-10-20,Stack,3.5
+Amazon,2015,1793,43.7,2026-10-20,Heap,3.4
+Amazon,2015,1793,43.7,2026-10-20,Bit Manipulation,3.4
+Amazon,2015,1793,43.7,2026-10-20,Linked List,3.2
+Amazon,2015,1793,43.7,2026-10-20,Backtracking and Brute Force,3.1
+Amazon,2015,1793,43.7,2026-10-20,Data Structure Design,2.8
+Amazon,2015,1793,43.7,2026-10-20,Sorting,2.7
+Amazon,2015,1793,43.7,2026-10-20,1-D Dynamic Programming,2.6
+Amazon,2015,1793,43.7,2026-10-20,2-D Dynamic Programming,2.0
+Amazon,2015,1793,43.7,2026-10-20,Monotonic Stack and Queue,1.7
+Amazon,2015,1793,43.7,2026-10-20,Union-Find,1.2
+Amazon,2015,1793,43.7,2026-10-20,Number Theory,1.2
+Amazon,2015,1793,43.7,2026-10-20,Binary Search Trees,1.0
+Amazon,2015,1793,43.7,2026-10-20,Trie,0.8
+Amazon,2015,1793,43.7,2026-10-20,Topological Sort,0.6
+Amazon,2015,1793,43.7,2026-10-20,Shortest Paths,0.6
+Amazon,2015,1793,43.7,2026-10-20,Combinatorics,0.6
+Amazon,2015,1793,43.7,2026-10-20,Segment Tree and Fenwick Tree,0.6
+Amazon,2015,1793,43.7,2026-10-20,Intervals,0.5
+Amazon,2015,1793,43.7,2026-10-20,String Matching,0.5
+Amazon,2015,1793,43.7,2026-10-20,Divide and Conquer,0.4
+Amazon,2015,1793,43.7,2026-10-20,JavaScript,0.4
+Amazon,2015,1793,43.7,2026-10-20,Game Theory,0.3
+Amazon,2015,1793,43.7,2026-10-20,Geometry,0.3
+Amazon,2015,1793,43.7,2026-10-20,Tree DP,0.2
+Amazon,2015,1793,43.7,2026-10-20,String Hashing,0.2
+Amazon,2015,1793,43.7,2026-10-20,Interactive Problems,0.2
+Amazon,2015,1793,43.7,2026-10-20,Minimum Spanning Tree,0.1
+Amazon,2015,1793,43.7,2026-10-20,Probability and Expected Value,0.1
+Amazon,2015,1793,43.7,2026-10-20,Lowest Common Ancestor and Tree Queries,0.1
+Amazon,2015,1793,43.7,2026-10-20,Suffix Structures,0.1
+Amazon,2015,1793,43.7,2026-10-20,Strongly Connected Components and Bridges,0.1
+AMD,17,,,2026-10-20,,
+Amdocs,5,,,2026-10-20,,
+American Express,28,27,45.4,2026-10-20,Arrays and Hashing,19.4
+American Express,28,27,45.4,2026-10-20,Greedy,11.1
+American Express,28,27,45.4,2026-10-20,Sliding Window,11.0
+American Express,28,27,45.4,2026-10-20,Binary Search,8.1
+American Express,28,27,45.4,2026-10-20,Bit Manipulation,7.6
+American Express,28,27,45.4,2026-10-20,Strings,7.6
+American Express,28,27,45.4,2026-10-20,Sorting,5.7
+American Express,28,27,45.4,2026-10-20,Heap,5.0
+American Express,28,27,45.4,2026-10-20,Backtracking and Brute Force,4.5
+American Express,28,27,45.4,2026-10-20,Number Theory,4.2
+American Express,28,27,45.4,2026-10-20,Two Pointers,4.1
+American Express,28,27,45.4,2026-10-20,Math,3.2
+American Express,28,27,45.4,2026-10-20,Linked List,2.7
+American Express,28,27,45.4,2026-10-20,Combinatorics,1.5
+American Express,28,27,45.4,2026-10-20,Segment Tree and Fenwick Tree,1.5
+American Express,28,27,45.4,2026-10-20,Monotonic Stack and Queue,1.4
+American Express,28,27,45.4,2026-10-20,Intervals,1.4
+Analytics quotient,2,,,2026-10-20,,
+Anduril,56,56,60.9,2026-10-20,Graph Traversal,19.4
+Anduril,56,56,60.9,2026-10-20,Two Pointers,6.8
+Anduril,56,56,60.9,2026-10-20,Arrays and Hashing,6.1
+Anduril,56,56,60.9,2026-10-20,Tree Traversal,5.7
+Anduril,56,56,60.9,2026-10-20,Simulation and Implementation,5.7
+Anduril,56,56,60.9,2026-10-20,Binary Search,5.5
+Anduril,56,56,60.9,2026-10-20,Greedy,4.7
+Anduril,56,56,60.9,2026-10-20,Stack,4.4
+Anduril,56,56,60.9,2026-10-20,Strings,4.0
+Anduril,56,56,60.9,2026-10-20,Data Structure Design,3.6
+Anduril,56,56,60.9,2026-10-20,Geometry,3.4
+Anduril,56,56,60.9,2026-10-20,Monotonic Stack and Queue,3.1
+Anduril,56,56,60.9,2026-10-20,Linked List,3.1
+Anduril,56,56,60.9,2026-10-20,Topological Sort,3.0
+Anduril,56,56,60.9,2026-10-20,Union-Find,2.9
+Anduril,56,56,60.9,2026-10-20,1-D Dynamic Programming,2.6
+Anduril,56,56,60.9,2026-10-20,Sliding Window,2.5
+Anduril,56,56,60.9,2026-10-20,Heap,2.4
+Anduril,56,56,60.9,2026-10-20,Shortest Paths,2.0
+Anduril,56,56,60.9,2026-10-20,Trie,1.8
+Anduril,56,56,60.9,2026-10-20,Binary Search Trees,1.7
+Anduril,56,56,60.9,2026-10-20,Backtracking and Brute Force,1.4
+Anduril,56,56,60.9,2026-10-20,Bit Manipulation,1.3
+Anduril,56,56,60.9,2026-10-20,Sorting,1.0
+Anduril,56,56,60.9,2026-10-20,Intervals,1.0
+Anduril,56,56,60.9,2026-10-20,Strongly Connected Components and Bridges,0.6
+Anduril,56,56,60.9,2026-10-20,Prefix Sums,0.5
+Aon,3,,,2026-10-20,,
+Apollo.io,2,,,2026-10-20,,
+AppDynamics,2,,,2026-10-20,,
+AppFolio,3,,,2026-10-20,,
+Apple,282,273,69.2,2026-10-20,Two Pointers,9.2
+Apple,282,273,69.2,2026-10-20,Arrays and Hashing,8.1
+Apple,282,273,69.2,2026-10-20,Data Structure Design,7.3
+Apple,282,273,69.2,2026-10-20,Binary Search,6.6
+Apple,282,273,69.2,2026-10-20,Graph Traversal,6.3
+Apple,282,273,69.2,2026-10-20,Tree Traversal,5.7
+Apple,282,273,69.2,2026-10-20,Simulation and Implementation,5.4
+Apple,282,273,69.2,2026-10-20,Strings,5.3
+Apple,282,273,69.2,2026-10-20,Linked List,5.1
+Apple,282,273,69.2,2026-10-20,Greedy,4.9
+Apple,282,273,69.2,2026-10-20,Heap,4.2
+Apple,282,273,69.2,2026-10-20,Stack,4.1
+Apple,282,273,69.2,2026-10-20,Backtracking and Brute Force,4.0
+Apple,282,273,69.2,2026-10-20,2-D Dynamic Programming,3.2
+Apple,282,273,69.2,2026-10-20,Sliding Window,3.0
+Apple,282,273,69.2,2026-10-20,Bit Manipulation,2.7
+Apple,282,273,69.2,2026-10-20,1-D Dynamic Programming,2.5
+Apple,282,273,69.2,2026-10-20,Math,2.1
+Apple,282,273,69.2,2026-10-20,Sorting,1.7
+Apple,282,273,69.2,2026-10-20,Prefix Sums,1.6
+Apple,282,273,69.2,2026-10-20,Intervals,1.1
+Apple,282,273,69.2,2026-10-20,Monotonic Stack and Queue,0.8
+Apple,282,273,69.2,2026-10-20,Trie,0.8
+Apple,282,273,69.2,2026-10-20,Topological Sort,0.8
+Apple,282,273,69.2,2026-10-20,Binary Search Trees,0.5
+Apple,282,273,69.2,2026-10-20,Shortest Paths,0.5
+Apple,282,273,69.2,2026-10-20,Interactive Problems,0.5
+Apple,282,273,69.2,2026-10-20,Number Theory,0.4
+Apple,282,273,69.2,2026-10-20,Union-Find,0.3
+Apple,282,273,69.2,2026-10-20,Geometry,0.2
+Apple,282,273,69.2,2026-10-20,Divide and Conquer,0.2
+Apple,282,273,69.2,2026-10-20,Segment Tree and Fenwick Tree,0.2
+Apple,282,273,69.2,2026-10-20,Lowest Common Ancestor and Tree Queries,0.2
+Apple,282,273,69.2,2026-10-20,Minimum Spanning Tree,0.1
+Apple,282,273,69.2,2026-10-20,Game Theory,0.1
+Apple,282,273,69.2,2026-10-20,String Hashing,0.1
+Apple,282,273,69.2,2026-10-20,String Matching,0.1
+Apple,282,273,69.2,2026-10-20,JavaScript,0.1
+Applied Intuition,10,,,2026-10-20,,
+AQR Capital Management,3,,,2026-10-20,,
+Arcesium,14,,,2026-10-20,,
+Arista Networks,37,37,72.1,2026-10-20,Linked List,19.8
+Arista Networks,37,37,72.1,2026-10-20,Backtracking and Brute Force,9.8
+Arista Networks,37,37,72.1,2026-10-20,Arrays and Hashing,8.7
+Arista Networks,37,37,72.1,2026-10-20,Binary Search,7.7
+Arista Networks,37,37,72.1,2026-10-20,Sliding Window,6.1
+Arista Networks,37,37,72.1,2026-10-20,Tree Traversal,5.8
+Arista Networks,37,37,72.1,2026-10-20,Data Structure Design,5.8
+Arista Networks,37,37,72.1,2026-10-20,Stack,4.8
+Arista Networks,37,37,72.1,2026-10-20,Math,4.4
+Arista Networks,37,37,72.1,2026-10-20,Two Pointers,4.0
+Arista Networks,37,37,72.1,2026-10-20,Strings,3.7
+Arista Networks,37,37,72.1,2026-10-20,1-D Dynamic Programming,3.5
+Arista Networks,37,37,72.1,2026-10-20,Heap,3.1
+Arista Networks,37,37,72.1,2026-10-20,Greedy,3.1
+Arista Networks,37,37,72.1,2026-10-20,2-D Dynamic Programming,2.3
+Arista Networks,37,37,72.1,2026-10-20,Binary Search Trees,1.6
+Arista Networks,37,37,72.1,2026-10-20,Bit Manipulation,1.6
+Arista Networks,37,37,72.1,2026-10-20,Graph Traversal,1.5
+Arista Networks,37,37,72.1,2026-10-20,Topological Sort,1.5
+Arista Networks,37,37,72.1,2026-10-20,Simulation and Implementation,1.2
+Asana,5,,,2026-10-20,,
+athenahealth,5,,,2026-10-20,,
+Atlassian,57,54,33.5,2026-10-20,Greedy,11.4
+Atlassian,57,54,33.5,2026-10-20,Data Structure Design,10.5
+Atlassian,57,54,33.5,2026-10-20,Arrays and Hashing,8.8
+Atlassian,57,54,33.5,2026-10-20,Tree Traversal,6.2
+Atlassian,57,54,33.5,2026-10-20,Heap,6.0
+Atlassian,57,54,33.5,2026-10-20,Strings,5.4
+Atlassian,57,54,33.5,2026-10-20,Shortest Paths,4.8
+Atlassian,57,54,33.5,2026-10-20,Backtracking and Brute Force,4.5
+Atlassian,57,54,33.5,2026-10-20,Binary Search,4.4
+Atlassian,57,54,33.5,2026-10-20,Prefix Sums,4.1
+Atlassian,57,54,33.5,2026-10-20,Two Pointers,3.8
+Atlassian,57,54,33.5,2026-10-20,Sorting,3.6
+Atlassian,57,54,33.5,2026-10-20,Sliding Window,3.5
+Atlassian,57,54,33.5,2026-10-20,Simulation and Implementation,3.4
+Atlassian,57,54,33.5,2026-10-20,Linked List,3.3
+Atlassian,57,54,33.5,2026-10-20,Graph Traversal,3.3
+Atlassian,57,54,33.5,2026-10-20,Union-Find,2.7
+Atlassian,57,54,33.5,2026-10-20,Lowest Common Ancestor and Tree Queries,2.2
+Atlassian,57,54,33.5,2026-10-20,Trie,1.7
+Atlassian,57,54,33.5,2026-10-20,1-D Dynamic Programming,1.6
+Atlassian,57,54,33.5,2026-10-20,Bit Manipulation,1.6
+Atlassian,57,54,33.5,2026-10-20,Intervals,1.5
+Atlassian,57,54,33.5,2026-10-20,Binary Search Trees,0.6
+Atlassian,57,54,33.5,2026-10-20,Number Theory,0.6
+Atlassian,57,54,33.5,2026-10-20,Combinatorics,0.6
+Attentive,4,,,2026-10-20,,
+Audible,6,,,2026-10-20,,
+Aurora,10,,,2026-10-20,,
+Autodesk,32,32,65.2,2026-10-20,Simulation and Implementation,10.8
+Autodesk,32,32,65.2,2026-10-20,Binary Search,9.3
+Autodesk,32,32,65.2,2026-10-20,Arrays and Hashing,8.3
+Autodesk,32,32,65.2,2026-10-20,Two Pointers,7.5
+Autodesk,32,32,65.2,2026-10-20,String Hashing,7.1
+Autodesk,32,32,65.2,2026-10-20,String Matching,7.1
+Autodesk,32,32,65.2,2026-10-20,1-D Dynamic Programming,6.5
+Autodesk,32,32,65.2,2026-10-20,Strings,6.5
+Autodesk,32,32,65.2,2026-10-20,Linked List,5.6
+Autodesk,32,32,65.2,2026-10-20,Math,5.2
+Autodesk,32,32,65.2,2026-10-20,Sorting,4.4
+Autodesk,32,32,65.2,2026-10-20,Data Structure Design,4.3
+Autodesk,32,32,65.2,2026-10-20,Stack,3.6
+Autodesk,32,32,65.2,2026-10-20,Trie,2.8
+Autodesk,32,32,65.2,2026-10-20,Heap,2.6
+Autodesk,32,32,65.2,2026-10-20,Graph Traversal,2.6
+Autodesk,32,32,65.2,2026-10-20,Segment Tree and Fenwick Tree,2.1
+Autodesk,32,32,65.2,2026-10-20,Intervals,1.3
+Autodesk,32,32,65.2,2026-10-20,Greedy,1.3
+Autodesk,32,32,65.2,2026-10-20,2-D Dynamic Programming,1.0
+Avalara,1,,,2026-10-20,,
+Avito,8,,,2026-10-20,,
+Axon,8,,,2026-10-20,,
+Baidu,10,,,2026-10-20,,
+Bank of America,3,,,2026-10-20,,
+Barclays,19,,,2026-10-20,,
+BitGo,13,,,2026-10-20,,
+BlackRock,10,,,2026-10-20,,
+BlackStone,2,,,2026-10-20,,
+blinkit,3,,,2026-10-20,,
+Bloomberg,1239,1100,53.2,2026-10-20,Arrays and Hashing,7.7
+Bloomberg,1239,1100,53.2,2026-10-20,Two Pointers,7.6
+Bloomberg,1239,1100,53.2,2026-10-20,Binary Search,7.0
+Bloomberg,1239,1100,53.2,2026-10-20,Tree Traversal,6.3
+Bloomberg,1239,1100,53.2,2026-10-20,Greedy,6.0
+Bloomberg,1239,1100,53.2,2026-10-20,Math,5.2
+Bloomberg,1239,1100,53.2,2026-10-20,Strings,4.9
+Bloomberg,1239,1100,53.2,2026-10-20,Simulation and Implementation,4.5
+Bloomberg,1239,1100,53.2,2026-10-20,Graph Traversal,4.4
+Bloomberg,1239,1100,53.2,2026-10-20,Linked List,4.3
+Bloomberg,1239,1100,53.2,2026-10-20,Sliding Window,4.1
+Bloomberg,1239,1100,53.2,2026-10-20,Stack,4.0
+Bloomberg,1239,1100,53.2,2026-10-20,Backtracking and Brute Force,4.0
+Bloomberg,1239,1100,53.2,2026-10-20,Sorting,3.5
+Bloomberg,1239,1100,53.2,2026-10-20,Bit Manipulation,3.5
+Bloomberg,1239,1100,53.2,2026-10-20,Prefix Sums,2.9
+Bloomberg,1239,1100,53.2,2026-10-20,1-D Dynamic Programming,2.9
+Bloomberg,1239,1100,53.2,2026-10-20,Data Structure Design,2.9
+Bloomberg,1239,1100,53.2,2026-10-20,Heap,2.3
+Bloomberg,1239,1100,53.2,2026-10-20,2-D Dynamic Programming,2.2
+Bloomberg,1239,1100,53.2,2026-10-20,Monotonic Stack and Queue,1.6
+Bloomberg,1239,1100,53.2,2026-10-20,Binary Search Trees,0.9
+Bloomberg,1239,1100,53.2,2026-10-20,Union-Find,0.9
+Bloomberg,1239,1100,53.2,2026-10-20,Number Theory,0.8
+Bloomberg,1239,1100,53.2,2026-10-20,Trie,0.7
+Bloomberg,1239,1100,53.2,2026-10-20,Geometry,0.6
+Bloomberg,1239,1100,53.2,2026-10-20,Intervals,0.5
+Bloomberg,1239,1100,53.2,2026-10-20,Divide and Conquer,0.5
+Bloomberg,1239,1100,53.2,2026-10-20,String Matching,0.5
+Bloomberg,1239,1100,53.2,2026-10-20,JavaScript,0.5
+Bloomberg,1239,1100,53.2,2026-10-20,Shortest Paths,0.4
+Bloomberg,1239,1100,53.2,2026-10-20,Topological Sort,0.3
+Bloomberg,1239,1100,53.2,2026-10-20,Game Theory,0.3
+Bloomberg,1239,1100,53.2,2026-10-20,Segment Tree and Fenwick Tree,0.3
+Bloomberg,1239,1100,53.2,2026-10-20,Interactive Problems,0.3
+Bloomberg,1239,1100,53.2,2026-10-20,Combinatorics,0.1
+Bloomberg,1239,1100,53.2,2026-10-20,Tree DP,0.1
+Bloomberg,1239,1100,53.2,2026-10-20,Lowest Common Ancestor and Tree Queries,0.1
+Bloomberg,1239,1100,53.2,2026-10-20,String Hashing,0.1
+BNY Mellon,18,,,2026-10-20,,
+Bolt,5,,,2026-10-20,,
+Booking.com,17,,,2026-10-20,,
+Bosch,1,,,2026-10-20,,
+Box,7,,,2026-10-20,,
+Braze,1,,,2026-10-20,,
+Bridgewater Associates,2,,,2026-10-20,,
+ByteDance,59,58,85.2,2026-10-20,Graph Traversal,13.3
+ByteDance,59,58,85.2,2026-10-20,Linked List,8.7
+ByteDance,59,58,85.2,2026-10-20,2-D Dynamic Programming,6.8
+ByteDance,59,58,85.2,2026-10-20,Tree Traversal,6.2
+ByteDance,59,58,85.2,2026-10-20,Binary Search,6.1
+ByteDance,59,58,85.2,2026-10-20,1-D Dynamic Programming,5.7
+ByteDance,59,58,85.2,2026-10-20,Backtracking and Brute Force,5.2
+ByteDance,59,58,85.2,2026-10-20,Greedy,4.8
+ByteDance,59,58,85.2,2026-10-20,Stack,4.4
+ByteDance,59,58,85.2,2026-10-20,Strings,4.3
+ByteDance,59,58,85.2,2026-10-20,Sliding Window,4.0
+ByteDance,59,58,85.2,2026-10-20,Monotonic Stack and Queue,3.9
+ByteDance,59,58,85.2,2026-10-20,Sorting,3.8
+ByteDance,59,58,85.2,2026-10-20,Simulation and Implementation,3.5
+ByteDance,59,58,85.2,2026-10-20,Arrays and Hashing,3.4
+ByteDance,59,58,85.2,2026-10-20,Data Structure Design,3.2
+ByteDance,59,58,85.2,2026-10-20,Two Pointers,3.0
+ByteDance,59,58,85.2,2026-10-20,Heap,1.6
+ByteDance,59,58,85.2,2026-10-20,Prefix Sums,1.5
+ByteDance,59,58,85.2,2026-10-20,Binary Search Trees,1.5
+ByteDance,59,58,85.2,2026-10-20,Trie,1.5
+ByteDance,59,58,85.2,2026-10-20,Intervals,1.1
+ByteDance,59,58,85.2,2026-10-20,Topological Sort,1.1
+ByteDance,59,58,85.2,2026-10-20,Math,0.9
+ByteDance,59,58,85.2,2026-10-20,Union-Find,0.7
+Cadence,4,,,2026-10-20,,
+Canonical,2,,,2026-10-20,,
+Capgemini,33,31,89.7,2026-10-20,Two Pointers,22.2
+Capgemini,33,31,89.7,2026-10-20,Arrays and Hashing,17.0
+Capgemini,33,31,89.7,2026-10-20,Strings,11.1
+Capgemini,33,31,89.7,2026-10-20,Linked List,8.8
+Capgemini,33,31,89.7,2026-10-20,Math,8.3
+Capgemini,33,31,89.7,2026-10-20,Binary Search,7.9
+Capgemini,33,31,89.7,2026-10-20,Sliding Window,6.9
+Capgemini,33,31,89.7,2026-10-20,Simulation and Implementation,4.7
+Capgemini,33,31,89.7,2026-10-20,Sorting,3.0
+Capgemini,33,31,89.7,2026-10-20,Greedy,2.8
+Capgemini,33,31,89.7,2026-10-20,JavaScript,2.8
+Capgemini,33,31,89.7,2026-10-20,Prefix Sums,1.6
+Capgemini,33,31,89.7,2026-10-20,Monotonic Stack and Queue,1.4
+Capgemini,33,31,89.7,2026-10-20,Bit Manipulation,1.4
+Capital One,61,59,35.4,2026-10-20,Simulation and Implementation,16.9
+Capital One,61,59,35.4,2026-10-20,Strings,8.4
+Capital One,61,59,35.4,2026-10-20,Arrays and Hashing,7.9
+Capital One,61,59,35.4,2026-10-20,Graph Traversal,7.8
+Capital One,61,59,35.4,2026-10-20,Sliding Window,6.4
+Capital One,61,59,35.4,2026-10-20,Math,6.0
+Capital One,61,59,35.4,2026-10-20,Two Pointers,5.6
+Capital One,61,59,35.4,2026-10-20,Data Structure Design,5.1
+Capital One,61,59,35.4,2026-10-20,Prefix Sums,4.4
+Capital One,61,59,35.4,2026-10-20,Trie,4.2
+Capital One,61,59,35.4,2026-10-20,Binary Search,3.9
+Capital One,61,59,35.4,2026-10-20,Monotonic Stack and Queue,2.7
+Capital One,61,59,35.4,2026-10-20,Backtracking and Brute Force,2.3
+Capital One,61,59,35.4,2026-10-20,Segment Tree and Fenwick Tree,2.1
+Capital One,61,59,35.4,2026-10-20,Sorting,2.0
+Capital One,61,59,35.4,2026-10-20,Number Theory,2.0
+Capital One,61,59,35.4,2026-10-20,Linked List,1.9
+Capital One,61,59,35.4,2026-10-20,String Hashing,1.9
+Capital One,61,59,35.4,2026-10-20,String Matching,1.9
+Capital One,61,59,35.4,2026-10-20,Intervals,1.4
+Capital One,61,59,35.4,2026-10-20,Greedy,1.4
+Capital One,61,59,35.4,2026-10-20,Heap,1.3
+Capital One,61,59,35.4,2026-10-20,Stack,1.1
+Capital One,61,59,35.4,2026-10-20,Tree Traversal,0.9
+Capital One,61,59,35.4,2026-10-20,2-D Dynamic Programming,0.4
+Careem,4,,,2026-10-20,,
+CARS24,2,,,2026-10-20,,
+carwale,3,,,2026-10-20,,
+Cashfree,6,,,2026-10-20,,
+Chewy,5,,,2026-10-20,,
+Chime,3,,,2026-10-20,,
+ciena,3,,,2026-10-20,,
+Cisco,77,75,70.6,2026-10-20,Two Pointers,9.1
+Cisco,77,75,70.6,2026-10-20,Math,8.0
+Cisco,77,75,70.6,2026-10-20,Arrays and Hashing,7.2
+Cisco,77,75,70.6,2026-10-20,Simulation and Implementation,7.0
+Cisco,77,75,70.6,2026-10-20,Sliding Window,6.8
+Cisco,77,75,70.6,2026-10-20,Strings,6.1
+Cisco,77,75,70.6,2026-10-20,Binary Search,5.5
+Cisco,77,75,70.6,2026-10-20,Linked List,5.4
+Cisco,77,75,70.6,2026-10-20,Graph Traversal,4.6
+Cisco,77,75,70.6,2026-10-20,2-D Dynamic Programming,4.4
+Cisco,77,75,70.6,2026-10-20,Tree Traversal,4.1
+Cisco,77,75,70.6,2026-10-20,Data Structure Design,3.5
+Cisco,77,75,70.6,2026-10-20,Backtracking and Brute Force,3.3
+Cisco,77,75,70.6,2026-10-20,Stack,3.1
+Cisco,77,75,70.6,2026-10-20,1-D Dynamic Programming,3.1
+Cisco,77,75,70.6,2026-10-20,Greedy,2.6
+Cisco,77,75,70.6,2026-10-20,Sorting,2.1
+Cisco,77,75,70.6,2026-10-20,Shortest Paths,2.0
+Cisco,77,75,70.6,2026-10-20,Topological Sort,1.8
+Cisco,77,75,70.6,2026-10-20,Geometry,1.7
+Cisco,77,75,70.6,2026-10-20,Monotonic Stack and Queue,1.5
+Cisco,77,75,70.6,2026-10-20,Prefix Sums,1.4
+Cisco,77,75,70.6,2026-10-20,Trie,1.4
+Cisco,77,75,70.6,2026-10-20,Heap,1.2
+Cisco,77,75,70.6,2026-10-20,Game Theory,1.2
+Cisco,77,75,70.6,2026-10-20,Intervals,0.9
+Cisco,77,75,70.6,2026-10-20,Union-Find,0.6
+Cisco,77,75,70.6,2026-10-20,JavaScript,0.3
+Citadel,75,68,59.5,2026-10-20,Data Structure Design,12.8
+Citadel,75,68,59.5,2026-10-20,Binary Search,9.2
+Citadel,75,68,59.5,2026-10-20,Graph Traversal,7.4
+Citadel,75,68,59.5,2026-10-20,Two Pointers,6.8
+Citadel,75,68,59.5,2026-10-20,Arrays and Hashing,5.5
+Citadel,75,68,59.5,2026-10-20,Sliding Window,5.4
+Citadel,75,68,59.5,2026-10-20,Heap,5.0
+Citadel,75,68,59.5,2026-10-20,Backtracking and Brute Force,4.2
+Citadel,75,68,59.5,2026-10-20,Greedy,4.1
+Citadel,75,68,59.5,2026-10-20,Tree Traversal,4.0
+Citadel,75,68,59.5,2026-10-20,Strings,3.8
+Citadel,75,68,59.5,2026-10-20,Simulation and Implementation,3.8
+Citadel,75,68,59.5,2026-10-20,Topological Sort,3.7
+Citadel,75,68,59.5,2026-10-20,1-D Dynamic Programming,3.1
+Citadel,75,68,59.5,2026-10-20,Stack,2.3
+Citadel,75,68,59.5,2026-10-20,Linked List,2.1
+Citadel,75,68,59.5,2026-10-20,Trie,2.1
+Citadel,75,68,59.5,2026-10-20,Geometry,2.1
+Citadel,75,68,59.5,2026-10-20,Union-Find,2.0
+Citadel,75,68,59.5,2026-10-20,Monotonic Stack and Queue,1.8
+Citadel,75,68,59.5,2026-10-20,Intervals,1.8
+Citadel,75,68,59.5,2026-10-20,Math,1.6
+Citadel,75,68,59.5,2026-10-20,Number Theory,1.1
+Citadel,75,68,59.5,2026-10-20,Sorting,1.0
+Citadel,75,68,59.5,2026-10-20,Prefix Sums,0.8
+Citadel,75,68,59.5,2026-10-20,Bit Manipulation,0.7
+Citadel,75,68,59.5,2026-10-20,String Hashing,0.6
+Citadel,75,68,59.5,2026-10-20,Binary Search Trees,0.5
+Citadel,75,68,59.5,2026-10-20,2-D Dynamic Programming,0.4
+Citigroup,7,,,2026-10-20,,
+Citrix,4,,,2026-10-20,,
+Clari,3,,,2026-10-20,,
+Cleartrip,1,,,2026-10-20,,
+Cloudera,2,,,2026-10-20,,
+Cloudflare,11,,,2026-10-20,,
+CME Group,2,,,2026-10-20,,
+Cognizant,51,36,76.2,2026-10-20,Two Pointers,23.2
+Cognizant,51,36,76.2,2026-10-20,Arrays and Hashing,16.2
+Cognizant,51,36,76.2,2026-10-20,Math,14.2
+Cognizant,51,36,76.2,2026-10-20,Sorting,9.0
+Cognizant,51,36,76.2,2026-10-20,Strings,7.5
+Cognizant,51,36,76.2,2026-10-20,Sliding Window,7.3
+Cognizant,51,36,76.2,2026-10-20,Prefix Sums,3.6
+Cognizant,51,36,76.2,2026-10-20,Stack,3.3
+Cognizant,51,36,76.2,2026-10-20,Binary Search,3.1
+Cognizant,51,36,76.2,2026-10-20,Greedy,2.9
+Cognizant,51,36,76.2,2026-10-20,1-D Dynamic Programming,2.6
+Cognizant,51,36,76.2,2026-10-20,Bit Manipulation,2.6
+Cognizant,51,36,76.2,2026-10-20,Graph Traversal,2.2
+Cognizant,51,36,76.2,2026-10-20,2-D Dynamic Programming,1.3
+Cognizant,51,36,76.2,2026-10-20,Linked List,1.1
+Cohesity,5,,,2026-10-20,,
+Coinbase,11,,,2026-10-20,,
+Comcast,6,,,2026-10-20,,
+Commvault,3,,,2026-10-20,,
+Compass,7,,,2026-10-20,,
+Confluent,9,,,2026-10-20,,
+Coupang,48,48,64.3,2026-10-20,Binary Search,10.1
+Coupang,48,48,64.3,2026-10-20,Graph Traversal,9.2
+Coupang,48,48,64.3,2026-10-20,Data Structure Design,9.2
+Coupang,48,48,64.3,2026-10-20,Sliding Window,6.2
+Coupang,48,48,64.3,2026-10-20,Prefix Sums,5.6
+Coupang,48,48,64.3,2026-10-20,Heap,5.2
+Coupang,48,48,64.3,2026-10-20,Greedy,5.2
+Coupang,48,48,64.3,2026-10-20,Backtracking and Brute Force,4.6
+Coupang,48,48,64.3,2026-10-20,Monotonic Stack and Queue,4.5
+Coupang,48,48,64.3,2026-10-20,Arrays and Hashing,3.8
+Coupang,48,48,64.3,2026-10-20,1-D Dynamic Programming,3.7
+Coupang,48,48,64.3,2026-10-20,Two Pointers,3.6
+Coupang,48,48,64.3,2026-10-20,2-D Dynamic Programming,3.4
+Coupang,48,48,64.3,2026-10-20,Stack,3.1
+Coupang,48,48,64.3,2026-10-20,Strings,3.1
+Coupang,48,48,64.3,2026-10-20,Linked List,2.9
+Coupang,48,48,64.3,2026-10-20,Bit Manipulation,2.6
+Coupang,48,48,64.3,2026-10-20,Topological Sort,2.3
+Coupang,48,48,64.3,2026-10-20,Sorting,2.0
+Coupang,48,48,64.3,2026-10-20,Tree Traversal,1.4
+Coupang,48,48,64.3,2026-10-20,Binary Search Trees,1.4
+Coupang,48,48,64.3,2026-10-20,Segment Tree and Fenwick Tree,1.4
+Coupang,48,48,64.3,2026-10-20,Intervals,1.1
+Coupang,48,48,64.3,2026-10-20,String Hashing,1.1
+Coupang,48,48,64.3,2026-10-20,Suffix Structures,1.1
+Coupang,48,48,64.3,2026-10-20,Trie,1.0
+Coupang,48,48,64.3,2026-10-20,Union-Find,1.0
+Coupang,48,48,64.3,2026-10-20,String Matching,0.4
+Coursera,9,,,2026-10-20,,
+CRED,2,,,2026-10-20,,
+Criteo,10,,,2026-10-20,,
+CrowdStrike,12,,,2026-10-20,,
+Cruise,2,,,2026-10-20,,
+CureFit,1,,,2026-10-20,,
+CVENT,1,,,2026-10-20,,
+Darwinbox,4,,,2026-10-20,,
+Databricks,25,25,39.3,2026-10-20,Data Structure Design,20.5
+Databricks,25,25,39.3,2026-10-20,Graph Traversal,11.3
+Databricks,25,25,39.3,2026-10-20,1-D Dynamic Programming,10.1
+Databricks,25,25,39.3,2026-10-20,Bit Manipulation,8.0
+Databricks,25,25,39.3,2026-10-20,Binary Search,7.7
+Databricks,25,25,39.3,2026-10-20,Arrays and Hashing,6.9
+Databricks,25,25,39.3,2026-10-20,Tree Traversal,6.7
+Databricks,25,25,39.3,2026-10-20,Simulation and Implementation,5.4
+Databricks,25,25,39.3,2026-10-20,Sliding Window,4.5
+Databricks,25,25,39.3,2026-10-20,Shortest Paths,4.3
+Databricks,25,25,39.3,2026-10-20,Greedy,4.0
+Databricks,25,25,39.3,2026-10-20,Lowest Common Ancestor and Tree Queries,2.7
+Databricks,25,25,39.3,2026-10-20,Strings,2.4
+Databricks,25,25,39.3,2026-10-20,Backtracking and Brute Force,1.7
+Databricks,25,25,39.3,2026-10-20,Segment Tree and Fenwick Tree,1.4
+Databricks,25,25,39.3,2026-10-20,Sorting,1.2
+Databricks,25,25,39.3,2026-10-20,Intervals,1.2
+Datadog,13,,,2026-10-20,,
+Dataminr,2,,,2026-10-20,,
+DE Shaw,107,103,38.8,2026-10-20,Greedy,12.6
+DE Shaw,107,103,38.8,2026-10-20,Binary Search,8.8
+DE Shaw,107,103,38.8,2026-10-20,Two Pointers,8.5
+DE Shaw,107,103,38.8,2026-10-20,Sliding Window,5.7
+DE Shaw,107,103,38.8,2026-10-20,Prefix Sums,5.6
+DE Shaw,107,103,38.8,2026-10-20,Heap,5.5
+DE Shaw,107,103,38.8,2026-10-20,Stack,5.1
+DE Shaw,107,103,38.8,2026-10-20,Arrays and Hashing,4.7
+DE Shaw,107,103,38.8,2026-10-20,Graph Traversal,4.6
+DE Shaw,107,103,38.8,2026-10-20,Simulation and Implementation,3.9
+DE Shaw,107,103,38.8,2026-10-20,1-D Dynamic Programming,3.7
+DE Shaw,107,103,38.8,2026-10-20,Tree Traversal,3.1
+DE Shaw,107,103,38.8,2026-10-20,Bit Manipulation,3.0
+DE Shaw,107,103,38.8,2026-10-20,Monotonic Stack and Queue,2.7
+DE Shaw,107,103,38.8,2026-10-20,Data Structure Design,2.3
+DE Shaw,107,103,38.8,2026-10-20,Backtracking and Brute Force,2.1
+DE Shaw,107,103,38.8,2026-10-20,Sorting,2.0
+DE Shaw,107,103,38.8,2026-10-20,2-D Dynamic Programming,1.6
+DE Shaw,107,103,38.8,2026-10-20,Math,1.6
+DE Shaw,107,103,38.8,2026-10-20,Combinatorics,1.6
+DE Shaw,107,103,38.8,2026-10-20,Union-Find,1.4
+DE Shaw,107,103,38.8,2026-10-20,Game Theory,1.4
+DE Shaw,107,103,38.8,2026-10-20,Tree DP,1.4
+DE Shaw,107,103,38.8,2026-10-20,Strings,1.2
+DE Shaw,107,103,38.8,2026-10-20,Topological Sort,1.1
+DE Shaw,107,103,38.8,2026-10-20,Trie,0.9
+DE Shaw,107,103,38.8,2026-10-20,Linked List,0.8
+DE Shaw,107,103,38.8,2026-10-20,Divide and Conquer,0.6
+DE Shaw,107,103,38.8,2026-10-20,String Hashing,0.6
+DE Shaw,107,103,38.8,2026-10-20,String Matching,0.6
+DE Shaw,107,103,38.8,2026-10-20,Binary Search Trees,0.4
+DE Shaw,107,103,38.8,2026-10-20,Segment Tree and Fenwick Tree,0.4
+DE Shaw,107,103,38.8,2026-10-20,Bipartite Matching,0.4
+DE Shaw,107,103,38.8,2026-10-20,Number Theory,0.3
+Delhivery,3,,,2026-10-20,,
+Deliveroo,3,,,2026-10-20,,
+Dell,14,,,2026-10-20,,
+Deloitte,40,34,82.3,2026-10-20,Two Pointers,16.3
+Deloitte,40,34,82.3,2026-10-20,Arrays and Hashing,15.9
+Deloitte,40,34,82.3,2026-10-20,Strings,11.1
+Deloitte,40,34,82.3,2026-10-20,Stack,10.4
+Deloitte,40,34,82.3,2026-10-20,Sliding Window,7.5
+Deloitte,40,34,82.3,2026-10-20,Greedy,6.0
+Deloitte,40,34,82.3,2026-10-20,Math,5.8
+Deloitte,40,34,82.3,2026-10-20,Heap,4.8
+Deloitte,40,34,82.3,2026-10-20,1-D Dynamic Programming,4.3
+Deloitte,40,34,82.3,2026-10-20,Binary Search,4.1
+Deloitte,40,34,82.3,2026-10-20,Sorting,3.0
+Deloitte,40,34,82.3,2026-10-20,Linked List,2.4
+Deloitte,40,34,82.3,2026-10-20,Monotonic Stack and Queue,1.8
+Deloitte,40,34,82.3,2026-10-20,Intervals,1.6
+Deloitte,40,34,82.3,2026-10-20,Bit Manipulation,1.4
+Deloitte,40,34,82.3,2026-10-20,Prefix Sums,1.2
+Deloitte,40,34,82.3,2026-10-20,2-D Dynamic Programming,1.2
+Deloitte,40,34,82.3,2026-10-20,Simulation and Implementation,1.2
+DeltaX,1,,,2026-10-20,,
+Deutsche Bank,19,,,2026-10-20,,
+DevRev,5,,,2026-10-20,,
+Devsinc,1,,,2026-10-20,,
+Directi,8,,,2026-10-20,,
+Disney,9,,,2026-10-20,,
+Docusign,28,28,63.4,2026-10-20,Data Structure Design,13.0
+Docusign,28,28,63.4,2026-10-20,Linked List,9.8
+Docusign,28,28,63.4,2026-10-20,Graph Traversal,9.3
+Docusign,28,28,63.4,2026-10-20,Arrays and Hashing,7.4
+Docusign,28,28,63.4,2026-10-20,Binary Search,6.1
+Docusign,28,28,63.4,2026-10-20,Prefix Sums,5.8
+Docusign,28,28,63.4,2026-10-20,Two Pointers,5.6
+Docusign,28,28,63.4,2026-10-20,Heap,5.6
+Docusign,28,28,63.4,2026-10-20,Greedy,4.8
+Docusign,28,28,63.4,2026-10-20,Trie,4.2
+Docusign,28,28,63.4,2026-10-20,1-D Dynamic Programming,4.1
+Docusign,28,28,63.4,2026-10-20,Sliding Window,4.0
+Docusign,28,28,63.4,2026-10-20,Stack,3.9
+Docusign,28,28,63.4,2026-10-20,Tree Traversal,3.1
+Docusign,28,28,63.4,2026-10-20,Simulation and Implementation,2.3
+Docusign,28,28,63.4,2026-10-20,Geometry,2.1
+Docusign,28,28,63.4,2026-10-20,Math,1.8
+Docusign,28,28,63.4,2026-10-20,Strings,1.8
+Docusign,28,28,63.4,2026-10-20,Monotonic Stack and Queue,1.6
+Docusign,28,28,63.4,2026-10-20,Union-Find,1.6
+Docusign,28,28,63.4,2026-10-20,Sorting,1.0
+Docusign,28,28,63.4,2026-10-20,Shortest Paths,1.0
+DoorDash,69,66,61.1,2026-10-20,Graph Traversal,16.7
+DoorDash,69,66,61.1,2026-10-20,Tree Traversal,7.9
+DoorDash,69,66,61.1,2026-10-20,Two Pointers,7.6
+DoorDash,69,66,61.1,2026-10-20,Binary Search,6.9
+DoorDash,69,66,61.1,2026-10-20,Strings,5.8
+DoorDash,69,66,61.1,2026-10-20,Stack,4.9
+DoorDash,69,66,61.1,2026-10-20,Arrays and Hashing,4.5
+DoorDash,69,66,61.1,2026-10-20,Trie,4.1
+DoorDash,69,66,61.1,2026-10-20,Data Structure Design,4.0
+DoorDash,69,66,61.1,2026-10-20,Monotonic Stack and Queue,3.9
+DoorDash,69,66,61.1,2026-10-20,Sorting,3.7
+DoorDash,69,66,61.1,2026-10-20,Greedy,3.5
+DoorDash,69,66,61.1,2026-10-20,Heap,3.4
+DoorDash,69,66,61.1,2026-10-20,Backtracking and Brute Force,3.2
+DoorDash,69,66,61.1,2026-10-20,2-D Dynamic Programming,3.1
+DoorDash,69,66,61.1,2026-10-20,Sliding Window,2.8
+DoorDash,69,66,61.1,2026-10-20,Union-Find,2.5
+DoorDash,69,66,61.1,2026-10-20,Linked List,2.0
+DoorDash,69,66,61.1,2026-10-20,Math,2.0
+DoorDash,69,66,61.1,2026-10-20,1-D Dynamic Programming,1.7
+DoorDash,69,66,61.1,2026-10-20,Intervals,1.5
+DoorDash,69,66,61.1,2026-10-20,Topological Sort,1.4
+DoorDash,69,66,61.1,2026-10-20,Prefix Sums,1.3
+DoorDash,69,66,61.1,2026-10-20,Tree DP,0.9
+DoorDash,69,66,61.1,2026-10-20,Shortest Paths,0.7
+DP world,11,,,2026-10-20,,
+Dream11,11,,,2026-10-20,,
+Dropbox,22,,,2026-10-20,,
+Druva,1,,,2026-10-20,,
+DRW,3,,,2026-10-20,,
+Dunzo,7,,,2026-10-20,,
+Duolingo,5,,,2026-10-20,,
+EarnIn,4,,,2026-10-20,,
+eBay,67,66,66.2,2026-10-20,Graph Traversal,14.2
+eBay,67,66,66.2,2026-10-20,Two Pointers,8.9
+eBay,67,66,66.2,2026-10-20,Arrays and Hashing,6.9
+eBay,67,66,66.2,2026-10-20,Backtracking and Brute Force,6.2
+eBay,67,66,66.2,2026-10-20,Binary Search,5.8
+eBay,67,66,66.2,2026-10-20,Sliding Window,5.4
+eBay,67,66,66.2,2026-10-20,Simulation and Implementation,5.0
+eBay,67,66,66.2,2026-10-20,Greedy,4.4
+eBay,67,66,66.2,2026-10-20,Data Structure Design,4.2
+eBay,67,66,66.2,2026-10-20,Math,3.9
+eBay,67,66,66.2,2026-10-20,Heap,3.7
+eBay,67,66,66.2,2026-10-20,2-D Dynamic Programming,3.7
+eBay,67,66,66.2,2026-10-20,Strings,3.5
+eBay,67,66,66.2,2026-10-20,Linked List,3.4
+eBay,67,66,66.2,2026-10-20,Stack,3.2
+eBay,67,66,66.2,2026-10-20,Tree Traversal,2.9
+eBay,67,66,66.2,2026-10-20,Sorting,2.3
+eBay,67,66,66.2,2026-10-20,1-D Dynamic Programming,2.1
+eBay,67,66,66.2,2026-10-20,Bit Manipulation,2.1
+eBay,67,66,66.2,2026-10-20,Segment Tree and Fenwick Tree,1.3
+eBay,67,66,66.2,2026-10-20,Topological Sort,1.2
+eBay,67,66,66.2,2026-10-20,String Matching,1.2
+eBay,67,66,66.2,2026-10-20,Intervals,1.0
+eBay,67,66,66.2,2026-10-20,Prefix Sums,0.9
+eBay,67,66,66.2,2026-10-20,Tree DP,0.8
+eBay,67,66,66.2,2026-10-20,Shortest Paths,0.6
+eBay,67,66,66.2,2026-10-20,Divide and Conquer,0.6
+eBay,67,66,66.2,2026-10-20,Monotonic Stack and Queue,0.4
+Edelweiss Group,1,,,2026-10-20,,
+EPAM Systems,52,50,83.5,2026-10-20,Two Pointers,20.2
+EPAM Systems,52,50,83.5,2026-10-20,Arrays and Hashing,15.5
+EPAM Systems,52,50,83.5,2026-10-20,Math,7.4
+EPAM Systems,52,50,83.5,2026-10-20,Strings,7.1
+EPAM Systems,52,50,83.5,2026-10-20,1-D Dynamic Programming,6.4
+EPAM Systems,52,50,83.5,2026-10-20,Sliding Window,6.2
+EPAM Systems,52,50,83.5,2026-10-20,Linked List,5.9
+EPAM Systems,52,50,83.5,2026-10-20,2-D Dynamic Programming,4.9
+EPAM Systems,52,50,83.5,2026-10-20,Sorting,3.3
+EPAM Systems,52,50,83.5,2026-10-20,Heap,2.8
+EPAM Systems,52,50,83.5,2026-10-20,Stack,2.6
+EPAM Systems,52,50,83.5,2026-10-20,Binary Search,2.3
+EPAM Systems,52,50,83.5,2026-10-20,Backtracking and Brute Force,1.9
+EPAM Systems,52,50,83.5,2026-10-20,Monotonic Stack and Queue,1.8
+EPAM Systems,52,50,83.5,2026-10-20,Tree Traversal,1.6
+EPAM Systems,52,50,83.5,2026-10-20,Greedy,1.6
+EPAM Systems,52,50,83.5,2026-10-20,JavaScript,1.6
+EPAM Systems,52,50,83.5,2026-10-20,Prefix Sums,1.5
+EPAM Systems,52,50,83.5,2026-10-20,Intervals,1.0
+EPAM Systems,52,50,83.5,2026-10-20,Data Structure Design,1.0
+EPAM Systems,52,50,83.5,2026-10-20,Divide and Conquer,1.0
+EPAM Systems,52,50,83.5,2026-10-20,Graph Traversal,0.8
+EPAM Systems,52,50,83.5,2026-10-20,String Hashing,0.8
+EPAM Systems,52,50,83.5,2026-10-20,String Matching,0.8
+Epic Systems,16,,,2026-10-20,,
+Expedia,68,67,46.1,2026-10-20,Greedy,13.6
+Expedia,68,67,46.1,2026-10-20,Strings,10.3
+Expedia,68,67,46.1,2026-10-20,Sliding Window,10.1
+Expedia,68,67,46.1,2026-10-20,Binary Search,7.1
+Expedia,68,67,46.1,2026-10-20,Arrays and Hashing,6.3
+Expedia,68,67,46.1,2026-10-20,Two Pointers,5.6
+Expedia,68,67,46.1,2026-10-20,Stack,5.5
+Expedia,68,67,46.1,2026-10-20,Graph Traversal,5.0
+Expedia,68,67,46.1,2026-10-20,Prefix Sums,4.1
+Expedia,68,67,46.1,2026-10-20,Simulation and Implementation,4.1
+Expedia,68,67,46.1,2026-10-20,Monotonic Stack and Queue,3.3
+Expedia,68,67,46.1,2026-10-20,1-D Dynamic Programming,2.9
+Expedia,68,67,46.1,2026-10-20,Heap,2.4
+Expedia,68,67,46.1,2026-10-20,Sorting,2.3
+Expedia,68,67,46.1,2026-10-20,Number Theory,2.1
+Expedia,68,67,46.1,2026-10-20,Union-Find,2.0
+Expedia,68,67,46.1,2026-10-20,Bit Manipulation,2.0
+Expedia,68,67,46.1,2026-10-20,String Hashing,2.0
+Expedia,68,67,46.1,2026-10-20,Tree Traversal,1.5
+Expedia,68,67,46.1,2026-10-20,Binary Search Trees,1.5
+Expedia,68,67,46.1,2026-10-20,Data Structure Design,1.5
+Expedia,68,67,46.1,2026-10-20,Intervals,1.3
+Expedia,68,67,46.1,2026-10-20,Backtracking and Brute Force,1.2
+Expedia,68,67,46.1,2026-10-20,Shortest Paths,1.2
+Expedia,68,67,46.1,2026-10-20,Linked List,1.1
+EY,3,,,2026-10-20,,
+FactSet,6,,,2026-10-20,,
+Faire,6,,,2026-10-20,,
+Fidelity,5,,,2026-10-20,,
+Fiverr,1,,,2026-10-20,,
+Flexera,2,,,2026-10-20,,
+Flexport,7,,,2026-10-20,,
+Flipkart,93,90,64.8,2026-10-20,Graph Traversal,11.9
+Flipkart,93,90,64.8,2026-10-20,Binary Search,9.4
+Flipkart,93,90,64.8,2026-10-20,Greedy,8.3
+Flipkart,93,90,64.8,2026-10-20,Stack,6.5
+Flipkart,93,90,64.8,2026-10-20,Two Pointers,6.0
+Flipkart,93,90,64.8,2026-10-20,Heap,5.9
+Flipkart,93,90,64.8,2026-10-20,Monotonic Stack and Queue,5.1
+Flipkart,93,90,64.8,2026-10-20,Arrays and Hashing,4.6
+Flipkart,93,90,64.8,2026-10-20,Tree Traversal,4.6
+Flipkart,93,90,64.8,2026-10-20,Simulation and Implementation,4.5
+Flipkart,93,90,64.8,2026-10-20,2-D Dynamic Programming,4.4
+Flipkart,93,90,64.8,2026-10-20,Data Structure Design,3.4
+Flipkart,93,90,64.8,2026-10-20,Sliding Window,2.5
+Flipkart,93,90,64.8,2026-10-20,Backtracking and Brute Force,2.3
+Flipkart,93,90,64.8,2026-10-20,Shortest Paths,2.1
+Flipkart,93,90,64.8,2026-10-20,Bit Manipulation,2.0
+Flipkart,93,90,64.8,2026-10-20,Prefix Sums,1.9
+Flipkart,93,90,64.8,2026-10-20,Sorting,1.9
+Flipkart,93,90,64.8,2026-10-20,Linked List,1.8
+Flipkart,93,90,64.8,2026-10-20,Intervals,1.6
+Flipkart,93,90,64.8,2026-10-20,Math,1.6
+Flipkart,93,90,64.8,2026-10-20,Topological Sort,1.4
+Flipkart,93,90,64.8,2026-10-20,1-D Dynamic Programming,1.3
+Flipkart,93,90,64.8,2026-10-20,Geometry,1.1
+Flipkart,93,90,64.8,2026-10-20,Binary Search Trees,0.9
+Flipkart,93,90,64.8,2026-10-20,Segment Tree and Fenwick Tree,0.6
+Flipkart,93,90,64.8,2026-10-20,Strongly Connected Components and Bridges,0.5
+Flipkart,93,90,64.8,2026-10-20,Trie,0.4
+Flipkart,93,90,64.8,2026-10-20,Union-Find,0.4
+Flipkart,93,90,64.8,2026-10-20,Strings,0.4
+Flipkart,93,90,64.8,2026-10-20,Tree DP,0.4
+Fortinet,4,,,2026-10-20,,
+fourkites,3,,,2026-10-20,,
+FPT,2,,,2026-10-20,,
+Freecharge,2,,,2026-10-20,,
+FreshWorks,10,,,2026-10-20,,
+Gameskraft,3,,,2026-10-20,,
+Garmin,4,,,2026-10-20,,
+GE Digital,3,,,2026-10-20,,
+GE Healthcare,3,,,2026-10-20,,
+Geico,16,,,2026-10-20,,
+General Motors,14,,,2026-10-20,,
+GoDaddy,6,,,2026-10-20,,
+Goldman Sachs,246,238,60.0,2026-10-20,Binary Search,8.7
+Goldman Sachs,246,238,60.0,2026-10-20,Two Pointers,7.8
+Goldman Sachs,246,238,60.0,2026-10-20,Greedy,7.6
+Goldman Sachs,246,238,60.0,2026-10-20,Arrays and Hashing,7.2
+Goldman Sachs,246,238,60.0,2026-10-20,Simulation and Implementation,6.2
+Goldman Sachs,246,238,60.0,2026-10-20,Strings,5.9
+Goldman Sachs,246,238,60.0,2026-10-20,Sliding Window,4.6
+Goldman Sachs,246,238,60.0,2026-10-20,Heap,4.4
+Goldman Sachs,246,238,60.0,2026-10-20,Graph Traversal,4.2
+Goldman Sachs,246,238,60.0,2026-10-20,Prefix Sums,3.9
+Goldman Sachs,246,238,60.0,2026-10-20,Math,3.7
+Goldman Sachs,246,238,60.0,2026-10-20,Backtracking and Brute Force,3.6
+Goldman Sachs,246,238,60.0,2026-10-20,1-D Dynamic Programming,3.6
+Goldman Sachs,246,238,60.0,2026-10-20,Stack,3.5
+Goldman Sachs,246,238,60.0,2026-10-20,Sorting,3.3
+Goldman Sachs,246,238,60.0,2026-10-20,Linked List,3.2
+Goldman Sachs,246,238,60.0,2026-10-20,Data Structure Design,3.1
+Goldman Sachs,246,238,60.0,2026-10-20,2-D Dynamic Programming,3.0
+Goldman Sachs,246,238,60.0,2026-10-20,Tree Traversal,2.8
+Goldman Sachs,246,238,60.0,2026-10-20,Monotonic Stack and Queue,2.7
+Goldman Sachs,246,238,60.0,2026-10-20,Bit Manipulation,2.0
+Goldman Sachs,246,238,60.0,2026-10-20,Intervals,1.0
+Goldman Sachs,246,238,60.0,2026-10-20,Union-Find,1.0
+Goldman Sachs,246,238,60.0,2026-10-20,Topological Sort,0.7
+Goldman Sachs,246,238,60.0,2026-10-20,Segment Tree and Fenwick Tree,0.6
+Goldman Sachs,246,238,60.0,2026-10-20,Tree DP,0.5
+Goldman Sachs,246,238,60.0,2026-10-20,Trie,0.3
+Goldman Sachs,246,238,60.0,2026-10-20,Shortest Paths,0.3
+Goldman Sachs,246,238,60.0,2026-10-20,Number Theory,0.3
+Goldman Sachs,246,238,60.0,2026-10-20,Divide and Conquer,0.2
+Goldman Sachs,246,238,60.0,2026-10-20,Binary Search Trees,0.1
+Goldman Sachs,246,238,60.0,2026-10-20,Lowest Common Ancestor and Tree Queries,0.1
+Goldman Sachs,246,238,60.0,2026-10-20,String Hashing,0.1
+Goldman Sachs,246,238,60.0,2026-10-20,String Matching,0.1
+Goldman Sachs,246,238,60.0,2026-10-20,Suffix Structures,0.1
+Google,2324,2080,37.6,2026-10-20,Binary Search,7.0
+Google,2324,2080,37.6,2026-10-20,Arrays and Hashing,6.7
+Google,2324,2080,37.6,2026-10-20,Two Pointers,6.6
+Google,2324,2080,37.6,2026-10-20,Greedy,6.6
+Google,2324,2080,37.6,2026-10-20,Tree Traversal,5.5
+Google,2324,2080,37.6,2026-10-20,Strings,5.2
+Google,2324,2080,37.6,2026-10-20,Math,4.9
+Google,2324,2080,37.6,2026-10-20,Graph Traversal,4.7
+Google,2324,2080,37.6,2026-10-20,Prefix Sums,4.1
+Google,2324,2080,37.6,2026-10-20,Bit Manipulation,4.1
+Google,2324,2080,37.6,2026-10-20,Simulation and Implementation,3.8
+Google,2324,2080,37.6,2026-10-20,Sliding Window,3.7
+Google,2324,2080,37.6,2026-10-20,Backtracking and Brute Force,3.5
+Google,2324,2080,37.6,2026-10-20,Stack,3.2
+Google,2324,2080,37.6,2026-10-20,Sorting,2.9
+Google,2324,2080,37.6,2026-10-20,Heap,2.9
+Google,2324,2080,37.6,2026-10-20,Data Structure Design,2.9
+Google,2324,2080,37.6,2026-10-20,Linked List,2.8
+Google,2324,2080,37.6,2026-10-20,1-D Dynamic Programming,2.4
+Google,2324,2080,37.6,2026-10-20,2-D Dynamic Programming,2.1
+Google,2324,2080,37.6,2026-10-20,Monotonic Stack and Queue,1.6
+Google,2324,2080,37.6,2026-10-20,Union-Find,1.5
+Google,2324,2080,37.6,2026-10-20,Geometry,1.3
+Google,2324,2080,37.6,2026-10-20,Number Theory,1.2
+Google,2324,2080,37.6,2026-10-20,Trie,0.9
+Google,2324,2080,37.6,2026-10-20,Topological Sort,0.9
+Google,2324,2080,37.6,2026-10-20,Shortest Paths,0.9
+Google,2324,2080,37.6,2026-10-20,Binary Search Trees,0.8
+Google,2324,2080,37.6,2026-10-20,Segment Tree and Fenwick Tree,0.8
+Google,2324,2080,37.6,2026-10-20,Divide and Conquer,0.6
+Google,2324,2080,37.6,2026-10-20,String Matching,0.6
+Google,2324,2080,37.6,2026-10-20,JavaScript,0.6
+Google,2324,2080,37.6,2026-10-20,Intervals,0.5
+Google,2324,2080,37.6,2026-10-20,Game Theory,0.5
+Google,2324,2080,37.6,2026-10-20,Combinatorics,0.4
+Google,2324,2080,37.6,2026-10-20,Tree DP,0.3
+Google,2324,2080,37.6,2026-10-20,Interactive Problems,0.3
+Google,2324,2080,37.6,2026-10-20,Probability and Expected Value,0.2
+Google,2324,2080,37.6,2026-10-20,String Hashing,0.2
+Google,2324,2080,37.6,2026-10-20,Minimum Spanning Tree,0.1
+Google,2324,2080,37.6,2026-10-20,Meet in the Middle,0.1
+Google,2324,2080,37.6,2026-10-20,Lowest Common Ancestor and Tree Queries,0.1
+Google,2324,2080,37.6,2026-10-20,Strongly Connected Components and Bridges,0.1
+Google,2324,2080,37.6,2026-10-20,Max Flow and Min Cut,0.1
+Grab,17,,,2026-10-20,,
+Grammarly,27,27,65.7,2026-10-20,Binary Search,14.5
+Grammarly,27,27,65.7,2026-10-20,Stack,12.4
+Grammarly,27,27,65.7,2026-10-20,Arrays and Hashing,9.8
+Grammarly,27,27,65.7,2026-10-20,Tree Traversal,7.6
+Grammarly,27,27,65.7,2026-10-20,1-D Dynamic Programming,7.4
+Grammarly,27,27,65.7,2026-10-20,Data Structure Design,7.4
+Grammarly,27,27,65.7,2026-10-20,Backtracking and Brute Force,7.2
+Grammarly,27,27,65.7,2026-10-20,Strings,3.9
+Grammarly,27,27,65.7,2026-10-20,Sorting,3.8
+Grammarly,27,27,65.7,2026-10-20,Intervals,3.8
+Grammarly,27,27,65.7,2026-10-20,Math,3.8
+Grammarly,27,27,65.7,2026-10-20,Graph Traversal,2.4
+Grammarly,27,27,65.7,2026-10-20,2-D Dynamic Programming,2.4
+Grammarly,27,27,65.7,2026-10-20,Simulation and Implementation,2.4
+Grammarly,27,27,65.7,2026-10-20,Heap,2.2
+Grammarly,27,27,65.7,2026-10-20,Sliding Window,2.1
+Grammarly,27,27,65.7,2026-10-20,Trie,1.4
+Grammarly,27,27,65.7,2026-10-20,Greedy,1.4
+Grammarly,27,27,65.7,2026-10-20,Bit Manipulation,1.4
+Grammarly,27,27,65.7,2026-10-20,Two Pointers,1.2
+Grammarly,27,27,65.7,2026-10-20,Monotonic Stack and Queue,1.2
+Groupon,2,,,2026-10-20,,
+Groww,7,,,2026-10-20,,
+Grubhub,2,,,2026-10-20,,
+GSA Capital,1,,,2026-10-20,,
+GSN Games,5,,,2026-10-20,,
+Guidewire,6,,,2026-10-20,,
+Gusto,5,,,2026-10-20,,
+Harness,6,,,2026-10-20,,
+HashedIn,28,27,65.2,2026-10-20,Binary Search,13.8
+HashedIn,28,27,65.2,2026-10-20,Greedy,12.6
+HashedIn,28,27,65.2,2026-10-20,Two Pointers,9.9
+HashedIn,28,27,65.2,2026-10-20,Sliding Window,9.1
+HashedIn,28,27,65.2,2026-10-20,Arrays and Hashing,8.2
+HashedIn,28,27,65.2,2026-10-20,Graph Traversal,6.7
+HashedIn,28,27,65.2,2026-10-20,1-D Dynamic Programming,6.7
+HashedIn,28,27,65.2,2026-10-20,Strings,6.3
+HashedIn,28,27,65.2,2026-10-20,Prefix Sums,5.0
+HashedIn,28,27,65.2,2026-10-20,Backtracking and Brute Force,5.0
+HashedIn,28,27,65.2,2026-10-20,2-D Dynamic Programming,4.6
+HashedIn,28,27,65.2,2026-10-20,Bit Manipulation,3.3
+HashedIn,28,27,65.2,2026-10-20,Monotonic Stack and Queue,1.9
+HashedIn,28,27,65.2,2026-10-20,Stack,1.7
+HashedIn,28,27,65.2,2026-10-20,Sorting,1.7
+HashedIn,28,27,65.2,2026-10-20,Game Theory,1.7
+HashedIn,28,27,65.2,2026-10-20,Segment Tree and Fenwick Tree,1.7
+HCL,17,,,2026-10-20,,
+HiLabs,1,,,2026-10-20,,
+Hive,6,,,2026-10-20,,
+Honeywell,3,,,2026-10-20,,
+Hotstar,2,,,2026-10-20,,
+Houzz,2,,,2026-10-20,,
+HP,5,,,2026-10-20,,
+HPE,3,,,2026-10-20,,
+HSBC,7,,,2026-10-20,,
+Huawei,13,,,2026-10-20,,
+Hubspot,10,,,2026-10-20,,
+Hudson River Trading,16,,,2026-10-20,,
+Hulu,5,,,2026-10-20,,
+IBM,166,158,50.5,2026-10-20,Two Pointers,11.3
+IBM,166,158,50.5,2026-10-20,Greedy,9.7
+IBM,166,158,50.5,2026-10-20,Arrays and Hashing,8.6
+IBM,166,158,50.5,2026-10-20,Strings,7.9
+IBM,166,158,50.5,2026-10-20,Binary Search,5.9
+IBM,166,158,50.5,2026-10-20,Sliding Window,5.8
+IBM,166,158,50.5,2026-10-20,Prefix Sums,5.7
+IBM,166,158,50.5,2026-10-20,Sorting,5.6
+IBM,166,158,50.5,2026-10-20,Simulation and Implementation,5.1
+IBM,166,158,50.5,2026-10-20,Stack,4.1
+IBM,166,158,50.5,2026-10-20,Heap,4.0
+IBM,166,158,50.5,2026-10-20,Math,3.4
+IBM,166,158,50.5,2026-10-20,Linked List,2.8
+IBM,166,158,50.5,2026-10-20,Backtracking and Brute Force,2.8
+IBM,166,158,50.5,2026-10-20,1-D Dynamic Programming,2.8
+IBM,166,158,50.5,2026-10-20,Bit Manipulation,2.2
+IBM,166,158,50.5,2026-10-20,Segment Tree and Fenwick Tree,1.9
+IBM,166,158,50.5,2026-10-20,Graph Traversal,1.8
+IBM,166,158,50.5,2026-10-20,Monotonic Stack and Queue,1.6
+IBM,166,158,50.5,2026-10-20,Tree Traversal,1.1
+IBM,166,158,50.5,2026-10-20,Data Structure Design,1.1
+IBM,166,158,50.5,2026-10-20,Intervals,0.8
+IBM,166,158,50.5,2026-10-20,Union-Find,0.8
+IBM,166,158,50.5,2026-10-20,2-D Dynamic Programming,0.8
+IBM,166,158,50.5,2026-10-20,Geometry,0.8
+IBM,166,158,50.5,2026-10-20,Minimum Spanning Tree,0.4
+IBM,166,158,50.5,2026-10-20,Game Theory,0.3
+IBM,166,158,50.5,2026-10-20,Divide and Conquer,0.3
+IBM,166,158,50.5,2026-10-20,Binary Search Trees,0.2
+IBM,166,158,50.5,2026-10-20,Topological Sort,0.2
+IIT Bombay,1,,,2026-10-20,,
+IMC,5,,,2026-10-20,,
+Indeed,5,,,2026-10-20,,
+Info Edge,7,,,2026-10-20,,
+Infosys,254,239,62.4,2026-10-20,Greedy,14.6
+Infosys,254,239,62.4,2026-10-20,Two Pointers,8.0
+Infosys,254,239,62.4,2026-10-20,Arrays and Hashing,7.2
+Infosys,254,239,62.4,2026-10-20,Binary Search,7.0
+Infosys,254,239,62.4,2026-10-20,1-D Dynamic Programming,6.3
+Infosys,254,239,62.4,2026-10-20,Sliding Window,5.8
+Infosys,254,239,62.4,2026-10-20,2-D Dynamic Programming,4.7
+Infosys,254,239,62.4,2026-10-20,Math,4.2
+Infosys,254,239,62.4,2026-10-20,Prefix Sums,3.6
+Infosys,254,239,62.4,2026-10-20,Sorting,3.5
+Infosys,254,239,62.4,2026-10-20,Tree Traversal,3.4
+Infosys,254,239,62.4,2026-10-20,Strings,3.4
+Infosys,254,239,62.4,2026-10-20,Linked List,3.2
+Infosys,254,239,62.4,2026-10-20,Backtracking and Brute Force,3.1
+Infosys,254,239,62.4,2026-10-20,Stack,2.8
+Infosys,254,239,62.4,2026-10-20,Simulation and Implementation,2.6
+Infosys,254,239,62.4,2026-10-20,Number Theory,2.6
+Infosys,254,239,62.4,2026-10-20,Monotonic Stack and Queue,2.0
+Infosys,254,239,62.4,2026-10-20,Heap,1.9
+Infosys,254,239,62.4,2026-10-20,Graph Traversal,1.9
+Infosys,254,239,62.4,2026-10-20,Bit Manipulation,1.6
+Infosys,254,239,62.4,2026-10-20,Segment Tree and Fenwick Tree,1.2
+Infosys,254,239,62.4,2026-10-20,Game Theory,1.1
+Infosys,254,239,62.4,2026-10-20,Divide and Conquer,0.9
+Infosys,254,239,62.4,2026-10-20,Data Structure Design,0.8
+Infosys,254,239,62.4,2026-10-20,Union-Find,0.7
+Infosys,254,239,62.4,2026-10-20,Combinatorics,0.7
+Infosys,254,239,62.4,2026-10-20,Intervals,0.5
+Infosys,254,239,62.4,2026-10-20,Binary Search Trees,0.5
+Infosys,254,239,62.4,2026-10-20,Topological Sort,0.1
+InMobi,13,,,2026-10-20,,
+instabase,2,,,2026-10-20,,
+Instacart,9,,,2026-10-20,,
+Intel,15,,,2026-10-20,,
+Intuit,56,49,54.5,2026-10-20,1-D Dynamic Programming,10.4
+Intuit,56,49,54.5,2026-10-20,Arrays and Hashing,9.4
+Intuit,56,49,54.5,2026-10-20,Graph Traversal,9.2
+Intuit,56,49,54.5,2026-10-20,Stack,9.1
+Intuit,56,49,54.5,2026-10-20,Strings,6.2
+Intuit,56,49,54.5,2026-10-20,Greedy,5.6
+Intuit,56,49,54.5,2026-10-20,Binary Search,5.1
+Intuit,56,49,54.5,2026-10-20,Two Pointers,4.7
+Intuit,56,49,54.5,2026-10-20,Tree Traversal,4.4
+Intuit,56,49,54.5,2026-10-20,Math,4.4
+Intuit,56,49,54.5,2026-10-20,Prefix Sums,3.9
+Intuit,56,49,54.5,2026-10-20,Monotonic Stack and Queue,3.4
+Intuit,56,49,54.5,2026-10-20,Data Structure Design,2.6
+Intuit,56,49,54.5,2026-10-20,Heap,2.5
+Intuit,56,49,54.5,2026-10-20,Sorting,2.4
+Intuit,56,49,54.5,2026-10-20,Backtracking and Brute Force,2.3
+Intuit,56,49,54.5,2026-10-20,Union-Find,1.9
+Intuit,56,49,54.5,2026-10-20,Intervals,1.7
+Intuit,56,49,54.5,2026-10-20,Topological Sort,1.6
+Intuit,56,49,54.5,2026-10-20,Shortest Paths,1.6
+Intuit,56,49,54.5,2026-10-20,Linked List,1.4
+Intuit,56,49,54.5,2026-10-20,Divide and Conquer,1.3
+Intuit,56,49,54.5,2026-10-20,Segment Tree and Fenwick Tree,1.3
+Intuit,56,49,54.5,2026-10-20,Trie,0.9
+Intuit,56,49,54.5,2026-10-20,String Hashing,0.9
+Intuit,56,49,54.5,2026-10-20,Suffix Structures,0.9
+Intuit,56,49,54.5,2026-10-20,Bit Manipulation,0.8
+IVP,2,,,2026-10-20,,
+IXL,17,,,2026-10-20,,
+Jane Street,14,,,2026-10-20,,
+jio,4,,,2026-10-20,,
+josh technology,34,34,75.4,2026-10-20,Tree Traversal,31.4
+josh technology,34,34,75.4,2026-10-20,Linked List,20.4
+josh technology,34,34,75.4,2026-10-20,Two Pointers,8.8
+josh technology,34,34,75.4,2026-10-20,Monotonic Stack and Queue,7.9
+josh technology,34,34,75.4,2026-10-20,Simulation and Implementation,6.6
+josh technology,34,34,75.4,2026-10-20,Arrays and Hashing,5.5
+josh technology,34,34,75.4,2026-10-20,Greedy,4.1
+josh technology,34,34,75.4,2026-10-20,Binary Search,3.0
+josh technology,34,34,75.4,2026-10-20,Sorting,2.6
+josh technology,34,34,75.4,2026-10-20,1-D Dynamic Programming,2.6
+josh technology,34,34,75.4,2026-10-20,Strings,2.1
+josh technology,34,34,75.4,2026-10-20,Stack,1.7
+josh technology,34,34,75.4,2026-10-20,Prefix Sums,1.3
+josh technology,34,34,75.4,2026-10-20,Graph Traversal,1.3
+josh technology,34,34,75.4,2026-10-20,2-D Dynamic Programming,0.9
+Jump Trading,2,,,2026-10-20,,
+Juniper Networks,1,,,2026-10-20,,
+Juspay,19,,,2026-10-20,,
+Kakao,2,,,2026-10-20,,
+Karat,10,,,2026-10-20,,
+KLA,8,,,2026-10-20,,
+Larsen & Toubro,3,,,2026-10-20,,
+Lendingkart Technologies,1,,,2026-10-20,,
+Lenskart,1,,,2026-10-20,,
+Liftoff,4,,,2026-10-20,,
+LINE,2,,,2026-10-20,,
+LinkedIn,171,162,57.8,2026-10-20,Tree Traversal,11.9
+LinkedIn,171,162,57.8,2026-10-20,Graph Traversal,8.7
+LinkedIn,171,162,57.8,2026-10-20,Binary Search,7.4
+LinkedIn,171,162,57.8,2026-10-20,Two Pointers,6.6
+LinkedIn,171,162,57.8,2026-10-20,Data Structure Design,6.2
+LinkedIn,171,162,57.8,2026-10-20,Stack,5.7
+LinkedIn,171,162,57.8,2026-10-20,Backtracking and Brute Force,5.4
+LinkedIn,171,162,57.8,2026-10-20,Arrays and Hashing,5.2
+LinkedIn,171,162,57.8,2026-10-20,1-D Dynamic Programming,4.2
+LinkedIn,171,162,57.8,2026-10-20,Strings,4.1
+LinkedIn,171,162,57.8,2026-10-20,Linked List,3.9
+LinkedIn,171,162,57.8,2026-10-20,Heap,3.7
+LinkedIn,171,162,57.8,2026-10-20,Greedy,3.5
+LinkedIn,171,162,57.8,2026-10-20,Sliding Window,3.3
+LinkedIn,171,162,57.8,2026-10-20,Math,3.3
+LinkedIn,171,162,57.8,2026-10-20,Prefix Sums,2.6
+LinkedIn,171,162,57.8,2026-10-20,Binary Search Trees,1.7
+LinkedIn,171,162,57.8,2026-10-20,2-D Dynamic Programming,1.5
+LinkedIn,171,162,57.8,2026-10-20,Union-Find,1.4
+LinkedIn,171,162,57.8,2026-10-20,Number Theory,1.3
+LinkedIn,171,162,57.8,2026-10-20,Intervals,1.1
+LinkedIn,171,162,57.8,2026-10-20,Sorting,0.9
+LinkedIn,171,162,57.8,2026-10-20,Simulation and Implementation,0.9
+LinkedIn,171,162,57.8,2026-10-20,Interactive Problems,0.9
+LinkedIn,171,162,57.8,2026-10-20,Segment Tree and Fenwick Tree,0.8
+LinkedIn,171,162,57.8,2026-10-20,Topological Sort,0.7
+LinkedIn,171,162,57.8,2026-10-20,Monotonic Stack and Queue,0.6
+LinkedIn,171,162,57.8,2026-10-20,Bit Manipulation,0.6
+LinkedIn,171,162,57.8,2026-10-20,Lowest Common Ancestor and Tree Queries,0.6
+LinkedIn,171,162,57.8,2026-10-20,Tree DP,0.5
+LinkedIn,171,162,57.8,2026-10-20,Probability and Expected Value,0.4
+LinkedIn,171,162,57.8,2026-10-20,Game Theory,0.4
+LinkedIn,171,162,57.8,2026-10-20,Shortest Paths,0.2
+LiveRamp,6,,,2026-10-20,,
+Lowe's,5,,,2026-10-20,,
+LTI,10,,,2026-10-20,,
+Lucid,6,,,2026-10-20,,
+Luxoft,1,,,2026-10-20,,
+Lyft,25,24,66.3,2026-10-20,Graph Traversal,13.3
+Lyft,25,24,66.3,2026-10-20,Sliding Window,11.6
+Lyft,25,24,66.3,2026-10-20,Data Structure Design,9.4
+Lyft,25,24,66.3,2026-10-20,Tree Traversal,8.7
+Lyft,25,24,66.3,2026-10-20,Two Pointers,5.5
+Lyft,25,24,66.3,2026-10-20,Backtracking and Brute Force,5.1
+Lyft,25,24,66.3,2026-10-20,Prefix Sums,4.6
+Lyft,25,24,66.3,2026-10-20,Linked List,4.5
+Lyft,25,24,66.3,2026-10-20,Stack,4.3
+Lyft,25,24,66.3,2026-10-20,1-D Dynamic Programming,4.3
+Lyft,25,24,66.3,2026-10-20,Binary Search Trees,3.7
+Lyft,25,24,66.3,2026-10-20,Heap,3.1
+Lyft,25,24,66.3,2026-10-20,Simulation and Implementation,3.1
+Lyft,25,24,66.3,2026-10-20,Interactive Problems,3.1
+Lyft,25,24,66.3,2026-10-20,Arrays and Hashing,2.9
+Lyft,25,24,66.3,2026-10-20,Binary Search,2.9
+Lyft,25,24,66.3,2026-10-20,Intervals,2.4
+Lyft,25,24,66.3,2026-10-20,Sorting,1.7
+Lyft,25,24,66.3,2026-10-20,Trie,1.5
+Lyft,25,24,66.3,2026-10-20,Number Theory,1.5
+Lyft,25,24,66.3,2026-10-20,Divide and Conquer,1.3
+Lyft,25,24,66.3,2026-10-20,Monotonic Stack and Queue,0.7
+Lyft,25,24,66.3,2026-10-20,Greedy,0.7
+Machine Zone,2,,,2026-10-20,,
+MakeMyTrip,13,,,2026-10-20,,
+Mapbox,1,,,2026-10-20,,
+MAQ Software,5,,,2026-10-20,,
+Mastercard,14,,,2026-10-20,,
+MathWorks,27,27,13.8,2026-10-20,Greedy,17.5
+MathWorks,27,27,13.8,2026-10-20,Binary Search,11.9
+MathWorks,27,27,13.8,2026-10-20,Simulation and Implementation,9.5
+MathWorks,27,27,13.8,2026-10-20,Two Pointers,7.2
+MathWorks,27,27,13.8,2026-10-20,Heap,6.2
+MathWorks,27,27,13.8,2026-10-20,Arrays and Hashing,5.7
+MathWorks,27,27,13.8,2026-10-20,2-D Dynamic Programming,5.3
+MathWorks,27,27,13.8,2026-10-20,Stack,4.1
+MathWorks,27,27,13.8,2026-10-20,Monotonic Stack and Queue,3.2
+MathWorks,27,27,13.8,2026-10-20,Graph Traversal,3.1
+MathWorks,27,27,13.8,2026-10-20,Strings,3.0
+MathWorks,27,27,13.8,2026-10-20,Prefix Sums,2.7
+MathWorks,27,27,13.8,2026-10-20,Linked List,2.7
+MathWorks,27,27,13.8,2026-10-20,Tree Traversal,2.3
+MathWorks,27,27,13.8,2026-10-20,Backtracking and Brute Force,2.3
+MathWorks,27,27,13.8,2026-10-20,Bit Manipulation,2.3
+MathWorks,27,27,13.8,2026-10-20,Tree DP,2.3
+MathWorks,27,27,13.8,2026-10-20,Number Theory,2.1
+MathWorks,27,27,13.8,2026-10-20,Combinatorics,2.1
+MathWorks,27,27,13.8,2026-10-20,Game Theory,2.1
+MathWorks,27,27,13.8,2026-10-20,Sliding Window,1.7
+MathWorks,27,27,13.8,2026-10-20,Math,0.9
+McKinsey,3,,,2026-10-20,,
+Media.net,39,38,18.7,2026-10-20,Prefix Sums,12.1
+Media.net,39,38,18.7,2026-10-20,Bit Manipulation,10.9
+Media.net,39,38,18.7,2026-10-20,Tree Traversal,8.0
+Media.net,39,38,18.7,2026-10-20,Graph Traversal,6.8
+Media.net,39,38,18.7,2026-10-20,Greedy,6.0
+Media.net,39,38,18.7,2026-10-20,Binary Search,5.7
+Media.net,39,38,18.7,2026-10-20,Heap,5.1
+Media.net,39,38,18.7,2026-10-20,Sliding Window,5.0
+Media.net,39,38,18.7,2026-10-20,Union-Find,4.9
+Media.net,39,38,18.7,2026-10-20,1-D Dynamic Programming,4.7
+Media.net,39,38,18.7,2026-10-20,Segment Tree and Fenwick Tree,3.3
+Media.net,39,38,18.7,2026-10-20,Simulation and Implementation,3.1
+Media.net,39,38,18.7,2026-10-20,Geometry,3.1
+Media.net,39,38,18.7,2026-10-20,Trie,3.0
+Media.net,39,38,18.7,2026-10-20,Number Theory,2.6
+Media.net,39,38,18.7,2026-10-20,Stack,2.4
+Media.net,39,38,18.7,2026-10-20,Monotonic Stack and Queue,2.0
+Media.net,39,38,18.7,2026-10-20,Linked List,1.9
+Media.net,39,38,18.7,2026-10-20,Tree DP,1.7
+Media.net,39,38,18.7,2026-10-20,Shortest Paths,1.6
+Media.net,39,38,18.7,2026-10-20,Two Pointers,1.5
+Media.net,39,38,18.7,2026-10-20,Max Flow and Min Cut,1.0
+Media.net,39,38,18.7,2026-10-20,Bipartite Matching,1.0
+Media.net,39,38,18.7,2026-10-20,Arrays and Hashing,0.9
+Media.net,39,38,18.7,2026-10-20,Binary Search Trees,0.9
+Media.net,39,38,18.7,2026-10-20,String Hashing,0.4
+Media.net,39,38,18.7,2026-10-20,String Matching,0.4
+Meesho,36,33,40.4,2026-10-20,Bit Manipulation,11.5
+Meesho,36,33,40.4,2026-10-20,Sliding Window,10.8
+Meesho,36,33,40.4,2026-10-20,Greedy,8.7
+Meesho,36,33,40.4,2026-10-20,Binary Search,8.3
+Meesho,36,33,40.4,2026-10-20,Graph Traversal,6.9
+Meesho,36,33,40.4,2026-10-20,2-D Dynamic Programming,6.2
+Meesho,36,33,40.4,2026-10-20,Stack,5.0
+Meesho,36,33,40.4,2026-10-20,Two Pointers,4.2
+Meesho,36,33,40.4,2026-10-20,Combinatorics,4.0
+Meesho,36,33,40.4,2026-10-20,Tree Traversal,3.3
+Meesho,36,33,40.4,2026-10-20,Monotonic Stack and Queue,3.0
+Meesho,36,33,40.4,2026-10-20,Linked List,2.9
+Meesho,36,33,40.4,2026-10-20,Heap,2.8
+Meesho,36,33,40.4,2026-10-20,Data Structure Design,2.8
+Meesho,36,33,40.4,2026-10-20,Geometry,2.5
+Meesho,36,33,40.4,2026-10-20,Sorting,2.2
+Meesho,36,33,40.4,2026-10-20,1-D Dynamic Programming,2.2
+Meesho,36,33,40.4,2026-10-20,Number Theory,2.0
+Meesho,36,33,40.4,2026-10-20,Union-Find,1.5
+Meesho,36,33,40.4,2026-10-20,Meet in the Middle,1.5
+Meesho,36,33,40.4,2026-10-20,Prefix Sums,1.3
+Meesho,36,33,40.4,2026-10-20,Shortest Paths,1.3
+Meesho,36,33,40.4,2026-10-20,Arrays and Hashing,1.2
+Meesho,36,33,40.4,2026-10-20,Topological Sort,1.2
+Meesho,36,33,40.4,2026-10-20,Math,1.2
+Meesho,36,33,40.4,2026-10-20,Simulation and Implementation,1.2
+Mercari,6,,,2026-10-20,,
+Meta,1396,1233,52.3,2026-10-20,Tree Traversal,8.4
+Meta,1396,1233,52.3,2026-10-20,Two Pointers,8.2
+Meta,1396,1233,52.3,2026-10-20,Binary Search,6.9
+Meta,1396,1233,52.3,2026-10-20,Arrays and Hashing,6.5
+Meta,1396,1233,52.3,2026-10-20,Graph Traversal,5.9
+Meta,1396,1233,52.3,2026-10-20,Strings,5.8
+Meta,1396,1233,52.3,2026-10-20,Greedy,4.9
+Meta,1396,1233,52.3,2026-10-20,Stack,4.4
+Meta,1396,1233,52.3,2026-10-20,Math,4.2
+Meta,1396,1233,52.3,2026-10-20,Sliding Window,4.1
+Meta,1396,1233,52.3,2026-10-20,Simulation and Implementation,4.0
+Meta,1396,1233,52.3,2026-10-20,Linked List,3.6
+Meta,1396,1233,52.3,2026-10-20,Backtracking and Brute Force,3.6
+Meta,1396,1233,52.3,2026-10-20,Prefix Sums,3.0
+Meta,1396,1233,52.3,2026-10-20,1-D Dynamic Programming,3.0
+Meta,1396,1233,52.3,2026-10-20,Heap,2.9
+Meta,1396,1233,52.3,2026-10-20,Data Structure Design,2.9
+Meta,1396,1233,52.3,2026-10-20,Bit Manipulation,2.8
+Meta,1396,1233,52.3,2026-10-20,Sorting,2.4
+Meta,1396,1233,52.3,2026-10-20,2-D Dynamic Programming,1.9
+Meta,1396,1233,52.3,2026-10-20,Monotonic Stack and Queue,1.5
+Meta,1396,1233,52.3,2026-10-20,Binary Search Trees,1.2
+Meta,1396,1233,52.3,2026-10-20,Union-Find,1.0
+Meta,1396,1233,52.3,2026-10-20,Intervals,0.6
+Meta,1396,1233,52.3,2026-10-20,Trie,0.6
+Meta,1396,1233,52.3,2026-10-20,Topological Sort,0.6
+Meta,1396,1233,52.3,2026-10-20,Shortest Paths,0.6
+Meta,1396,1233,52.3,2026-10-20,Geometry,0.6
+Meta,1396,1233,52.3,2026-10-20,Number Theory,0.5
+Meta,1396,1233,52.3,2026-10-20,Interactive Problems,0.5
+Meta,1396,1233,52.3,2026-10-20,String Matching,0.4
+Meta,1396,1233,52.3,2026-10-20,JavaScript,0.4
+Meta,1396,1233,52.3,2026-10-20,Game Theory,0.3
+Meta,1396,1233,52.3,2026-10-20,Segment Tree and Fenwick Tree,0.3
+Meta,1396,1233,52.3,2026-10-20,Tree DP,0.3
+Meta,1396,1233,52.3,2026-10-20,Lowest Common Ancestor and Tree Queries,0.3
+Meta,1396,1233,52.3,2026-10-20,Combinatorics,0.2
+Meta,1396,1233,52.3,2026-10-20,Probability and Expected Value,0.2
+Meta,1396,1233,52.3,2026-10-20,Divide and Conquer,0.2
+Meta,1396,1233,52.3,2026-10-20,Minimum Spanning Tree,0.1
+Meta,1396,1233,52.3,2026-10-20,String Hashing,0.1
+Microsoft,1371,1231,50.1,2026-10-20,Two Pointers,7.0
+Microsoft,1371,1231,50.1,2026-10-20,Greedy,6.8
+Microsoft,1371,1231,50.1,2026-10-20,Binary Search,6.7
+Microsoft,1371,1231,50.1,2026-10-20,Arrays and Hashing,6.4
+Microsoft,1371,1231,50.1,2026-10-20,Tree Traversal,6.4
+Microsoft,1371,1231,50.1,2026-10-20,Math,5.5
+Microsoft,1371,1231,50.1,2026-10-20,Strings,5.4
+Microsoft,1371,1231,50.1,2026-10-20,Graph Traversal,4.8
+Microsoft,1371,1231,50.1,2026-10-20,Sliding Window,4.4
+Microsoft,1371,1231,50.1,2026-10-20,Linked List,4.2
+Microsoft,1371,1231,50.1,2026-10-20,Simulation and Implementation,4.2
+Microsoft,1371,1231,50.1,2026-10-20,Backtracking and Brute Force,3.8
+Microsoft,1371,1231,50.1,2026-10-20,Bit Manipulation,3.8
+Microsoft,1371,1231,50.1,2026-10-20,Prefix Sums,3.7
+Microsoft,1371,1231,50.1,2026-10-20,Stack,3.6
+Microsoft,1371,1231,50.1,2026-10-20,Sorting,2.9
+Microsoft,1371,1231,50.1,2026-10-20,1-D Dynamic Programming,2.8
+Microsoft,1371,1231,50.1,2026-10-20,Heap,2.7
+Microsoft,1371,1231,50.1,2026-10-20,Data Structure Design,2.5
+Microsoft,1371,1231,50.1,2026-10-20,2-D Dynamic Programming,2.3
+Microsoft,1371,1231,50.1,2026-10-20,Monotonic Stack and Queue,1.8
+Microsoft,1371,1231,50.1,2026-10-20,Number Theory,1.0
+Microsoft,1371,1231,50.1,2026-10-20,Binary Search Trees,0.9
+Microsoft,1371,1231,50.1,2026-10-20,Union-Find,0.9
+Microsoft,1371,1231,50.1,2026-10-20,Topological Sort,0.6
+Microsoft,1371,1231,50.1,2026-10-20,Intervals,0.5
+Microsoft,1371,1231,50.1,2026-10-20,Trie,0.5
+Microsoft,1371,1231,50.1,2026-10-20,Shortest Paths,0.5
+Microsoft,1371,1231,50.1,2026-10-20,Divide and Conquer,0.5
+Microsoft,1371,1231,50.1,2026-10-20,JavaScript,0.5
+Microsoft,1371,1231,50.1,2026-10-20,Game Theory,0.4
+Microsoft,1371,1231,50.1,2026-10-20,Geometry,0.4
+Microsoft,1371,1231,50.1,2026-10-20,Segment Tree and Fenwick Tree,0.4
+Microsoft,1371,1231,50.1,2026-10-20,String Matching,0.4
+Microsoft,1371,1231,50.1,2026-10-20,Tree DP,0.2
+Microsoft,1371,1231,50.1,2026-10-20,Combinatorics,0.1
+Microsoft,1371,1231,50.1,2026-10-20,Probability and Expected Value,0.1
+Microsoft,1371,1231,50.1,2026-10-20,Meet in the Middle,0.1
+Microsoft,1371,1231,50.1,2026-10-20,Lowest Common Ancestor and Tree Queries,0.1
+Microsoft,1371,1231,50.1,2026-10-20,String Hashing,0.1
+Microsoft,1371,1231,50.1,2026-10-20,Strongly Connected Components and Bridges,0.1
+Microsoft,1371,1231,50.1,2026-10-20,Interactive Problems,0.1
+Microstrategy,8,,,2026-10-20,,
+Millennium,10,,,2026-10-20,,
+Mindtickle,4,,,2026-10-20,,
+MindTree,3,,,2026-10-20,,
+Mitsogo,10,,,2026-10-20,,
+Mixpanel,2,,,2026-10-20,,
+Moengage,1,,,2026-10-20,,
+Moloco,12,,,2026-10-20,,
+MongoDB,25,24,55.4,2026-10-20,Data Structure Design,13.0
+MongoDB,25,24,55.4,2026-10-20,Graph Traversal,12.9
+MongoDB,25,24,55.4,2026-10-20,Two Pointers,10.8
+MongoDB,25,24,55.4,2026-10-20,Binary Search,8.8
+MongoDB,25,24,55.4,2026-10-20,Heap,7.1
+MongoDB,25,24,55.4,2026-10-20,1-D Dynamic Programming,5.2
+MongoDB,25,24,55.4,2026-10-20,Greedy,5.2
+MongoDB,25,24,55.4,2026-10-20,Tree Traversal,4.6
+MongoDB,25,24,55.4,2026-10-20,Linked List,4.5
+MongoDB,25,24,55.4,2026-10-20,Arrays and Hashing,4.1
+MongoDB,25,24,55.4,2026-10-20,Topological Sort,4.0
+MongoDB,25,24,55.4,2026-10-20,Trie,3.9
+MongoDB,25,24,55.4,2026-10-20,Sliding Window,2.9
+MongoDB,25,24,55.4,2026-10-20,Monotonic Stack and Queue,2.9
+MongoDB,25,24,55.4,2026-10-20,Strings,2.4
+MongoDB,25,24,55.4,2026-10-20,Simulation and Implementation,2.4
+MongoDB,25,24,55.4,2026-10-20,Sorting,2.0
+MongoDB,25,24,55.4,2026-10-20,Intervals,2.0
+MongoDB,25,24,55.4,2026-10-20,Lowest Common Ancestor and Tree Queries,1.2
+Morgan Stanley,60,59,67.8,2026-10-20,Greedy,12.7
+Morgan Stanley,60,59,67.8,2026-10-20,Arrays and Hashing,11.4
+Morgan Stanley,60,59,67.8,2026-10-20,1-D Dynamic Programming,10.1
+Morgan Stanley,60,59,67.8,2026-10-20,Two Pointers,9.5
+Morgan Stanley,60,59,67.8,2026-10-20,Sliding Window,8.6
+Morgan Stanley,60,59,67.8,2026-10-20,Backtracking and Brute Force,5.1
+Morgan Stanley,60,59,67.8,2026-10-20,Stack,4.4
+Morgan Stanley,60,59,67.8,2026-10-20,Linked List,4.3
+Morgan Stanley,60,59,67.8,2026-10-20,Math,4.1
+Morgan Stanley,60,59,67.8,2026-10-20,Monotonic Stack and Queue,4.0
+Morgan Stanley,60,59,67.8,2026-10-20,Sorting,4.0
+Morgan Stanley,60,59,67.8,2026-10-20,Bit Manipulation,3.2
+Morgan Stanley,60,59,67.8,2026-10-20,Simulation and Implementation,3.2
+Morgan Stanley,60,59,67.8,2026-10-20,Strings,2.9
+Morgan Stanley,60,59,67.8,2026-10-20,Binary Search,1.9
+Morgan Stanley,60,59,67.8,2026-10-20,2-D Dynamic Programming,1.9
+Morgan Stanley,60,59,67.8,2026-10-20,Heap,1.7
+Morgan Stanley,60,59,67.8,2026-10-20,Prefix Sums,1.2
+Morgan Stanley,60,59,67.8,2026-10-20,Intervals,1.0
+Morgan Stanley,60,59,67.8,2026-10-20,Data Structure Design,1.0
+Morgan Stanley,60,59,67.8,2026-10-20,Geometry,0.8
+Morgan Stanley,60,59,67.8,2026-10-20,Number Theory,0.7
+Morgan Stanley,60,59,67.8,2026-10-20,Graph Traversal,0.5
+Morgan Stanley,60,59,67.8,2026-10-20,Topological Sort,0.5
+Morgan Stanley,60,59,67.8,2026-10-20,Divide and Conquer,0.5
+Morgan Stanley,60,59,67.8,2026-10-20,Segment Tree and Fenwick Tree,0.5
+Morgan Stanley,60,59,67.8,2026-10-20,Strongly Connected Components and Bridges,0.5
+Moveworks,6,,,2026-10-20,,
+Myntra,17,,,2026-10-20,,
+Nagarro,8,,,2026-10-20,,
+National Instruments,1,,,2026-10-20,,
+National Payments Corporation of India,2,,,2026-10-20,,
+Navan,3,,,2026-10-20,,
+Navi,3,,,2026-10-20,,
+NCR,3,,,2026-10-20,,
+NetApp,12,,,2026-10-20,,
+NetEase,2,,,2026-10-20,,
+Netflix,28,27,71.6,2026-10-20,Sliding Window,15.2
+Netflix,28,27,71.6,2026-10-20,Data Structure Design,13.1
+Netflix,28,27,71.6,2026-10-20,Arrays and Hashing,12.4
+Netflix,28,27,71.6,2026-10-20,Binary Search,10.5
+Netflix,28,27,71.6,2026-10-20,Graph Traversal,9.1
+Netflix,28,27,71.6,2026-10-20,Topological Sort,6.8
+Netflix,28,27,71.6,2026-10-20,Backtracking and Brute Force,5.4
+Netflix,28,27,71.6,2026-10-20,Shortest Paths,3.8
+Netflix,28,27,71.6,2026-10-20,1-D Dynamic Programming,3.2
+Netflix,28,27,71.6,2026-10-20,Heap,3.1
+Netflix,28,27,71.6,2026-10-20,Linked List,2.5
+Netflix,28,27,71.6,2026-10-20,Sorting,2.3
+Netflix,28,27,71.6,2026-10-20,Intervals,2.3
+Netflix,28,27,71.6,2026-10-20,Strings,1.9
+Netflix,28,27,71.6,2026-10-20,Simulation and Implementation,1.9
+Netflix,28,27,71.6,2026-10-20,JavaScript,1.8
+Netflix,28,27,71.6,2026-10-20,Prefix Sums,1.1
+Netflix,28,27,71.6,2026-10-20,Two Pointers,1.1
+Netflix,28,27,71.6,2026-10-20,Greedy,1.1
+Netflix,28,27,71.6,2026-10-20,String Hashing,0.9
+Netflix,28,27,71.6,2026-10-20,Trie,0.7
+Netskope,7,,,2026-10-20,,
+Netsuite,2,,,2026-10-20,,
+Nextdoor,3,,,2026-10-20,,
+Niantic,2,,,2026-10-20,,
+Nielsen,4,,,2026-10-20,,
+Nike,6,,,2026-10-20,,
+Nokia,11,,,2026-10-20,,
+Nordstrom,3,,,2026-10-20,,
+Nuro,13,,,2026-10-20,,
+Nutanix,70,69,55.9,2026-10-20,Greedy,11.8
+Nutanix,70,69,55.9,2026-10-20,Tree Traversal,8.8
+Nutanix,70,69,55.9,2026-10-20,Graph Traversal,8.2
+Nutanix,70,69,55.9,2026-10-20,Sliding Window,6.8
+Nutanix,70,69,55.9,2026-10-20,Linked List,6.5
+Nutanix,70,69,55.9,2026-10-20,Stack,6.3
+Nutanix,70,69,55.9,2026-10-20,Simulation and Implementation,5.6
+Nutanix,70,69,55.9,2026-10-20,Binary Search,4.9
+Nutanix,70,69,55.9,2026-10-20,Data Structure Design,4.9
+Nutanix,70,69,55.9,2026-10-20,Arrays and Hashing,4.3
+Nutanix,70,69,55.9,2026-10-20,Heap,3.3
+Nutanix,70,69,55.9,2026-10-20,Prefix Sums,3.2
+Nutanix,70,69,55.9,2026-10-20,1-D Dynamic Programming,3.2
+Nutanix,70,69,55.9,2026-10-20,Two Pointers,2.9
+Nutanix,70,69,55.9,2026-10-20,Sorting,2.7
+Nutanix,70,69,55.9,2026-10-20,Monotonic Stack and Queue,2.6
+Nutanix,70,69,55.9,2026-10-20,Strings,2.3
+Nutanix,70,69,55.9,2026-10-20,2-D Dynamic Programming,1.9
+Nutanix,70,69,55.9,2026-10-20,Backtracking and Brute Force,1.8
+Nutanix,70,69,55.9,2026-10-20,Shortest Paths,1.2
+Nutanix,70,69,55.9,2026-10-20,Minimum Spanning Tree,1.2
+Nutanix,70,69,55.9,2026-10-20,Segment Tree and Fenwick Tree,1.2
+Nutanix,70,69,55.9,2026-10-20,Topological Sort,1.1
+Nutanix,70,69,55.9,2026-10-20,Intervals,1.0
+Nutanix,70,69,55.9,2026-10-20,Union-Find,1.0
+Nutanix,70,69,55.9,2026-10-20,Trie,0.6
+Nutanix,70,69,55.9,2026-10-20,Tree DP,0.6
+Nutanix,70,69,55.9,2026-10-20,Strongly Connected Components and Bridges,0.4
+Nvidia,131,130,68.2,2026-10-20,Two Pointers,10.2
+Nvidia,131,130,68.2,2026-10-20,Arrays and Hashing,9.0
+Nvidia,131,130,68.2,2026-10-20,Linked List,6.3
+Nvidia,131,130,68.2,2026-10-20,Greedy,6.1
+Nvidia,131,130,68.2,2026-10-20,Simulation and Implementation,5.0
+Nvidia,131,130,68.2,2026-10-20,Heap,4.7
+Nvidia,131,130,68.2,2026-10-20,Graph Traversal,4.7
+Nvidia,131,130,68.2,2026-10-20,Bit Manipulation,4.7
+Nvidia,131,130,68.2,2026-10-20,Binary Search,4.6
+Nvidia,131,130,68.2,2026-10-20,Sliding Window,4.5
+Nvidia,131,130,68.2,2026-10-20,Sorting,3.8
+Nvidia,131,130,68.2,2026-10-20,Stack,3.7
+Nvidia,131,130,68.2,2026-10-20,2-D Dynamic Programming,3.2
+Nvidia,131,130,68.2,2026-10-20,Math,3.2
+Nvidia,131,130,68.2,2026-10-20,Strings,3.2
+Nvidia,131,130,68.2,2026-10-20,Data Structure Design,3.2
+Nvidia,131,130,68.2,2026-10-20,1-D Dynamic Programming,2.8
+Nvidia,131,130,68.2,2026-10-20,Backtracking and Brute Force,2.5
+Nvidia,131,130,68.2,2026-10-20,Tree Traversal,2.3
+Nvidia,131,130,68.2,2026-10-20,Monotonic Stack and Queue,2.2
+Nvidia,131,130,68.2,2026-10-20,Prefix Sums,1.8
+Nvidia,131,130,68.2,2026-10-20,Divide and Conquer,1.5
+Nvidia,131,130,68.2,2026-10-20,Shortest Paths,1.2
+Nvidia,131,130,68.2,2026-10-20,Geometry,1.2
+Nvidia,131,130,68.2,2026-10-20,Trie,0.9
+Nvidia,131,130,68.2,2026-10-20,Topological Sort,0.8
+Nvidia,131,130,68.2,2026-10-20,Number Theory,0.6
+Nvidia,131,130,68.2,2026-10-20,Combinatorics,0.6
+Nvidia,131,130,68.2,2026-10-20,Interactive Problems,0.6
+Nvidia,131,130,68.2,2026-10-20,Intervals,0.4
+Nvidia,131,130,68.2,2026-10-20,Probability and Expected Value,0.3
+Nvidia,131,130,68.2,2026-10-20,Strongly Connected Components and Bridges,0.2
+Nykaa,4,,,2026-10-20,,
+Odoo,3,,,2026-10-20,,
+Okta,23,,,2026-10-20,,
+OKX,1,,,2026-10-20,,
+OpenAI,18,,,2026-10-20,,
+opentext,7,,,2026-10-20,,
+Optiver,7,,,2026-10-20,,
+Optum,6,,,2026-10-20,,
+Oracle,282,276,65.7,2026-10-20,Arrays and Hashing,8.3
+Oracle,282,276,65.7,2026-10-20,Binary Search,7.4
+Oracle,282,276,65.7,2026-10-20,Two Pointers,7.3
+Oracle,282,276,65.7,2026-10-20,Tree Traversal,6.8
+Oracle,282,276,65.7,2026-10-20,Graph Traversal,6.4
+Oracle,282,276,65.7,2026-10-20,Linked List,5.8
+Oracle,282,276,65.7,2026-10-20,Greedy,5.7
+Oracle,282,276,65.7,2026-10-20,Strings,5.3
+Oracle,282,276,65.7,2026-10-20,Stack,4.9
+Oracle,282,276,65.7,2026-10-20,Backtracking and Brute Force,4.6
+Oracle,282,276,65.7,2026-10-20,Simulation and Implementation,4.4
+Oracle,282,276,65.7,2026-10-20,Data Structure Design,3.9
+Oracle,282,276,65.7,2026-10-20,Heap,3.8
+Oracle,282,276,65.7,2026-10-20,Sorting,3.4
+Oracle,282,276,65.7,2026-10-20,Sliding Window,3.2
+Oracle,282,276,65.7,2026-10-20,1-D Dynamic Programming,3.0
+Oracle,282,276,65.7,2026-10-20,Prefix Sums,2.3
+Oracle,282,276,65.7,2026-10-20,Math,2.3
+Oracle,282,276,65.7,2026-10-20,Bit Manipulation,2.2
+Oracle,282,276,65.7,2026-10-20,Monotonic Stack and Queue,1.6
+Oracle,282,276,65.7,2026-10-20,2-D Dynamic Programming,1.2
+Oracle,282,276,65.7,2026-10-20,Trie,1.1
+Oracle,282,276,65.7,2026-10-20,Topological Sort,1.0
+Oracle,282,276,65.7,2026-10-20,Binary Search Trees,0.9
+Oracle,282,276,65.7,2026-10-20,Intervals,0.6
+Oracle,282,276,65.7,2026-10-20,Union-Find,0.6
+Oracle,282,276,65.7,2026-10-20,Shortest Paths,0.5
+Oracle,282,276,65.7,2026-10-20,Number Theory,0.5
+Oracle,282,276,65.7,2026-10-20,Tree DP,0.3
+Oracle,282,276,65.7,2026-10-20,String Matching,0.3
+Oracle,282,276,65.7,2026-10-20,Combinatorics,0.2
+Oracle,282,276,65.7,2026-10-20,Ternary Search,0.1
+Oracle,282,276,65.7,2026-10-20,Segment Tree and Fenwick Tree,0.1
+Oracle,282,276,65.7,2026-10-20,Interactive Problems,0.1
+Oracle,282,276,65.7,2026-10-20,JavaScript,0.1
+Otter.ai,2,,,2026-10-20,,
+oyo,8,,,2026-10-20,,
+Ozon,12,,,2026-10-20,,
+Palo Alto Networks,50,50,82.5,2026-10-20,Linked List,12.1
+Palo Alto Networks,50,50,82.5,2026-10-20,Tree Traversal,9.8
+Palo Alto Networks,50,50,82.5,2026-10-20,Data Structure Design,8.5
+Palo Alto Networks,50,50,82.5,2026-10-20,Strings,8.2
+Palo Alto Networks,50,50,82.5,2026-10-20,Binary Search,8.1
+Palo Alto Networks,50,50,82.5,2026-10-20,Two Pointers,8.0
+Palo Alto Networks,50,50,82.5,2026-10-20,Arrays and Hashing,6.5
+Palo Alto Networks,50,50,82.5,2026-10-20,Sliding Window,6.5
+Palo Alto Networks,50,50,82.5,2026-10-20,Stack,5.6
+Palo Alto Networks,50,50,82.5,2026-10-20,Graph Traversal,4.0
+Palo Alto Networks,50,50,82.5,2026-10-20,Greedy,3.9
+Palo Alto Networks,50,50,82.5,2026-10-20,Backtracking and Brute Force,3.8
+Palo Alto Networks,50,50,82.5,2026-10-20,Sorting,3.6
+Palo Alto Networks,50,50,82.5,2026-10-20,1-D Dynamic Programming,2.3
+Palo Alto Networks,50,50,82.5,2026-10-20,Heap,1.9
+Palo Alto Networks,50,50,82.5,2026-10-20,Math,1.9
+Palo Alto Networks,50,50,82.5,2026-10-20,Intervals,1.3
+Palo Alto Networks,50,50,82.5,2026-10-20,Prefix Sums,1.0
+Palo Alto Networks,50,50,82.5,2026-10-20,Monotonic Stack and Queue,0.9
+Palo Alto Networks,50,50,82.5,2026-10-20,Bit Manipulation,0.9
+Palo Alto Networks,50,50,82.5,2026-10-20,Union-Find,0.6
+Palo Alto Networks,50,50,82.5,2026-10-20,2-D Dynamic Programming,0.6
+Patreon,4,,,2026-10-20,,
+Paycom,1,,,2026-10-20,,
+PayPal,93,90,62.7,2026-10-20,Arrays and Hashing,13.0
+PayPal,93,90,62.7,2026-10-20,Binary Search,11.4
+PayPal,93,90,62.7,2026-10-20,Greedy,6.3
+PayPal,93,90,62.7,2026-10-20,Two Pointers,6.1
+PayPal,93,90,62.7,2026-10-20,Graph Traversal,5.9
+PayPal,93,90,62.7,2026-10-20,Simulation and Implementation,5.0
+PayPal,93,90,62.7,2026-10-20,1-D Dynamic Programming,4.7
+PayPal,93,90,62.7,2026-10-20,Strings,4.6
+PayPal,93,90,62.7,2026-10-20,Sliding Window,4.2
+PayPal,93,90,62.7,2026-10-20,Stack,4.2
+PayPal,93,90,62.7,2026-10-20,Prefix Sums,4.1
+PayPal,93,90,62.7,2026-10-20,Sorting,3.7
+PayPal,93,90,62.7,2026-10-20,Heap,3.6
+PayPal,93,90,62.7,2026-10-20,Backtracking and Brute Force,3.5
+PayPal,93,90,62.7,2026-10-20,Tree Traversal,3.2
+PayPal,93,90,62.7,2026-10-20,Number Theory,2.5
+PayPal,93,90,62.7,2026-10-20,Math,2.3
+PayPal,93,90,62.7,2026-10-20,Data Structure Design,2.2
+PayPal,93,90,62.7,2026-10-20,Linked List,2.0
+PayPal,93,90,62.7,2026-10-20,Intervals,1.8
+PayPal,93,90,62.7,2026-10-20,2-D Dynamic Programming,1.8
+PayPal,93,90,62.7,2026-10-20,Union-Find,1.1
+PayPal,93,90,62.7,2026-10-20,Topological Sort,0.9
+PayPal,93,90,62.7,2026-10-20,Bit Manipulation,0.5
+PayPal,93,90,62.7,2026-10-20,Monotonic Stack and Queue,0.4
+PayPal,93,90,62.7,2026-10-20,Trie,0.4
+PayPal,93,90,62.7,2026-10-20,JavaScript,0.4
+PayPay,10,,,2026-10-20,,
+Paytm,25,25,51.0,2026-10-20,Two Pointers,17.2
+Paytm,25,25,51.0,2026-10-20,Stack,11.8
+Paytm,25,25,51.0,2026-10-20,Greedy,9.2
+Paytm,25,25,51.0,2026-10-20,Sliding Window,9.1
+Paytm,25,25,51.0,2026-10-20,Linked List,7.1
+Paytm,25,25,51.0,2026-10-20,Arrays and Hashing,6.7
+Paytm,25,25,51.0,2026-10-20,Binary Search,6.7
+Paytm,25,25,51.0,2026-10-20,Monotonic Stack and Queue,6.1
+Paytm,25,25,51.0,2026-10-20,Heap,5.5
+Paytm,25,25,51.0,2026-10-20,Data Structure Design,4.1
+Paytm,25,25,51.0,2026-10-20,Prefix Sums,4.0
+Paytm,25,25,51.0,2026-10-20,2-D Dynamic Programming,3.1
+Paytm,25,25,51.0,2026-10-20,Simulation and Implementation,3.1
+Paytm,25,25,51.0,2026-10-20,Sorting,2.4
+Paytm,25,25,51.0,2026-10-20,Bit Manipulation,2.4
+Paytm,25,25,51.0,2026-10-20,Intervals,1.5
+PayU,1,,,2026-10-20,,
+peak6,2,,,2026-10-20,,
+Peloton,2,,,2026-10-20,,
+persistent systems,7,,,2026-10-20,,
+PhonePe,92,88,51.2,2026-10-20,Graph Traversal,14.7
+PhonePe,92,88,51.2,2026-10-20,Greedy,8.3
+PhonePe,92,88,51.2,2026-10-20,Binary Search,6.4
+PhonePe,92,88,51.2,2026-10-20,Union-Find,5.5
+PhonePe,92,88,51.2,2026-10-20,Arrays and Hashing,5.3
+PhonePe,92,88,51.2,2026-10-20,Prefix Sums,4.4
+PhonePe,92,88,51.2,2026-10-20,Tree Traversal,4.2
+PhonePe,92,88,51.2,2026-10-20,2-D Dynamic Programming,4.2
+PhonePe,92,88,51.2,2026-10-20,Stack,4.0
+PhonePe,92,88,51.2,2026-10-20,1-D Dynamic Programming,4.0
+PhonePe,92,88,51.2,2026-10-20,Two Pointers,3.5
+PhonePe,92,88,51.2,2026-10-20,Strings,3.4
+PhonePe,92,88,51.2,2026-10-20,Heap,3.3
+PhonePe,92,88,51.2,2026-10-20,Sliding Window,3.1
+PhonePe,92,88,51.2,2026-10-20,Monotonic Stack and Queue,3.0
+PhonePe,92,88,51.2,2026-10-20,Number Theory,2.5
+PhonePe,92,88,51.2,2026-10-20,Sorting,2.4
+PhonePe,92,88,51.2,2026-10-20,Topological Sort,2.4
+PhonePe,92,88,51.2,2026-10-20,Backtracking and Brute Force,2.2
+PhonePe,92,88,51.2,2026-10-20,Combinatorics,2.2
+PhonePe,92,88,51.2,2026-10-20,Data Structure Design,1.9
+PhonePe,92,88,51.2,2026-10-20,Simulation and Implementation,1.8
+PhonePe,92,88,51.2,2026-10-20,Bit Manipulation,1.3
+PhonePe,92,88,51.2,2026-10-20,Intervals,1.1
+PhonePe,92,88,51.2,2026-10-20,Shortest Paths,1.1
+PhonePe,92,88,51.2,2026-10-20,Segment Tree and Fenwick Tree,1.1
+PhonePe,92,88,51.2,2026-10-20,Game Theory,0.9
+PhonePe,92,88,51.2,2026-10-20,Tree DP,0.7
+PhonePe,92,88,51.2,2026-10-20,Linked List,0.6
+PhonePe,92,88,51.2,2026-10-20,Strongly Connected Components and Bridges,0.3
+Pinterest,41,40,47.0,2026-10-20,Graph Traversal,17.2
+Pinterest,41,40,47.0,2026-10-20,Backtracking and Brute Force,12.9
+Pinterest,41,40,47.0,2026-10-20,Greedy,9.3
+Pinterest,41,40,47.0,2026-10-20,Two Pointers,7.8
+Pinterest,41,40,47.0,2026-10-20,Heap,5.4
+Pinterest,41,40,47.0,2026-10-20,Binary Search,4.5
+Pinterest,41,40,47.0,2026-10-20,Data Structure Design,4.4
+Pinterest,41,40,47.0,2026-10-20,Strings,4.2
+Pinterest,41,40,47.0,2026-10-20,1-D Dynamic Programming,4.0
+Pinterest,41,40,47.0,2026-10-20,Trie,3.5
+Pinterest,41,40,47.0,2026-10-20,Bit Manipulation,3.4
+Pinterest,41,40,47.0,2026-10-20,Simulation and Implementation,3.3
+Pinterest,41,40,47.0,2026-10-20,Prefix Sums,3.1
+Pinterest,41,40,47.0,2026-10-20,Tree Traversal,2.7
+Pinterest,41,40,47.0,2026-10-20,Arrays and Hashing,2.4
+Pinterest,41,40,47.0,2026-10-20,Union-Find,1.8
+Pinterest,41,40,47.0,2026-10-20,Linked List,1.6
+Pinterest,41,40,47.0,2026-10-20,2-D Dynamic Programming,1.6
+Pinterest,41,40,47.0,2026-10-20,Sorting,1.5
+Pinterest,41,40,47.0,2026-10-20,Math,1.3
+Pinterest,41,40,47.0,2026-10-20,Sliding Window,1.0
+Pinterest,41,40,47.0,2026-10-20,Stack,0.8
+Pinterest,41,40,47.0,2026-10-20,Intervals,0.8
+Pinterest,41,40,47.0,2026-10-20,String Hashing,0.8
+Pinterest,41,40,47.0,2026-10-20,String Matching,0.8
+Pocket Gems,15,,,2026-10-20,,
+Point72,6,,,2026-10-20,,
+Pony.ai,4,,,2026-10-20,,
+PornHub,11,,,2026-10-20,,
+Poshmark,4,,,2026-10-20,,
+Postmates,3,,,2026-10-20,,
+Publicis Sapient,9,,,2026-10-20,,
+PubMatic,2,,,2026-10-20,,
+Pure Storage,8,,,2026-10-20,,
+Pwc,7,,,2026-10-20,,
+Qualcomm,52,52,81.8,2026-10-20,Two Pointers,13.4
+Qualcomm,52,52,81.8,2026-10-20,Linked List,11.7
+Qualcomm,52,52,81.8,2026-10-20,Bit Manipulation,7.8
+Qualcomm,52,52,81.8,2026-10-20,Strings,6.7
+Qualcomm,52,52,81.8,2026-10-20,Data Structure Design,6.6
+Qualcomm,52,52,81.8,2026-10-20,1-D Dynamic Programming,5.9
+Qualcomm,52,52,81.8,2026-10-20,Arrays and Hashing,4.7
+Qualcomm,52,52,81.8,2026-10-20,Stack,4.5
+Qualcomm,52,52,81.8,2026-10-20,Binary Search,4.5
+Qualcomm,52,52,81.8,2026-10-20,Heap,3.7
+Qualcomm,52,52,81.8,2026-10-20,Math,3.7
+Qualcomm,52,52,81.8,2026-10-20,Graph Traversal,3.3
+Qualcomm,52,52,81.8,2026-10-20,Backtracking and Brute Force,3.2
+Qualcomm,52,52,81.8,2026-10-20,2-D Dynamic Programming,3.2
+Qualcomm,52,52,81.8,2026-10-20,Simulation and Implementation,2.9
+Qualcomm,52,52,81.8,2026-10-20,Sliding Window,2.5
+Qualcomm,52,52,81.8,2026-10-20,Greedy,2.1
+Qualcomm,52,52,81.8,2026-10-20,Number Theory,2.1
+Qualcomm,52,52,81.8,2026-10-20,Geometry,2.1
+Qualcomm,52,52,81.8,2026-10-20,Monotonic Stack and Queue,1.6
+Qualcomm,52,52,81.8,2026-10-20,Tree Traversal,1.6
+Qualcomm,52,52,81.8,2026-10-20,Sorting,1.1
+Qualcomm,52,52,81.8,2026-10-20,Topological Sort,0.8
+Qualtrics,5,,,2026-10-20,,
+Quora,19,,,2026-10-20,,
+Rakuten,8,,,2026-10-20,,
+razorpay,11,,,2026-10-20,,
+RBC,2,,,2026-10-20,,
+redbus,1,,,2026-10-20,,
+Reddit,4,,,2026-10-20,,
+Remitly,5,,,2026-10-20,,
+Revolut,10,,,2026-10-20,,
+Riot Games,4,,,2026-10-20,,
+Ripple,6,,,2026-10-20,,
+Rippling,30,30,50.4,2026-10-20,Data Structure Design,16.8
+Rippling,30,30,50.4,2026-10-20,Graph Traversal,11.5
+Rippling,30,30,50.4,2026-10-20,Linked List,9.2
+Rippling,30,30,50.4,2026-10-20,Sliding Window,8.4
+Rippling,30,30,50.4,2026-10-20,Binary Search,7.5
+Rippling,30,30,50.4,2026-10-20,Stack,7.4
+Rippling,30,30,50.4,2026-10-20,Heap,6.7
+Rippling,30,30,50.4,2026-10-20,Union-Find,6.0
+Rippling,30,30,50.4,2026-10-20,Arrays and Hashing,5.4
+Rippling,30,30,50.4,2026-10-20,Tree Traversal,3.6
+Rippling,30,30,50.4,2026-10-20,Greedy,3.3
+Rippling,30,30,50.4,2026-10-20,Bit Manipulation,3.3
+Rippling,30,30,50.4,2026-10-20,Backtracking and Brute Force,3.0
+Rippling,30,30,50.4,2026-10-20,Topological Sort,2.1
+Rippling,30,30,50.4,2026-10-20,Monotonic Stack and Queue,1.8
+Rippling,30,30,50.4,2026-10-20,Sorting,1.6
+Rippling,30,30,50.4,2026-10-20,Intervals,1.6
+Rippling,30,30,50.4,2026-10-20,Simulation and Implementation,0.7
+Rivian,8,,,2026-10-20,,
+Robinhood,15,,,2026-10-20,,
+Roblox,58,52,38.8,2026-10-20,Arrays and Hashing,9.7
+Roblox,58,52,38.8,2026-10-20,Sliding Window,8.7
+Roblox,58,52,38.8,2026-10-20,Binary Search,8.6
+Roblox,58,52,38.8,2026-10-20,Data Structure Design,8.3
+Roblox,58,52,38.8,2026-10-20,Simulation and Implementation,7.5
+Roblox,58,52,38.8,2026-10-20,Strings,6.9
+Roblox,58,52,38.8,2026-10-20,Graph Traversal,5.6
+Roblox,58,52,38.8,2026-10-20,Greedy,5.6
+Roblox,58,52,38.8,2026-10-20,Prefix Sums,4.9
+Roblox,58,52,38.8,2026-10-20,Two Pointers,4.5
+Roblox,58,52,38.8,2026-10-20,Heap,4.1
+Roblox,58,52,38.8,2026-10-20,Trie,3.2
+Roblox,58,52,38.8,2026-10-20,Stack,3.1
+Roblox,58,52,38.8,2026-10-20,Tree Traversal,2.6
+Roblox,58,52,38.8,2026-10-20,Topological Sort,2.5
+Roblox,58,52,38.8,2026-10-20,Linked List,2.2
+Roblox,58,52,38.8,2026-10-20,Bit Manipulation,1.6
+Roblox,58,52,38.8,2026-10-20,Math,1.6
+Roblox,58,52,38.8,2026-10-20,Bipartite Matching,1.6
+Roblox,58,52,38.8,2026-10-20,Monotonic Stack and Queue,1.5
+Roblox,58,52,38.8,2026-10-20,Segment Tree and Fenwick Tree,1.3
+Roblox,58,52,38.8,2026-10-20,String Matching,1.3
+Roblox,58,52,38.8,2026-10-20,Sorting,1.2
+Roblox,58,52,38.8,2026-10-20,Intervals,1.2
+Roblox,58,52,38.8,2026-10-20,Binary Search Trees,0.5
+Rokt,6,,,2026-10-20,,
+Roku,18,,,2026-10-20,,
+Rubrik,32,31,16.8,2026-10-20,Combinatorics,16.1
+Rubrik,32,31,16.8,2026-10-20,Math,8.0
+Rubrik,32,31,16.8,2026-10-20,Segment Tree and Fenwick Tree,7.9
+Rubrik,32,31,16.8,2026-10-20,Data Structure Design,7.8
+Rubrik,32,31,16.8,2026-10-20,Two Pointers,6.8
+Rubrik,32,31,16.8,2026-10-20,Greedy,6.6
+Rubrik,32,31,16.8,2026-10-20,Graph Traversal,6.3
+Rubrik,32,31,16.8,2026-10-20,Simulation and Implementation,5.8
+Rubrik,32,31,16.8,2026-10-20,Prefix Sums,5.5
+Rubrik,32,31,16.8,2026-10-20,Sorting,5.0
+Rubrik,32,31,16.8,2026-10-20,Geometry,4.5
+Rubrik,32,31,16.8,2026-10-20,Divide and Conquer,3.9
+Rubrik,32,31,16.8,2026-10-20,Binary Search,3.4
+Rubrik,32,31,16.8,2026-10-20,Sliding Window,2.3
+Rubrik,32,31,16.8,2026-10-20,Arrays and Hashing,1.9
+Rubrik,32,31,16.8,2026-10-20,Strings,1.9
+Rubrik,32,31,16.8,2026-10-20,Linked List,1.6
+Rubrik,32,31,16.8,2026-10-20,Heap,1.2
+Rubrik,32,31,16.8,2026-10-20,Backtracking and Brute Force,1.2
+Rubrik,32,31,16.8,2026-10-20,Union-Find,1.2
+Rubrik,32,31,16.8,2026-10-20,Interactive Problems,1.2
+Salesforce,196,189,48.6,2026-10-20,Greedy,9.6
+Salesforce,196,189,48.6,2026-10-20,Binary Search,8.8
+Salesforce,196,189,48.6,2026-10-20,Sliding Window,6.7
+Salesforce,196,189,48.6,2026-10-20,Arrays and Hashing,6.3
+Salesforce,196,189,48.6,2026-10-20,Tree Traversal,6.0
+Salesforce,196,189,48.6,2026-10-20,Heap,5.5
+Salesforce,196,189,48.6,2026-10-20,Graph Traversal,5.5
+Salesforce,196,189,48.6,2026-10-20,Strings,5.0
+Salesforce,196,189,48.6,2026-10-20,Stack,4.8
+Salesforce,196,189,48.6,2026-10-20,Two Pointers,4.7
+Salesforce,196,189,48.6,2026-10-20,Simulation and Implementation,4.0
+Salesforce,196,189,48.6,2026-10-20,Backtracking and Brute Force,3.3
+Salesforce,196,189,48.6,2026-10-20,2-D Dynamic Programming,3.1
+Salesforce,196,189,48.6,2026-10-20,Monotonic Stack and Queue,2.8
+Salesforce,196,189,48.6,2026-10-20,Bit Manipulation,2.8
+Salesforce,196,189,48.6,2026-10-20,Sorting,2.7
+Salesforce,196,189,48.6,2026-10-20,Data Structure Design,2.7
+Salesforce,196,189,48.6,2026-10-20,Prefix Sums,2.5
+Salesforce,196,189,48.6,2026-10-20,1-D Dynamic Programming,2.4
+Salesforce,196,189,48.6,2026-10-20,Linked List,2.3
+Salesforce,196,189,48.6,2026-10-20,Math,1.9
+Salesforce,196,189,48.6,2026-10-20,Topological Sort,1.3
+Salesforce,196,189,48.6,2026-10-20,Union-Find,1.3
+Salesforce,196,189,48.6,2026-10-20,Divide and Conquer,0.8
+Salesforce,196,189,48.6,2026-10-20,Shortest Paths,0.7
+Salesforce,196,189,48.6,2026-10-20,Number Theory,0.6
+Salesforce,196,189,48.6,2026-10-20,Tree DP,0.6
+Salesforce,196,189,48.6,2026-10-20,Binary Search Trees,0.5
+Salesforce,196,189,48.6,2026-10-20,Intervals,0.4
+Salesforce,196,189,48.6,2026-10-20,Segment Tree and Fenwick Tree,0.2
+Salesforce,196,189,48.6,2026-10-20,Meet in the Middle,0.1
+Samsara,3,,,2026-10-20,,
+Samsung,55,51,59.7,2026-10-20,Binary Search,10.3
+Samsung,55,51,59.7,2026-10-20,Two Pointers,10.1
+Samsung,55,51,59.7,2026-10-20,Heap,9.4
+Samsung,55,51,59.7,2026-10-20,Greedy,9.2
+Samsung,55,51,59.7,2026-10-20,Graph Traversal,8.4
+Samsung,55,51,59.7,2026-10-20,Sorting,5.4
+Samsung,55,51,59.7,2026-10-20,Tree Traversal,4.5
+Samsung,55,51,59.7,2026-10-20,2-D Dynamic Programming,4.1
+Samsung,55,51,59.7,2026-10-20,Simulation and Implementation,4.1
+Samsung,55,51,59.7,2026-10-20,Arrays and Hashing,3.6
+Samsung,55,51,59.7,2026-10-20,Data Structure Design,3.5
+Samsung,55,51,59.7,2026-10-20,Sliding Window,3.2
+Samsung,55,51,59.7,2026-10-20,Backtracking and Brute Force,3.1
+Samsung,55,51,59.7,2026-10-20,Linked List,3.0
+Samsung,55,51,59.7,2026-10-20,Bit Manipulation,2.3
+Samsung,55,51,59.7,2026-10-20,Shortest Paths,2.1
+Samsung,55,51,59.7,2026-10-20,1-D Dynamic Programming,2.1
+Samsung,55,51,59.7,2026-10-20,Meet in the Middle,2.0
+Samsung,55,51,59.7,2026-10-20,Union-Find,1.8
+Samsung,55,51,59.7,2026-10-20,Monotonic Stack and Queue,1.3
+Samsung,55,51,59.7,2026-10-20,Number Theory,1.3
+Samsung,55,51,59.7,2026-10-20,Combinatorics,1.3
+Samsung,55,51,59.7,2026-10-20,Game Theory,1.2
+Samsung,55,51,59.7,2026-10-20,Tree DP,1.2
+Samsung,55,51,59.7,2026-10-20,Binary Search Trees,0.8
+Samsung,55,51,59.7,2026-10-20,Intervals,0.7
+SAP,34,33,78.9,2026-10-20,Arrays and Hashing,11.9
+SAP,34,33,78.9,2026-10-20,Binary Search,11.7
+SAP,34,33,78.9,2026-10-20,Linked List,9.5
+SAP,34,33,78.9,2026-10-20,Two Pointers,8.3
+SAP,34,33,78.9,2026-10-20,Sliding Window,6.4
+SAP,34,33,78.9,2026-10-20,Greedy,5.5
+SAP,34,33,78.9,2026-10-20,Number Theory,4.5
+SAP,34,33,78.9,2026-10-20,Strings,4.4
+SAP,34,33,78.9,2026-10-20,Backtracking and Brute Force,4.0
+SAP,34,33,78.9,2026-10-20,Stack,3.3
+SAP,34,33,78.9,2026-10-20,Math,3.3
+SAP,34,33,78.9,2026-10-20,Graph Traversal,2.9
+SAP,34,33,78.9,2026-10-20,Heap,2.5
+SAP,34,33,78.9,2026-10-20,Tree Traversal,2.5
+SAP,34,33,78.9,2026-10-20,Prefix Sums,2.0
+SAP,34,33,78.9,2026-10-20,Combinatorics,2.0
+SAP,34,33,78.9,2026-10-20,Segment Tree and Fenwick Tree,2.0
+SAP,34,33,78.9,2026-10-20,Sorting,1.9
+SAP,34,33,78.9,2026-10-20,Intervals,1.9
+SAP,34,33,78.9,2026-10-20,Data Structure Design,1.6
+SAP,34,33,78.9,2026-10-20,Bit Manipulation,1.3
+SAP,34,33,78.9,2026-10-20,Max Flow and Min Cut,1.3
+SAP,34,33,78.9,2026-10-20,Bipartite Matching,1.3
+SAP,34,33,78.9,2026-10-20,1-D Dynamic Programming,1.2
+SAP,34,33,78.9,2026-10-20,2-D Dynamic Programming,1.2
+SAP,34,33,78.9,2026-10-20,Interactive Problems,1.2
+Scale AI,1,,,2026-10-20,,
+Sentry,1,,,2026-10-20,,
+ServiceNow,65,63,76.7,2026-10-20,Greedy,12.2
+ServiceNow,65,63,76.7,2026-10-20,Two Pointers,10.1
+ServiceNow,65,63,76.7,2026-10-20,Sliding Window,7.8
+ServiceNow,65,63,76.7,2026-10-20,Graph Traversal,7.6
+ServiceNow,65,63,76.7,2026-10-20,Stack,7.0
+ServiceNow,65,63,76.7,2026-10-20,Backtracking and Brute Force,6.1
+ServiceNow,65,63,76.7,2026-10-20,Arrays and Hashing,5.9
+ServiceNow,65,63,76.7,2026-10-20,Tree Traversal,5.1
+ServiceNow,65,63,76.7,2026-10-20,Linked List,4.8
+ServiceNow,65,63,76.7,2026-10-20,2-D Dynamic Programming,4.2
+ServiceNow,65,63,76.7,2026-10-20,Binary Search,4.1
+ServiceNow,65,63,76.7,2026-10-20,1-D Dynamic Programming,3.9
+ServiceNow,65,63,76.7,2026-10-20,Monotonic Stack and Queue,3.6
+ServiceNow,65,63,76.7,2026-10-20,Sorting,2.8
+ServiceNow,65,63,76.7,2026-10-20,Data Structure Design,2.4
+ServiceNow,65,63,76.7,2026-10-20,Heap,2.1
+ServiceNow,65,63,76.7,2026-10-20,Prefix Sums,1.4
+ServiceNow,65,63,76.7,2026-10-20,Bit Manipulation,1.4
+ServiceNow,65,63,76.7,2026-10-20,Math,1.4
+ServiceNow,65,63,76.7,2026-10-20,Strings,1.2
+ServiceNow,65,63,76.7,2026-10-20,Number Theory,1.2
+ServiceNow,65,63,76.7,2026-10-20,Combinatorics,1.2
+ServiceNow,65,63,76.7,2026-10-20,Intervals,0.7
+ServiceNow,65,63,76.7,2026-10-20,Trie,0.7
+ServiceNow,65,63,76.7,2026-10-20,Union-Find,0.7
+ServiceNow,65,63,76.7,2026-10-20,Strongly Connected Components and Bridges,0.7
+ShareChat,2,,,2026-10-20,,
+Shopee,7,,,2026-10-20,,
+Shopify,4,,,2026-10-20,,
+Siemens,22,,,2026-10-20,,
+SIG,10,,,2026-10-20,,
+Sigmoid,15,,,2026-10-20,,
+Slice,1,,,2026-10-20,,
+smartnews,1,,,2026-10-20,,
+Smartsheet,1,,,2026-10-20,,
+Snap,83,81,54.4,2026-10-20,Graph Traversal,15.3
+Snap,83,81,54.4,2026-10-20,Backtracking and Brute Force,8.4
+Snap,83,81,54.4,2026-10-20,Stack,6.4
+Snap,83,81,54.4,2026-10-20,Two Pointers,6.3
+Snap,83,81,54.4,2026-10-20,Greedy,5.5
+Snap,83,81,54.4,2026-10-20,Union-Find,5.3
+Snap,83,81,54.4,2026-10-20,1-D Dynamic Programming,4.7
+Snap,83,81,54.4,2026-10-20,Binary Search,4.6
+Snap,83,81,54.4,2026-10-20,Data Structure Design,4.5
+Snap,83,81,54.4,2026-10-20,Arrays and Hashing,4.1
+Snap,83,81,54.4,2026-10-20,Linked List,3.7
+Snap,83,81,54.4,2026-10-20,Sliding Window,3.0
+Snap,83,81,54.4,2026-10-20,Tree Traversal,2.8
+Snap,83,81,54.4,2026-10-20,Bit Manipulation,2.7
+Snap,83,81,54.4,2026-10-20,Trie,2.5
+Snap,83,81,54.4,2026-10-20,Math,2.4
+Snap,83,81,54.4,2026-10-20,2-D Dynamic Programming,2.3
+Snap,83,81,54.4,2026-10-20,Heap,2.1
+Snap,83,81,54.4,2026-10-20,Strings,2.1
+Snap,83,81,54.4,2026-10-20,Topological Sort,2.0
+Snap,83,81,54.4,2026-10-20,Prefix Sums,1.9
+Snap,83,81,54.4,2026-10-20,Simulation and Implementation,1.5
+Snap,83,81,54.4,2026-10-20,Sorting,1.2
+Snap,83,81,54.4,2026-10-20,Number Theory,1.0
+Snap,83,81,54.4,2026-10-20,Shortest Paths,0.8
+Snap,83,81,54.4,2026-10-20,Geometry,0.8
+Snap,83,81,54.4,2026-10-20,Monotonic Stack and Queue,0.7
+Snap,83,81,54.4,2026-10-20,Intervals,0.6
+Snap,83,81,54.4,2026-10-20,Binary Search Trees,0.5
+Snapdeal,1,,,2026-10-20,,
+Snowflake,100,96,51.6,2026-10-20,Graph Traversal,10.8
+Snowflake,100,96,51.6,2026-10-20,Data Structure Design,10.4
+Snowflake,100,96,51.6,2026-10-20,Tree Traversal,8.9
+Snowflake,100,96,51.6,2026-10-20,Arrays and Hashing,7.9
+Snowflake,100,96,51.6,2026-10-20,Binary Search,6.1
+Snowflake,100,96,51.6,2026-10-20,Strings,5.3
+Snowflake,100,96,51.6,2026-10-20,Two Pointers,5.1
+Snowflake,100,96,51.6,2026-10-20,Heap,4.8
+Snowflake,100,96,51.6,2026-10-20,Topological Sort,4.8
+Snowflake,100,96,51.6,2026-10-20,Linked List,4.7
+Snowflake,100,96,51.6,2026-10-20,Greedy,3.9
+Snowflake,100,96,51.6,2026-10-20,Trie,3.7
+Snowflake,100,96,51.6,2026-10-20,Sliding Window,3.2
+Snowflake,100,96,51.6,2026-10-20,Stack,2.4
+Snowflake,100,96,51.6,2026-10-20,Math,2.3
+Snowflake,100,96,51.6,2026-10-20,2-D Dynamic Programming,2.0
+Snowflake,100,96,51.6,2026-10-20,Union-Find,1.7
+Snowflake,100,96,51.6,2026-10-20,Backtracking and Brute Force,1.6
+Snowflake,100,96,51.6,2026-10-20,Shortest Paths,1.6
+Snowflake,100,96,51.6,2026-10-20,Simulation and Implementation,1.6
+Snowflake,100,96,51.6,2026-10-20,Sorting,1.4
+Snowflake,100,96,51.6,2026-10-20,Monotonic Stack and Queue,1.2
+Snowflake,100,96,51.6,2026-10-20,String Matching,1.2
+Snowflake,100,96,51.6,2026-10-20,Bit Manipulation,0.9
+Snowflake,100,96,51.6,2026-10-20,Lowest Common Ancestor and Tree Queries,0.8
+Snowflake,100,96,51.6,2026-10-20,Interactive Problems,0.6
+Snowflake,100,96,51.6,2026-10-20,1-D Dynamic Programming,0.5
+Snowflake,100,96,51.6,2026-10-20,Tree DP,0.4
+Snowflake,100,96,51.6,2026-10-20,Prefix Sums,0.2
+Societe Generale,2,,,2026-10-20,,
+SoFi,14,,,2026-10-20,,
+Softwire,2,,,2026-10-20,,
+Sony,5,,,2026-10-20,,
+SOTI,1,,,2026-10-20,,
+SoundHound,2,,,2026-10-20,,
+Splunk,8,,,2026-10-20,,
+Spotify,15,,,2026-10-20,,
+Sprinklr,45,40,47.2,2026-10-20,Tree Traversal,12.3
+Sprinklr,45,40,47.2,2026-10-20,Monotonic Stack and Queue,7.9
+Sprinklr,45,40,47.2,2026-10-20,Stack,7.6
+Sprinklr,45,40,47.2,2026-10-20,Bit Manipulation,7.5
+Sprinklr,45,40,47.2,2026-10-20,Greedy,6.2
+Sprinklr,45,40,47.2,2026-10-20,Prefix Sums,5.5
+Sprinklr,45,40,47.2,2026-10-20,Binary Search,5.3
+Sprinklr,45,40,47.2,2026-10-20,Sliding Window,5.0
+Sprinklr,45,40,47.2,2026-10-20,Arrays and Hashing,4.8
+Sprinklr,45,40,47.2,2026-10-20,Math,4.2
+Sprinklr,45,40,47.2,2026-10-20,2-D Dynamic Programming,3.9
+Sprinklr,45,40,47.2,2026-10-20,Backtracking and Brute Force,3.2
+Sprinklr,45,40,47.2,2026-10-20,String Hashing,3.2
+Sprinklr,45,40,47.2,2026-10-20,String Matching,3.2
+Sprinklr,45,40,47.2,2026-10-20,Heap,3.1
+Sprinklr,45,40,47.2,2026-10-20,Graph Traversal,2.9
+Sprinklr,45,40,47.2,2026-10-20,Data Structure Design,2.1
+Sprinklr,45,40,47.2,2026-10-20,Two Pointers,2.0
+Sprinklr,45,40,47.2,2026-10-20,1-D Dynamic Programming,1.9
+Sprinklr,45,40,47.2,2026-10-20,Strings,1.6
+Sprinklr,45,40,47.2,2026-10-20,Bitmask DP,1.6
+Sprinklr,45,40,47.2,2026-10-20,Meet in the Middle,1.1
+Sprinklr,45,40,47.2,2026-10-20,Linked List,1.0
+Sprinklr,45,40,47.2,2026-10-20,Sorting,1.0
+Sprinklr,45,40,47.2,2026-10-20,Intervals,1.0
+Sprinklr,45,40,47.2,2026-10-20,Tree DP,1.0
+Squarepoint Capital,29,27,49.7,2026-10-20,Greedy,22.4
+Squarepoint Capital,29,27,49.7,2026-10-20,Sliding Window,11.1
+Squarepoint Capital,29,27,49.7,2026-10-20,1-D Dynamic Programming,10.7
+Squarepoint Capital,29,27,49.7,2026-10-20,Two Pointers,8.1
+Squarepoint Capital,29,27,49.7,2026-10-20,Binary Search,7.2
+Squarepoint Capital,29,27,49.7,2026-10-20,Linked List,7.0
+Squarepoint Capital,29,27,49.7,2026-10-20,Graph Traversal,6.0
+Squarepoint Capital,29,27,49.7,2026-10-20,Arrays and Hashing,5.6
+Squarepoint Capital,29,27,49.7,2026-10-20,Stack,3.1
+Squarepoint Capital,29,27,49.7,2026-10-20,Data Structure Design,3.0
+Squarepoint Capital,29,27,49.7,2026-10-20,Union-Find,2.9
+Squarepoint Capital,29,27,49.7,2026-10-20,Bit Manipulation,2.4
+Squarepoint Capital,29,27,49.7,2026-10-20,Trie,2.3
+Squarepoint Capital,29,27,49.7,2026-10-20,Strings,2.1
+Squarepoint Capital,29,27,49.7,2026-10-20,Monotonic Stack and Queue,2.0
+Squarepoint Capital,29,27,49.7,2026-10-20,Heap,1.6
+Squarepoint Capital,29,27,49.7,2026-10-20,Max Flow and Min Cut,1.6
+Squarepoint Capital,29,27,49.7,2026-10-20,Simulation and Implementation,1.0
+Squarespace,5,,,2026-10-20,,
+StackAdapt,3,,,2026-10-20,,
+Stackline,2,,,2026-10-20,,
+Stripe,12,,,2026-10-20,,
+Sumo Logic,2,,,2026-10-20,,
+Swiggy,35,34,76.7,2026-10-20,Sorting,11.8
+Swiggy,35,34,76.7,2026-10-20,Arrays and Hashing,10.9
+Swiggy,35,34,76.7,2026-10-20,Sliding Window,8.7
+Swiggy,35,34,76.7,2026-10-20,2-D Dynamic Programming,8.3
+Swiggy,35,34,76.7,2026-10-20,1-D Dynamic Programming,7.5
+Swiggy,35,34,76.7,2026-10-20,Binary Search,6.7
+Swiggy,35,34,76.7,2026-10-20,Two Pointers,6.5
+Swiggy,35,34,76.7,2026-10-20,Monotonic Stack and Queue,6.2
+Swiggy,35,34,76.7,2026-10-20,Math,5.0
+Swiggy,35,34,76.7,2026-10-20,Prefix Sums,4.0
+Swiggy,35,34,76.7,2026-10-20,Heap,3.8
+Swiggy,35,34,76.7,2026-10-20,Greedy,3.8
+Swiggy,35,34,76.7,2026-10-20,Bit Manipulation,3.8
+Swiggy,35,34,76.7,2026-10-20,Data Structure Design,2.5
+Swiggy,35,34,76.7,2026-10-20,Strings,2.3
+Swiggy,35,34,76.7,2026-10-20,Graph Traversal,1.6
+Swiggy,35,34,76.7,2026-10-20,Topological Sort,1.6
+Swiggy,35,34,76.7,2026-10-20,Stack,1.3
+Swiggy,35,34,76.7,2026-10-20,Linked List,1.3
+Swiggy,35,34,76.7,2026-10-20,Intervals,1.3
+Swiggy,35,34,76.7,2026-10-20,Backtracking and Brute Force,1.3
+Synopsys,1,,,2026-10-20,,
+Tanium,2,,,2026-10-20,,
+Target,6,,,2026-10-20,,
+tcs,264,241,72.9,2026-10-20,Two Pointers,11.8
+tcs,264,241,72.9,2026-10-20,Arrays and Hashing,9.8
+tcs,264,241,72.9,2026-10-20,Binary Search,9.1
+tcs,264,241,72.9,2026-10-20,Math,8.2
+tcs,264,241,72.9,2026-10-20,Strings,6.9
+tcs,264,241,72.9,2026-10-20,Simulation and Implementation,5.4
+tcs,264,241,72.9,2026-10-20,Sliding Window,5.0
+tcs,264,241,72.9,2026-10-20,Linked List,4.9
+tcs,264,241,72.9,2026-10-20,Greedy,4.1
+tcs,264,241,72.9,2026-10-20,Sorting,4.0
+tcs,264,241,72.9,2026-10-20,Tree Traversal,3.8
+tcs,264,241,72.9,2026-10-20,1-D Dynamic Programming,3.6
+tcs,264,241,72.9,2026-10-20,Bit Manipulation,3.0
+tcs,264,241,72.9,2026-10-20,Stack,2.9
+tcs,264,241,72.9,2026-10-20,2-D Dynamic Programming,2.6
+tcs,264,241,72.9,2026-10-20,Prefix Sums,2.4
+tcs,264,241,72.9,2026-10-20,Heap,2.3
+tcs,264,241,72.9,2026-10-20,Backtracking and Brute Force,2.3
+tcs,264,241,72.9,2026-10-20,Monotonic Stack and Queue,2.1
+tcs,264,241,72.9,2026-10-20,Graph Traversal,1.2
+tcs,264,241,72.9,2026-10-20,Data Structure Design,0.9
+tcs,264,241,72.9,2026-10-20,Intervals,0.7
+tcs,264,241,72.9,2026-10-20,Number Theory,0.7
+tcs,264,241,72.9,2026-10-20,Geometry,0.6
+tcs,264,241,72.9,2026-10-20,String Matching,0.5
+tcs,264,241,72.9,2026-10-20,Binary Search Trees,0.4
+tcs,264,241,72.9,2026-10-20,Meet in the Middle,0.4
+tcs,264,241,72.9,2026-10-20,Game Theory,0.3
+tcs,264,241,72.9,2026-10-20,JavaScript,0.3
+tcs,264,241,72.9,2026-10-20,Divide and Conquer,0.1
+Tech Mahindra,2,,,2026-10-20,,
+Tekion,28,27,48.4,2026-10-20,Two Pointers,12.1
+Tekion,28,27,48.4,2026-10-20,Greedy,11.9
+Tekion,28,27,48.4,2026-10-20,Graph Traversal,9.4
+Tekion,28,27,48.4,2026-10-20,Prefix Sums,8.5
+Tekion,28,27,48.4,2026-10-20,Sliding Window,8.2
+Tekion,28,27,48.4,2026-10-20,Binary Search,7.0
+Tekion,28,27,48.4,2026-10-20,Monotonic Stack and Queue,6.6
+Tekion,28,27,48.4,2026-10-20,Backtracking and Brute Force,5.4
+Tekion,28,27,48.4,2026-10-20,Arrays and Hashing,5.1
+Tekion,28,27,48.4,2026-10-20,Tree Traversal,3.4
+Tekion,28,27,48.4,2026-10-20,Data Structure Design,3.4
+Tekion,28,27,48.4,2026-10-20,Sorting,2.8
+Tekion,28,27,48.4,2026-10-20,Number Theory,2.7
+Tekion,28,27,48.4,2026-10-20,Combinatorics,2.7
+Tekion,28,27,48.4,2026-10-20,Heap,2.6
+Tekion,28,27,48.4,2026-10-20,Strings,2.3
+Tekion,28,27,48.4,2026-10-20,1-D Dynamic Programming,2.2
+Tekion,28,27,48.4,2026-10-20,Math,1.7
+Tekion,28,27,48.4,2026-10-20,2-D Dynamic Programming,1.1
+Tekion,28,27,48.4,2026-10-20,Stack,0.9
+Tencent,3,,,2026-10-20,,
+Teradata,8,,,2026-10-20,,
+Tesco,2,,,2026-10-20,,
+Tesla,40,37,79.9,2026-10-20,Graph Traversal,14.6
+Tesla,40,37,79.9,2026-10-20,Data Structure Design,10.9
+Tesla,40,37,79.9,2026-10-20,Stack,8.6
+Tesla,40,37,79.9,2026-10-20,Arrays and Hashing,8.2
+Tesla,40,37,79.9,2026-10-20,Sliding Window,6.9
+Tesla,40,37,79.9,2026-10-20,Strings,6.4
+Tesla,40,37,79.9,2026-10-20,Greedy,4.4
+Tesla,40,37,79.9,2026-10-20,Two Pointers,4.3
+Tesla,40,37,79.9,2026-10-20,Backtracking and Brute Force,4.1
+Tesla,40,37,79.9,2026-10-20,Topological Sort,3.6
+Tesla,40,37,79.9,2026-10-20,Sorting,3.5
+Tesla,40,37,79.9,2026-10-20,Heap,3.2
+Tesla,40,37,79.9,2026-10-20,Simulation and Implementation,3.2
+Tesla,40,37,79.9,2026-10-20,Geometry,2.8
+Tesla,40,37,79.9,2026-10-20,Bit Manipulation,2.6
+Tesla,40,37,79.9,2026-10-20,Binary Search,2.2
+Tesla,40,37,79.9,2026-10-20,Math,2.2
+Tesla,40,37,79.9,2026-10-20,Intervals,2.1
+Tesla,40,37,79.9,2026-10-20,Monotonic Stack and Queue,1.6
+Tesla,40,37,79.9,2026-10-20,Linked List,1.4
+Tesla,40,37,79.9,2026-10-20,1-D Dynamic Programming,1.3
+Tesla,40,37,79.9,2026-10-20,Union-Find,1.1
+Tesla,40,37,79.9,2026-10-20,Tree Traversal,0.7
+Texas Instruments,3,,,2026-10-20,,
+The Trade Desk,6,,,2026-10-20,,
+Thomson Reuters,2,,,2026-10-20,,
+thoughtspot,5,,,2026-10-20,,
+ThoughtWorks,3,,,2026-10-20,,
+ThousandEyes,2,,,2026-10-20,,
+Tiger Analytics,3,,,2026-10-20,,
+TikTok,317,308,62.3,2026-10-20,Graph Traversal,9.8
+TikTok,317,308,62.3,2026-10-20,Binary Search,7.0
+TikTok,317,308,62.3,2026-10-20,Greedy,6.8
+TikTok,317,308,62.3,2026-10-20,Tree Traversal,6.0
+TikTok,317,308,62.3,2026-10-20,Two Pointers,5.9
+TikTok,317,308,62.3,2026-10-20,Backtracking and Brute Force,5.6
+TikTok,317,308,62.3,2026-10-20,Sliding Window,5.2
+TikTok,317,308,62.3,2026-10-20,1-D Dynamic Programming,5.1
+TikTok,317,308,62.3,2026-10-20,Stack,4.3
+TikTok,317,308,62.3,2026-10-20,Strings,4.1
+TikTok,317,308,62.3,2026-10-20,Arrays and Hashing,4.0
+TikTok,317,308,62.3,2026-10-20,Linked List,3.9
+TikTok,317,308,62.3,2026-10-20,Prefix Sums,3.7
+TikTok,317,308,62.3,2026-10-20,Data Structure Design,3.7
+TikTok,317,308,62.3,2026-10-20,Heap,3.4
+TikTok,317,308,62.3,2026-10-20,2-D Dynamic Programming,3.0
+TikTok,317,308,62.3,2026-10-20,Simulation and Implementation,2.7
+TikTok,317,308,62.3,2026-10-20,Monotonic Stack and Queue,2.2
+TikTok,317,308,62.3,2026-10-20,Sorting,2.1
+TikTok,317,308,62.3,2026-10-20,Topological Sort,1.7
+TikTok,317,308,62.3,2026-10-20,Trie,1.6
+TikTok,317,308,62.3,2026-10-20,Union-Find,1.5
+TikTok,317,308,62.3,2026-10-20,Math,1.2
+TikTok,317,308,62.3,2026-10-20,Intervals,0.8
+TikTok,317,308,62.3,2026-10-20,Number Theory,0.6
+TikTok,317,308,62.3,2026-10-20,Shortest Paths,0.5
+TikTok,317,308,62.3,2026-10-20,Binary Search Trees,0.4
+TikTok,317,308,62.3,2026-10-20,Geometry,0.4
+TikTok,317,308,62.3,2026-10-20,Tree DP,0.4
+TikTok,317,308,62.3,2026-10-20,String Matching,0.4
+TikTok,317,308,62.3,2026-10-20,Minimum Spanning Tree,0.3
+TikTok,317,308,62.3,2026-10-20,Bit Manipulation,0.3
+TikTok,317,308,62.3,2026-10-20,Lowest Common Ancestor and Tree Queries,0.3
+TikTok,317,308,62.3,2026-10-20,Probability and Expected Value,0.2
+TikTok,317,308,62.3,2026-10-20,Divide and Conquer,0.2
+TikTok,317,308,62.3,2026-10-20,Segment Tree and Fenwick Tree,0.2
+TikTok,317,308,62.3,2026-10-20,Interactive Problems,0.2
+TikTok,317,308,62.3,2026-10-20,JavaScript,0.2
+TikTok,317,308,62.3,2026-10-20,String Hashing,0.1
+TikTok,317,308,62.3,2026-10-20,Suffix Structures,0.1
+Tinder,3,,,2026-10-20,,
+Tinkoff,19,,,2026-10-20,,
+Toast,5,,,2026-10-20,,
+Toptal,3,,,2026-10-20,,
+Tower Research Capital,4,,,2026-10-20,,
+Trexquant,4,,,2026-10-20,,
+Trilogy,6,,,2026-10-20,,
+Tripadvisor,5,,,2026-10-20,,
+Turing,29,28,49.4,2026-10-20,Arrays and Hashing,14.8
+Turing,29,28,49.4,2026-10-20,Greedy,12.5
+Turing,29,28,49.4,2026-10-20,Binary Search,11.4
+Turing,29,28,49.4,2026-10-20,Sliding Window,10.2
+Turing,29,28,49.4,2026-10-20,Strings,8.3
+Turing,29,28,49.4,2026-10-20,Math,7.4
+Turing,29,28,49.4,2026-10-20,1-D Dynamic Programming,6.0
+Turing,29,28,49.4,2026-10-20,Stack,3.8
+Turing,29,28,49.4,2026-10-20,Heap,3.5
+Turing,29,28,49.4,2026-10-20,Sorting,3.0
+Turing,29,28,49.4,2026-10-20,Graph Traversal,3.0
+Turing,29,28,49.4,2026-10-20,Shortest Paths,3.0
+Turing,29,28,49.4,2026-10-20,Two Pointers,2.6
+Turing,29,28,49.4,2026-10-20,Union-Find,1.7
+Turing,29,28,49.4,2026-10-20,Bit Manipulation,1.7
+Turing,29,28,49.4,2026-10-20,Intervals,1.5
+Turing,29,28,49.4,2026-10-20,Trie,1.5
+Turing,29,28,49.4,2026-10-20,String Hashing,1.5
+Turing,29,28,49.4,2026-10-20,Prefix Sums,1.3
+Turing,29,28,49.4,2026-10-20,2-D Dynamic Programming,1.2
+Turvo,2,,,2026-10-20,,
+TuSimple,4,,,2026-10-20,,
+Twilio,11,,,2026-10-20,,
+Twitch,7,,,2026-10-20,,
+Two Sigma,20,,,2026-10-20,,
+Uber,336,323,46.0,2026-10-20,Graph Traversal,11.3
+Uber,336,323,46.0,2026-10-20,Binary Search,8.3
+Uber,336,323,46.0,2026-10-20,Arrays and Hashing,5.7
+Uber,336,323,46.0,2026-10-20,Tree Traversal,5.7
+Uber,336,323,46.0,2026-10-20,Data Structure Design,5.2
+Uber,336,323,46.0,2026-10-20,Two Pointers,5.1
+Uber,336,323,46.0,2026-10-20,Strings,5.0
+Uber,336,323,46.0,2026-10-20,Heap,4.4
+Uber,336,323,46.0,2026-10-20,Backtracking and Brute Force,4.3
+Uber,336,323,46.0,2026-10-20,Greedy,4.3
+Uber,336,323,46.0,2026-10-20,Union-Find,3.8
+Uber,336,323,46.0,2026-10-20,Sliding Window,3.2
+Uber,336,323,46.0,2026-10-20,Prefix Sums,2.8
+Uber,336,323,46.0,2026-10-20,Linked List,2.6
+Uber,336,323,46.0,2026-10-20,Simulation and Implementation,2.6
+Uber,336,323,46.0,2026-10-20,Stack,2.5
+Uber,336,323,46.0,2026-10-20,Trie,2.2
+Uber,336,323,46.0,2026-10-20,Topological Sort,2.1
+Uber,336,323,46.0,2026-10-20,1-D Dynamic Programming,2.0
+Uber,336,323,46.0,2026-10-20,Monotonic Stack and Queue,1.8
+Uber,336,323,46.0,2026-10-20,2-D Dynamic Programming,1.8
+Uber,336,323,46.0,2026-10-20,Bit Manipulation,1.8
+Uber,336,323,46.0,2026-10-20,Shortest Paths,1.6
+Uber,336,323,46.0,2026-10-20,Math,1.4
+Uber,336,323,46.0,2026-10-20,Sorting,1.2
+Uber,336,323,46.0,2026-10-20,Number Theory,1.1
+Uber,336,323,46.0,2026-10-20,Segment Tree and Fenwick Tree,1.1
+Uber,336,323,46.0,2026-10-20,Binary Search Trees,0.8
+Uber,336,323,46.0,2026-10-20,String Hashing,0.7
+Uber,336,323,46.0,2026-10-20,Intervals,0.6
+Uber,336,323,46.0,2026-10-20,String Matching,0.6
+Uber,336,323,46.0,2026-10-20,Combinatorics,0.5
+Uber,336,323,46.0,2026-10-20,Minimum Spanning Tree,0.4
+Uber,336,323,46.0,2026-10-20,Geometry,0.4
+Uber,336,323,46.0,2026-10-20,Interactive Problems,0.4
+Uber,336,323,46.0,2026-10-20,Tree DP,0.3
+Uber,336,323,46.0,2026-10-20,JavaScript,0.2
+Uber,336,323,46.0,2026-10-20,Probability and Expected Value,0.1
+Uber,336,323,46.0,2026-10-20,Suffix Structures,0.1
+UBS,4,,,2026-10-20,,
+UiPath,13,,,2026-10-20,,
+UKG,11,,,2026-10-20,,
+Unity,2,,,2026-10-20,,
+Upstart,6,,,2026-10-20,,
+Urban Company,6,,,2026-10-20,,
+USAA,3,,,2026-10-20,,
+Valve,4,,,2026-10-20,,
+Veeva Systems,1,,,2026-10-20,,
+Verily,5,,,2026-10-20,,
+Veritas,1,,,2026-10-20,,
+Verkada,17,,,2026-10-20,,
+Vimeo,5,,,2026-10-20,,
+Virtu Financial,9,,,2026-10-20,,
+Virtusa,6,,,2026-10-20,,
+Visa,150,142,53.5,2026-10-20,Arrays and Hashing,11.6
+Visa,150,142,53.5,2026-10-20,Greedy,9.9
+Visa,150,142,53.5,2026-10-20,Two Pointers,8.9
+Visa,150,142,53.5,2026-10-20,Graph Traversal,5.9
+Visa,150,142,53.5,2026-10-20,Strings,5.9
+Visa,150,142,53.5,2026-10-20,Simulation and Implementation,5.7
+Visa,150,142,53.5,2026-10-20,Sliding Window,4.5
+Visa,150,142,53.5,2026-10-20,Stack,4.1
+Visa,150,142,53.5,2026-10-20,Heap,4.1
+Visa,150,142,53.5,2026-10-20,Binary Search,4.0
+Visa,150,142,53.5,2026-10-20,Backtracking and Brute Force,3.8
+Visa,150,142,53.5,2026-10-20,Prefix Sums,3.5
+Visa,150,142,53.5,2026-10-20,1-D Dynamic Programming,2.8
+Visa,150,142,53.5,2026-10-20,Monotonic Stack and Queue,2.7
+Visa,150,142,53.5,2026-10-20,Tree Traversal,2.7
+Visa,150,142,53.5,2026-10-20,Sorting,2.6
+Visa,150,142,53.5,2026-10-20,Math,2.5
+Visa,150,142,53.5,2026-10-20,Linked List,2.3
+Visa,150,142,53.5,2026-10-20,2-D Dynamic Programming,2.2
+Visa,150,142,53.5,2026-10-20,Trie,2.0
+Visa,150,142,53.5,2026-10-20,Segment Tree and Fenwick Tree,1.5
+Visa,150,142,53.5,2026-10-20,Data Structure Design,1.4
+Visa,150,142,53.5,2026-10-20,Bit Manipulation,1.0
+Visa,150,142,53.5,2026-10-20,Game Theory,1.0
+Visa,150,142,53.5,2026-10-20,Intervals,0.7
+Visa,150,142,53.5,2026-10-20,Union-Find,0.7
+Visa,150,142,53.5,2026-10-20,Shortest Paths,0.5
+Visa,150,142,53.5,2026-10-20,Tree DP,0.5
+Visa,150,142,53.5,2026-10-20,Topological Sort,0.3
+Visa,150,142,53.5,2026-10-20,Number Theory,0.3
+Visa,150,142,53.5,2026-10-20,String Hashing,0.3
+Visa,150,142,53.5,2026-10-20,String Matching,0.3
+VK,12,,,2026-10-20,,
+VMware,5,,,2026-10-20,,
+Walmart Labs,135,131,72.0,2026-10-20,Arrays and Hashing,10.1
+Walmart Labs,135,131,72.0,2026-10-20,Two Pointers,8.8
+Walmart Labs,135,131,72.0,2026-10-20,1-D Dynamic Programming,7.0
+Walmart Labs,135,131,72.0,2026-10-20,Greedy,6.5
+Walmart Labs,135,131,72.0,2026-10-20,Sliding Window,6.3
+Walmart Labs,135,131,72.0,2026-10-20,Graph Traversal,6.2
+Walmart Labs,135,131,72.0,2026-10-20,Strings,6.0
+Walmart Labs,135,131,72.0,2026-10-20,Backtracking and Brute Force,5.4
+Walmart Labs,135,131,72.0,2026-10-20,Binary Search,5.3
+Walmart Labs,135,131,72.0,2026-10-20,Stack,4.1
+Walmart Labs,135,131,72.0,2026-10-20,Heap,3.9
+Walmart Labs,135,131,72.0,2026-10-20,Sorting,3.7
+Walmart Labs,135,131,72.0,2026-10-20,Simulation and Implementation,3.7
+Walmart Labs,135,131,72.0,2026-10-20,Linked List,3.1
+Walmart Labs,135,131,72.0,2026-10-20,Tree Traversal,2.9
+Walmart Labs,135,131,72.0,2026-10-20,Data Structure Design,2.9
+Walmart Labs,135,131,72.0,2026-10-20,Prefix Sums,2.7
+Walmart Labs,135,131,72.0,2026-10-20,Monotonic Stack and Queue,2.7
+Walmart Labs,135,131,72.0,2026-10-20,Bit Manipulation,2.1
+Walmart Labs,135,131,72.0,2026-10-20,2-D Dynamic Programming,1.4
+Walmart Labs,135,131,72.0,2026-10-20,Intervals,1.2
+Walmart Labs,135,131,72.0,2026-10-20,Math,1.2
+Walmart Labs,135,131,72.0,2026-10-20,Topological Sort,0.7
+Walmart Labs,135,131,72.0,2026-10-20,Divide and Conquer,0.6
+Walmart Labs,135,131,72.0,2026-10-20,Union-Find,0.3
+Walmart Labs,135,131,72.0,2026-10-20,Combinatorics,0.3
+Walmart Labs,135,131,72.0,2026-10-20,Segment Tree and Fenwick Tree,0.3
+Walmart Labs,135,131,72.0,2026-10-20,Strongly Connected Components and Bridges,0.3
+Walmart Labs,135,131,72.0,2026-10-20,Binary Search Trees,0.2
+Warnermedia,5,,,2026-10-20,,
+Wayfair,17,,,2026-10-20,,
+Waymo,28,28,43.0,2026-10-20,Data Structure Design,12.8
+Waymo,28,28,43.0,2026-10-20,Graph Traversal,11.6
+Waymo,28,28,43.0,2026-10-20,Binary Search,8.2
+Waymo,28,28,43.0,2026-10-20,2-D Dynamic Programming,6.6
+Waymo,28,28,43.0,2026-10-20,Greedy,6.2
+Waymo,28,28,43.0,2026-10-20,Sorting,6.1
+Waymo,28,28,43.0,2026-10-20,Shortest Paths,5.3
+Waymo,28,28,43.0,2026-10-20,Monotonic Stack and Queue,5.0
+Waymo,28,28,43.0,2026-10-20,Prefix Sums,4.9
+Waymo,28,28,43.0,2026-10-20,Arrays and Hashing,4.2
+Waymo,28,28,43.0,2026-10-20,Stack,3.5
+Waymo,28,28,43.0,2026-10-20,Topological Sort,3.5
+Waymo,28,28,43.0,2026-10-20,Simulation and Implementation,3.5
+Waymo,28,28,43.0,2026-10-20,Geometry,3.5
+Waymo,28,28,43.0,2026-10-20,Heap,3.1
+Waymo,28,28,43.0,2026-10-20,Union-Find,3.0
+Waymo,28,28,43.0,2026-10-20,Math,2.6
+Waymo,28,28,43.0,2026-10-20,Backtracking and Brute Force,1.8
+Waymo,28,28,43.0,2026-10-20,Strings,1.8
+Waymo,28,28,43.0,2026-10-20,Interactive Problems,1.8
+Waymo,28,28,43.0,2026-10-20,Two Pointers,1.0
+Wealthfront,1,,,2026-10-20,,
+Wells Fargo,20,,,2026-10-20,,
+WeRide,10,,,2026-10-20,,
+Western Digital,1,,,2026-10-20,,
+Whatnot,11,,,2026-10-20,,
+Wipro,18,,,2026-10-20,,
+Wise,6,,,2026-10-20,,
+Wish,5,,,2026-10-20,,
+Wissen Technology,11,,,2026-10-20,,
+Wix,51,50,72.7,2026-10-20,Strings,12.6
+Wix,51,50,72.7,2026-10-20,Tree Traversal,12.3
+Wix,51,50,72.7,2026-10-20,Two Pointers,12.0
+Wix,51,50,72.7,2026-10-20,Graph Traversal,12.0
+Wix,51,50,72.7,2026-10-20,Arrays and Hashing,10.3
+Wix,51,50,72.7,2026-10-20,Math,5.9
+Wix,51,50,72.7,2026-10-20,Linked List,5.4
+Wix,51,50,72.7,2026-10-20,Heap,3.3
+Wix,51,50,72.7,2026-10-20,Greedy,3.3
+Wix,51,50,72.7,2026-10-20,Bit Manipulation,3.0
+Wix,51,50,72.7,2026-10-20,Sorting,2.9
+Wix,51,50,72.7,2026-10-20,Trie,2.4
+Wix,51,50,72.7,2026-10-20,Binary Search,2.2
+Wix,51,50,72.7,2026-10-20,Binary Search Trees,2.2
+Wix,51,50,72.7,2026-10-20,Stack,2.1
+Wix,51,50,72.7,2026-10-20,Backtracking and Brute Force,1.5
+Wix,51,50,72.7,2026-10-20,Monotonic Stack and Queue,1.1
+Wix,51,50,72.7,2026-10-20,Intervals,1.1
+Wix,51,50,72.7,2026-10-20,Topological Sort,1.1
+Wix,51,50,72.7,2026-10-20,1-D Dynamic Programming,1.1
+Wix,51,50,72.7,2026-10-20,Data Structure Design,1.1
+Wix,51,50,72.7,2026-10-20,2-D Dynamic Programming,0.7
+Wix,51,50,72.7,2026-10-20,Lowest Common Ancestor and Tree Queries,0.4
+Workday,5,,,2026-10-20,,
+Works Applications,4,,,2026-10-20,,
+WorldQuant,4,,,2026-10-20,,
+X,51,44,43.6,2026-10-20,Data Structure Design,10.0
+X,51,44,43.6,2026-10-20,Math,9.1
+X,51,44,43.6,2026-10-20,Graph Traversal,8.1
+X,51,44,43.6,2026-10-20,Arrays and Hashing,8.0
+X,51,44,43.6,2026-10-20,Strings,8.0
+X,51,44,43.6,2026-10-20,Heap,7.0
+X,51,44,43.6,2026-10-20,Linked List,6.9
+X,51,44,43.6,2026-10-20,Simulation and Implementation,6.8
+X,51,44,43.6,2026-10-20,Greedy,5.2
+X,51,44,43.6,2026-10-20,Two Pointers,4.6
+X,51,44,43.6,2026-10-20,Stack,4.2
+X,51,44,43.6,2026-10-20,Binary Search,2.3
+X,51,44,43.6,2026-10-20,Sorting,2.3
+X,51,44,43.6,2026-10-20,Trie,2.3
+X,51,44,43.6,2026-10-20,2-D Dynamic Programming,2.3
+X,51,44,43.6,2026-10-20,Bit Manipulation,2.3
+X,51,44,43.6,2026-10-20,Tree Traversal,1.9
+X,51,44,43.6,2026-10-20,Intervals,1.8
+X,51,44,43.6,2026-10-20,Monotonic Stack and Queue,1.2
+X,51,44,43.6,2026-10-20,Binary Search Trees,1.1
+X,51,44,43.6,2026-10-20,Backtracking and Brute Force,1.1
+X,51,44,43.6,2026-10-20,Topological Sort,1.1
+X,51,44,43.6,2026-10-20,Union-Find,1.1
+X,51,44,43.6,2026-10-20,Divide and Conquer,0.6
+X,51,44,43.6,2026-10-20,Segment Tree and Fenwick Tree,0.6
+Yahoo,30,30,71.2,2026-10-20,Arrays and Hashing,11.0
+Yahoo,30,30,71.2,2026-10-20,Backtracking and Brute Force,9.8
+Yahoo,30,30,71.2,2026-10-20,Data Structure Design,8.9
+Yahoo,30,30,71.2,2026-10-20,Tree Traversal,8.2
+Yahoo,30,30,71.2,2026-10-20,Linked List,8.1
+Yahoo,30,30,71.2,2026-10-20,Strings,7.7
+Yahoo,30,30,71.2,2026-10-20,Binary Search,6.4
+Yahoo,30,30,71.2,2026-10-20,Bit Manipulation,5.9
+Yahoo,30,30,71.2,2026-10-20,Greedy,4.6
+Yahoo,30,30,71.2,2026-10-20,Stack,4.5
+Yahoo,30,30,71.2,2026-10-20,Math,4.1
+Yahoo,30,30,71.2,2026-10-20,1-D Dynamic Programming,4.0
+Yahoo,30,30,71.2,2026-10-20,Geometry,4.0
+Yahoo,30,30,71.2,2026-10-20,Two Pointers,2.6
+Yahoo,30,30,71.2,2026-10-20,Simulation and Implementation,2.5
+Yahoo,30,30,71.2,2026-10-20,Heap,2.3
+Yahoo,30,30,71.2,2026-10-20,Prefix Sums,1.9
+Yahoo,30,30,71.2,2026-10-20,Binary Search Trees,1.2
+Yahoo,30,30,71.2,2026-10-20,Graph Traversal,1.2
+Yahoo,30,30,71.2,2026-10-20,Union-Find,1.2
+Yandex,120,114,74.2,2026-10-20,Two Pointers,17.8
+Yandex,120,114,74.2,2026-10-20,Sliding Window,12.7
+Yandex,120,114,74.2,2026-10-20,Arrays and Hashing,12.1
+Yandex,120,114,74.2,2026-10-20,Tree Traversal,7.1
+Yandex,120,114,74.2,2026-10-20,Binary Search,5.9
+Yandex,120,114,74.2,2026-10-20,Strings,5.4
+Yandex,120,114,74.2,2026-10-20,Linked List,5.2
+Yandex,120,114,74.2,2026-10-20,Data Structure Design,5.1
+Yandex,120,114,74.2,2026-10-20,Stack,3.5
+Yandex,120,114,74.2,2026-10-20,Graph Traversal,3.3
+Yandex,120,114,74.2,2026-10-20,Prefix Sums,2.5
+Yandex,120,114,74.2,2026-10-20,Greedy,2.3
+Yandex,120,114,74.2,2026-10-20,JavaScript,2.3
+Yandex,120,114,74.2,2026-10-20,1-D Dynamic Programming,2.2
+Yandex,120,114,74.2,2026-10-20,Heap,1.7
+Yandex,120,114,74.2,2026-10-20,Bit Manipulation,1.6
+Yandex,120,114,74.2,2026-10-20,Monotonic Stack and Queue,1.5
+Yandex,120,114,74.2,2026-10-20,Intervals,1.4
+Yandex,120,114,74.2,2026-10-20,Math,1.4
+Yandex,120,114,74.2,2026-10-20,Simulation and Implementation,1.2
+Yandex,120,114,74.2,2026-10-20,Sorting,1.0
+Yandex,120,114,74.2,2026-10-20,Backtracking and Brute Force,0.9
+Yandex,120,114,74.2,2026-10-20,Binary Search Trees,0.5
+Yandex,120,114,74.2,2026-10-20,Probability and Expected Value,0.5
+Yandex,120,114,74.2,2026-10-20,2-D Dynamic Programming,0.4
+Yandex,120,114,74.2,2026-10-20,Lowest Common Ancestor and Tree Queries,0.2
+Yelp,28,27,53.0,2026-10-20,Arrays and Hashing,21.0
+Yelp,28,27,53.0,2026-10-20,Strings,11.5
+Yelp,28,27,53.0,2026-10-20,Two Pointers,9.5
+Yelp,28,27,53.0,2026-10-20,Graph Traversal,7.6
+Yelp,28,27,53.0,2026-10-20,Sliding Window,6.1
+Yelp,28,27,53.0,2026-10-20,Sorting,5.8
+Yelp,28,27,53.0,2026-10-20,Backtracking and Brute Force,5.7
+Yelp,28,27,53.0,2026-10-20,Data Structure Design,5.7
+Yelp,28,27,53.0,2026-10-20,Heap,4.7
+Yelp,28,27,53.0,2026-10-20,Linked List,3.8
+Yelp,28,27,53.0,2026-10-20,Intervals,2.8
+Yelp,28,27,53.0,2026-10-20,Prefix Sums,2.4
+Yelp,28,27,53.0,2026-10-20,Greedy,2.0
+Yelp,28,27,53.0,2026-10-20,Game Theory,2.0
+Yelp,28,27,53.0,2026-10-20,Stack,1.9
+Yelp,28,27,53.0,2026-10-20,Topological Sort,1.9
+Yelp,28,27,53.0,2026-10-20,Math,1.9
+Yelp,28,27,53.0,2026-10-20,String Matching,1.9
+Yelp,28,27,53.0,2026-10-20,Divide and Conquer,0.9
+Yelp,28,27,53.0,2026-10-20,Segment Tree and Fenwick Tree,0.9
+Zalando,2,,,2026-10-20,,
+Zendesk,2,,,2026-10-20,,
+Zenefits,21,,,2026-10-20,,
+Zepto,5,,,2026-10-20,,
+Zeta,27,26,57.6,2026-10-20,Binary Search,13.2
+Zeta,27,26,57.6,2026-10-20,Strings,9.9
+Zeta,27,26,57.6,2026-10-20,Sliding Window,9.6
+Zeta,27,26,57.6,2026-10-20,Greedy,9.2
+Zeta,27,26,57.6,2026-10-20,Monotonic Stack and Queue,7.5
+Zeta,27,26,57.6,2026-10-20,Tree Traversal,5.4
+Zeta,27,26,57.6,2026-10-20,1-D Dynamic Programming,5.4
+Zeta,27,26,57.6,2026-10-20,Tree DP,5.4
+Zeta,27,26,57.6,2026-10-20,Two Pointers,3.9
+Zeta,27,26,57.6,2026-10-20,Prefix Sums,3.6
+Zeta,27,26,57.6,2026-10-20,Backtracking and Brute Force,3.6
+Zeta,27,26,57.6,2026-10-20,Topological Sort,3.6
+Zeta,27,26,57.6,2026-10-20,Game Theory,3.6
+Zeta,27,26,57.6,2026-10-20,Heap,3.3
+Zeta,27,26,57.6,2026-10-20,Sorting,3.0
+Zeta,27,26,57.6,2026-10-20,Arrays and Hashing,1.8
+Zeta,27,26,57.6,2026-10-20,Stack,1.8
+Zeta,27,26,57.6,2026-10-20,Intervals,1.8
+Zeta,27,26,57.6,2026-10-20,Data Structure Design,1.8
+Zeta,27,26,57.6,2026-10-20,Graph Traversal,1.2
+Zeta,27,26,57.6,2026-10-20,Union-Find,1.2
+zeta suite,1,,,2026-10-20,,
+ZipRecruiter,1,,,2026-10-20,,
+Zluri,2,,,2026-10-20,,
+Zoho,144,142,74.2,2026-10-20,Arrays and Hashing,11.1
+Zoho,144,142,74.2,2026-10-20,Two Pointers,10.2
+Zoho,144,142,74.2,2026-10-20,Strings,8.4
+Zoho,144,142,74.2,2026-10-20,Simulation and Implementation,7.9
+Zoho,144,142,74.2,2026-10-20,Greedy,7.8
+Zoho,144,142,74.2,2026-10-20,Math,6.9
+Zoho,144,142,74.2,2026-10-20,Backtracking and Brute Force,6.1
+Zoho,144,142,74.2,2026-10-20,Binary Search,5.6
+Zoho,144,142,74.2,2026-10-20,Sliding Window,4.7
+Zoho,144,142,74.2,2026-10-20,Stack,4.4
+Zoho,144,142,74.2,2026-10-20,Sorting,4.4
+Zoho,144,142,74.2,2026-10-20,2-D Dynamic Programming,4.3
+Zoho,144,142,74.2,2026-10-20,1-D Dynamic Programming,3.0
+Zoho,144,142,74.2,2026-10-20,Monotonic Stack and Queue,2.9
+Zoho,144,142,74.2,2026-10-20,Graph Traversal,2.8
+Zoho,144,142,74.2,2026-10-20,Linked List,2.2
+Zoho,144,142,74.2,2026-10-20,Bit Manipulation,1.8
+Zoho,144,142,74.2,2026-10-20,Heap,1.6
+Zoho,144,142,74.2,2026-10-20,Prefix Sums,1.5
+Zoho,144,142,74.2,2026-10-20,Intervals,1.0
+Zoho,144,142,74.2,2026-10-20,Tree Traversal,0.5
+Zoho,144,142,74.2,2026-10-20,String Matching,0.5
+Zoho,144,142,74.2,2026-10-20,Topological Sort,0.3
+Zoho,144,142,74.2,2026-10-20,Data Structure Design,0.3
+Zomato,30,29,46.3,2026-10-20,Graph Traversal,14.7
+Zomato,30,29,46.3,2026-10-20,Binary Search,8.7
+Zomato,30,29,46.3,2026-10-20,Greedy,8.6
+Zomato,30,29,46.3,2026-10-20,Prefix Sums,7.0
+Zomato,30,29,46.3,2026-10-20,Bit Manipulation,6.9
+Zomato,30,29,46.3,2026-10-20,Arrays and Hashing,6.0
+Zomato,30,29,46.3,2026-10-20,Backtracking and Brute Force,6.0
+Zomato,30,29,46.3,2026-10-20,Heap,5.6
+Zomato,30,29,46.3,2026-10-20,Number Theory,4.8
+Zomato,30,29,46.3,2026-10-20,Two Pointers,4.5
+Zomato,30,29,46.3,2026-10-20,Sliding Window,3.5
+Zomato,30,29,46.3,2026-10-20,1-D Dynamic Programming,3.2
+Zomato,30,29,46.3,2026-10-20,2-D Dynamic Programming,3.0
+Zomato,30,29,46.3,2026-10-20,Intervals,2.5
+Zomato,30,29,46.3,2026-10-20,Union-Find,2.5
+Zomato,30,29,46.3,2026-10-20,Math,2.4
+Zomato,30,29,46.3,2026-10-20,Strings,2.4
+Zomato,30,29,46.3,2026-10-20,Linked List,1.5
+Zomato,30,29,46.3,2026-10-20,Sorting,1.5
+Zomato,30,29,46.3,2026-10-20,Topological Sort,1.5
+Zomato,30,29,46.3,2026-10-20,Data Structure Design,1.5
+Zomato,30,29,46.3,2026-10-20,Divide and Conquer,1.0
+Zomato,30,29,46.3,2026-10-20,Segment Tree and Fenwick Tree,1.0
+Zoom,4,,,2026-10-20,,
+Zoox,6,,,2026-10-20,,
+Zopsmart,14,,,2026-10-20,,
+ZS Associates,5,,,2026-10-20,,
+ZScaler,16,,,2026-10-20,,
+Zynga,2,,,2026-10-20,,

@@ -85,6 +85,13 @@ PLAN_WEAKEST = 4
 PLAN_DAILY_DEFAULT = 3
 PLAN_DAILY_MAX = 20
 
+# Company presets (R-60), provisional: the fewest problems in a company's all-time list for it to
+# get a preset (applied when companies.csv is built), and the most patterns a preset fills in
+# and the smallest share, in percent, a pattern needs to be one of them (applied as the app reads it).
+COMPANY_MIN_PROBLEMS = 25
+COMPANY_PRESET_MAX = 6
+COMPANY_PRESET_MIN_SHARE = 5
+
 # History calendar (R-40): the fewest problems solved in a day for each darker shade.
 CALENDAR_SHADES = (1, 2, 4, 6)
 

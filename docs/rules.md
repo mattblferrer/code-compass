@@ -456,7 +456,7 @@ The all-time list (`5. All.csv`) for each company in a snapshot of [liquidslr/le
 
 ### Pattern shares
 
-1. A company with fewer than 25 rows (`COMPANY_MIN_PROBLEMS`) gets no preset.
+1. A company with fewer than 25 rows (`COMPANY_MIN_PROBLEMS`) gets no shares of its own. It is listed with its number of rows and fills in the most common patterns.
 2. Each row is matched to a catalog problem by link, ignoring case, `www.`, and a trailing slash. A matched row takes the catalog's patterns.
 3. An unmatched row takes the patterns its LeetCode topics map to, by the table in `core/companies.py` (reproduced in `docs/companies.md`):
    - A **specific** topic maps to one pattern, for example Sliding Window, Trie, Union-Find, Monotonic Stack, or Shortest Path.
@@ -473,9 +473,13 @@ The all-time list (`5. All.csv`) for each company in a snapshot of [liquidslr/le
 
 A company's preset is its core patterns with a share of at least 5% (`COMPANY_PRESET_MIN_SHARE`), highest share first, ties in pattern-list order, at most 6 (`COMPANY_PRESET_MAX`). Advanced patterns are left out: they are rarely asked in interviews, and an interview's patterns are active while it is in focus (R-15), so one would plan whole days around a niche topic.
 
+### The most common patterns
+
+Each pattern's share averaged over every company with shares of its own, each company counting once, rounded half up to one decimal. A company without shares of its own fills in these, chosen as for a preset. Too few problems say little about what a company asks: in a check against the larger companies, a preset worked out from 10 of their problems matched about half of their real preset's patterns, less than this average does.
+
 ### Names
 
-A company is found by its name ignoring case and surrounding spaces, or by an alias in `core/companies.py` (for example Facebook for Meta, or Twitter for X). Names are shown as the snapshot spells them, except a few written in lowercase there (for example tcs, shown as TCS).
+A company is found by its name ignoring case and surrounding spaces, or by an alias in `core/companies.py` (for example Facebook for Meta, or Twitter for X). Names are shown as the snapshot spells them, except a few the snapshot writes differently from the company (for example tcs, shown as TCS, or Hubspot, shown as HubSpot).
 
 ## Weekly goal (R-43)
 

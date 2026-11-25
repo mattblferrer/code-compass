@@ -16,6 +16,7 @@ from .core.sync import (LEETCODE_NOTICE, PROFILE_URLS, batch_message, batch_outc
                         outcome_choices, rating_changes, skip_message)
 from .core.problem_refs import ID_HINTS, SITES, from_id, from_link
 from .core.exchange import COLUMNS, export_rows, plan_import, references
+from .core import companies as presets
 from .core import filters, ordering, progress
 from .core.dates import countdown, days_between, friendly_date, full_date, short_date
 from .core.mastery import expected_level_index
@@ -820,7 +821,9 @@ def help_page():
         outcomes=[(o, OUTCOME_LABELS[o], OUTCOME_DEFINITIONS[o], c.FIRST_INTERVAL_DAYS[o]) for o in c.OUTCOMES],
         min_attempts=c.MIN_ATTEMPTS, fade_days=c.FADE_HALF_LIFE_DAYS, stale_days=c.STALE_REVIEW_DAYS,
         not_now_days=c.NOT_NOW_DAYS, leetcode_notice=LEETCODE_NOTICE, session_days=SESSION_DAYS,
-        patterns=queries.patterns(get_db()),
+        patterns=queries.patterns(get_db()), presets=company_presets(get_db()),
+        preset_max=c.COMPANY_PRESET_MAX, preset_min_share=c.COMPANY_PRESET_MIN_SHARE,
+        preset_min_problems=c.COMPANY_MIN_PROBLEMS,
     )
 
 
@@ -881,8 +884,42 @@ def undo_erase():
     return redirect(url_for("main.settings"))
 
 
-def interview_page(conn, form, chosen, errors, editing=None, status=200):
-    """The interviews page: the list, with the one in focus marked, and the add or edit form (R-15)."""
+def company_presets(conn):
+    """The company presets (R-60) as the interview form uses them: {"names": {name or alias,
+    casefolded: index}, "presets": [view, ...], "general": general_view, "own": how many
+    companies have a preset of their own, "others": how many fill in the most common patterns}.
+    Views are by name ignoring case: a preset_view, or for a company with no shares of its own,
+    a fallback_view, listed only when there are common patterns to fill in. Shared and
+    read-only, so the same for every user."""
+    companies = current_app.extensions.get("company_presets", {})
+    rows = queries.patterns(conn)
+    categories = {p["name"]: p["category"] for p in rows}
+    order = [p["name"] for p in rows]
+    most_common = presets.general_view(presets.general(companies, order), categories, order)
+    views, index = [], {}
+    for key, company in sorted(companies.items(), key=lambda item: item[1]["company"].casefold()):
+        if company["shares"]:
+            view = presets.preset_view(company, categories, order)
+        else:
+            view = presets.fallback_view(company) if most_common else None
+        if view:
+            index[key] = len(views)
+            views.append(view)
+    names = {name: index[key] for name, key in presets.lookup_names(companies).items() if key in index}
+    others = sum(1 for view in views if view.get("general"))
+    return {"names": names, "presets": views, "general": most_common, "own": len(views) - others,
+            "others": others}
+
+
+def company_preset(data, name):
+    """The view in `data` (company_presets) for a company name or alias, or None."""
+    position = data["names"].get((name or "").strip().casefold())
+    return None if position is None else data["presets"][position]
+
+
+def interview_page(conn, form, chosen, errors, editing=None, status=200, notice=None, filling=False):
+    """The interviews page: the list, with the one in focus marked, and the add or edit form (R-15).
+    `notice` and `filling` report a company preset filled in without JavaScript (R-60)."""
     rows = queries.interviews(conn)
     focus = active_interview(
         [{"company": r["company"], "date": r["date"], "patterns": r["patterns"], "difficulty": r["target_difficulty"]}
@@ -895,14 +932,34 @@ def interview_page(conn, form, chosen, errors, editing=None, status=200):
     past = sorted((dict(r) for r in rows if r["date"] < now), key=lambda r: r["date"], reverse=True)
     for r in upcoming + past:
         r["countdown"] = countdown(now, r["date"], c.FOCUS_WINDOW_DAYS)
+    data = company_presets(conn)
     return render_template(
         "interviews.html", interviews=upcoming + past, focus_date=focus["date"] if focus else None, today=now,
         window=c.FOCUS_WINDOW_DAYS, form=form, chosen=chosen, errors=errors, editing=editing,
         patterns=queries.patterns(conn), levels=c.LEVELS, weakest=c.PLAN_WEAKEST,
+        presets=data, preset=company_preset(data, form.get("company")), preset_notice=notice, filling=filling,
     ), status
 
 
-
+def filled_interview(conn, editing=None):
+    """The form sent back with a company preset's patterns checked and nothing saved (R-60), for
+    the fill button without JavaScript. A company with no preset keeps the patterns it had."""
+    form = request.form.to_dict()
+    data = company_presets(conn)
+    found = company_preset(data, form.get("company"))
+    saved = f"Nothing is saved until you {'save the changes' if editing else 'add the interview'}."
+    if found and found.get("general"):
+        chosen = [name for name, _ in data["general"]["patterns"]]
+        notice = f"Filled in the most common patterns across companies. {saved}"
+    elif found:
+        chosen = [name for name, _ in found["patterns"]]
+        notice = f"Filled in {len(chosen)} {'pattern' if len(chosen) == 1 else 'patterns'} for {found['company']}. {saved}"
+    else:
+        chosen = request.form.getlist("patterns")
+        company = (form.get("company") or "").strip()
+        notice = (f"There is no preset for {company}. Choose its patterns below." if company
+                  else "Enter a company name first, then fill in its patterns.")
+    return interview_page(conn, form, chosen, {}, editing=editing, notice=notice, filling=True)
 
 
 def checked_interview(conn):
@@ -915,6 +972,8 @@ def interviews():
     conn = get_db()
     if request.method == "GET":
         return interview_page(conn, {}, [], {})
+    if "fill_preset" in request.form:
+        return filled_interview(conn)
     values, errors = checked_interview(conn)
     if errors:
         return interview_page(conn, request.form.to_dict(), request.form.getlist("patterns"), errors, status=400)
@@ -953,6 +1012,8 @@ def edit_interview(interview_id):
                 "daily_target": str(interview["daily_target"] or c.PLAN_DAILY_DEFAULT),
                 "target_difficulty": interview["target_difficulty"] or ""}
         return interview_page(conn, form, interview["patterns"], {}, editing=interview)
+    if "fill_preset" in request.form:
+        return filled_interview(conn, editing=interview)
     values, errors = checked_interview(conn)
     if errors:
         return interview_page(conn, request.form.to_dict(), request.form.getlist("patterns"), errors,

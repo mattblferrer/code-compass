@@ -7,7 +7,7 @@
 {#- The help guide (R-58). Each setting's text and the shortcut list are shared with the
     settings page and the "?" list, and every number comes from the rules' own values. -#}
 {% set topics = [("outcomes", "Outcomes"), ("scores", "Scores"), ("reviews", "Reviews"), ("syncing", "Syncing"),
-                 ("guides", "Pattern guides"), ("keyboard-shortcuts", "Keyboard shortcuts"), ("settings", "Settings")] + ([("account", "Your account")] if hosted_mode else []) %}
+                 ("guides", "Pattern guides")] + ([("presets", "Company presets")] if presets.own else []) + [("keyboard-shortcuts", "Keyboard shortcuts"), ("settings", "Settings")] + ([("account", "Your account")] if hosted_mode else []) %}
 {% block content %}
   {{ page_head("Help", "How CodeCompass works, what each setting does, and the keyboard shortcuts.") }}
 
@@ -95,6 +95,18 @@
         {% endfor %}
       </div>
     </section>
+
+    {% if presets.own %}
+      <section class="panel help-section" id="presets" aria-labelledby="presets-heading">
+        <h2 id="presets-heading">Company presets</h2>
+        <p>When you add or edit an <a href="{{ url_for('main.interviews') }}">interview</a>, type a company's name and press Fill in patterns to check the patterns that company asks most. Presets cover {{ presets.own }} companies, each with at least {{ preset_min_problems }} problems in a snapshot of LeetCode's company tags, a list LeetCode's users keep of which problems each company asked. The form shows the snapshot's date, since the list is not current.{% if presets.others == 1 %} The other company in the snapshot has too few problems to say what it asks, so it fills in the most common patterns instead: each pattern's share averaged over the companies with a preset.{% elif presets.others %} The other {{ presets.others }} companies in the snapshot have too few problems to say what they ask, so they fill in the most common patterns instead: each pattern's share averaged over the companies with a preset.{% endif %}</p>
+        <ul class="help-list">
+          <li>A pattern's share is how much of the company's tagged problems use it, weighted by how often each problem was reported. Problems in the catalog count by their reviewed patterns, and the rest by LeetCode's own topics where a topic means one pattern.</li>
+          <li>A preset fills in up to {{ preset_max }} core patterns with a share of at least {{ preset_min_share }}%, most asked first. Advanced patterns are left out.</li>
+          <li>Filling in only checks the patterns on the form, replacing any you had checked. Nothing is saved until you save the interview, and you can change its patterns as you like. A saved interview works the same however its patterns were chosen.</li>
+        </ul>
+      </section>
+    {% endif %}
 
     {# Not id="shortcuts": that is the "?" dialog's id on every page (base.html, js/shortcuts.js). #}
     <section class="panel help-section" id="keyboard-shortcuts" aria-labelledby="shortcuts-help-heading">

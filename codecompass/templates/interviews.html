@@ -7,14 +7,47 @@
 {% macro pattern_chip(p) %}
   <label class="chip"><input type="checkbox" name="patterns" value="{{ p['name'] }}" {% if p['name'] in chosen %}checked{% endif %}>{{ p['name'] }}</label>
 {% endmacro %}
+{% macro shares(patterns) %}{% for name, share in patterns %}{{ name }} {{ share }}%{{ ", " if not loop.last }}{% endfor %}{% endmacro %}
+{% macro problem_count(n) %}{{ "{:,}".format(n) }} problem{{ "s" if n != 1 }}{% endmacro %}
+{# A company with too few problems for its own preset fills in the most common patterns (presets.general). #}
+{% macro preset_detail(p) %}{% if p.general %}{{ p.company }} has only {{ problem_count(p.problems) }} in LeetCode's company tags, too few for its own preset. These are the most common patterns across the {{ presets.general.companies }} companies that have one: {{ shares(presets.general.patterns) }}. Snapshot of {{ presets.general.snapshot }}.{% else %}{{ shares(p.patterns) }}. From LeetCode's company tags: {{ problem_count(p.problems) }}, snapshot of {{ p.snapshot }}.{% endif %}{% endmacro %}
+{% macro fill_label(p) %}{% if p.general %}Fill in the most common patterns{% else %}Fill in patterns for {{ p.company }}{% endif %}{% endmacro %}
+{% macro company_preset() %}
+  {# R-60: fills in a company's patterns and saves nothing. Without JavaScript the button sends the form
+     back with them checked; js/company_preset.js fills them in place and follows the Company field. #}
+  <div class="company-preset" data-presets="{{ {'names': presets.names, 'presets': presets.presets, 'general': presets.general}|tojson|forceescape }}"
+       data-save-label="{{ 'save the changes' if editing else 'add the interview' }}">
+    {% if preset %}
+      <button type="submit" name="fill_preset" value="1" class="quiet" data-preset-fill>{{ fill_label(preset) }}</button>
+      <small data-preset-detail>{{ preset_detail(preset) }}</small>
+    {% else %}
+      <button type="submit" name="fill_preset" value="1" class="quiet" data-preset-fill>Fill in patterns for this company</button>
+      <small data-preset-detail>Presets for {{ presets.own }} companies{% if presets.others %}, and the most common patterns for {{ presets.others }} more,{% endif %} from LeetCode's company tags.</small>
+    {% endif %}
+    <p class="preset-notice" role="status" data-preset-notice>{{ preset_notice or "" }}</p>
+  </div>
+{% endmacro %}
 {% macro interview_form() %}
   <form method="post" class="sheet interview-sheet" novalidate
         action="{{ url_for('main.edit_interview', interview_id=editing['id']) if editing else url_for('main.interviews') }}">{{ csrf_field() }}
+    {# Enter in a field saves, as before: the first submit button is the one a form submits with. #}
+    {% if presets.presets %}<button type="submit" class="visually-hidden" tabindex="-1" aria-hidden="true">{% if editing %}Save changes{% else %}Add interview{% endif %}</button>{% endif %}
     {% if editing %}<h2>Edit the interview with {{ editing['company'] }}</h2>{% endif %}
     <div class="interview-fields">
       <label>
         Company
-        <input name="company" value="{{ form.get('company', '') }}" {% if errors.get('company') %}aria-invalid="true" aria-describedby="company-error"{% endif %}>
+        {% if presets.presets %}
+          {# Searches the presets as you type, like the problem picker (js/company_preset.js); any name can be typed. #}
+          <div class="picker-search">
+            <input name="company" id="company-search" value="{{ form.get('company', '') }}" autocomplete="off"
+                   placeholder="Search companies, or type any name"
+                   role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="company-results"
+                   {% if errors.get('company') %}aria-invalid="true" aria-describedby="company-error"{% endif %}>
+            <ul id="company-results" class="picker-results" role="listbox" aria-label="Matching companies" hidden></ul>
+          </div>
+        {% else %}
+          <input name="company" value="{{ form.get('company', '') }}" {% if errors.get('company') %}aria-invalid="true" aria-describedby="company-error"{% endif %}>
+        {% endif %}
         {{ error("company") }}
       </label>
       <label>
@@ -42,6 +75,7 @@
         {{ error("daily_target") }}
       </label>
     </div>
+    {% if presets.presets %}{{ company_preset() }}{% endif %}
     <fieldset>
       <legend>Patterns (optional)</legend>
       <small>Patterns this company is known to ask. With none, its prep plan uses your {{ weakest }} weakest patterns.</small>
@@ -117,9 +151,12 @@
 
   {% if not editing %}
     {# With interviews listed, the form waits behind its button; it opens again after a refused save. #}
-    <details class="add-interview" {% if not interviews or errors %}open{% endif %}>
+    <details class="add-interview" {% if not interviews or errors or filling %}open{% endif %}>
       <summary class="button">Add an interview</summary>
       {{ interview_form() }}
     </details>
   {% endif %}
+{% endblock %}
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/company_preset.js') }}"></script>
 {% endblock %}

@@ -535,6 +535,8 @@ fieldset.picker > small {
   border: 1px solid var(--rule);
   border-radius: var(--radius);
   box-shadow: 0 6px 18px rgb(0 0 0 / 0.12);
+  /* The company search sits inside its field's label, which is bold. */
+  font-weight: 400;
 }
 
 .picker-results li {
@@ -3279,6 +3281,31 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
   gap: 0 1.25rem;
+}
+
+/* A company preset (R-60): the fill button, what it fills in, and what it did. */
+.company-preset {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.75rem;
+  margin: 0.25rem 0 1rem;
+}
+
+.company-preset small {
+  flex: 1 1 16rem;
+  color: var(--muted);
+}
+
+.company-preset [hidden],
+.preset-notice:empty {
+  display: none;
+}
+
+.preset-notice {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: var(--step--1);
 }
 
 /* Pattern choices as toggle chips; the checkbox stays for keyboards and screen readers. */

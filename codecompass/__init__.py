@@ -34,6 +34,8 @@ def create_app(test_config=None):
     app.config["CATALOG_PATH"] = str(catalog.DATA_DIR / "catalog.csv")
     # The curated guides for each pattern (R-59), built from docs/resources.md.
     app.config["RESOURCES_PATH"] = str(catalog.DATA_DIR / "resources.csv")
+    # The company presets for interviews (R-60), built by the build-companies command.
+    app.config["COMPANIES_PATH"] = str(catalog.DATA_DIR / "companies.csv")
     # The unreviewed Codeforces reserve (R-37).
     reserve = catalog.DATA_DIR / "reserve.csv"
     app.config["RESERVE_PATH"] = str(reserve) if reserve.exists() else None

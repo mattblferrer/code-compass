@@ -63,9 +63,12 @@ def test_the_guide_fits_the_mode_and_loads_nothing_from_outside(client, app):
     html = page(client, "/help")
     if app.config.get("MODE") == "hosted":
         # Only the sites hosted mode syncs are named (R-58). The pattern guides (R-59) may
-        # still link to LeetCode's own lessons, which have nothing to do with syncing.
-        before, rest = html.split('id="guides"', 1)
-        outside_guides = before + rest.split("</section>", 1)[1]
+        # still link to LeetCode's own lessons, and the company presets (R-60) name LeetCode's
+        # company tags as their source, which have nothing to do with syncing.
+        outside_guides = html
+        for section in ('id="guides"', 'id="presets"'):
+            before, rest = outside_guides.split(section, 1)
+            outside_guides = before + rest.split("</section>", 1)[1]
         assert "for Codeforces or AtCoder in" in html and "LeetCode" not in outside_guides
         assert 'id="account"' in html and "A sign-in ends after 30 days without use" in html
     else:
