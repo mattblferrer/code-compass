@@ -11,6 +11,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 os.environ.setdefault("CODECOMPASS_MODE", "hosted")
 
+from codecompass.vercel_paths import DecodedPath  # noqa: E402
 from codecompass import create_app  # noqa: E402
 
 app = create_app()
+app.wsgi_app = DecodedPath(app.wsgi_app)
