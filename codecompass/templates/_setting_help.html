@@ -10,6 +10,8 @@
     Bring back problems you have attempted, at growing intervals, before new ones. When off, every recommendation is a new problem and nothing is shown as due; review dates are still kept, so turning this on again picks up where they are.
   {%- elif key == "very_hard_on" -%}
     Include very hard problems in recommendations. When off, they are left out, target patterns included, except as the review sibling of a very hard problem. Logging and scores are unaffected.
+  {%- elif key == "hide_details" -%}
+    Hide the patterns, data structures, difficulty, and review links of problems you have not solved yet, so recommendations do not give away how to solve them. Each problem can show its details, but your next attempt on it then counts as solved with hints.
   {%- elif key == "weekly_goal" -%}
     Problems solved a week, Monday to Sunday, in any way: alone, with hints, or after the solution. The dashboard shows the week's progress, and History marks weeks that reached it. Leave blank for no goal.
   {%- elif key == "sites" -%}
@@ -30,7 +32,8 @@
 {% set setting_groups = [
   ("Recommendations", "recommendations", [
     ("starting_difficulty", "Starting difficulty"), ("advanced_on", "Advanced patterns"),
-    ("reviews_on", "Review problems"), ("very_hard_on", "Very hard problems"), ("weekly_goal", "Weekly goal")]),
+    ("reviews_on", "Review problems"), ("very_hard_on", "Very hard problems"), ("hide_details", "Hide details until solved"),
+    ("weekly_goal", "Weekly goal")]),
   ("Sites", "sites", [("sites", "Sites")]),
   ("Pattern goals", "pattern-goals", [("pattern_goals", "Pattern goals")]),
   ("Linked accounts", "accounts", [("accounts", "Linked accounts")]),

@@ -155,7 +155,7 @@ flask --app codecompass run</code></pre>
                 <a class="title" href="{{ url_for('main.problem', problem_id=p['id']) }}">{{ p['title'] }}</a>
                 <span class="source">{{ p['link']|site }}</span>
                 {% if r['kind'] == 'review' %}<span class="mark review">Review</span>{% endif %}
-                <span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>
+                {% if not r['details_hidden'] %}<span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>{% endif %}
                 <p class="reason">{{ r['reason'] }}{% if r['due'] %}<span class="due-inline"> · due {{ r['due']|when }}</span>{% endif %}</p>
                 <div class="actions">
                   <a class="button small" href="{{ url_for('main.log_attempt', problem=p['id']) }}">Log attempt</a>
@@ -168,7 +168,7 @@ flask --app codecompass run</code></pre>
                       <button type="submit" class="text">Not now</button>
                     </form>
                   {% endif %}
-                  {{ hint_block(p, r['hint_eligible'], r['hint'], url_for('main.dashboard'), "#today, #next-panel, #messages") }}
+                  {{ hint_block(p, r['hint_eligible'], r['hint'], url_for('main.dashboard'), "#today, #next-panel, #messages", r['details_hidden']) }}
                 </div>
               </div>
               {% if r['due'] %}

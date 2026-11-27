@@ -154,7 +154,7 @@ def validate_settings(data, pattern_names, sites, kinds):
     """Check the settings form (R-13, R-32, R-36).
 
     `data` has "starting_difficulty", and "advanced_on", "very_hard_on", and
-    "reviews_on" (R-41), each present when checked, "pref:<pattern>" set to "", "target", or "mastered" for each
+    "reviews_on" (R-41) and "hide_details" (R-61), each present when checked, "pref:<pattern>" set to "", "target", or "mastered" for each
     pattern, and "show:<site>:<kind>" present for each site switch left on.
     A pattern has one preference field, so it cannot be both a target and
     mastered. Returns (values, errors).
@@ -182,6 +182,7 @@ def validate_settings(data, pattern_names, sites, kinds):
         "very_hard_on": "1" if data.get("very_hard_on") else "0",
         "reviews_on": "1" if data.get("reviews_on") else "0",
         "weekly_goal": str(int(goal)),
+        "hide_details": "1" if data.get("hide_details") else "0",
         "preferences": preferences,
         "hidden": hidden,
     }

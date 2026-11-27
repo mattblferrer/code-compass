@@ -69,11 +69,11 @@ The two columns together are the primary key.
 | `entry_method` | Text | `manual`, `csv`, or `sync` |
 | `review_of_problem_id` | Integer | The due problem, if this was a sibling attempt; otherwise blank |
 
-### `settings` (R-13, R-15, R-32, R-41, R-43)
+### `settings` (R-13, R-15, R-32, R-41, R-43, R-61)
 
 | Column | Type | Notes |
 | --- | --- | --- |
-| `key` | Text | Primary key: `starting_difficulty`, `advanced_on`, `very_hard_on`, `reviews_on`, `weekly_goal` |
+| `key` | Text | Primary key: `starting_difficulty`, `advanced_on`, `very_hard_on`, `reviews_on`, `weekly_goal`, `hide_details` |
 | `value` | Text | |
 
 ### `hidden_sites` (R-36)

@@ -5,9 +5,9 @@
 <p class="context-title">
   <a href="{{ url_for('main.problem', problem_id=p['id']) }}">{{ p['title'] }}</a>
   <span class="source">{{ p['link']|site }}</span>
-  <span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>
+  {% if not context.details_hidden %}<span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>{% endif %}
 </p>
-{% if context.completes %}
+{% if context.completes and not context.details_hidden %}
   <p class="context-note">Logging it completes the review of <strong>{{ context.completes['title'] }}</strong>.</p>
 {% endif %}
 {% if context.hint_used_up %}
@@ -15,7 +15,9 @@
 {% endif %}
 
 <h3>Patterns</h3>
-{% if context.patterns_hidden %}
+{% if context.details_hidden %}
+  <p class="context-muted">Hidden until you solve it, as you chose on the dashboard.</p>
+{% elif context.patterns_hidden %}
   <p class="context-muted">Hidden until you show the hint or log an attempt.</p>
 {% else %}
   <ul class="context-list">

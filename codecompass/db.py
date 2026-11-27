@@ -73,6 +73,7 @@ ADDED_COLUMNS = [
 WIDENED_CHECKS = [
     ("settings", "reviews_on"),
     ("settings", "weekly_goal"),
+    ("settings", "hide_details"),
 ]
 
 

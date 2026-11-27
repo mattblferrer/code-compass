@@ -25,7 +25,7 @@ def test_the_guide_lists_every_shortcut(client):
 def test_every_setting_has_the_same_text_on_both_pages_and_links_to_itself(client):
     settings, guide = page(client, "/settings"), page(client, "/help")
     on_settings, in_guide = setting_texts(settings), setting_texts(guide)
-    assert len(on_settings) == 10
+    assert len(on_settings) == 11  # R-61 added Hide details until solved.
     assert in_guide == on_settings  # Every setting, word for word.
     # Each setting's link in the guide opens a place that exists on the settings page.
     anchors = set(re.findall(r'href="/settings#([^"]+)"', guide))

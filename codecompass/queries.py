@@ -167,7 +167,7 @@ def read_settings(conn):
 
 
 DEFAULT_SETTINGS = {"starting_difficulty": "easy", "advanced_on": "0", "very_hard_on": "0", "reviews_on": "1",
-                    "weekly_goal": "0"}
+                    "weekly_goal": "0", "hide_details": "0"}
 
 
 def current_settings(conn):
@@ -194,6 +194,13 @@ def save_settings(conn, values):
         )
         conn.execute("DELETE FROM hidden_sites")
         conn.executemany("INSERT INTO hidden_sites (site, category) VALUES (?, ?)", sorted(values["hidden"]))
+
+
+def solved_problems(conn):
+    """Problems with an attempt solved in any way: alone, with hints, or after the solution
+    (R-61), as `core.reasons.is_solved` decides for one problem."""
+    return {r["problem_id"] for r in conn.execute(
+        "SELECT DISTINCT problem_id FROM attempts WHERE outcome != ?", (c.NOT_SOLVED,))}
 
 
 def interviews(conn):

@@ -7,7 +7,7 @@ from .core.dates import add_days, weekly_days
 from .core.levels import current_level
 from .core.mastery import pattern_score
 from .core.plan import joined_patterns, plan_patterns, today_patterns
-from .core.reasons import hint_eligible, reason
+from .core.reasons import details_hidden, hint_eligible, is_solved, reason
 from .core.recommend import REVIEW, active_interview, recommend
 from .core.reviews import (activity, due_dates, is_stale, last_attempts, review_attempt_ids, schedules,
                            served_reviews, streak_days, upcoming_reviews)
@@ -59,6 +59,9 @@ class Snapshot:
         self.reviews_on = self.settings["reviews_on"] == "1"
         self.advanced = {p["name"] for p in self.patterns if p["category"] == "advanced"}
         self.hidden_sites = self.settings["hidden"]
+        # Patterns, difficulty, and review links of unsolved problems stay hidden (R-61).
+        self.hide_details = self.settings["hide_details"] == "1"
+        self._revealed = None
 
         interviews = []
         for r in conn.execute("SELECT * FROM interviews ORDER BY date, id"):
@@ -356,6 +359,16 @@ class Snapshot:
         return [{"name": n, "description": self.pattern_info[n]["description"]}
                 for n in self.problem(problem_id)["patterns"]]
 
+    def details_hidden(self, problem_id):
+        """Whether this problem's patterns, difficulty, and review link stay hidden (R-61)."""
+        if not self.hide_details:
+            return False
+        if self._revealed is None:
+            self._revealed = {r["problem_id"] for r in self.conn.execute(
+                "SELECT DISTINCT problem_id FROM hint_reveals WHERE used = 0")}
+        solved = is_solved([a["outcome"] for a in self.attempts if a["problem_id"] == problem_id])
+        return details_hidden(True, solved, problem_id in self._revealed)
+
     def problem_context(self, problem_id, editing=False):
         """What the log page shows beside the form for one problem, without loading every problem.
 
@@ -371,11 +384,13 @@ class Snapshot:
         eligible = self.hint_eligible(problem_id)
         hint = self.hint(problem_id)
         completes = None if editing else self.review_of(problem_id, self.today)
+        hidden = self.details_hidden(problem_id)
         return {
             "problem": problem,
             "patterns": [{"name": n, "score": self.scores.get(n, {}).get("score"), "attempts": self.counts.get(n, 0)}
                          for n in problem["patterns"]],
-            "patterns_hidden": eligible and not hint and not attempts,
+            "patterns_hidden": hidden or (eligible and not hint and not attempts),
+            "details_hidden": hidden,
             "attempts": attempts[-3:][::-1],
             "attempt_count": len(attempts),
             "due": self.next_due(problem_id),
@@ -441,6 +456,7 @@ class Snapshot:
                 original = item["problem"]
                 shown = siblings.get(original) or original
             hint = self.hint_eligible(shown)
+            hidden = self.details_hidden(shown)
             result.append({
                 "problem": self.problems[shown],
                 "original": self.problems[original] if original else None,
@@ -448,11 +464,12 @@ class Snapshot:
                 "kind": item["kind"],
                 "hint_eligible": hint,
                 "hint": self.hint(shown),
+                "details_hidden": hidden,
                 "due": self.due_now.get(original) if original else None,
                 "reason": reason(
                     item, hint, self.scores, self.today,
                     original_title=self.problems[original]["title"] if original and shown != original else None,
-                    interview=self.interview,
+                    interview=self.interview, hidden=hidden,
                 ),
             })
         return result

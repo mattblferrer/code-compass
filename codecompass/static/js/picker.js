@@ -86,11 +86,14 @@
       li.setAttribute("aria-selected", "false");
       var name = document.createElement("span");
       name.textContent = item.label;
-      var level = document.createElement("span");
-      level.className = levelClass(item.difficulty);
-      level.textContent = item.difficulty;
       li.appendChild(name);
-      li.appendChild(level);
+      // Unsolved problems' difficulty is left out when the user hides details (R-61).
+      if (item.difficulty) {
+        var level = document.createElement("span");
+        level.className = levelClass(item.difficulty);
+        level.textContent = item.difficulty;
+        li.appendChild(level);
+      }
       if (item.reserve) {
         var tag = document.createElement("small");
         tag.textContent = "unreviewed";

@@ -133,7 +133,7 @@
                    data-pick-id="{{ p['id'] }}" data-pick-label="{{ r['label'] }}">{{ p['title'] }}</a>
                 <span class="source">{{ p['link']|site }}</span>
                 {% if r['kind'] == 'review' %}<span class="mark review">Review</span>{% endif %}
-                <span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>
+                {% if not r['details_hidden'] %}<span class="mark level-{{ p['difficulty']|replace(' ', '-') }}">{{ p['difficulty']|capitalize }}</span>{% endif %}
                 <p class="reason">{{ r['reason'] }}</p>
               </div>
             </li>

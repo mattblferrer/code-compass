@@ -13,12 +13,15 @@
   <div class="workbench">
     <div class="workbench-main">
       <section class="panel lead" aria-labelledby="attempts-heading">
-        <p class="meta">
-          <span class="mark level-{{ problem['difficulty']|replace(' ', '-') }}">{{ problem['difficulty']|capitalize }}</span>
+        <p class="meta" id="problem-meta">
+          {% if not details_hidden %}<span class="mark level-{{ problem['difficulty']|replace(' ', '-') }}">{{ problem['difficulty']|capitalize }}</span>{% endif %}
           <span>{{ problem['source'] }}</span>
         </p>
         <div id="hint-area">
-          {% if hint_eligible and not hint and not attempts %}
+          {% if details_hidden %}
+            {# R-61: hidden until solved; showing them makes the next attempt count as help. #}
+            <p>Patterns and difficulty stay hidden until you solve this problem. Showing them counts as a hint for your next attempt.</p>
+          {% elif hint_eligible and not hint and not attempts %}
             <p>Patterns stay hidden until you show the hint or log an attempt.</p>
           {% else %}
             {# Each pattern with its current score, as on the dashboard. #}
@@ -30,7 +33,7 @@
               {% endfor %}
             </ul>
           {% endif %}
-          {{ hint_block(problem, hint_eligible, hint, url_for('main.problem', problem_id=problem['id']), "#hint-area, #messages") }}
+          {{ hint_block(problem, hint_eligible, hint, url_for('main.problem', problem_id=problem['id']), "#problem-meta, #hint-area, #messages", details_hidden) }}
         </div>
 
         <h2 id="attempts-heading">Attempts</h2>

@@ -61,6 +61,13 @@
             <small data-setting="very_hard_on">{{ setting_help("very_hard_on") }}</small>
           </span>
         </label>
+        <label class="choice" id="setting-hide_details">
+          <input type="checkbox" name="hide_details" value="1" {% if current.hide_details == '1' %}checked{% endif %}>
+          <span>
+            Hide details until solved
+            <small data-setting="hide_details">{{ setting_help("hide_details") }}</small>
+          </span>
+        </label>
         <label id="setting-weekly_goal">
           Weekly goal
           <input type="number" name="weekly_goal" min="0" max="{{ limits.max_weekly_goal }}" step="1" inputmode="numeric"

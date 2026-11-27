@@ -1,7 +1,8 @@
 {# Beginner hint (R-27): hidden until revealed, then shown until the next attempt is logged.
-   Once revealed, each pattern's guides (R-59) follow its description. #}
+   Once revealed, each pattern's guides (R-59) follow its description. When the user hides
+   unsolved problems' details (R-61, `hidden`), the same reveal shows them, for any problem. #}
 {% from "_guides.html" import guide_list %}
-{% macro hint_block(problem, eligible, hint, next_url, swap) %}
+{% macro hint_block(problem, eligible, hint, next_url, swap, hidden=False) %}
   {% if hint %}
     <details class="hint" open data-hint-id="{{ problem['id'] }}">
       <summary>Hint</summary>
@@ -15,6 +16,11 @@
       </ul>
       <small>You've seen the hint, so your next attempt on this problem can't be saved as "solved alone." Reading a guide counts as help too.</small>
     </details>
+  {% elif hidden %}
+    <form method="post" action="{{ url_for('main.reveal_hint', problem_id=problem['id']) }}" class="inline" data-swap="{{ swap }}">{{ csrf_field() }}
+      <input type="hidden" name="next" value="{{ next_url }}">
+      <button type="submit" class="text" title="Your next attempt on this problem then counts as solved with hints">Show patterns and difficulty</button>
+    </form>
   {% elif eligible %}
     <form method="post" action="{{ url_for('main.reveal_hint', problem_id=problem['id']) }}" class="inline" data-swap="{{ swap }}">{{ csrf_field() }}
       <input type="hidden" name="next" value="{{ next_url }}">

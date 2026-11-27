@@ -31,7 +31,7 @@ def test_saving_every_setting(client, app):
     assert response.status_code == 302
     assert saved(app) == {
         "settings": {"starting_difficulty": "medium", "advanced_on": "1", "very_hard_on": "0", "reviews_on": "0",
-                     "weekly_goal": "0"},
+                     "weekly_goal": "0", "hide_details": "0"},
         "preferences": {"Stack": "target", "Heap": "mastered", "Tree DP": "target"},
         "hidden": {("cses", "core"), ("codeforces", "advanced")},
     }

@@ -22,6 +22,7 @@ from .core.dates import countdown, days_between, friendly_date, full_date, short
 from .core.mastery import expected_level_index
 from .core.plan import joined_patterns, prep_plan
 from .core.timing import median_times
+from .core.reasons import details_hidden
 from .core.recommend import active_interview
 from .core.reviews import ics, review_attempt_ids, schedules
 from .core.resources import AUDIENCES
@@ -165,10 +166,23 @@ def checked_attempt(conn, form, hint_check=True):
     return values, errors, picked
 
 
+def without_hidden_levels(conn, results):
+    """Picker results with the difficulty left out of each unsolved problem's, when the
+    user hides details until solved (R-61)."""
+    if queries.current_settings(conn)["hide_details"] != "1":
+        return results
+    solved, revealed = queries.solved_problems(conn), queries.unused_hints(conn)
+    for result in results:
+        if details_hidden(True, result["id"] in solved, result["id"] in revealed):
+            result["difficulty"] = None
+    return results
+
+
 @bp.route("/problems/search")
 def search_problems():
     """Title search for the problem picker (R-38). Reads only the local database."""
-    return jsonify(picker.search(get_db(), request.args.get("q", "")))
+    conn = get_db()
+    return jsonify(without_hidden_levels(conn, picker.search(conn, request.args.get("q", ""))))
 
 
 @bp.route("/problems/find")
@@ -179,7 +193,7 @@ def find_problem():
     found = picker.find_by_ref(conn, site, request.args.get("ref", ""))
     show_custom = site == picker.OTHER or found["link"] is not None
     return jsonify({
-        "problem": picker.as_result(found["row"]) if found["row"] else None,
+        "problem": without_hidden_levels(conn, [picker.as_result(found["row"])])[0] if found["row"] else None,
         "message": found["message"],
         "custom_url": picker.custom_url_for(found) if show_custom and not found["row"] else None,
     })
@@ -635,6 +649,7 @@ def problem(problem_id):
         scores={name: s["score"] for name, s in snap.scores.items()},
         hint_eligible=snap.hint_eligible(problem_id),
         hint=snap.hint(problem_id),
+        details_hidden=snap.details_hidden(problem_id),
     )
 
 

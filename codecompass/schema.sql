@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS attempts (
 CREATE INDEX IF NOT EXISTS attempts_by_problem ON attempts (problem_id, date);
 
 CREATE TABLE IF NOT EXISTS settings (
-    key TEXT PRIMARY KEY CHECK (key IN ('starting_difficulty', 'advanced_on', 'very_hard_on', 'reviews_on', 'weekly_goal')),
+    key TEXT PRIMARY KEY CHECK (key IN ('starting_difficulty', 'advanced_on', 'very_hard_on', 'reviews_on', 'weekly_goal', 'hide_details')),
     value TEXT NOT NULL
 );
 
