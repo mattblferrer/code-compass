@@ -154,6 +154,7 @@ def test_log_card_hides_difficulty_patterns_and_the_review_it_completes(client, 
     card = page(client, f"/problems/{temps}/context")
     assert "level-medium" not in card and "/patterns/Stack" not in card
     assert "Hidden until you solve it" in card
+    assert 'href="/settings#setting-hide_details"' in card and "dashboard" not in card
     log_page = page(client, "/log").split('id="practice-heading"')[1]
     assert 'class="mark level-' not in log_page
 

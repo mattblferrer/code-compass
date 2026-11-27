@@ -97,7 +97,7 @@ flask --app codecompass accounts delete <name>
 flask --app codecompass accounts reset-password <username>
 ```
 
-The first lists every account with when it was made, when it last signed in, how many attempts it has, and how it signs in (github, google, or password). The second deletes one, after asking, by its GitHub username, Google name, or username. Use it if throwaway accounts fill the 50-account cap. Each way of signing in is its own account, so two can share a name; then add `--method github`, `--method google`, or `--method password` to say which.
+The first lists every account with its id, when it was made, when it last signed in, how many attempts it has, and how it signs in (github, google, or password). The second deletes one, after asking, by its GitHub username, Google name, or username. Use it if throwaway accounts fill the 50-account cap. Each way of signing in is its own account, so two can share a name; then add `--method github`, `--method google`, or `--method password` to say which. Google accounts are named by their Google name, so two of them can share one too; then add `--id` with the id from the list.
 
 The third is for someone who signs in with a username and forgot the password. The site sends no email, so it cannot send a reset link. The command prints a new random password and signs the account out everywhere. Check that the request really comes from the account's owner (for example, someone who told you the username when they signed up), pass the password on privately, and ask them to change it on their account page. The site itself has no admin page.
 

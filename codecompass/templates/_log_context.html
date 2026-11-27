@@ -16,7 +16,7 @@
 
 <h3>Patterns</h3>
 {% if context.details_hidden %}
-  <p class="context-muted">Hidden until you solve it, as you chose on the dashboard.</p>
+  <p class="context-muted">Hidden until you solve it, as you chose in <a href="{{ url_for('main.settings', _anchor='setting-hide_details') }}">settings</a>.</p>
 {% elif context.patterns_hidden %}
   <p class="context-muted">Hidden until you show the hint or log an attempt.</p>
 {% else %}

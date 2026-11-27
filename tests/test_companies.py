@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from codecompass import catalog, queries
+from codecompass import catalog, queries, views
 from codecompass.core import companies as presets
 from codecompass.core import constants as c
 from codecompass.core.catalog_rows import DataFileError, parse_patterns
@@ -441,3 +441,13 @@ def test_help_explains_presets_with_the_rules_values(preset_client, monkeypatch)
             "common patterns instead") in page
     assert "up to 4 core patterns with a share of at least 5%" in page
     assert "Nothing is saved until you save the interview" in page
+
+
+def test_the_form_builds_the_preset_views_once(preset_client, preset_app, monkeypatch):
+    built = []
+    real = views._build_company_presets
+    monkeypatch.setattr(views, "_build_company_presets", lambda conn: built.append(1) or real(conn))
+    for _ in range(2):
+        assert preset_client.get("/interviews").status_code == 200
+    assert preset_client.get("/help").status_code == 200
+    assert built == [1]

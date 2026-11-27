@@ -579,34 +579,39 @@ def _account_rows(conn):
                            (schema,)).fetchone()
         attempts = conn.execute(f"SELECT count(*) FROM {schema}.attempts").fetchone()[0] if has else 0
         seen = time.strftime("%Y-%m-%d", time.gmtime(user["last_used"])) if user["last_used"] else "-"
-        rows.append((user["login"], user["created"], seen, attempts, _method(user)))
+        rows.append((user["id"], user["login"], user["created"], seen, attempts, _method(user)))
     return rows
 
 
-def _find_account(conn, login, method):
-    """The one account named `login`, signing in by `method` if given. Several accounts can
-    share a name across the ways of signing in, and then `method` must say which."""
+def _find_account(conn, login, method, account_id=None):
+    """The one account named `login`, signing in by `method` and with the id `account_id` if
+    given. Several accounts can share a name: across the ways of signing in, and among Google
+    accounts, which are named by their Google name. Then `method` or `account_id` must say which."""
     rows = [row for row in conn.execute("SELECT id, login, github_id, google_id FROM users WHERE login = ?",
                                         (login,)).fetchall()
-            if method is None or _method(row) == method]
+            if (method is None or _method(row) == method) and (account_id is None or row["id"] == account_id)]
     if not rows:
-        raise click.ClickException(f"No account has the name {login}" + (f" with {method} sign-in." if method else "."))
+        which = "".join([f" with {method} sign-in" if method else "",
+                         f" and id {account_id}" if account_id is not None else ""])
+        raise click.ClickException(f"No account has the name {login}{which}.")
     if len(rows) > 1:
-        methods = ", ".join(sorted({_method(row) for row in rows}))
-        raise click.ClickException(f"More than one account has the name {login} ({methods}). "
-                                   "Add --method to say which.")
+        found = ", ".join(f"id {row['id']} ({_method(row)})" for row in rows)
+        raise click.ClickException(f"More than one account has the name {login}: {found}. "
+                                   "Add --method or --id to say which.")
     return rows[0]
 
 
 METHOD_OPTION = click.option("--method", type=click.Choice(["github", "google", "password"]),
                              help="How the account signs in, when several share the name.")
+ID_OPTION = click.option("--id", "account_id", type=int,
+                         help="The account's id, from the list, when several share the name and way of signing in.")
 
 
 @click.group("accounts", invoke_without_command=True)
 @click.pass_context
 @with_appcontext
 def accounts_command(ctx):
-    """Hosted mode: list the accounts (name, created, last signed in, attempts, how it signs in)."""
+    """Hosted mode: list the accounts (id, name, created, last signed in, attempts, how it signs in)."""
     if not db.hosted(current_app.config):
         raise click.ClickException("Accounts exist only in hosted mode: set CODECOMPASS_MODE=hosted and "
                                    "CODECOMPASS_DATABASE_URL first.")
@@ -618,20 +623,22 @@ def accounts_command(ctx):
     finally:
         conn.close()
     click.echo(f"{len(rows)} of {c.MAX_ACCOUNTS} accounts")
-    for login, created, seen, attempts, method in rows:
-        click.echo(f"{login:<40} created {created}  last signed in {seen}  {attempts} attempts  ({method})")
+    for account_id, login, created, seen, attempts, method in rows:
+        click.echo(f"{account_id:>6}  {login:<40} created {created}  last signed in {seen}  {attempts} attempts  "
+                   f"({method})")
 
 
 @accounts_command.command("delete")
 @click.argument("login")
 @METHOD_OPTION
+@ID_OPTION
 @click.option("--yes", is_flag=True, help="Do not ask to confirm.")
 @with_appcontext
-def delete_account_command(login, method, yes):
+def delete_account_command(login, method, account_id, yes):
     """Delete the account with this name and all its data. It cannot be undone."""
     conn = db.open_db(current_app.config)
     try:
-        row = _find_account(conn, login, method)
+        row = _find_account(conn, login, method, account_id)
         if not yes:
             click.confirm(f"Delete {login}'s account and all its data? This cannot be undone.", abort=True)
         delete_account(conn, row["id"])

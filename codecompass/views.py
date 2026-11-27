@@ -905,7 +905,15 @@ def company_presets(conn):
     companies have a preset of their own, "others": how many fill in the most common patterns}.
     Views are by name ignoring case: a preset_view, or for a company with no shares of its own,
     a fallback_view, listed only when there are common patterns to fill in. Shared and
-    read-only, so the same for every user."""
+    read-only, so the same for every user: built on first use and kept for the app's life,
+    like the presets themselves. Callers must not change it."""
+    cached = current_app.extensions.get("company_preset_views")
+    if cached is None:
+        cached = current_app.extensions["company_preset_views"] = _build_company_presets(conn)
+    return cached
+
+
+def _build_company_presets(conn):
     companies = current_app.extensions.get("company_presets", {})
     rows = queries.patterns(conn)
     categories = {p["name"]: p["category"] for p in rows}

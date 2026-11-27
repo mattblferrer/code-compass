@@ -142,6 +142,31 @@ The security review of hosted mode (R-53) is in [security_review.md](security_re
 | CDN links (R-24) | Searched templates and styles for external scripts, styles, images, `url(`, and `@import` | Pass. None. |
 | One shared validator (R-05) | Listed the callers of `validate_attempt` and `validate_problem` | Pass. The form, edits, CSV import, and sync still share them. |
 
+## Sixth review
+
+- **Date:** 2026-11-27
+- **Changes reviewed:** the 5 commits after the fifth review's record (`dfc528e`), from `ecb7ef1` (company presets in the docs) to `87bc26e` (hiding unsolved problems' details): company pattern presets (R-60), Google and username-and-password sign-in (R-51), decoding Vercel's still-encoded paths (R-50), and hiding details until solved (R-61): 49 files and about 5,700 changed lines, of which 2,530 are the generated `companies.csv`.
+- **Method:** the AI read the whole diff by hand and checked each finding against the code; the shipped presets were loaded to confirm that every company with shares has a preset and every alias resolves, and the shared PostgreSQL schema was run three times on an empty database to confirm that rerunning it adds no second index or constraint. The author chose to fix all four findings and to keep the per-username limit on password tries, which lets anyone lock a username account out for a while but keeps guesses spread across addresses from getting around the limit. The four checks below were repeated by searching the code.
+- **Tests:** 605 passing in local mode and 651 in hosted mode after the fixes. The new tests for all four findings were checked to fail without their fixes.
+
+### Findings
+
+| # | Finding | Fix |
+| --- | --- | --- |
+| 1 | Google accounts are named by their Google name, which is not unique, so two Google accounts with the same name (or two with none, both "Google account") looked the same in `flask accounts`, and `accounts delete` could not remove either, since `--method google` still matched both. | The list shows each account's id, and `accounts delete` takes `--id`; when a name is still shared, the message names each account's id and way of signing in. |
+| 2 | The log form said hidden details were hidden "as you chose on the dashboard", but the setting is on the settings page (R-61). | It names settings and links to the setting. |
+| 3 | With neither GitHub nor Google set up, the sign-in page offered only "Sign in with a username", and its closing link to make an account showed only when one of them was set up. | The closing link is always shown. |
+| 4 | The interview and help pages rebuilt the views of all 422 company presets on every visit. | Built once on first use and kept, like the presets themselves. |
+
+### Checks
+
+| Check | How | Result |
+| --- | --- | --- |
+| Dates and time zones | Searched the added lines for clock reads | Pass. None added; `core/` still never reads the clock, and new accounts take the user's date from `views.today()`. |
+| Outgoing requests (R-03) | Searched the added lines for request code, `fetch(`, and addresses | Pass. Only `auth.py` contacts Google, while someone signs in with it: its endpoints are written out, so starting a sign-in sends nothing, and its keys are fetched to check the returned token. `build-companies` reads a local copy of the snapshot, and `company_preset.js` works from the page's own data. |
+| CDN links (R-24) | Searched the added templates, styles, and scripts for outside addresses | Pass. None; the only new address in a page is the form target for Google's sign-in, allowed by the content policy. |
+| One shared validator (R-05) | Listed the callers of `validate_attempt` and `validate_problem` | Pass. Unchanged. The new username and password checks are shared by sign-up and the password change. |
+
 ## AI mistakes
 
 Mistakes in work the AI produced, in the order they were found. "Found by" says whether a test, the AI's own check, the author, or the code review caught it.
@@ -208,5 +233,11 @@ Mistakes in work the AI produced, in the order they were found. "Found by" says 
 | 58 | 2026-11-22 | Sync (R-33) | A stopped sync still blocked a new one until its requests returned. | Fifth review | `09f78e2` |
 | 59 | 2026-11-22 | Prep plan (R-44) | Another interview's advanced patterns could enter a plan. | Fifth review | `09f78e2` |
 | 60 | 2026-11-23 | Testing | Before the release, the AI reported the suite as passing in both modes after one run with `CODECOMPASS_TEST_PG` set, which runs hosted mode only. | AI's check of the test counts | Local mode run separately, and passed, before the fixes were committed. |
+| 61 | 2026-11-25 | Accounts (R-51) | The account tool told accounts apart only by name and way of signing in, though Google names are not unique. | Sixth review | Ids listed, and `--id` added. |
+| 62 | 2026-11-27 | Hide details (R-61) | The log form placed the setting on the dashboard. | Sixth review | Names and links settings. |
+| 63 | 2026-11-25 | Sign-in (R-51) | Making an account was linked from the sign-in page only when GitHub or Google was set up. | Sixth review | Always linked. |
+| 64 | 2026-11-27 | Accounts (R-51) | The first version of finding 1's fix left an id of 0 out of its "no account" message, since 0 is false in Python. | The new test, in hosted mode | Checked against None. |
+| 65 | 2026-11-27 | Testing | The new test for finding 1 assumed the hosted test database held only its two accounts, so it failed in hosted mode only; the local run skips it. | Hosted test run | It selects Google accounts. |
+| 66 | 2026-11-27 | Review | The AI's question to the author called the range six commits; it is five. | AI's check while recording | Recorded as five. |
 
 Most mistakes were caught by a test, a browser check, or a code review before the feature was used. Items 10 and 11 were design choices the author corrected, and item 15 shows a fix made in one place and not carried to similar code. In the second review, items 26 and 28 repeat that pattern: limits and rules that existed in one place (AtCoder's paging guard, `core/` for rules) were not carried to new code, and items 20 to 23 show that most layout mistakes were caught only by looking at the page. In the third review, items 32 and 35 are mistakes introduced by the second review's own fixes, which argues for reviewing each fix with the same care as new work. Item 38 is the most serious so far: test code reached real data, which a guard now prevents. Items 39 to 42 came from the security review of hosted mode, in `security_review.md`; three of them concern files or input from someone else, which the single-user design had never had to expect. In the fourth review, nine of the ten findings are in hosted mode, which the security review had checked against attackers but not for ordinary use across accounts, instances, and serverless steps: items 45, 46, and 48 each follow from many requests sharing one database and one address, which local mode never meets. Item 52 shows a change that touched hosted mode committed after only the local tests. In the fifth review, item 57 repeats the pattern of item 15: a fix made for one way into the code (the background sync) was not carried to the other, and item 56 shows a rule tested only on the day it was first seen, which a check of the same plan from a later day would have caught.

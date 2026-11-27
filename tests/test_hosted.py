@@ -240,6 +240,15 @@ def test_a_sign_in_the_site_has_not_set_up_is_not_offered(tmp_path, catalog_path
     assert client.post("/signin/google").status_code == 404
 
 
+def test_with_no_outside_sign_in_the_sign_in_page_still_offers_making_an_account(tmp_path, catalog_path):
+    app = create_app({"TESTING": True, "DATABASE": str(tmp_path / "bare.sqlite"), "CATALOG_PATH": catalog_path,
+                      "RESERVE_PATH": None, "UNMAPPED_PATH": None, "TESTING_USER_ID": None,
+                      "GITHUB_CLIENT_ID": None, "GOOGLE_CLIENT_ID": None})
+    page = app.test_client().get("/signin").get_data(as_text=True)
+    assert "Sign in with GitHub" not in page and "Sign in with Google" not in page
+    assert 'href="/signup' in page and "Make an account with a username and password" in page
+
+
 # --- R-51: signing in with a username and password ---
 
 def test_making_an_account_with_a_username_signs_in_and_signs_back_in(hosted):
@@ -375,6 +384,22 @@ def test_the_account_tool_asks_which_account_when_names_are_shared(hosted, monke
     deleted = runner.invoke(args=["accounts", "delete", "ada", "--method", "password", "--yes"]).output
     assert "Deleted ada's account." in deleted
     assert query(hosted, None, "SELECT github_id FROM users WHERE login = 'ada'") == [{"github_id": 101}]
+
+
+def test_the_account_tool_tells_apart_google_accounts_with_the_same_name(hosted, monkeypatch):
+    sign_in_with_google(hosted, monkeypatch, "g-1", "Ada Lovelace")
+    sign_in_with_google(hosted, monkeypatch, "g-2", "Ada Lovelace")
+    first, second = (r["id"] for r in query(hosted, None, "SELECT id FROM users WHERE google_id IS NOT NULL ORDER BY id"))
+    runner = hosted.test_cli_runner()
+    listed = runner.invoke(args=["accounts"]).output
+    assert f"{first}  Ada Lovelace" in listed and f"{second}  Ada Lovelace" in listed
+    shared = runner.invoke(args=["accounts", "delete", "Ada Lovelace", "--method", "google", "--yes"]).output
+    assert f"id {first} (google), id {second} (google)" in shared and "--id" in shared
+    assert "No account has the name Ada Lovelace and id 0." in runner.invoke(
+        args=["accounts", "delete", "Ada Lovelace", "--id", "0", "--yes"]).output
+    deleted = runner.invoke(args=["accounts", "delete", "Ada Lovelace", "--id", str(second), "--yes"]).output
+    assert "Deleted Ada Lovelace's account." in deleted
+    assert query(hosted, None, "SELECT google_id FROM users WHERE google_id IS NOT NULL") == [{"google_id": "g-1"}]
 
 
 def test_deleting_a_password_account_asks_for_its_username(hosted):
